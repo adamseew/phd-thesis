@@ -1,0 +1,84 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                             %
+% Seewald PhD thesis Latex source main file   %
+% use: latexmk -pdf seewald2021.tex           %
+% to generate the source                      %
+%                                             %
+\documentclass[10pt]{book}
+
+\usepackage[T1]{fontenc}
+
+\newcommand{\authorname}{Adam Seewald}
+\newcommand{\booktitle}{Dynamic Energy Planning for Autonomous UAVs}  
+\newcommand{\publisher}{University of Southern Denmark}
+\newcommand{\editionyear}{2021}
+\newcommand{\place}{Odense, Denmark}
+\title{\booktitle}
+\author{\authorname}
+
+\usepackage{misc/options}
+
+\input{glossaries_entries}
+\makeglossaries
+
+\makeindex
+\usepackage[totoc]{idxlayout}
+
+\addbibresource{backmatter/references.bib}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%
+                %
+% Frontmatter   %
+                %
+\frontmatter
+\input{frontmatter/titlepage}
+\input{frontmatter/copyrightpage}
+% dedication
+\pagestyle{empty}\begin{center} 
+    \thispagestyle{empty}
+    \vspace*{\fill}\raggedleft\large
+    To Casio fx-991ES PLUS,~
+
+    \vspace*{1ex}
+    \raggedleft my eternal companion.
+    \vspace*{\fill}
+\end{center}\cleardoublepage
+\input{frontmatter/ack}
+\tableofcontents\thispagestyle{empty}\cleardoublepage % toc
+\listoffigures\thispagestyle{empty}\cleardoublepage % list of figures
+\printunsrtglossary[type=notation,style=long]\thispagestyle{empty}\cleardoublepage % notation
+\printunsrtglossary[type=acronym,style=long]\thispagestyle{empty}\cleardoublepage % acronyms
+
+
+%%%%%%%%%%%%%%%%
+               %
+% Mainmatter   %
+               %
+\mainmatter
+\pagestyle{fancy}
+\input{content/introduction}
+\input{content/planning-problem}
+\input{content/soa} 
+\input{content/model}
+\input{content/estimation}
+\input{content/guidance}
+\input{content/optimization}
+
+
+%%%%%%%%%%%%%%%%
+               %
+% Backmatter   %
+               %
+\backmatter
+\addcontentsline{toc}{chapter}{Bibliography} 
+\printbibliography
+\thispagestyle{empty}
+\cleardoublepage % bibliography
+
+\printindex\thispagestyle{empty}\cleardoublepage % index
+
+\end{document}
+
