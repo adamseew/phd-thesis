@@ -9,11 +9,19 @@
 \renewcommand{\LettrineFontHook}{\fontfamily{phv}}
 
 \usepackage{graphicx}
+\usepackage{amsfonts, amsmath, amssymb}
 \usepackage[math]{iwona}
 \usepackage{ebgaramond}
 \usepackage[xindy,toc=false,nogroupskip]{glossaries-extra}
 \usepackage{glossaries}
 \usepackage{imakeidx}
+
+\DeclareFontFamily{U}{futm}{} % trick for a sans serif mathbb
+\DeclareFontShape{U}{futm}{m}{n}{
+  <-> s * [.92] fourier-bb
+  }{}
+\DeclareSymbolFont{Ufutm}{U}{futm}{m}{n}
+\DeclareSymbolFontAlphabet{\mathbb}{Ufutm}
 
 \usepackage{helvet} % sans serif
 
@@ -22,6 +30,10 @@
 
 \newcommand*{\formatpagenum}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont#1}}
 \newcommand*{\findex}[1]{\index{#1|formatpagenum}}
+\newcommand*{\fref}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont#2~\ref{#1}}}
+\newcommand*{\frefeq}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equation~(\ref{#1})}}
+\newcommand*{\frefeqM}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equations~(\ref{#1}--\ref{#2})}}
+\newcommand*{\frefeqT}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equation~(\ref{#1})~and~(\ref{#2})}}
 
 \indexsetup{othercode=\small}
 
@@ -137,6 +149,7 @@
 \usepackage[hidelinks]{hyperref}
 \hypersetup{allcolors=foo}
 \renewcommand*{\citesetup}{%
+  \color{foo}
   \footnotesize\fontfamily{phv}\selectfont
   \biburlsetup
   \frenchspacing
@@ -147,8 +160,24 @@
 \usepackage{caption}
 \DeclareCaptionFont{captionff}{\footnotesize\fontfamily{phv}\selectfont}
 \captionsetup[figure]{labelsep=period,font=captionff}
-\renewcommand{\thefigure}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\bfseries\thechapter.\arabic{figure}}}
-\renewcommand{\figurename}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\bfseries Fig.}}
-\renewcommand{\thetable}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\bfseries\arabic{table}}}
-\renewcommand{\tablename}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\bfseries Table}}
+\renewcommand{\thefigure}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\thechapter.\arabic{figure}}}
+\renewcommand{\figurename}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont Fig.}}
+\renewcommand{\thetable}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\arabic{table}}}
+\renewcommand{\tablename}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont Table}}
+
+\renewcommand{\theequation}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\arabic{chapter}.\arabic{equation}}}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+\tikzset{
+  block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
+  tmp/.style  = {coordinate}, 
+  sum/.style= {draw, fill=white, circle, node distance=1cm},
+  input/.style = {coordinate},
+  output/.style= {coordinate},
+  pinstyle/.style = {pin edge={to-,thin,black}}
+}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
 
