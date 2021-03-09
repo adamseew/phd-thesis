@@ -6,12 +6,32 @@
 \chapter{Optimal Control Generation}
 \label{cp:optimization}
 
-\lettrine{T}{his} chapter provides essential theoretical background on optimal control theory and derives an optimal configuration of the path and computations of the flying \Gls{acr:uav}. The outline of the chapter is as follows. First, the optimization problems for dynamic systems, such as the energy model from \fref{cp:model}{Chapter}, are introduced. A generalized \Gls{acr:nlp} for the optimal configuration of the path and computations under battery constraints is provided later in the chapter. Finally, some optimal controls algorithm to solve the \Gls{acr:nlp} are proposed along with the analysis of their practical feasibility. 
+\lettrine{T}{his} chapter provides some essential theoretical background on optimal control to derive an optimal configuration of the path and computations of the flying \Gls{acr:uav}. It solves the problem posed in~\fref{cp:pb}{Chapter}, illustrating an algorithm that generates dynamically the optimal configuration. The algorithm relies on the modern optimal control. 
 
-Optimal control deals with finding optimal ways to control a dynamic system~\citep{sethi2019optimal}. It determines the control signal, the evolution in time of the decision variables, such that the model satisfies the dynamics and simultaneously optimize a performance measure~\citep{kirk2004optimal}. 
+Optimal control deals with finding optimal ways to control a dynamic system~\citep{sethi2019optimal}. It determines the control signal--the evolution in time of the decision variables--such that the model satisfies the dynamics and simultaneously optimize a performance index~\citep{kirk2004optimal}.
+
+Many optimization problems in fields ranging from robotics, economics, to aeronautics can be formulated as optimal control problems~(\Gls{acr:ocp}s)~\citep{von1992direct}. \Gls{acr:ocp}s can be seen as optimization problems with the added difficulty of continuous dynamics. The dynamics is to be integrated over the optimization horizon. Optimization is often called mathematical programming~\citep{nocedal2006numerical} a term that means finding ways to solve the optimization problem. One can often find programming in this context in terms such as linear program (\Gls{acr:lp}), quadratic program (\Gls{acr:qp}), and nonlinear program (\Gls{acr:nlp}).
+
+The outline of the chapter is as follows. after a brief history of modern optimal control, we introduce formally the \Gls{acr:ocp} that are subject to continuous dynamics, such as the energy model from~\fref{cp:model}{Chapter}. We then illustrate numerical simulation approaches to convert the infinite dimensional continuous dynamics into finite dimensional discrete dynamics. We provide later in the chapter an \Gls{acr:ocp} for the optimal configuration of the path and computations under battery constraints. Finally, we illustrate model predictive control~(\Gls{acr:mpc}) to formalize the \Gls{acr:ocp} on a finite and receding horizon. We propose an algorithm to solve such \Gls{acr:ocp} using a numerical method along with the analysis of its practical feasibility.
 
 
-\section{Optimal Control: Unconstrained Case}
+\section{Brief History of Optimal Control}
+
+Optimal control originates from the calculus of variations~\citep{sethi2019optimal}, based on the work of Euler and Lagrange. Calculus of variations solves the problem of determining the arguments of an integral, such that its value is maximum (or minimum). The equivalent problem in calculus is to determine the argument of a function where the function is maximum (or minimum). The work by Euler and Lagrange was later extended by Legendre, Hamilton, and Weierstrass~\citep{paulen2016solution}. It has gained a renewed interest in the mid-twentieth century, as modern calculators offered practical ways of solving some \Gls{acr:ocp}s for nonlinear and time-varying systems that were earlier impracticable~\citep{bryson1975applied}.
+
+The conversion of calculus of variation problems in \Gls{acr:ocp}s requires the addition of the control variable to the dynamics~\citep{sethi2019optimal}. Initially, the conversion was proposed with dynamic programming~\citep{bellman1957dynamic}, and with maximum (or minimum) principle~\citep{pontryagin1962mathematical}. Dynamic programming can be shown to be equivalent to the principle~\citep{paulen2016solution}. These \Gls{acr:ocp}s are traditionally transformed into boundary-value problems (\Gls{acr:bvp})s evaluating the optimality conditions and solved using numerical methods. The procedure is commonly referred to as indirect method. In an indirect method, the resulting \Gls{acr:bvp} is solved by discretization at the very end~\citep{rawlings2017model} and/or gradient-based resolution~\citep{paulen2016solution}.
+
+On the contrary, modern optimal control often first discretize an the control and state variables in the \Gls{acr:ocp} to a finite dimensional optimization problem (usually \Gls{acr:nlp}), which is then solved with numerical methods (using gradient-based techniques). The procedure is referred to as direct method. Some direct methods are single and multiple shooting and collocation methods. 
+
+A more general and systematic approach to control a perturbed process is to re-optimize the optimal control problem frequently by taking the perturbations into
+account.
+Modern \Gls{acr:ocp}s are often solved on a finite and receding horizon using an approximation of the true dynamics. This has led to a technique known as model predictive control (\Gls{acr:mpc}). It is a more systematic technique which allow to control a model by re-optimizing the \Gls{acr:ocp} frequently~\citep{paulen2016solution}. It takes into account external interferences by re-estimating the model's state (with techniques that we introduced in \fref{cp:est}{Chapter}). \Gls{acr:mpc} is extensively treated in modern optimal control literature~\citep{rawlings2017model,wang2009model,camacho2007model,kwon2006receding,rossiter2004model}.  
+
+%Systems characterized by continuous dynamics are often approximated by multistage systems; if the time step become small enough, these problem might be considered as optimal programming problems for multistage systems. Mathematical programming problems for continuous systems are in fact problems in the calculus of variation~\citep{bryson1975applied}. 
+ 
+\section{\Gls{acr:ocp}s with Continuous Dynamics}
+
+\subsection{Unconstrained Case}
 
 Given a state variable $\mathbf{q}$ composed of $m$ states and a control variable $\mathbf{u}$ composed of $n$ controls, the state variable dynamics at a given time instant $t$ can be described by a differential model
 \begin{equation}\label{eq:optimization:perfect-model}
@@ -35,7 +55,7 @@ The control variable $\mathbb{u}$ is usually constrained
 \end{equation}
 where $\,\mathcal{U}(t)\subseteq \mathbb{R}^m$ is the control constraint set. It delimits all the feasible values of the control for the horizon. There can be different control constraint sets for different instants.
 
-The \frefeqM{eq:optimization:perfect-model}{eq:optimization:control-constraint-set} forms unconstrained optimal control problems. These problems are formalized
+The \frefeqM{eq:optimization:perfect-model}{eq:optimization:control-constraint-set} forms unconstrained \Gls{acr:ocp}s. These problems are formalized
 \begin{equation}\label{eq:optimization:unconstrained-opt-control-pb}\begin{split}
     &\max_{\mathbf{u(t)\in\,\mathcal{U}(t)}}{l_f(\mathbf{q}(T),T)+\int_{t_0}^{T}{l(\mathbf{q}(t),\mathbf{u}(t),t)\,dt}},\\
     &\text{s.t.}\,\,\,\dot{\mathbf{q}}(t)=f(\mathbf{q}(t),\mathbf{u}(t),t)\\
@@ -55,12 +75,12 @@ A simplistic controller which uses \frefeq{eq:optimization:unconstrained-opt-con
         \draw [->] (controller) -- node{$\mathbf{u}(t)$} (routput);
         \draw [->] (routput) -- node{path/computations} (routput2);
     \end{tikzpicture}
-    \caption[Unconstrained state optimal control trajectory controller]{Controller that select the optimal control trajectory from the unconstrained optimal control problem in \frefeq{eq:optimization:unconstrained-opt-control-pb}.}
+    \caption[Unconstrained state optimal control trajectory controller]{Controller that select the optimal control trajectory from the unconstrained \Gls{acr:ocp} in \frefeq{eq:optimization:unconstrained-opt-control-pb}.}
     \label{fig:unconstrained-controller}
 \end{figure}
 The evolution of the model is used to derive an optimal control trajectory $\mathbf{u}(t)$ from an initial guess of the state $\mathbf{q}_0$ and the horizon. This initial simplistic controller does not represent a realistic scenario. The controller implies that the horizon is known. However, it is often the case that only the initial time step of the horizon $[t_0,T]$ is known. In the model from \fref{cp:model}{Chapter} it is indeed unknown apriori when the UAV plan terminates. Moreover the controller does not include any constraint on the state $\mathbf{q}$, although UAVs are often bounded by strict battery requirements. Lastly, the optimal control generated with such controller is static given the initial state and the horizon. It is unrealistic to assume that the state of the UAV travelling the optimal control $\mathbf{u}$ does not change for instants $t_0+\Delta t,t_0+2\Delta t,\dots,T$.
 
 All these initial assumption (known final time step, absence of state constraints, static optimal control law) will be eased in the remaining of the chapter.
 
-Given the set of all feasible controls $\,\mathcal{U}(t)$ for each time step in the horizon, the optimal control trajectory $\mathbf{u}(t)$ for the unconstrained optimal control problem in \frefeq{eq:optimization:unconstrained-opt-control-pb} can be selected with a variety of approaches. 
+\subsection{Constrained Case}
 
