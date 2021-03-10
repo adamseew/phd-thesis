@@ -96,7 +96,6 @@
 \renewcommand{\cftsecpagefont}{\color{foo}\footnotesize\fontfamily{phv}\selectfont}
 \renewcommand{\cftsubsecpagefont}{\color{foo}\footnotesize\fontfamily{phv}\selectfont}
 \renewcommand{\cftfigpagefont}{\color{foo}\footnotesize\fontfamily{phv}\selectfont}
-%\renewcommand{\numberline}[1]{\color{foo}\footnotesize\fontfamily{phv}\selectfont #1\hspace*{2ex}}
 
 % page number style
 \usepackage{etoolbox}
@@ -158,17 +157,22 @@
 \usepackage{graphicx} % images
 \graphicspath{ {./pictures/}{./figures/} } 
 \usepackage{caption}
-\DeclareCaptionFont{captionff}{\footnotesize\fontfamily{phv}\selectfont}
+\DeclareCaptionFont{captionff}{\scriptsize\fontfamily{phv}\selectfont}
 \captionsetup[figure]{labelsep=period,font=captionff}
-\renewcommand{\thefigure}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\thechapter.\arabic{figure}}}
-\renewcommand{\figurename}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont Fig.}}
-\renewcommand{\thetable}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\arabic{table}}}
-\renewcommand{\tablename}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont Table}}
+
+\renewcommand{\thefigure}{\textcolor{foo}{\fontfamily{phv}\selectfont\thechapter.\arabic{figure}}}
+\renewcommand{\figurename}{\textcolor{foo}{\fontfamily{phv}\selectfont Fig.}}
+\renewcommand{\thetable}{\textcolor{foo}{\fontfamily{phv}\selectfont\arabic{table}}}
+\renewcommand{\tablename}{\textcolor{foo}{\fontfamily{phv}\selectfont Table}}
 
 \renewcommand{\theequation}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\arabic{chapter}.\arabic{equation}}}
 
+\makeatletter % equation parenthesis
+\def\tagform@#1{{\color{foo}\maketag@@@{\fontfamily{phv}\selectfont\footnotesize(\ignorespaces#1\unskip\@@italiccorr)}}}
+\makeatother
+
 \usepackage{tikz}
-\usetikzlibrary{shapes,arrows,positioning,calc}
+\usetikzlibrary{shapes,arrows,positioning,calc,automata,decorations.pathreplacing,backgrounds}
 \tikzset{
   block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
   tmp/.style  = {coordinate}, 
