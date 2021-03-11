@@ -10,8 +10,10 @@
 
 \usepackage{graphicx}
 \usepackage{amsfonts, amsmath, amssymb}
+\usepackage[T1]{fontenc}
 \usepackage[math]{iwona}
 \usepackage{ebgaramond}
+
 \usepackage[xindy,toc=false,nogroupskip]{glossaries-extra}
 \usepackage{glossaries}
 \usepackage{imakeidx}
@@ -157,7 +159,7 @@
 \usepackage{graphicx} % images
 \graphicspath{ {./pictures/}{./figures/} } 
 \usepackage{caption}
-\DeclareCaptionFont{captionff}{\scriptsize\fontfamily{phv}\selectfont}
+\DeclareCaptionFont{captionff}{\footnotesize\fontfamily{phv}\selectfont}
 \captionsetup[figure]{labelsep=period,font=captionff}
 
 \renewcommand{\thefigure}{\textcolor{foo}{\fontfamily{phv}\selectfont\thechapter.\arabic{figure}}}
@@ -185,3 +187,4 @@
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
+\renewcommand{\listfigurename}{Figures} % changing the title for the list of figures

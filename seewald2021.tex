@@ -7,8 +7,6 @@
 %                                             %
 \documentclass[10pt]{book}
 
-\usepackage[T1]{fontenc}
-
 \newcommand{\authorname}{Adam Seewald}
 \newcommand{\booktitle}{Dynamic Energy Planning for Autonomous UAVs}  
 \newcommand{\publisher}{University of Southern Denmark}
@@ -47,12 +45,13 @@
     \raggedleft my eternal companion.
     \vspace*{\fill}
 \end{center}\cleardoublepage
-\input{frontmatter/ack}
-\tableofcontents\thispagestyle{empty}\cleardoublepage % toc
+\pagestyle{fancy}
+\input{frontmatter/ack}\thispagestyle{empty} 
+\pagestyle{fancy}\tableofcontents\cleardoublepage\thispagestyle{empty} % toc
 \renewcommand{\numberline}[1]{\hspace*{-1.5em}}
-\listoffigures\thispagestyle{empty}\cleardoublepage % list of figures
-\printunsrtglossary[type=notation,style=long]\thispagestyle{empty}\cleardoublepage % notation
-\printunsrtglossary[type=acronym,style=long]\thispagestyle{empty}\cleardoublepage % acronyms
+\pagestyle{fancy}\listoffigures\cleardoublepage\thispagestyle{empty} % list of figures
+\pagestyle{fancy}\printunsrtglossary[type=notation,style=long]\cleardoublepage\thispagestyle{empty} % notation
+\pagestyle{fancy}\printunsrtglossary[type=acronym,style=long]\cleardoublepage\thispagestyle{empty} % acronyms
 
 
 %%%%%%%%%%%%%%%%
@@ -65,9 +64,9 @@
 \input{content/pb}
 \input{content/soa} 
 \input{content/model}
-\input{content/estimation}
-\input{content/guidance}
-\input{content/optimization}
+\input{content/est}
+\input{content/gd}
+\input{content/opt}
 
 
 %%%%%%%%%%%%%%%%
@@ -75,12 +74,11 @@
 % Backmatter   %
                %
 \backmatter
-\addcontentsline{toc}{chapter}{Bibliography} 
-\printbibliography
-\thispagestyle{empty}
-\cleardoublepage % bibliography
+\addcontentsline{toc}{chapter}{References} 
+\pagestyle{fancy}\printbibliography[title=References]
+\cleardoublepage\thispagestyle{empty} % bibliography
 
-\printindex\thispagestyle{empty}\cleardoublepage % index
+\pagestyle{fancy}\printindex\cleardoublepage\thispagestyle{empty} % index
 
 \end{document}
 
