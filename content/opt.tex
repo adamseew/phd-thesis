@@ -4,9 +4,15 @@
 % Optimal Control Generation   %
 %                              %
 \chapter{Optimal Control Generation}
-\label{cp:optimization}
+\label{cp:opt}
 
-\lettrine{T}{his} chapter provides essential theoretical background on optimal control theory necessary to derive an optimal configuration of the path and computations of the flying \Gls{acr:uav}. It solves the problem posed in~\fref{cp:pb}{Chapter} and illustrate an algorithm that generates the optimal configuration dynamically. The algorithm relies on a modern optimal control technique known as model predictive control (\Gls{acr:mpc}), where the optimal control trajectory is evaluated on a receding horizon for each optimization step~\citep{rawlings2017model}. 
+\begin{highlight}
+    \begin{st}
+        Initial version up to \fref{cp:opt:unconstrained}{Subsection}. From \fref{cp:opt:constrained}{Subsection} dummy text.
+    \end{st} 
+\end{highlight}
+
+\lettrine{T}{his} chapter provides essential theoretical background on optimal control theory necessary to derive an optimal configuration of the path and computations of the flying \Gls{acr:uav}. It solves the problem posed in~\fref{cp:intro:pb}{Section} and illustrate an algorithm that generates the optimal configuration dynamically. The algorithm relies on a modern optimal control technique known as model predictive control (\Gls{acr:mpc}), where the optimal control trajectory is evaluated on a receding horizon for each optimization step~\citep{rawlings2017model}. 
 
 Optimal control deals with finding optimal ways to control a dynamic system~\citep{sethi2019optimal}. It determines the control signal--the evolution in time of the decision variables--such that the model satisfies the dynamics and simultaneously optimizes a performance index~\citep{kirk2004optimal}.
 
@@ -37,7 +43,7 @@ A typical performance measure for an \Gls{acr:ocp} is built such that the system
 
 The outline of the chapter is as follows. After a brief history of optimal control, we introduce formally the \Gls{acr:ocp} subject to continuous dynamics. We then illustrate numerical simulation approaches to convert the infinite-dimensional continuous dynamics into finite-dimensional discrete dynamics. We formulate later in the chapter the dynamic planning problem for the optimal configuration of the path and computations with proper constraints. Finally, we illustrate \Gls{acr:mpc} to solve \Gls{acr:ocp} on a receding horizon. We propose an algorithm to solve such \Gls{acr:ocp} using a numerical method on the horizon along with the analysis of its practical feasibility.
 
-The chapter builds on the rest of the work as follows. In the \Gls{acr:ocp} formulation, we use the estimated state from \fref{cp:est}{Chapter} of a perfect model in \fref{cp:model}{Chapter} to solve the planning problem in \fref{cp:pb}{Chapter} and guide the UAV with the obtained optimal configuration from this chapter with the technique in \fref{cp:gd}{Chapter}.
+The chapter builds on the rest of the work as follows. In the \Gls{acr:ocp} formulation, we use the estimated state from \fref{cp:est}{Chapter} of a perfect model in \fref{cp:model}{Chapter} to solve the planning problem in \fref{cp:intro:pb}{Section} and guide the UAV with the obtained optimal configuration from this chapter with the technique in \fref{cp:gd}{Chapter}.
 
 \section{A Brief History of Optimal Control}
 
@@ -62,6 +68,7 @@ Modern \Gls{acr:ocp}s are often solved on a finite and receding horizon using an
 \section{Optimization Problems with Dynamics}
 
 \subsection{Continuous systems: unconstrained case}
+\label{cp:opt:unconstrained}
 
 Given a state variable $\mathbf{q}$ composed of $m$ states and a control variable $\mathbf{u}$ composed of $n$ controls, the state variable dynamics at a given time instant $t$ can be described by a differential model
 \begin{equation}\label{eq:optimization:perfect-model}
@@ -113,6 +120,7 @@ The evolution of the model is used to derive an optimal control trajectory $\mat
 All these initial assumption (known final time step, absence of state constraints, static optimal control law) will be eased in the remaining of the chapter.
 
 \subsection{Continuous systems: constrained case}
+\label{cp:opt:constrained}
 
 Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam lobortis facilisis sem. Nullam nec mi et neque pharetra sollicitudin. Praesentimperdiet mi nec ante. Donec ullamcorper, felis non sodales commodo, lectus velit ultrices augue, a dignissim nibh lectus placerat pede. Vivamus nunc nunc, molestie ut, ultricies vel, semper in, velit. Ut porttitor. Praesent in sapien. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Duis fringilla tristique neque. Sed interdum libero ut metus. Pellentesque placerat. Nam rutrum augue a leo. Morbi sed elit sit amet antelobortis sollicitudin. Praesent blandit blandit mauris. Praesent lectustellus, aliquet aliquam, luctus a, egestas a, turpis. Mauris lacinia loremsit amet ipsum. Nunc quis urna dictum turpis accumsan semper.
 

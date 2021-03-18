@@ -188,3 +188,37 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \renewcommand{\listfigurename}{Figures} % changing the title for the list of figures
+
+\usepackage{thmtools}
+\usepackage{amsthm,regexpatch}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+\newtheoremstyle{komaplain}
+  {\topsep}   % ABOVESPACE
+  {\topsep}   % BELOWSPACE
+  {\itshape}  % BODYFONT
+  {0pt}       % INDENT (empty value is the same as 0pt)
+  {\color{foo}\fontfamily{phv}\selectfont\footnotesize\bfseries} % HEADFONT
+  {\newline}         % HEADPUNCT
+  {5pt plus 1pt minus 1pt} % HEADSPACE
+  {}          % CUSTOM-HEAD-SPEC
+
+\theoremstyle{komaplain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{assm}[thm]{Assumption}
+\newtheorem{cor}{Corollary}
+\newtheorem{conj}{Conjecture}[section]
+\newtheorem{defn}{Definition}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{pb}{Problem}[section]
+\newtheorem{rem}{Remark}
+\newtheorem*{st}{Status}
+
+\usepackage{tcolorbox}
+
+\newtcolorbox{highlight}{colback=gray!10,
+boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
+
