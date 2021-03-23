@@ -33,6 +33,121 @@
 \section{Problem Formulation}
 \label{cp:intro:pb}
 
+Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. Bold lower-case letters indicates vectors. $c_{i,j}$ the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j},\overline{c}_{i,j}$ are the lower and upper bounds of the parameter $c_{i,j}$.
+
+\begin{figure}[h]
+  \center
+  \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto]
+    \node[state,initial] (q_i) {$\Gamma_1$}; 
+    \node        [right=of q_i] (q_dots0) {$\cdots$};
+    \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
+    \node        (q_dots1) [right=of q_0] {$\cdots$};
+    \node[state,accepting] (q_f) [right=of q_dots1] {$\Gamma_f$};
+    \path[->]
+    (q_i) edge node {$\mathbf{p}_{\Gamma_{1}}$} (q_dots0)
+    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}$} (q_0)
+    (q_0) edge node {$\mathbf{p}_{\Gamma_i}$} (q_dots1)
+    (q_dots1) edge node {$\mathbf{p}_{\Gamma_{l}}$} (q_f)    
+    (q_i) edge [loop above] node {$\mathbf{p}_{k_1}$} (q_i)
+    (q_0) edge [loop above] node {$\mathbf{p}_{k_2}$} (q_0)
+    (q_f) edge [loop above] node {$\mathbf{p}_{k_3}$} (q_f)
+    ; %end path 
+    \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
+    (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-9ex]{$\Gamma$};
+  \end{tikzpicture}
+  \caption{The plan defined as a FSM}
+  \label{fig:state-machine}
+\end{figure}
+
+Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters
+\begin{equation}
+    c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\},
+\end{equation}
+and the computations with $\sigma$ computation parameters 
+\begin{equation}
+    c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}.
+\end{equation}
+
+We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computation parameters. We discuss the concrete meaning of the value of path parameters in Subsection~\ref{sec:model}, and computation parameters in Subsection~\ref{sec:computations-model}.
+
+\begin{highlight}  
+  \begin{defn}[Stage, plan, triggering, and final point]\label{def:mission}
+    The $i$-th \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined
+    \begin{equation*}\begin{split}
+      \Gamma_i:=\{\varphi_i(\mathbf{p}_k,c_i^\rho),c_i^\sigma\mid
+      \,&\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_i^\rho)\in\mathcal{C}_i,\,\\
+        &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathcal{S}_{i,j}\,\},
+    \end{split}\end{equation*}
+    where $\mathcal{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the path constraint set, and $\mathcal{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraint set. $\mathbf{p}_k$ is a point of a UAV flying at an altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$.
+  
+    The \emph{plan} is a finite state machine (FSM) $\Gamma$ where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
+    \begin{equation*}s(\Gamma_i,\mathbf{p}_k):=\begin{cases}
+      \Gamma_{i+1} & \text{if }\mathbf{p}_k=\mathbf{p}_{\Gamma_i}\\
+      \Gamma_i & \text{otherwise}
+    \end{cases}.\end{equation*}
+    The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
+  \end{defn}
+\end{highlight}
+
+\begin{figure}[t]
+    \centering
+    \input{figures/traj1.tikz}
+    \caption{Definition notation shown on an initial slice of the plan in Figure~\ref{fig:il-abs}.}
+    \label{fig:traj1}
+\end{figure}
+
+The altitude $h$ from \fref{def:mission}{Definition} might change at different flying phases and under different atmospheric conditions
+
+In \fref{fig:traj1}{Figure}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraints set $\mathcal{C}_1,\mathcal{C}_2,\dots$ forms the area where the paths $\varphi_1,\varphi_2,\dots$ can be altered with the parameters $c_{i,1},\dots,c_{i,\rho}$ (gray area in the figure). This area is bounded by $\underline{c}_i,\overline{c}_i$, and can be different per each stage (in Figure~\ref{fig:traj1}, the area relative to $\Gamma_4$ is bounded by $\underline{c}_4,\overline{c}_4$).
+
+In \fref{fig:traj1}{Figure}, $\mathbf{p}_{\Gamma_1}$ allows the transition between $\Gamma_1$ and $\Gamma_2$, $\mathbf{p}_{\Gamma_4}$ between $\Gamma_4$ and $\Gamma_5$, and $\mathbf{p}_{\Gamma_5}$ between $\Gamma_5$ and $\Gamma_6$.
+
+A slice of the plan in Figure~\ref{fig:state-machine} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the UAV has completed the plan).
+
+\begin{figure}[h]
+  \center
+  \begin{tikzpicture}[shorten >=1pt,node distance=27ex,on grid,auto] 
+    \node        (q_dots0) {$\cdots$};
+    \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
+    \node        (q_dots1) [right=of q_0] {$\cdots$};   
+    \path[->]
+    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}(c_1^\rho,\dots,c_{i-1}^\rho)$} (q_0)
+    (q_0) edge node {$\mathbf{p}_{\Gamma_i}(c_1^\rho,\dots,c_{i}^\rho)$} (q_dots1)    
+    (q_0) edge [loop above] node {$\mathbf{p}_{k}$} (q_0)
+    ; %end path
+  \end{tikzpicture}
+\caption{Detail of the stage $\Gamma_i$ in the FSM}
+\label{fig:state-machine2}
+\end{figure}
+    
+Generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary (see Figure~\ref{fig:state-machine2}).
+   
+
+\subsection{Problem formulation}
+
+In order to simplify the problem formulation, we consider some primitive paths. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_d,y_d)$.
+
+Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}$ and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
+\begin{equation}\label{eq:primitive}\begin{split}
+  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
+\end{split}\end{equation}
+$\forall i\in[l/n-1]^+,j\in[n]^+$, where $e_j\in\mathbb{R}$ is the $j$-th constant difference.
+
+\begin{highlight}
+\begin{defn}[Period]\label{def:period}
+  The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in Equation~(\ref{eq:primitive}).
+\end{defn} 
+\end{highlight}
+
+The algorithm measures the time between the paths and assumes the initial period is one. The periods might be different for different $j$s due to atmospheric interferences.
+
+One can define the plan using primitive paths or define all the stages explicitly and find $n$ searching the value which satisfies the Equation~(\ref{eq:primitive}). If there is no such value, (e.g., when the plan is composed of only one stage), the period $T$ from Definition~\ref{def:period} can be determined empirically from energy data (such as these shown in Figure~\ref{fig:il-abs}).
+
+\begin{highlight}
+\begin{pb}[UAV planning problem]\label{pb}
+  Consider an initial plan $\Gamma$ from Definition~\ref{def:mission}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and energy constraints and in the guidance of the UAV to the path resulting from such plan.
+\end{pb}    
+\end{highlight}
 
 \section{Structure}
 
