@@ -6,11 +6,11 @@
 \chapter{Introduction}
 \label{cp:intro}
 
-\begin{highlight}
-    \begin{st}
-        General structure with just some dummy text.
-    \end{st} 
-\end{highlight}
+%\begin{highlight}
+%    \begin{st}
+%        General structure with just some dummy text.
+%    \end{st} 
+%\end{highlight}
 
 \lettrine{A}{a}
 
@@ -20,15 +20,32 @@
 
 \section{Motivation}
 
+Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agriculture, search and rescue, and surveillance, require high autonomy but have limited energy budgets. A typical example of these scenarios is a UAV following a path and performing some on-board computational tasks. For instance, the UAV might detect ground patterns and notify other ground-based actors with little human interaction. We refer to such computational tasks that can be dynamically replanned and adapted as \emph{computations}. We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) and refer to it as energy-aware dynamic planning. Such planning would find optimal tradeoffs between the path, computations, and energy requirements. Current generic planning solutions for outdoor UAVs do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\cite{daponte2019review} (for instance~\cite{papa} and~\cite{px4}). Such a state of practice has prompted us to propose an \emph{energy-aware dynamic planning algorithm} for UAVs. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing \emph{computational demands} and their relation to energy consumption, path, and autonomy for the UAV planning problem.
+
+\begin{figure}[t]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize 
+  \input{figures/il_abs.tikz}
+  \caption[Illustrative abstract of the dynamic energy planning for autonomous UAVs]{Dynamic replanning of an agricultural scenario in terms of the path and computations simultaneously. An initial plan~(in~\ref{sth:i}) is adapted computation-wise~(in~\ref{sth:ii}) and path-wise~(in~\ref{sth:iii}). In the bottom left, the collected energy data of a physical UAV (Opterra fixed-wing drone) flying the scenario is shown along its power spectrum.}
+  \label{fig:il-abs}
+\end{figure}
 
 \section{Objective}
 
 
 \section{Outline of the Approach}
 
+Unlike most of the past planning algorithms literature, our algorithm plans the path and computations simultaneously. To model the path we use multiple mathematical functions. In Figure~\ref{fig:il-abs}, the path contains multiple circles and lines. To model the computations we use {\small\tt powprofiler}, a profiling tool presented in previous work~\cite{seewald2019coarse}. To guide the UAV we use a vector field~\cite{de2017guidance} that converges to the path. The use of vector fields for guidance is widely discussed in the literature~\cite{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
+
+
+To achieve the energy-aware dynamic planning, we further introduce and formally prove a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\cite{seewald2020mechanical}. Indeed, UAV scenarios often iterate over a set of tasks and paths (e.g., monitoring or search and rescue). Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. In Figure~\ref{fig:il-abs}, some collected energy data from a UAV flying a survey scenario along its power spectrum motivates our choice.
+
+In the spirit of reducing costs and resources, we showcase the algorithm using dynamic planning for a precision agriculture fixed-wing UAV. Precision agriculture is often put into practice~\cite{hajjaj2014review} with ground mobile robots used for harvesting~\cite{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and UAVs for preventing damage and ensuring better crop quality~\cite{puri2017agriculture, daponte2019review}. The plan is structured as follows. Path-wise, the UAV flies in circles and lines covering a polygon. Computation-wise, it detects hazards using a neural network and notifies grounded mobile robots employed for, e.g., harvesting. The algorithm alters the plan; it controls the processing rate and the radius of the circles (affecting the distance between the lines). Figure~\ref{fig:il-abs} shows such plan. 
+
+We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery (see Section~\ref{sec:experimental}).
 
 \section{Applications}
-
 
 \section{Problem Formulation}
 \label{cp:intro:pb}
@@ -92,7 +109,7 @@ We then express the path as a continuous twice differentiable function $\varphi_
 \begin{figure}[t]
     \centering
     \input{figures/traj1.tikz}
-    \caption{Definition notation shown on an initial slice of the plan in Figure~\ref{fig:il-abs}.}
+    \caption[Definition notation on a slice of the plan]{Definition notation shown on an initial slice of the plan in Figure~\ref{fig:il-abs}.}
     \label{fig:traj1}
 \end{figure}
 
@@ -116,7 +133,7 @@ A slice of the plan in Figure~\ref{fig:state-machine} shows the transition betwe
     (q_0) edge [loop above] node {$\mathbf{p}_{k}$} (q_0)
     ; %end path
   \end{tikzpicture}
-\caption{Detail of the stage $\Gamma_i$ in the FSM}
+\caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM}
 \label{fig:state-machine2}
 \end{figure}
     

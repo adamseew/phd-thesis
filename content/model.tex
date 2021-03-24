@@ -5,11 +5,11 @@
 \chapter{Energy Models}
 \label{cp:model}
 
-\begin{highlight}
-    \begin{st}
-        Started filling the model from~\citep{seewald202Xenergy} (\fref{cp:model:periodic:diff-model}{Subsection}), rest is dummy text.
-    \end{st} 
-\end{highlight}
+%\begin{highlight}
+%    \begin{st}
+%        Started filling the model from~\citep{seewald202Xenergy} (\fref{cp:model:periodic:diff-model}{Subsection}), rest is dummy text.
+%    \end{st} 
+%\end{highlight}
 
 \lettrine{A}{a}
 
@@ -19,15 +19,224 @@
 
 \section{Energy Model of the Computations}
 
+
+Numerous new challenges have been introduced in embedded systems through evolution from small and predictable to large and complex architectures featuring different computational units. Limited energy availability, security considerations, and time requirements are among the most common challenges and significantly impact the level of autonomy of modern heterogeneous systems. These systems use many-core architectures, where a CPU executes along a general-purpose GPU or GPGPU with energy-efficient small cores. A parallel CPU-GPU execution is a core aspect to achieve the best possible energy efficiency and speed-up~\cite{woo2008extending}.\footnote{This is implied by Amdahl's law~\cite{amdahl1967validity}, and can be seen as its extension. For a program, the maximum achievable speed-up is limited by its sequential execution. The law, more recently reevaluated by Gustafson~\cite{gustafson1988reevaluating}, is still relevant to assess the achievable speedup for heterogeneous parallel systems~\cite{marowka2012extending}.}
+%
+In this paper, we focus on limited energy availability for mobile heterogeneous devices powered by a battery and present a coarse-grained computation-oriented energy modeling approach. 
+%
+The model \textit{describes energy usage as a function of component configuration} and is based on physical measurements of power consumption of the on-board computing elements.
+%
+The term \emph{computing} is used here to denote the energy consumed by the software components of a complex embedded system. Estimates indicate that more than 50\% of power consumption of complex devices featuring mechanical and computational units can occur due to computational operations, with the motion accounting for the remaining~\cite{mei2004energy, mei2005case}. Energy efficiency concerns are not limited to battery-powered devices, but also to the high-end systems~\cite{mudge2001power}, and thus it is becoming more important for computer architects as power consumption is growing with the introduction of new processors. 
+
+Complex software applications are often composed of many components interacting concurrently to achieve a specific functionality. Our approach aims to predict the energy consumption of a provided set of software components, in a specific configuration, executed according to a given scheduling policy. Statistical methods are used to derive a predictive model allowing prediction of the components' total power consumption as scheduling and configuration parameters are varied. High-level modeling of using a battery as energy-source is used to model the energy that would be drained from the system during computation. The energy model is segmented into two layers: the measurement layer, which describes energy consumption as a function of time, and the predictive layer, which describes energy consumption as a function of component configuration and scheduling. The model generation process starts from the developer, who specifies the configuration space within which software components can run on a given system. A profiling process collects power samples for every component configuration (measurement layer). A model that maps configuration parameters to an energy metric, such as overall energy or average power, is generated from the data, showing the energy evolution for every possible configuration (predictive layer).
+
 \subsection{Computational energy of the UAV}
+
+We use software for drones as a case study for energy efficiency. Drones (known also as aerial robots, Unmanned Aerial Vehicles, or UAVs) are often composed of two computational units. A controller that manages real-time control of the physical aspects of the drone, and a companion computer that handles heavy computations. The latter is often a heterogeneous parallel system. A coarse-grained model of these systems can be used for energy-aware planning and optimization from a computational point of view. Moreover, energy constraints are of particular interest for drones, since their level of autonomy is directly proportional to the power-to-compute \cite{fabiani2007autonomous}. Unlike their grounded counterparts, drones must trade-off size, weight, and power, resulting in strict limits to their energy source that may not accommodate their computational needs. Operating from a limited energy source, typically a lithium-ion battery, can significantly reduce the amount of autonomy that the drone can carry on. One of the reasons why this happens is the high energy demand required by complex parallel algorithms used in several use cases, from computer vision to data processing. To this extent, many tasks in aerial robotics are still not fully autonomous. Advanced operations that require a significant level of autonomy, such as path planning, obstacle avoidance, environment mapping, and object detection, often involve human interaction. Thus there is still little difference between flying robots and their manned counterparts, except that the pilot operates from a ground station rather than onboard~\cite{siciliano2016springer}.
+
+\label{cross:example}
+As a concrete example, we present the drone use case that recognize an object while performing some computationally heavy operations. The use case is composed of two components, object detection algorithm (\stt{darknet-gpu}) that recognize a pattern using a neural network, and matrix exponentiation (\stt{matrix-gpu}) that simulates heavy operations with varying scheduling patterns using sleep of different durations between consecutive operations. Both the components execute mostly on GPU. In a configuration file, the developer specifies these parameters per component: 
+\begin{enumerate}[label={\alph*)},font={\bfseries}]
+\item for \stt{darknet-gpu} a frame-per-seconds rate [5.8, 32] from the lowest acceptable, to the highest achievable, and
+\item for \stt{matrix-gpu} two sets of rates, the matrix size [256, 4096] from smallest to largest, and sleep interval [0, 10] from no sleep to 10 seconds.
+\end{enumerate}
+A profiling process generates models that map time to power, one per combination in the configuration file. Based on this a high-level model is generated which combines component parameters to energy consumption. The energy consumption is estimated for any parameter combinations not profiled. This information is useful to define a proper trade-off between parameters and decide eventually, what configuration has to be used to optimize energy consumption. The information about the battery state, included in the analysis, enables the developer to select a specific runtime configuration (for instance, one that will allow completing the mission without recharging the battery by just adjusting the combinations of components and their parameters).
+
+In our experiments, the resulting model shows an almost linear behavior for the \stt{darknet-gpu} component, highlighting the energy behavior for any configuration in the interval [5.8, 32]. The \stt{matrix-gpu} model shows the energy evolution with different scheduling options and addresses the impact of different scheduling to the battery depletion. Results for both components are presented and further discussed in Section~\ref{sec:experimental-results}.
+
+
+With this work we have: 
+\begin{enumerate}
+  \item designed a computation-oriented energy modeling approach for heterogeneous platforms,
+  \item evaluated the outcomes of the model on several benchmarks and devices,
+  \item assessed the model's validity against external measurements and a fine-grained approach, and
+  \item developed a profiling tool for computation-oriented energy modeling.
+\end{enumerate}
+The tool, named \powprof{}, is written in C++ and distributed under MIT license.~\footnote{\label{powprof-url}\url{https://bitbucket.org/adamseew/powprofiler}} The tool was used to perform all of the experiments reported in this paper and is designed to be used, among others, in mobile robotics scenarios. It can profile a set of components being executed in a number of possible configurations and from this, build an energy model. The model allows the system under analysis to define an appropriate tradeoff between consumed energy and computations performed. This information can be used to increase energy efficiency, often linked to the level of autonomy in many modern scenarios, and meet the power requirements. For example, a drone can dynamically adjust autonomous detection capabilities to fit the current battery state of charge (referred to in this paper as SoC). Similarly, an autonomous vehicle can increase the amount of computation only when the collision detection system is required, and a mobile robot can automatically schedule tasks to compute in an energy-aware fashion. In these examples, awareness of precise computational energy cost can potentially lead to significant energy savings. Key to the approach is flexibility in terms of easy support for different heterogeneous platforms and extensibility to other classes of systems outside the mobile robotics domain.
+
+\subsection{Energy modeling for heterogeneous hardware}
+
+In this paper, we aim to provide a tool for automatic generation of hardware-specific energy models of a given application. The energy model is generated through a profiling process which collects several power samples and builds an energy abstraction upon them. Computational energy is addressed by mapping a component configuration to an energy metric, such as average power or overall energy. Our approach includes several on-board computing elements, such as CPU and GPU, and analyzes their role in the tradeoff related power decisions. 
+
+Figure~\ref{fig:power-to-compute-model} shows an overview of our approach. For a specific application on the system under study, the developer describes how components behave in a configuration file. For each component, any parameter range or value can be specified. By varying the parameters and scheduling policy, the tool generates $n$ combinations of components called configurations $\mathcal{D}=\left\{d_1,d_2,\cdots,d_{n}\right\}$. Once the set $\mathcal{D}$ is generated, the profiling process starts by collecting a set of samples and by generating a layer 1 model for every configuration $d_k$ (with $1\leq k\leq n$). The layer 1 model maps a time interval $t$ to a power measure $f(t)$ and estimates the power-to-compute value for a given component. Later, the model is integrated with battery state evolution and quantified in the amount of SoC left in the battery. Finally, both $f(t)$ and $\mathrm{SoC}$ are used to generate a layer 2 model, that maps a set of configurations $\mathcal{D}$ to the energy metric (i.e., average power consumption or overall energy usage) and SoC $g(\mathcal{D})$. This information can be used to select the best configuration and define a better scheduling policy to optimize the average computational energy.
+
+\begin{figure}[h!]
+  \centering
+  \footnotesize
+  \input{figures/model.tikz}
+  \caption{Overview of energy modeling for heterogeneous hardware.}
+  \label{fig:power-to-compute-model}
+\end{figure}
+
+The modeling approach is tested across four different platforms, ODROID XU3, NVIDIA TK1, TX2, and Nano (see Section~\ref{sec:experimental-setup} for details), and a selection of benchmark components is used. Each component has a set of configuration parameters varied inside defined boundaries, that represent the acceptable rate of quality of service or QoS. We use the following benchmark components: a random matrix of a predefined size that is multiplied by another or exponentiated by a given exponent on CPU (\stt{matrix-cpu}) or GPU (\stt{matrix-gpu}). A computer vision component built upon the darknet~\cite{RA17,Red13a} implementation of the YOLO library~\cite{redmon2016you}, that uses a deep neural network to detect an object from a video stream on CPU (\stt{darknet-cpu}) or GPU (\stt{darknet-gpu}), and NVIDIA custom-made benchmarks, modified so they can be iterated several times over a time interval, that perform matrix multiplication (\stt{nvidia-matrix}) and quicksort (\stt{nvidia-quicks}) of a given size on GPU.
 
 \subsection{Measurement layer}
 
+The measurement layer describes an energy sample for a given configuration and scheduling of a component executed on specific hardware as a function of time. It provides average power or overall energy over a time interval for every computational unit that allows power measurement.
+
+The developer provides for every application a number of components in the configuration file along with their parameters. An application in this layer is structured as several configured components that execute in parallel according to a specific scheduling policy. First, immediate power consumption is measured. This information is used to model the power into the power-to-compute and battery drain. An \emph{application specification}, described later in this section, is used to define all the possible configurations of an application in the configuration file. The power is measured throughout a time interval set by the developer. Multiple metrics can be captured at this level and sampled at a fixed rate specified in the application specification, including CPU, GPU, and total power. Other metrics, as the system's load and sensors' evolution, can be added by extending the approach. Based on the information obtained at this layer, the energy that the computation would draw from a battery can be estimated using the \emph{battery model}, also described later in this section. As a concrete example, Figure~\ref{fig:darknet-layer1} shows the total energy usage as a function of time for CPU and GPU of the NVIDIA~TX2 board executing the \stt{darknet-gpu} component in four different QoS configurations.
+
+\subsection{Application specification}
+\label{sec:measurement:application-specification}
+
+The application specification is used to define all the computations to run for a specific energy model. It depends on the schedule that is used when performing measurements, in the sense that scheduling policies will be specific to the kind of scheduling supported by this scheduler. Currently, only a basic application specification is supported that corresponds to the capabilities of the \powprof{} tool described later in Section~\ref{sec:experimental-setup:powprof}. Support for more advanced models is considered future work. In particular, a dynamic measurement-oriented scheduler should be adopted in the future to define the optimal scheduling policy during computation.
+
+The basic application specification is defined as follows. The choice between component implementations (if needed) is implicitly supported by requiring the developer to select the specific component implementation to use for the measurement. Components are configured by providing concrete, fixed values for all of their configuration parameters. A scheduling policy is implicitly supported by requiring each component to provide parameters that explicitly control fixed scheduling patterns in time (e.g., what rate to execute, when to execute). Components are assumed to implicitly control scheduling in space, for example by having different implementations for CPU and GPU (and hence being explicitly selected as part of the application configuration).
+
+\subsection{Predictive layer}
+
+The predictive model is expressed in terms of the measurement layer and describes ``average power over time frame'' and other similar coarse-grained metrics as a function of component configuration parameters and scheduling policies.
+
+The predictive model concerns the average power over a time frame as a function of varying application models (i.e., configuration parameters, scheduling policy, \dots). The average power can be any of the outputs of the measuring layer, such as average power used by the embedded board, or average power drained from a battery. First-layer measurements are used to generate functions that map application models to energy metrics. Any aspect of the application model can be varied, as defined by the \emph{sampling strategy} described later in this section. Varying selected aspects of the application model corresponds to changes in component configuration parameters and scheduling policies, thus making it possible to determine the average power as a function of specific variations of selected component configuration parameters and aspects of the scheduling policy. Due to the potentially large configuration space, it is critical that a model covering all relevant parameter/scheduling variations can be generated from a subset of samples. This is handled by the \emph{approximation method}, also described later in this section.
+
+As a concrete example, Figure~\ref{fig:matrix-exponent} shows the total average energy usage of the TX2 board executing the \stt{matrix-gpu} component as a function of the size and exponent parameters. Results are discussed in further detail in the context of experimental results, see Section~\ref{sec:experimental-results}.
+
+\begin{figure}[t]
+  \centering
+  \footnotesize
+  \fontfamily{phv}\selectfont
+  \input{figures/matrix-gpu-exponent-power.tikz}
+  \caption{Average power}
+  \label{fig:matrix-exponent:power}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \scriptsize
+  \fontfamily{phv}\selectfont
+  \input{figures/matrix-gpu-exponent-energy.tikz}
+  \caption{Overall energy}
+  \label{fig:matrix-exponent:energy}
+  \label{fig:matrix-exponent}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \scriptsize
+  \fontfamily{phv}\selectfont
+  \input{figures/matrix-gpu-exponent-battery.tikz}
+  \caption{Remaining battery capacity}  
+  \label{fig:matrix-exponent:battery}
+\end{figure}
+%\caption{Execution of GPU exponentiation, average total power~\ref{fig:matrix-exponent:power}, overall energy consumption~\ref{fig:matrix-exponent:energy}, and battery depletion~\ref{fig:matrix-exponent:battery} as a function of size and exponent parameters. The plot shows how the choice between specific configurations impacts the energy performance of the system under analysis.}
+  
+\begin{figure}[t]
+  \centering
+  \scriptsize
+  \fontfamily{phv}\selectfont
+  \input{figures/matrix-gpu-sleep-power.tikz}
+  \caption{Average power}
+  \label{fig:matrix-sleep:power}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \scriptsize
+  \fontfamily{phv}\selectfont
+  \input{figures/matrix-gpu-sleep-energy.tikz}
+  \caption{Overall energy}
+  \label{fig:matrix-sleep:energy}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  \scriptsize
+  \fontfamily{phv}\selectfont
+  \input{figures/matrix-gpu-sleep-battery.tikz}
+  \caption{Remaining battery capacity}  
+  \label{fig:matrix-sleep:battery}
+  \label{fig:matrix-sleep}
+\end{figure}
+
+%\caption{Execution of GPU matrix exponentiation, average total power~\ref{fig:matrix-sleep:power}, overall energy consumption~\ref{fig:matrix-sleep:energy} and battery depletion~\ref{fig:matrix-sleep:battery} as a function of the matrix size and simulated scheduling in the form of sleep between iterations.} 
+
 \subsection{Hardware platforms and benchmarks}
 
-\subsection{Power measurements for embedded boards}
+In the following section, we present hardware platforms under study, the two measuring technique to obtain power metrics, and a summary of the profiling tool. Finally, Experimental Methodology outlines our experimental approach before introducing results in the next Section.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=.7\textwidth]{pictures/_DSC6222}
+  \caption{ODROID XU3}
+  \label{fig:odroid}
+\end{figure}
+
+\begin{figure}[t]
+  \centering 
+  \includegraphics[width=.7\textwidth]{pictures/_DSC6228}
+  \caption{NVIDIA Jetson TK1} 
+  \label{fig:tk1}
+\end{figure}
+
+\begin{figure}[t]   
+  \centering 
+  \includegraphics[width=.7\textwidth]{pictures/_DSC6220}
+  \caption{NVIDIA Jetson TX2}   
+  \label{fig:tx2}
+\end{figure}
+
+\begin{figure}[t]
+  \centering 
+  \includegraphics[width=.7\textwidth]{pictures/_DSC6224}
+  \caption{NVIDIA Jetson Nano}  
+  \label{fig:nano}
+\end{figure}
+
+We studied four different hardware platforms, ODROID XU3, NVIDIA Jetson TK1, TX2, and Nano that are shown in Figure~\ref{fig:hw-platforms}:%, and summarized in Table~\ref{tab:hw-summary}:
+\begin{description}
+  \item[\textbf{ODROID~XU3}] Provides an ARM Cortex-A15 and -A7 CPU, 2 GBytes of LPDDR3 RAM, a MALI GPU, and storage via microSD. It includes built-in sensors that enable accurate power measurements of the two CPUs, RAM, and GPU.
+  \item[\textbf{NVIDIA~TK1}] Provides an ARM Cortex-A15 CPU, 2 GBytes of DDR3L RAM, 16 GB of non-volatile storage, and an NVIDIA Kepler GPU with 192 CUDA cores. The TK1 does not provide any built-in sensor for power measurement, so an external sensor is used to measure the total power consumed.
+  \item[\textbf{NVIDIA~TX2}] Provides an ARM Cortex-A57 CPU, 8 GBytes of LPDDR4 RAM, 32 GB of non-volatile storage, and an NVIDIA Pascal GPU with 256 CUDA cores. The TX2 comes with on-board power measurement functionality that can measure the power of different components, and was used in our model to gather independently the instantaneous power usage of the CPU, GPU, and the whole board.
+  \item[\textbf{NVIDIA~Nano}] Provides an ARM Cortex-A57 CPU, 4 GBytes of LPDDR4 RAM, an NVIDIA Maxwell GPU with 128 CUDA cores, and storage via microSD. Similarly to the TX2, the Nano comes with on-board power measurement functionality that is able to measure the power of different components and can be used within our model to gather independently the instantaneous power usage of the CPU, GPU, and the whole board.
+\end{description} 
+\begin{table}[h]
+  \centering
+  \begin{tabular}{l|*{5}{c|}c}
+    \hline
+    Platform & CPU & GPU & RAM & Memory & Board & Sensors \\\hline
+    ODROID & A15, A7 & MALI & 2 GB & microSD & 94x70 & \checkmark \\
+    TK1 & A15 & Kepler & 2 GB & 16 GB & 125x95 & - \\
+    TX2 & A57 & Pascal & 8 GB & 32 GB & 170x170 & \checkmark \\
+    Nano & A57 & Maxwell & 4 GB & microSD & 100x80 & \checkmark \\
+    \hline
+  \end{tabular}
+  \caption{Summary of hardware platforms under analysis.}
+  \label{tab:hw-summary}
+\end{table}
+
+Several benchmarks (see Section~\ref{sec:general-overview}) have been performed on the four hardware platforms under study. (Not all benchmarks components are compatible with every platform, e.g., GPU-based benchmarks are implemented in CUDA which only runs on NVIDIA platforms, limiting the set of experiments that can be performed.)%, as outlined in the Table~\ref{tab:benchmark-components}.
+\begin{table}[h]
+  \centering
+  \begin{tabular}{l|*{3}{c|}c}
+    \hline
+    \multirow{2}{*}{\backslashbox{Component\kern-1em}{\kern-1em Platform}} & Odroid-XU3 & \multicolumn{3}{c}{NVIDIA} \\
+    & & TK1 & TX2 & Nano \\\hline
+    CPU & A15+A7 & A15 & A57 & A57 \\
+    GPU & MALI & Kepler & Pascal & Maxwell \\
+    \hline
+    \stt{matrix-cpu}    & \checkmark & \checkmark & \checkmark & \checkmark \\
+    \stt{matrix-gpu}    & - & \checkmark & \checkmark & \checkmark \\
+    \stt{darknet-cpu}   & (\checkmark) & (\checkmark) & \checkmark & (\checkmark) \\
+    \stt{darknet-gpu}   & - & - & \checkmark & (\checkmark) \\
+    \stt{nvidia-matrix} & - & (\checkmark) & \checkmark & (\checkmark) \\
+    \stt{nvidia-quicks} & - & (\checkmark) & \checkmark & (\checkmark) \\
+    \hline
+  \end{tabular}
+  \caption{Benchmark components: platforms and modeling approach. \checkmark: supported and included in this paper, (\checkmark):  supported but not included in this paper, -: not supported.}
+  \label{tab:benchmark-components}
+\end{table}
+
+\subsection{Power measurements}
+
+We use two different power measurements techniques for our experiments: the current shunt and current probe. With the current shunt method, an internal circuit on the embedded board composed of a shunt resistor is used, along with a digital acquisition unit. It is the preferred approach as it can precisely sample the power consumption of specific computing elements as CPU and GPU. Such circuits are present on the ODROID~XU3 and NVIDIA~TX2 or Nano boards and can be sampled directly by the \powprof{} tool described in Section~\ref{sec:experimental-setup:powprof}.
+
+As an alternative to the current shunt method, we have also implemented the current probe method, where an external circuit measures the power on the connection to the main embedded board (i.e., the carrier board). We adopted the current probe method to measure the overall power consumption of the NVIDIA~TK1. This measurement setup consists of three hardware units, henceforth referred to as nodes. The first node is the board under analysis, the second node a multimeter that performs the sampling of the power consumption at a specific sampling frequency, and the third node is an external computer that collects the data for subsequent processing by \powprof{}. The whole setup is described in detail in our prior work~\cite{seewald2019hlpgpu}. Data and metrics are stored for use with \powprof{}, essentially allowing an arbitrary power measurement technique for the system under analysis. This means that a layer 2 model can be generated from the data with no distinction of what type of measuring device was used to obtain the layer 1 model.
+
+All experiments reported in this section are performed using the standard performance governor present in each of the systems under observation. In particular, dynamic effects such as DVFS have not been disabled. Our experiments have not revealed any effects on performance due to, e.g., ambient temperature or the temperature of the embedded systems increasing.
 
 \subsection{The {\tt powprofiler} tool}
+
+The \powprof{} tool implements all the features described in this paper and is designed to be useable for heterogeneous parallel embedded systems. The tool supports all the platforms described in Section~\ref{sec:experimental-setup:hw}. It is designed for extensibility and can, in principle, support any Linux-based embedded device that provides power measurement metrics. Concretely, to support a new embedded device, a subclass defining the device-specific features can be derived from a virtual class, and only requires the implementation of a function that returns the current measurements in the form of a weighted vector where every element can represent a different metric. In a first iteration, the tool profiles a set of configurations of a component and builds a layer 1 model as described in Section~\ref{sec:measurement}. Once \powprof{} obtains power profiles and other metrics that are considered useful for the purpose of energy modeling, it builds a predictive model as described in Section~\ref{sec:predictive-model}. The tool relies on \stt{gnuplot} utility to visualize energy evolution if the configuration search space allows it. Automatically generated output includes CSV files containing measured data as well as the 2D- and 3D-plots shown in this paper.
 
 \subsection{Energy-aware design of algorithms}
 
@@ -35,8 +244,38 @@
 
 \subsection{Experimental methodology}
 
+% maybe another section??
+
+The power modeling experiments described in this paper are, unless otherwise mentioned, done using \powprof{} tool. The tool uses two temporal schemes to profile data. A component can be profiled for a specific amount of time with the first, or until it terminates its computation with the second. The second scheme is used for all the components that end in a specific amount of time, i.e., matrix multiplication. The first for components that run continuously, i.e., an image detection algorithm operating on an image stream. For both, the longer the profiling, the better the accuracy. 
+%The predictive model is constructed based on application specification that include information on component configuration parameters. The approximation is done using a weighted average. Automatically generated output includes CSV files containing measured data as well as the 2D- and 3D-plots shown in this paper.
+
+Ideally, any component combination can be profiled by specifying possible sets of parameters in the configuration file. Each entry corresponds to a component and defines how its execution is varied as described in application specification described in~\ref{sec:measurement:application-specification}. In summary, a layer 1 model is evaluated and stored for every possible combination. The layer 1 model is then integrated with the battery model. Data containing energy consumption, battery drain, and other information as system load, are evaluated into the layer 2 model. This model builds an $n$-dimensional function and provides energy consumption data for every possible combination. The missing data are integrated using estimation with the approximation technique describe in~\ref{sec:predictive-model:approximation-methos}. The $n$-dimensional space is derived by the use of the battery model to map each value with a weight describing the SoC.
+%AdS: if we need to cut this paragraph (up) is repeating what we said before
+
+As an example of energy modeling, we implemented a combination of three different parameters and generated a surface that shows approximately where the minimum power consumption is expected. Figures~\ref{fig:matrix-exponent}--\ref{fig:matrix-sleep} shows how the output of the predictive model includes, but is not limited to, overall energy~\ref{fig:matrix-exponent:energy}--\ref{fig:matrix-sleep:energy} and average power consumption~\ref{fig:matrix-exponent:power}--\ref{fig:matrix-sleep:power} for all the combinations. 
 
 \section{Battery Model}
+
+The battery model is a mathematical abstraction that models draining energy from a battery used to power the computation being measured. It was derived from the state-space problem representation of the empirical battery model through an equivalent electrical circuit, presented by Hasan et al.~\cite{hasan2018exogenous}. The battery evolution model can be represented in this way using an ordinary differential equation that is a function of the power drained from the system, and represents the SoC of the battery at a given instant (Equations~\ref{eq:battery-model-1} and \ref{eq:battery-model-2}):
+
+\begin{equation}\label{eq:battery-model-1}
+  \frac{d}{dt}\mathrm{SoC}(t)=-\frac{I_\mathrm{int}(t)}{Q_c},
+\end{equation}
+\begin{equation}\label{eq:battery-model-2}
+  I_\mathrm{int}(t)=
+    \frac{U_\mathrm{int}-
+    \sqrt{
+      U_\mathrm{int}^2-
+      4\cdot R_{\mathrm{int}}\cdot U_\mathrm{sta}\cdot I_{\mathrm{load}}(t)}
+    }{2\cdot R_\mathrm{int}},
+\end{equation}
+where $Q_c$ is the constant nominal capacity, $U_\mathrm{int}$ is the internal battery voltage, $I_\mathrm{int}$ is the current load that depends on the power requirements, $R_\mathrm{int}$ is the internal resistance of the battery, $U_\mathrm{ext}$ is the external battery voltage, $U_{\mathrm{sta}}$ is the stabilized voltage (a fixed value determined by the load of the system), and $I_\mathrm{load}$ is the current required by the load. The constants are chosen to describe a small drone battery. The external battery voltage $U_{\mathrm{ext}}$ can be also expressed as follows:
+\begin{equation}
+U_{\mathrm{ext}}(t)=U_{\mathrm{int}}-R_{\mathrm{int}}\cdot I_{\mathrm{int}}(t)
+\end{equation}
+
+The approach allows modeling the computational system not only in terms of the overall power consumption but also in terms of the actual amount of power drained from the battery. This is especially important with a mobile robot dependent on a limited and time-dependent energy supply, running computationally heavy parallel algorithms. Critically, although this mathematical model is a simple abstraction, it models how a stable power consumption over time can induce less drain from the battery compared to using the same amount of energy distributed in a number of spikes. The battery model allows this information to be determined for specific usage scenarios and thus provides a useful way to determine what configuration corresponds to the best power usage combination for a mobile use case.
+
 
 \subsection{UAV batteries}
 
@@ -316,13 +555,28 @@ The nominal control $\mathbf{u}(t)$ is then the difference of these contribution
 
 $B\mathbf{u}(t)$ merely includes the difference in power into the model in \frefeq{eq:state-perf}.
 
+
+
 \subsection{Merging computations and motion}
 \label{cp:model:periodic:merging}
 
 \begin{figure}[h]
   \centering
+  \input{figures/traj4.tikz}
+  \caption[Path of a UAV flying a given stage]{.}
+  \label{fig:tee1}
+\end{figure}
+\begin{figure}[h]
+  \centering
   \input{figures/traj2.tikz}
-  \caption{The alteration of the path parameter $c_{1,1}$, the radius of the circle (it corresponds to the alteration of the plan in Figure~\ref{fig:il-abs}).}
+  \caption[Alteration of the path parameter]{The alteration of the path parameter $c_{1,1}$, the radius of the circle (it corresponds to the alteration of the plan in Figure~\ref{fig:il-abs}).}
+  \label{fig:tee1}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \input{figures/traj3.tikz}
+  \caption[External interference on the path]{.}
   \label{fig:tee1}
 \end{figure}
 
@@ -332,24 +586,40 @@ The set
 \begin{equation}\label{eq:area}
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i}^\rho)\in\mathcal{C}_i\},
 \end{equation}
-delimits the area where the $i$-th path $\varphi_i$ is free to evolve using the path parameters $c_i^\rho$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and the path parameters, and is equal to zero when a point $\mathbf{p}_k$ is on the path. Physically, this means the UAV is flying exactly over the nominal trajectory. The path parameters allows to change the path. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy by changing the flying time in the example in Figure~\ref{fig:il-abs}.
+delimits the area where the $i$-th path $\varphi_i$ is free to evolve using the path parameters $c_i^\rho$ (the gray area in Figure~\ref{fig:tee1}). $\varphi_i$ is a function of the two coordinates and the path parameters, and is equal to zero when a point $\mathbf{p}_k$ is on the path. Physically, this means the UAV is flying exactly over the nominal trajectory. 
+
+The path parameters allows to change the path. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy by changing the flying time in the example in Figure~\ref{fig:il-abs}.
 In fact, the algorithm uses the set from Equation~(\ref{eq:area}) to find the path parameters such that the plan consisting of flying $\varphi_i$ has the highest energy, while still respecting the constraints. In Figure~\ref{fig:tee1}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan.
 
-We derive the new position $\mathbf{p}_{k+1}$ computing the vector field $\nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x & \partial\varphi_i/\partial y\end{bmatrix}^T$, and the direction to follow in the form of velocity vector~\cite{de2017guidance}
+We derive the new position $\mathbf{p}_{k+1}$ computing the vector field 
+\begin{equation}
+  \nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x \\ \partial\varphi_i/\partial y\end{bmatrix},  
+\end{equation}
+and the direction to follow in the form of velocity vector~\cite{de2017guidance}
 \begin{equation}\label{eq:pd}
-  \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varphi_i-k_e\varphi_i\nabla\varphi_i,\,\,\,E=\begin{bmatrix}
+  \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varphi_i-k_e\varphi_i\nabla\varphi_i,
+\end{equation}
+where $E$ specifies the rotation (it influence the tracking direction). For instance
+\begin{equation}
+  E=\begin{bmatrix}
     0&1\\-1&0
   \end{bmatrix},
 \end{equation}
-where $E$ specifies the rotation (it influence the tracking direction), and $k_e\in\mathbb{R}_{\geq 0}$ the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\dot{\mathbf{p}}$ due to the atmospheric interferences (wind $w\in\mathbb{R}$ in the top of Figure~\ref{fig:tee1}).
+is the counter clockwise direction, $-E$ the clockwise direction. 
 
-The scaling factors for the path parameters from Equation~(\ref{eq:state-control}) are derived empirically. For the example in Figure~\ref{fig:tee1}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. The variation of the control hence results in an approximate measure of the plans' time variation with factors
+$k_e\in\mathbb{R}_{\geq 0}$ is the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\dot{\mathbf{p}}$ due to the atmospheric interferences (wind $w\in\mathbb{R}$ in the top of Figure~\ref{fig:tee1}).
+
+The scaling factors for the path parameters from Equation~(\ref{eq:state-control}) are derived empirically. For the example in Figure~\ref{fig:tee1}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. 
+
+The variation of the control hence results in an approximate measure of the plans' time variation with factors
 \begin{equation}\label{eq:scale-traj}\begin{split}
   \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
   \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
 \end{split}\end{equation} 
-%Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
+
 $\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
+
+Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
 
 Let us recall from Definition~\ref{def:mission} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using {\small\tt{powprofiler}}, the open-source modeling tool adapted from earlier work on computational energy analysis~\cite{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\cite{seewald2020mechanical}. 
 

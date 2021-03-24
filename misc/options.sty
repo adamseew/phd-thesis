@@ -159,6 +159,7 @@
 \usepackage{graphicx} % images
 \graphicspath{ {./pictures/}{./figures/} } 
 \usepackage{caption}
+\usepackage{subcaption} % for subfigures
 \DeclareCaptionFont{captionff}{\footnotesize\fontfamily{phv}\selectfont}
 \captionsetup[figure]{labelsep=period,font=captionff}
 
@@ -222,4 +223,21 @@
 
 \newtcolorbox{highlight}{colback=gray!10,
 boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
+
+\makeatletter
+\newcommand*{\textlabel}[2]{%
+  \edef\@currentlabel{#1}% Set target label
+  \phantomsection% Correct hyper reference link
+  #1\label{#2}% Print and store label
+}
+\makeatother % for textlabel
+
+\usepackage[inline]{enumitem}
+
+\newcommand{\stt}[1]{{\small\tt #1}} % \small\tt as tt is too big with the provided proof
+\newcommand{\powprof}{\stt{powprofiler}}
+
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{diagbox}
 
