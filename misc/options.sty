@@ -156,12 +156,18 @@
   \frenchspacing
 }
 
+
+\usepackage{multirow} % tables
+\usepackage{tabularx}
+
 \usepackage{graphicx} % images
 \graphicspath{ {./pictures/}{./figures/} } 
 \usepackage{caption}
 \usepackage{subcaption} % for subfigures
 \DeclareCaptionFont{captionff}{\footnotesize\fontfamily{phv}\selectfont}
 \captionsetup[figure]{labelsep=period,font=captionff}
+\captionsetup[table]{labelsep=period,font=captionff}
+
 
 \renewcommand{\thefigure}{\textcolor{foo}{\fontfamily{phv}\selectfont\thechapter.\arabic{figure}}}
 \renewcommand{\figurename}{\textcolor{foo}{\fontfamily{phv}\selectfont Fig.}}
@@ -237,7 +243,5 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 \newcommand{\stt}[1]{{\small\tt #1}} % \small\tt as tt is too big with the provided proof
 \newcommand{\powprof}{\stt{powprofiler}}
 
-\usepackage{multirow}
-\usepackage{tabularx}
 \usepackage{diagbox}
 
