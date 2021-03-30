@@ -116,8 +116,8 @@
 \renewcommand{\headrulewidth}{0pt}
 \fancyhead[LE]{\fontfamily{phv}\selectfont\footnotesize\thepage}
 \fancyhead[RO]{\fontfamily{phv}\selectfont\footnotesize\thepage}
-\fancyhead[LO]{\slshape\fontfamily{phv}\selectfont\footnotesize\nouppercase{\rightmark}} 
-\fancyhead[RE]{\slshape\fontfamily{phv}\selectfont\footnotesize\nouppercase{\leftmark}}
+\fancyhead[LO]{\fontfamily{phv}\selectfont\footnotesize\nouppercase{\rightmark}} 
+\fancyhead[RE]{\fontfamily{phv}\selectfont\footnotesize\nouppercase{\leftmark}}
 
 \fancypagestyle{plain}{%
   \fancyhf{}%
@@ -160,6 +160,12 @@
   \frenchspacing
 }
 
+\DeclareNameAlias{sortname}{family-given} % counts in biblio
+
+\defbibenvironment{bibliography}
+  {\begin{enumerate}}
+  {\end{enumerate}}
+  {\item}
 
 \usepackage{multirow} % tables
 \usepackage{tabularx}
@@ -248,4 +254,6 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 \newcommand{\powprof}{\stt{powprofiler}}
 
 \usepackage{diagbox}
+
+\setlength\bibitemsep{1.5\itemsep} % more space to biblio
 
