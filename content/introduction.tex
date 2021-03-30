@@ -41,7 +41,7 @@ Modern aerial robots are a valuable tool in robotic research and aerospace. Hist
   \label{fig:hewitt-sperry}
 \end{figure}
 
-Uninhabited or unmanned flight has more than a century of developments~\citep{siciliano2016springer}. The origin of the field of aerial robotics, which deals with the design and development of aerial robots, dates back to the first guided missiles~\citep{siciliano2016springer}, although unmanned flying machines have more than a century of developments. One of the first such unmanned flying machines is the Hewitt-Sperry\findex{Hewitt-Sperry} Automatic Airplane, the ``flying bomb'' developed in 1917 during World War I\findex{World War I} (WWI)~\citep{keane2013brief,valavanis2015handbook}; a milestone reached relatively soon if we consider that the first heavier-than-air flight in history was demonstrated 14 years earlier with the Wright Flyer I by Wilbur and Orville Wright\findex{Wright brother} (commonly referred to as the Wright brothers). The Hewitt-Sperry Automatic Airplane used a gyroscope\findex{gyroscope}, invented by Elmer Sperry~\citep{keane2013brief}, mechanically connected to the control surfaces and thus successfully integrating a control feedback loop~\citep{siciliano2016springer}. It is shown in \fref{fig:hewitt-sperry}{Figure}.
+Uninhabited or unmanned flight has more than a century of developments~\citep{siciliano2016springer}. The origin of the field of aerial robotics, which deals with the design and development of aerial robots, dates back to the first guided missiles~\citep{siciliano2016springer}, although unmanned flying machines have more than a century of developments. One of the first such unmanned flying machines is the Hewitt-Sperry Automatic Airplane\findex{Hewitt-Sperry automatic airplane} developed in 1917 during World War I\findex{World War I} (WWI)~\citep{keane2013brief,valavanis2015handbook}; a milestone reached relatively soon if we consider that the first heavier-than-air flight in history was demonstrated 14 years earlier with the Wright Flyer I by Wilbur and Orville Wright\findex{Wright brother} (commonly referred to as the Wright brothers). The Hewitt-Sperry Automatic Airplane used a gyroscope\findex{gyroscope}, invented by Elmer Sperry~\citep{keane2013brief}, mechanically connected to the control surfaces and thus successfully integrating a control feedback loop~\citep{siciliano2016springer}. It is shown in \fref{fig:hewitt-sperry}{Figure}.
 
 In the early days, these flying machines were labeled remotely piloted vehicles\findex{remotely piloted vehicles} (\Gls{acr:rpv}s)~\citep{anderson2005introduction}. Many instances from WWI on of such early \Gls{acr:uav}s were also designed for military purposes. In the 1950s, United States used a remotely controlled vehicle Ryan Firebee~\findex{Ryan Firebee} for reconnaissance in Vietnam, and Israel used first a \Gls{acr:rpv} in a combat situation~\citep{anderson2005introduction}. Some other instances of these vehicles include the V-1 flying bomb~\findex{V-1 flying bomb} from 1944 (deployed by the unified armed forces of nazi Germany) and the Lockheed D-21~\findex{Lockheed D-21} from 1962 (deployed by the United States Air Force).
 
@@ -53,9 +53,35 @@ Modern aerial robots are designed to handle unexplored terrain with little inter
 
 %A quote from~\cite{anderson2005introduction}: ``the Wright brothers worked so hard to put humans in the air in flying machines, a hundred years later some [...] are working hard to take them out of flying machines''
 
-\subsection{Types of aerial robots}
+\section{Common Classes of Aerial Robots}
 
-{\color{red}A description of the different classes of aerial robots (rotorcrafts, fixed-wings, vtols...)}
+Many different types of aerial robots have emerged ever since their first introduction. We briefly investigated the most studied classes in the robotics literature. The two most generic ones are heavier-than-air and lighter-than-air aerial robots.
+
+Heavier-than-air aerial robots\findex{heavier-than-air aerial robots} are further divided into fixed- and rotary-wings~\citep{siciliano2016springer}. Some recent developments in bio-inspired robotics study flapping-wings~\citep{floreano2015science}\findex{flapping-wings}. We discuss in detail heavier-than-air aerial robots in this work, as they are a common platform for robotics research. 
+
+Rotary-wing aerial robots\findex{rotary-wings} are highly maneuverable and can perform stationary vertical flight (commonly referred to as hovering\findex{hovering})~\citep{siciliano2016springer}. These systems can be classified into further categories, which include multirotors\findex{multirotors} (such as quadrotors\findex{quadrotors} or quadcopters\findex{quadcopters}, hexacopters\findex{hexacopters}, or octocopters\findex{octocopters}), conventional helicopters\findex{helicopters} (these have one main and one tail rotor), and a coax\findex{coax} (these have counter-rotating coaxial rotors)~\citep{corke2017robotics}. In a fixed-wing aerial robot\findex{fixed-wings}, wings are providing the lift. Some control surfaces are used for maneuvering, and a propeller for forwarding thrust; a shared principle with a common passenger aircraft~\citep{corke2017robotics}. An example constitutes the Opterra adapted for precision agriculture in \fref{fig:opterra}{Figure}.
+
+We discuss the dynamic forces which govern the flight of rotary and fixed-wing aerial robots in \fref{cp:gd}{Chapter}.
+
+Common instances of lighter-than-air aerial robots\findex{lighter-than-air aerial robots} are blimps\findex{blimps} (or non-rigid airships). They usually rely on a gas--such as helium enclosed in a protected envelope--to generate the lifting force~\citep{fui2017recent}. They are similar to balloons but provide basic maneuverability whereas in a balloon only the altitude can be controlled~\citep{colombatti2011lighter}.
+
+Some other classifications found in aerial robotics literature often rely on size and maneuverability and include micro aerial vehicles (MAVs)\findex{micro aerial vehicles}. These are aerial robots with all dimensions lower than 15 cm. Vertical take-off and landing (VTOLs)\findex{vertical take-off and landing} are aerial robots flying in a fixed-wing configuration except if taking-off and landing where they use thrust from rotors rather than lift from wings. 
+
+While rotary-wings are the most maneuverable, less-than-air aerial robots are the least. These, however, have the highest endurance followed by fixed-wing aerial-robots. Flapping-wings and mixed configurations, such as VTOLs, fall into the intersection of rotary and fixed-wings for what concerns maneuverability and endurance~\citep{siciliano2016springer}. The energy requirements are critical for all aerial robots, but the ratio of motion against computation energy varies greatly. The energy--inversely proportional to endurance--is highest in rotary-wings, and lowest in lighten-than-air aerial robots.
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
 
 \section{Motivation}
 
