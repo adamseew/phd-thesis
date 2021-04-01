@@ -29,6 +29,7 @@ We build an energy model to predict the future energy consumption of some autono
 
 We investigate different mobile robotics platforms in this work and we focus most on the Opterra fixed-wing drone\findex{Opterra fixed-wing drone}~\citep{opterra} adapted for precision agriculture. Precision agriculture\findex{precision agriculture} is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and \Gls{acr:uav}s for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. The aerial robot is shown in \fref{fig:opterra}{Figure}.
 
+
 \section{From UAVs to Modern Aerial Robots}
 
 Modern aerial robots are a valuable tool in robotic research and aerospace. Historically, they can be found with different names in the literature. These include unmanned aerial vehicles\findex{unmanned aerial vehicles} (\Gls{acr:uav}s)\footnote{The term unmanned is sometimes replaced by uninhabited if the vehicle is operated remotely by human operator}%citation to Anderson
@@ -53,9 +54,10 @@ Modern aerial robots are designed to handle unexplored terrain with little inter
 
 %A quote from~\cite{anderson2005introduction}: ``the Wright brothers worked so hard to put humans in the air in flying machines, a hundred years later some [...] are working hard to take them out of flying machines''
 
+
 \section{Common Classes of Aerial Robots}
 
-Many different types of aerial robots have emerged ever since their first introduction. We briefly investigated the most studied classes in the robotics literature. The two most generic ones are heavier-than-air and lighter-than-air aerial robots.
+Numerous different types of aerial robots have emerged ever since their first introduction. We briefly investigate the most studied classes in the robotics literature and relate them to the dynamic energy planning that we focus on in this work. The two most generic classes are heavier-than-air and lighter-than-air aerial robots.
 
 Heavier-than-air aerial robots\findex{heavier-than-air aerial robots} are further divided into fixed- and rotary-wings~\citep{siciliano2016springer}. Some recent developments in bio-inspired robotics study flapping-wings~\citep{floreano2015science}\findex{flapping-wings}. We discuss in detail heavier-than-air aerial robots in this work, as they are a common platform for robotics research. 
 
@@ -63,32 +65,65 @@ Rotary-wing aerial robots\findex{rotary-wings} are highly maneuverable and can p
 
 We discuss the dynamic forces which govern the flight of rotary and fixed-wing aerial robots in \fref{cp:gd}{Chapter}.
 
-Common instances of lighter-than-air aerial robots\findex{lighter-than-air aerial robots} are blimps\findex{blimps} (or non-rigid airships). They usually rely on a gas--such as helium enclosed in a protected envelope--to generate the lifting force~\citep{fui2017recent}. They are similar to balloons but provide basic maneuverability whereas in a balloon only the altitude can be controlled~\citep{colombatti2011lighter}.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=.7\textwidth]{pictures/IMG_2612}
+  \caption[Skye, an omnidirectional spherical blimp]{Skye, an omnidirectional spherical blimp developed by ETH Zurich. The prototype integrates a camera system and combines the energy efficient flight of a blimp with the characteristics of a quadrocopter; it was used for entertainment purposes {\scriptsize(photo credit: ETH Zurich)}.}   
+  \label{fig:skye-blimp}
+\end{figure}
+
+Common instances of lighter-than-air aerial robots\findex{lighter-than-air aerial robots} are blimps\findex{blimps} (or non-rigid airships). They usually rely on a gas--such as helium enclosed in a protected envelope~\citep{burri2013design}--to generate the lifting force~\citep{fui2017recent}. An omnidirectional spherical blimp is shown in \fref{fig:skye-blimp}{Figure}. Blimps are similar to balloons but provide basic maneuverability whereas in a balloon only the altitude can be controlled~\citep{colombatti2011lighter}.
 
 Some other classifications found in aerial robotics literature often rely on size and maneuverability and include micro aerial vehicles (MAVs)\findex{micro aerial vehicles}. These are aerial robots with all dimensions lower than 15 cm. Vertical take-off and landing (VTOLs)\findex{vertical take-off and landing} are aerial robots flying in a fixed-wing configuration except if taking-off and landing where they use thrust from rotors rather than lift from wings. 
 
-While rotary-wings are the most maneuverable, less-than-air aerial robots are the least. These, however, have the highest endurance followed by fixed-wing aerial-robots. Flapping-wings and mixed configurations, such as VTOLs, fall into the intersection of rotary and fixed-wings for what concerns maneuverability and endurance~\citep{siciliano2016springer}. The energy requirements are critical for all aerial robots, but the ratio of motion against computation energy varies greatly. The energy--inversely proportional to endurance--is highest in rotary-wings, and lowest in lighten-than-air aerial robots.
+While rotary-wings are the most maneuverable, less-than-air aerial robots are the least. These, however, have the highest endurance followed by fixed-wing aerial-robots. Flapping-wings and mixed configurations, such as VTOLs, fall into the intersection of rotary and fixed-wings for what concerns maneuverability and endurance~\citep{siciliano2016springer}. The energy requirements are critical for all aerial robots, but the difference of motion and computation energy (\Gls{acr:mace}) varies greatly. The energy--inversely proportional to endurance--is highest in rotary-wings and lowest in lighten-than-air aerial robots. The energy planning approach accounts for both power-saving task scheduling and energy-efficient path planning    the fixed-wings robots while accounting almost exclusively for energy-efficient path planning for rotary-wing aerial robots. In the former \Gls{acr:mace} is close to zero, in the latter is usually high except in energy optimized designs such as some rotary-wing MAVs. Hypothetically, in lighter-than-air aerial robots, \Gls{acr:mace} might be negative; the energy planning approach would rely heavily on power-saving task scheduling.
 
-
-
-
-
-
-
-
-
-
-
-
-
----
 
 \section{Motivation}
 
-Many scenarios involving unmanned aerial vehicles (UAVs), such as precision agriculture, search and rescue, and surveillance, require high autonomy but have limited energy budgets. A typical example of these scenarios is a UAV following a path and performing some on-board computational tasks. For instance, the UAV might detect ground patterns and notify other ground-based actors with little human interaction. We refer to such computational tasks that can be dynamically replanned and adapted as \emph{computations}. We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) and refer to it as energy-aware dynamic planning. Such planning would find optimal tradeoffs between the path, computations, and energy requirements. Current generic planning solutions for outdoor UAVs do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\citep{daponte2019review} (for instance~\citep{papa} and~\citep{px4}). Such a state of practice has prompted us to propose an \emph{energy-aware dynamic planning algorithm} for UAVs. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing \emph{computational demands} and their relation to energy consumption, path, and autonomy for the UAV planning problem.
+Many applications that involve mobile robots have strict battery limitations. Although this is a common problem to almost any mobile robot, aerial robots are particularly affected. To overcome physical limitations they generally would have to land to recharge or replace the battery~\citep{zamanakos2020energy}. The autonomy of these systems is consequently affected by the available of the power source. 
 
-\section{Objective}
+A typical example of an aerial robotics scenario in this situation is a robot following a path and performing some on-board computational tasks. For instance, the robot might detect ground patterns and notify other ground-based actors with little human interaction in a precision agriculture scenario.
 
+Autonomous mobile robots usually carry energy-demanding heterogeneous computing hardware along a microcontroller used for basic motion. Computing hardware is involved in path planning and enables autonomous functions, opposed to the microcontroller. The latter executes motion primitives by directly interfacing actuators (such as servos for the control surfaces and motors for the thrust of a fixed-wing aerial robot). The former often computer vision and other complex algorithms.
+
+For certain classes of aerial robots with \Gls{acr:mace} close or lower than zero, the autonomy can directly influence the battery state. Indeed many autonomous tasks rely on energy-demanding mobile hardware. It is uncommon to find a ready-to-use solution for planning both the path and scheduling the computations of these systems in an energy-aware fashion (we discuss in detail the state-of-the-art in this regard in \fref{cp:soa}{Chapter}). Planning these two aspects simultaneously would pose an advantage in terms of autonomy by optimizing both the path and computations in function of the battery state of charge (\Gls{acr:soc}). 
+
+Moreover, it is often desirable to reschedule the computations in an energy-aware fashion in-flight phases when the energy needed for motion is different from expected. For instance, a fixed-wing aerial robot might be flying headwinds (with the wind vector parallel and opposite to the direction of motion) and utilizing more energy than planned. It would be of advantage to reschedule the tasks accordingly to save energy needed for motion. During the same flight, the wind direction might suddenly change. The fixed-wing craft, now flying tailwinds, utilizes less energy. It could then potentially increase the level of computations by rescheduling the tasks. In the same flight, the battery might be subject to sudden drops (due to e.g., temperature changes) requiring again replanning by for instance shortening the path. It is clear that planning the path and scheduling the computations simultaneously in this scenario is the most desirable course of action. Yet, this is rarely the case.
+
+\subsection{Motion and computation energy}
+
+In the remainder, we refer to computational tasks that can be scheduled in an energy-aware fashion as \emph{computations}, opposed to the other tasks that have no significant effect on energy consumption. 
+
+\begin{highlight}
+  \begin{defn}[Computations]
+    Computations are computational tasks executed on energy-demanding heterogeneous computing hardware carried by a mobile robot along microcontrollers, sensors, and actuators.
+  \end{defn}
+\end{highlight}
+
+For instance, detecting ground patterns usually involves heterogeneous computing elements (GPUs and/or multiple CPU cores) and consumes a significant amount of energy opposed to the log of the position. Detection is a computation, while a log script is (an energy-inexpensive) task.
+
+We use the computation and motion energy and \Gls{acr:mace} several times in the remained. We thus define these terms formally.
+
+\begin{highlight}
+\begin{defn}[Computation/motion energy, \Gls{acr:mace}]
+  The computation energy $E_s$ is the energy spent by heterogeneous computing hardware while executing a given schedule. 
+  
+  If the system runs $i$ computations, the schedule is $s:=\{s_1,s_2,\dots,s_i\}$ and the resulting energy $E_s(s)$.
+  
+  The motion energy is the remaining $E_m$ energy the mobile robot utilize for the physical motion, for sensing, and for actuating. Computation and motion energy are measured in watts if instantaneous or joules if over a given time interval.
+  
+  The difference of motion and computation energy (\Gls{acr:mace}) is then $E_c-E_m$.
+\end{defn}
+\end{highlight}
+
+\subsection{Objective}
+
+We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) in-flight and refer to it as energy dynamic planning.
+
+Such planning would find optimal tradeoffs between the path, computations, and energy requirements. Current generic planning solutions for aerial robots do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\citep{daponte2019review} (for instance~\citep{papa} and~\citep{px4}). Such a state of practice has prompted us to pursue the presented work that culminates in the formal derivation of an energy-aware dynamic planning algorithm for mobile robots. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing computational demands and their relation to energy consumption, path, and autonomy for the mobile robot planning problem.
+
+---
 
 \section{Outline of the Approach}
 
