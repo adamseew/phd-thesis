@@ -3,7 +3,7 @@
 %                    %
 % State of the Art   %
 %                    %
-\chapter{State of the Art}
+\chapter{\color{red}State of the Art}
 \label{cp:soa}
 
 %\begin{highlight}
@@ -15,7 +15,7 @@
 \lettrine{A}{a}
 
 
-\section{Energy Modeling}
+\section{\color{cyan}Energy Modeling}
 \label{cp:soa:ene-mod}
 
 Marowka developed a power-metrics based analytical model, to exploit the possibility of considerably increasing energy efficiency by choosing an optimal chip configuration, which we extended to evaluate the impact of different architectural design choices on energy efficiency~\citep{marowka2017energy}. Marowka's theoretical contribution shows three processing schemes for heterogeneous computing with a comparison of their respective energy efficiency. Variations in chip configurations are done to investigate the impact on energy, power, and performance. Symmetric processor scheme consists of only a multicore CPU. Asymmetric CPU-GPU processor scheme consists of both CPU and GPU on the hardware side, and of a program running on CPU or GPU, but not on both in the same time interval, on the software side. CPU-GPU simultaneous processing scheme consists of a program running on CPU and GPU simultaneously. Our work extends and starts from Marowka's approach by building an experimental method to the CPU-GPU simultaneous processing scheme.
@@ -33,27 +33,27 @@ To validate our approach and quantify its outcomes, we used the models previousl
 Calore et al. develop an approach for measuring power efficiency for High-Performance Computing or HPC systems~\citep{calore2015energy}. An external board is used to measure the power consumption, while the data are collected from NVIDIA Jetson TK1 board running one benchmark. Our initial analysis presented at HLPGPU 2019 was made using a similar technique~\citep{seewald2019hlpgpu}. A shunt resistor and digital multimeter integrated into the external board was used to evaluate the power efficiency. In this paper we extend our experiments to use internal power monitors and address a broader range of platforms. We now build a proper energy model that reflects the computational behavior of the device under study and shows the energy evolution. An early report on our work has been presented in the TeamPlay project's deliverable D4.3~\citep{teamplay} ``Report on Energy, Timing and Security Modeling of Complex Architectures''.
 
 
-\section{Motion Planning}
+\section{\color{cyan}Motion Planning}
 
 Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have also gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
 
 
-\section{Planning with Dynamics}
+\section{\color{red}Planning with Dynamics}
 
 
-\section{Planning for Autonomous UAVs}
+\section{\color{red}Planning for Autonomous UAVs}
 
-\subsection{Flight controllers}
+\subsection{\color{red}Flight controllers}
 
-\subsection{Energy models in aerial robotics}
+\subsection{\color{red}Energy models in aerial robotics}
 
-\subsection{State estimation in aerial robotics}
+\subsection{\color{red}State estimation in aerial robotics}
 
-\subsection{Optimal control in aerial robotics}
-
-
-\section{Planning Computations with Motion}
+\subsection{\color{red}Optimal control in aerial robotics}
 
 
-\section{Summary}
+\section{\color{red}Planning Computations with Motion}
+
+
+\section{\color{red}Summary}
 

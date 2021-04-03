@@ -85,7 +85,7 @@ Many applications that involve mobile robots have strict battery limitations. Al
 
 A typical example of an aerial robotics scenario in this situation is a robot following a path and performing some on-board computational tasks. For instance, the robot might detect ground patterns and notify other ground-based actors with little human interaction in a precision agriculture scenario.
 
-Autonomous mobile robots usually carry energy-demanding heterogeneous computing hardware along a microcontroller used for basic motion. Computing hardware is involved in path planning and enables autonomous functions, opposed to the microcontroller. The latter executes motion primitives by directly interfacing actuators (such as servos for the control surfaces and motors for the thrust of a fixed-wing aerial robot). The former often computer vision and other complex algorithms.
+Autonomous mobile robots usually carry energy-demanding heterogeneous computing hardware\findex{heterogeneous computing hardware} along a microcontroller\findex{microcontroller} used for basic motion. Computing hardware is involved in path planning and enables autonomous functions, opposed to the microcontroller. The latter executes motion primitives by directly interfacing actuators (such as servos\findex{servo} for the control surfaces\findex{control surface} and motors\findex{motor} for the thrust\findex{thrust} of a fixed-wing aerial robot). The former often computer vision and other complex algorithms.
 
 For certain classes of aerial robots with \Gls{acr:mace} close or lower than zero, the autonomy can directly influence the battery state. Indeed many autonomous tasks rely on energy-demanding mobile hardware. It is uncommon to find a ready-to-use solution for planning both the path and scheduling the computations of these systems in an energy-aware fashion (we discuss in detail the state-of-the-art in this regard in \fref{cp:soa}{Chapter}). Planning these two aspects simultaneously would pose an advantage in terms of autonomy by optimizing both the path and computations in function of the battery state of charge (\Gls{acr:soc}). 
 
@@ -101,7 +101,7 @@ In the remainder, we refer to computational tasks that can be scheduled in an en
   \end{defn}
 \end{highlight}
 
-For instance, detecting ground patterns usually involves heterogeneous computing elements (GPUs and/or multiple CPU cores) and consumes a significant amount of energy opposed to the log of the position. Detection is a computation, while a log script is (an energy-inexpensive) task.
+For instance, detecting ground patterns usually involves heterogeneous computing elements (GPUs\findex{GPU} and/or multiple CPU\findex{CPU} cores) and consumes a significant amount of energy opposed to the log of the position. Detection is a computation, while a log script is (an energy-inexpensive) task.
 
 We use the computation and motion energy and \Gls{acr:mace} several times in the remained. We thus define these terms formally.
 
@@ -110,43 +110,62 @@ We use the computation and motion energy and \Gls{acr:mace} several times in the
   Given a schedule composed of $i$ computations $s:=\{s_1,s_2,\dots,s_i\}$, the computation energy $E_s(s)$ is the energy spent by heterogeneous computing hardware while executing $s$.
   
   The motion energy is the remaining $E_m$ energy the mobile robot utilize for the physical motion, for sensing, and for actuating. 
-  
-  The difference of motion and computation energy (\Gls{acr:mace}) is then $E_s-E_m$.
 \end{defn}
 \end{highlight}
 
 Computation and motion energy are measured in watts if instantaneous or joules if over a given time interval.
 
+\begin{highlight}\findex{difference of motion and computational energy}
+  \begin{defn}[Difference of motion and computation energy \Gls{acr:mace}]
+    The difference of motion and computation energy (\Gls{acr:mace}) is then $E_s-E_m$.
+  \end{defn}
+\end{highlight}
+
 \subsection{Objective}
 
 We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) in-flight and refer to it as energy dynamic planning.
 
-Such planning would find optimal tradeoffs between the path, computations, and energy requirements. Current generic planning solutions for aerial robots do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\citep{daponte2019review} (for instance~\citep{papa} and~\citep{px4}). Such a state of practice has prompted us to pursue the presented work that culminates in the formal derivation of an energy-aware dynamic planning algorithm for mobile robots. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing computational demands and their relation to energy consumption, path, and autonomy for the mobile robot planning problem.
+Such planning would find optimal tradeoffs\findex{tradeoffs} between the path, computations, and energy requirements. Current generic planning solutions for aerial robots do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\citep{daponte2019review} (for instance~\citep{papa} and~\citep{px4}). Such a state of practice has prompted us to pursue the presented work that culminates in the formal derivation of an energy-aware dynamic planning algorithm for mobile robots. The algorithm combines and generalizes some of the past body of knowledge on mobile robot planning problems and addresses the increasing computational demands and their relation to energy consumption, path, and autonomy for the mobile robot planning problem.
 
 
 \section{Outline of the Approach}
 
 Unlike most of the past mobile robots planning literature, the approach in this work plans the path and computations simultaneously. 
 
-\begin{figure}[t]
-  \centering
-  \footnotesize
-  \input{figures/plot1.tikz}
-  \caption[Definition of the path as mathematical function]{Definition of the path as mathematical function $\varphi$. A generic point $p$ in 2D space quantifies the distance $d$ on the $z$ axis.}
-  \label{fig:plot1}
-\end{figure}
-
-To model the path we use multiple mathematical functions. For instance, the path might contain multiple circles and lines. If the path is expressed in 2D and a fixed altitude $h$, the function $\varphi:\mathbb{R}^2\rightarrow\mathbb{R}$ quantifies the distance of a generic point $\mathbf{p}$ in the 2D space from the path. For instance one can define the path line
+To model the path we use multiple mathematical functions $\varphi_1,\varphi_2,\dots$. If the path is expressed in 2D at a fixed altitude $h$, the function $\varphi:\mathbb{R}^2\rightarrow\mathbb{R}$ quantifies the distance of a generic point $\mathbf{p}$ in the 2D space from the path. For instance one can define the path line
 \begin{equation}
-  \varphi(x,y):=ax+by+c
+  \varphi(x,y):=ax+by+c,
 \end{equation}
 where $a,b,c$ are given constants. A generic point $\mathbf{p}:=(x_p,y_p)$ quantifies the distance on the $z$ axis from $ax+by+c=0$. 
 
-The concept is shown in \fref{fig:plot1}{Figure} for $c$ zero and $a,b$ a positive value.
+\begin{figure}[t]
+  \centering
+  \input{figures/plot1.tikz}
+  \caption[Concept of the path and generic point in space]{If we define the path as mathematical function $\varphi$ at a fixed altitude $h$, a generic point $p$ in 2D space quantifies the distance $d$ on the $z$ axis from $h$.}
+  \label{fig:plot1}
+\end{figure}
+
+The concept is shown in \fref{fig:plot1}{Figure} for $c$ zero and $a,b$ two and minus one respectively. A generic point $\mathbf{p}:=(x_{\mathbf{p}},y_{\mathbf{p}})$ intersects the plane 
+\begin{equation}
+  \varphi(x,y):=2y-x,
+\end{equation}
+at $z=\varphi(\mathbf{p})$. The path at a fixed altitude is then $\varphi(x,y)=0$, or more generically $\varphi(x,y)=h$ with $h\in\mathbb{R}$.
+
+We use this concept to model complex paths. For instance, the path might contain multiple circles and lines{\color{red}, as  shown in \dots. The aerial robot travels the path using vector field for guidance (we describe in detail such vector field in \fref{cp:gd}{Chapter}) and switches between the trajectories as soon as it reaches specific triggering points}. 
 
 To model the computations we use \powprof{}, a profiling tool presented in previous work~\citep{seewald2019coarse}. To guide the UAV we use a vector field~\citep{de2017guidance} that converges to the path. The use of vector fields for guidance is widely discussed in the literature~\citep{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}. 
 
-To achieve the energy-aware dynamic planning, we further introduce and formally prove a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\citep{seewald2020mechanical}. Indeed, mobile robots often iterate over a set of tasks and paths. Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. Some collected energy data from the Opterra adapted for precision agriculture (\fref{fig:opterra}{Figure}) along its power spectrum motivates our choice.
+To achieve the energy-aware dynamic planning, we further introduce and formally prove a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\citep{seewald2020mechanical}. Indeed, mobile robots often iterate over a set of tasks and paths. Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. We describe in detail such model in \fref{cp:model}{Chapter}. 
+
+Some collected energy data from the Opterra (\fref{fig:opterra}{Figure}) adapted for precision agriculture along its power spectrum motivates our choice {\color{red}in \dots \fref{}{Figure} and \dots}.
+
+The approach necessitates a user-defined initial plan that is replanned energy wise using the model for future prediction. In the remainder we progressively build an algorithm that inputs a user-specified initial plan, estimates the model, evaluates future energy consumption and eventually  replans the parameters. 
+
+The initial plan consists of different stages. At each stage the mobile robot travels a path and executes some computations. The plan then contains some parameters that allow to alter the path and computations along an energy budget.
+
+The alterations are bounded. There is one path constraint set which bounds the path and multiple computation constraint sets, one per each computation parameter, that bound computations. 
+
+We replans the path and computations with model predictive control (MPC)~\cite{rawlings2017model}. The control is data-driven. Energy sensor data estimates some coefficients of an energy model used to predict future energy consumption in presence of uncertainty. The energy budget is the battery capacity and other battery parameters. These are fixed values that are not replanned by the algorithm. Our goal is to complete the plan with the highest possible parameters configuration as the mobile robot executes the plan and its batteries drain. 
 
 \subsection{Applications}
 
@@ -156,17 +175,60 @@ The plan is structured as follows. Path-wise, the Opterra flies in circles and l
 
 We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery.
 
----
-
 
 \section{Problem Formulation}
 \label{cp:intro:pb}
 
-Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is the set $\{0,1,\dots,a\}$, $[a]^+$ the set $[a]/\{0\}$. Bold lower-case letters indicates vectors. $c_{i,j}$ the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j},\overline{c}_{i,j}$ are the lower and upper bounds of the parameter $c_{i,j}$.
+To formulate the problem and in the remainder of this work we stick to the following mathematical notation. 
+
+Given an integer $x\in\mathbb{Z}_{\geq 0}$, we use the notation $[x]$ for the set $\{0,1,\dots,x\}\subseteq\mathbb{Z}_{\geq 0}$. The notation $[x]_{>0}$ for the set $\{1,2,\dots,x\}\subseteq\mathbb{Z}_{> 0}$ or simply $[x]/\{0\}$ with $x\in\mathbb{Z}_{>0}$. We use bold lower-case letters $\mathbb{x}$ for the vectors.
+
+We use extensively the term parameters. These are variable values that we use to dynamically plan path and computations. $c_{i,j}$ denotes the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound of the parameter $c_{i,j}$, i.e., $\underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}$.
+
+Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters
+\begin{equation}
+    c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\},
+\end{equation}
+and the computations with $\sigma$ computation parameters 
+\begin{equation}
+    c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}.
+\end{equation}
+
+We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computation parameters. We discuss the concrete meaning of the value of path parameters in \fref{cp:model}{Chapter}.
+
+\begin{highlight}  
+  \begin{defn}[Stage]\label{def:mission}
+    The $i$-th \emph{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
+    \begin{equation*}\begin{split}
+      \Gamma_i:=\{\varphi_i(\mathbf{p}(t),c_i^\rho),c_i^\sigma\mid
+      \,&\exists\,\,\mathbf{p}(t),\,\varphi_i(\mathbf{p}(t),c_i^\rho)\in\mathcal{C}_i,\,\\
+        &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathcal{S}_{i,j}\,\},
+    \end{split}\end{equation*}
+    where $\mathcal{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the path constraint set, and $\mathcal{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraint set. 
+    
+    $\mathbf{p}(t)$ is a point of a mobile robot travelling at an altitude $h\in\mathbb{R}_{\geq 0}$ with respect to some inertial navigation frame $\mathcal{O}_W$.
+  \end{defn}
+\end{highlight}
+
+\begin{highlight}  
+  \begin{defn}[Plan]
+    The \emph{plan} is a finite state machine (FSM) $\Gamma$ where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
+    \begin{equation*}s(\Gamma_i,\mathbf{p}_k):=\begin{cases}
+      \Gamma_{i+1} & \text{if }\mathbf{p}_k=\mathbf{p}_{\Gamma_i}\\
+      \Gamma_i & \text{otherwise}
+    \end{cases}.\end{equation*}
+  \end{defn}
+\end{highlight}
+
+\begin{highlight}  
+  \begin{defn}[Triggering, and final point]\label{def:mission}
+    The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
+  \end{defn}
+\end{highlight}
 
 \begin{figure}[h]
   \center
-  \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto]
+  \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto,initial text=\footnotesize\fontfamily{phv}\selectfont{start}]
     \node[state,initial] (q_i) {$\Gamma_1$}; 
     \node        [right=of q_i] (q_dots0) {$\cdots$};
     \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
@@ -188,36 +250,6 @@ Let us adopt the following mathematical notation. Given an integer $a$, $[a]$ is
   \label{fig:state-machine}
 \end{figure}
 
-Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters
-\begin{equation}
-    c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\},
-\end{equation}
-and the computations with $\sigma$ computation parameters 
-\begin{equation}
-    c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}.
-\end{equation}
-
-We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computation parameters. We discuss the concrete meaning of the value of path parameters in \fref{cp:model}{Chapter}.
-
-\begin{highlight}  
-  \begin{defn}[Stage, plan, triggering, and final point]\label{def:mission}
-    The $i$-th \emph{stage} $\Gamma_i$ at time instant $k$ of a plan $\Gamma$ is defined
-    \begin{equation*}\begin{split}
-      \Gamma_i:=\{\varphi_i(\mathbf{p}_k,c_i^\rho),c_i^\sigma\mid
-      \,&\exists\,\,\mathbf{p}_k,\,\varphi_i(\mathbf{p}_k,c_i^\rho)\in\mathcal{C}_i,\,\\
-        &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathcal{S}_{i,j}\,\},
-    \end{split}\end{equation*}
-    where $\mathcal{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the path constraint set, and $\mathcal{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraint set. $\mathbf{p}_k$ is a point of a UAV flying at an altitude $h\in\mathbb{R}_{>0}$ w.r.t. some inertial navigation frame $\mathcal{O}_W$.
-  
-    The \emph{plan} is a finite state machine (FSM) $\Gamma$ where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
-    \begin{equation*}s(\Gamma_i,\mathbf{p}_k):=\begin{cases}
-      \Gamma_{i+1} & \text{if }\mathbf{p}_k=\mathbf{p}_{\Gamma_i}\\
-      \Gamma_i & \text{otherwise}
-    \end{cases}.\end{equation*}
-    The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
-  \end{defn}
-\end{highlight}
-
 \begin{figure}[t]
     \centering
     \input{figures/traj1.tikz}
@@ -231,11 +263,11 @@ In \fref{fig:traj1}{Figure}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ 
 
 In \fref{fig:traj1}{Figure}, $\mathbf{p}_{\Gamma_1}$ allows the transition between $\Gamma_1$ and $\Gamma_2$, $\mathbf{p}_{\Gamma_4}$ between $\Gamma_4$ and $\Gamma_5$, and $\mathbf{p}_{\Gamma_5}$ between $\Gamma_5$ and $\Gamma_6$.
 
-A slice of the plan in \fref{fig:state-machine}{Figure} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The UAV remains in the stage with any generic point $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the UAV has completed the plan).
+A slice of the plan in \fref{fig:state-machine}{Figure} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
 
 \begin{figure}[h]
   \center
-  \begin{tikzpicture}[shorten >=1pt,node distance=27ex,on grid,auto] 
+  \begin{tikzpicture}[shorten >=1pt,node distance=27ex,on grid,auto]
     \node        (q_dots0) {$\cdots$};
     \node[state] (q_0) [right=of q_dots0] {$\Gamma_i$};
     \node        (q_dots1) [right=of q_0] {$\cdots$};   
@@ -273,10 +305,10 @@ The algorithm measures the time between the paths and assumes the initial period
 One can define the plan using primitive paths or define all the stages explicitly and find $n$ searching the value which satisfies the \frefeq{eq:primitive}. If there is no such value, (e.g., when the plan is composed of only one stage), the period $T$ from \fref{def:period}{Definition} can be determined empirically from energy data.
 
 \begin{highlight}
-\begin{pb}[UAV planning problem]\label{pb}
-  Consider an initial plan $\Gamma$ from \fref{def:mission}{Definition}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and energy constraints and in the guidance of the UAV to the path resulting from such plan.
+\begin{pb}[Aerila robot planning problem]\label{pb}
+  Consider an initial plan $\Gamma$ from \fref{def:mission}{Definition}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and energy constraints and in the guidance of the aerial robot to the path resulting from such plan.
 \end{pb}    
 \end{highlight}
 
-\section{Structure}
+\section{\color{red}Structure}
 
