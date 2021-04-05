@@ -186,11 +186,11 @@ Given an integer $x\in\mathbb{Z}_{\geq 0}$, we use the notation $[x]$ for the se
 We use extensively the term parameters. These are variable values that we use to dynamically plan path and computations. $c_{i,j}$ denotes the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound of the parameter $c_{i,j}$, i.e., $\underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}$.
 
 Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters
-\begin{equation}
+\begin{equation}\label{eq:path-params}
     c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\},
 \end{equation}
 and the computations with $\sigma$ computation parameters 
-\begin{equation}
+\begin{equation}\label{eq:comp-params}
     c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}.
 \end{equation}
 

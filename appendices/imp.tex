@@ -9,7 +9,40 @@
 \lettrine{A}{a}
 
 
-\section{\color{red}Energy Models}
+\section{\color{cyan}Energy Models}
+
+To build the model in \matlab one can use the function \stt{build\_model} from \fref{lst:build_model}{Listing}.
+
+\begin{lstlisting}[language=Matlab,caption={Function \stt{build\_model} that creates the energy model.},captionpos=b,label=lst:build_model]
+function [A,B,C] = build_model(dat)
+    
+    m = 2*dat.r+1;
+    
+    Aj = @(omega,j) [0 omega*j;-omega*j 0];
+    A  = zeros(m);
+    A(1,1) = 0;
+
+    B = [zeros(1,dat.rho) ones(1,dat.sigma)];
+        
+    C = [1];
+    
+    for i = 1:dat.r
+        A(2*i:2*i+1,2*i:2*i+1) = Aj(dat.omega,i); 
+        C = [C 1 0];
+        B = [B;zeros(1,dat.rho+dat.sigma)];
+    end
+    
+end
+\end{lstlisting}
+
+The function builds the matrices $A$, $B$, and $C$ from \frefeq{eq:state-perf}, and requires the structure \stt{dat} illustrated in \fref{lst:struct_dat}{Listing}. The structure contains some information about the model. In particular, \stt{r} is the order $r$ of the model from \fref{cp:model:periodic:diff-model}{Subsection}, \stt{omega} is the angular frequency $\omega$, \stt{rho} the number of path parameters to alter the path $\rho$, and \stt{sigma} the number of computation parameters to alter the computations $\sigma$. The path parameters are defined in \frefeq{eq:path-params}, and the computation parameters are defined in \frefeq{eq:comp-params}.
+
+\begin{lstlisting}[language=Matlab,caption={Struct \stt{dat} used by function \stt{build\_model} to build the model.},captionpos=b,label=lst:struct_dat]
+dat.r = 3;
+dat.omega = 2*pi/period;
+dat.rho = 1;
+dat.sigma = 1;
+\end{lstlisting}
 
 
 \section{\color{red}State Estimation}

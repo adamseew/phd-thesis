@@ -253,9 +253,41 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 \newcommand{\stt}[1]{{\small\tt #1}} % \small\tt as tt is too big with the provided proof
 \newcommand{\powprof}{\stt{powprofiler}}
 
+\newcommand{\matlab}{\MakeUppercase{Matlab}(R) }
+
 \usepackage{diagbox}
 
 \setlength\bibitemsep{1.5\itemsep} % more space to biblio
 
 \usepackage[toc]{appendix}
+
+\usepackage{listings} % code 
+\definecolor{dgreen}{RGB}{34,139,34}
+\definecolor{dlilas}{RGB}{75,0,130}
+\definecolor{dred}{RGB}{139,69,19}
+
+
+
+\renewcommand{\lstlistingname}{\color{foo}\fontfamily{phv}\selectfont Listing}
+\captionsetup[lstlisting]{labelsep=period,font=captionff}
+\AtBeginDocument{%
+\lstset{language=Matlab,%
+  %basicstyle=\color{red},
+  breaklines=true,%
+  morekeywords={matlab2tikz},
+  keywordstyle=\color{foo},%
+  morekeywords=[2]{1}, keywordstyle=[2]{\color{foo}},
+  identifierstyle=\color{black},%
+  stringstyle=\color{dlilas},
+  commentstyle=\color{dgreen},%
+  showstringspaces=false,%without this there will be a symbol in the  places where there is a space
+  numbers=left,%
+  numberstyle={\fontfamily{phv}\selectfont\scriptsize\color{gray}},%  size of the numbers
+  numbersep=1ex, % this defines how far the numbers are from the text
+  emph=[1]{for,end,break},
+  emphstyle=[1]\color{foo}, %some words to emphasise
+  emph=[2]{ones}, emphstyle=[2]{\color{foo}},
+  basicstyle=\footnotesize\ttfamily,breaklines=true,
+  numberblanklines=false,
+}}
 
