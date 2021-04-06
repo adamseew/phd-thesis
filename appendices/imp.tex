@@ -69,17 +69,17 @@ function [q,y] = evolve_model_euler(model,dat,init)
     q = q0;
     y = C*q0;
     
-    u0 = init.u0;
-    u1 = model.u(init.c_chain(1));
+    est_u0 = init.est_u0;
+    est_u1 = model.est_u(init.c_chain(1));
 
     i = 2;
     
     for init.t0+dat.delta_T:dat.delta_T:init.tf
-        q0 = Ad*q0+model.B*model.est_u(u1,u0);
-        u0 = u1;
+        q0 = Ad*q0+model.B*model.u(est_u1,est_u0);
+        est_u0 = est_u1;
         
         if i <= size(init.c_chain,2)
-            eu1 = model.u(init.c_chain(i));
+            est_u1 = model.est_u(init.c_chain(i));
             i = i+1;
         end
 
@@ -95,10 +95,11 @@ The function \stt{evolve\_model\_euler} in \fref{lst:euler}{Listing} evolve the 
 init.t0 = 0;
 init.tf = 60;
 init.q0 = q0;
+init.est_u0 = est_u0;
 init.c_chain = c_chain;
 \end{lstlisting}
 
-In \fref{lst:init}{Listing}, the field \stt{t0} indicates the initial time $t_0$ (the mathematical simulation starts at $t_0+\Delta t$ assuming the instant $t_0$ corresponds to the state $\mathbf{q}(t_0)$). The field \stt{tf} indicates the final time $t_f$ when the simulation stops. Both fields are expressed in seconds. The field \stt{q0} indicates the initial state guess at time instant $t_0$, $\mathbf{q}(t_0)$, and finally \stt{c\_chain} the sequence of controls. If we assume that the simulation horizon is $N:=t_f-t_0$ with $(t_f-t_0)\in\mathbb{R}_{>0}$, then the user is expected to provide $N-1$ controls. 
+In \fref{lst:init}{Listing}, the field \stt{t0} indicates the initial time $t_0$ (the mathematical simulation starts at $t_0+\Delta t$ assuming the instant $t_0$ corresponds to the state $\mathbf{q}(t_0)$). The field \stt{tf} indicates the final time $t_f$ when the simulation stops. Both fields are expressed in seconds. The field \stt{q0} indicates the initial state guess at time instant $t_0$, $\mathbf{q}(t_0)$, and finally \stt{c\_chain} the sequence of controls. If we assume that the simulation horizon is $N:=t_f-t_0$ with $(t_f-t_0)\in\mathbb{R}_{>0}$, then the user is expected to provide $N-1$ controls. Finally, the field \stt{est\_u0} contains the control energy estimate at time $t_0$, the value $\hat{\mathbf{u}}(t_{-1})$. If $t_0$ is the initial time step, then \stt{est\_u0} is set to zero.  
 
 \begin{lstlisting}[language=Matlab,caption={Runge-Kutta fourth order method for numerical integration of the model.},captionpos=b,label=lst:rk4]
 % TODO
@@ -167,15 +168,170 @@ c_chain = [c_chain;min_c2*ones(1,N-1)];
 
 \section{\color{red}State Estimation}
 
-\subsection{\color{red}Estimation of the period}
+\subsection{\color{cyan}Estimation of the period}
 \label{sec:imp_period_est}
 
-\subsection{\color{red}Estimation of the state}
+\begin{lstlisting}[language=Matlab,caption={[Estimation of the period]Estimation of the period.},captionpos=b,label=lst:period_est]
+% iterating trajectories in the plan to get the constant n (to measure the period)    
+d = [];
+p = [0; 0];
+n = 0;
+    
+for traj = transpose(path) % per each trajectory
+            
+    traj = split(traj,';');
+    traj = str2sym(traj(3));
+        
+    x = p(1);
+    y = p(1);
+    di = double(subs(traj));
+    x = p(1)-sp(1);
+    y = p(2)-sp(2);
+        
+    if ismember(double(subs(traj)),d)
+        break;
+    else
+        d = [d di];
+    end
+        
+    n = n+1;
+end
+    
+fprintf('n is %d\n', n);
+\end{lstlisting}
 
-\section{\color{red}Guidance}
+\subsection{\color{cyan}Estimation of the state}
+
+\begin{lstlisting}[language=Matlab,caption={[Estimation of the state using Kalman filter]Estimation of the state using Kalman filter.},captionpos=b,label=lst:state_est_kf]
+minus_q1 = Ad*q0+B*est_u();
+
+minus_P1 = Ad*P0*Ad.'+Q;
+
+K1 = (minus_P1*C.')*(C*minus_P1*C.'+R)^-1;
+q1 = minus_q1+K1*(pow(end)-C*minus_q1);
+P1 = (eye(size(q0,1))+K1*C)*minus_P1;
+
+q0 = q1;        
+P0 = P1;
+            
+y = [y;C*q1];    
+q = [q q0];
+\end{lstlisting}
 
 
-\section{\color{red}Optimal Control Generation}
+\section{\color{cyan}Guidance}
+
+
+\begin{lstlisting}[language=Matlab,caption={[Guidance vector field]Guidance vector field.},captionpos=b,label=lst:gvf_fun]
+function [u_theta] = gvf_control_2D(p,dot_p,ke,kd,path,grad,hess,dir)
+    
+    if (nargin(path) > 1) % function handle has two arguments (circle)
+        e = path(p(:,1),p(:,2));    
+        n = grad(p(:,1),p(:,2));
+    else % one argument (line)
+        e = path(p(:,1));    
+        n = grad();
+    end
+        
+    H = hess();
+    E = [0 -1;1 0];
+    tau = dir*E*n;
+    
+    dot_pd = tau-ke*e*n; % (7)
+    ddot_pd = (E-ke*e*eye(2))*H*dot_p-ke*n'*dot_p*n; % (10)
+    ddot_pdhat = -E*(dot_pd*dot_pd')*E*ddot_pd/norm(dot_pd)^3; % (9)
+    
+    dot_Xid = ddot_pdhat'*E*dot_pd/norm(dot_pd); % (13)
+    
+    u_theta = dot_Xid+kd*dot_p'*E*dot_pd/(norm(dot_p)*norm(dot_pd)); % (16)
+end
+\end{lstlisting}
+
+\begin{lstlisting}[language=Matlab,caption={[Call to the guidance function and dynamics evolution]Call to the guidance function and dynamics evolution.},captionpos=b,label=lst:gvf_call]
+u_theta = gvf_control_2D(log_p(:,end).',pdot,ke,kd,path,grad,hess,dir);
+        
+th_delta = kp*(hd-h)-kvv*vv;
+wbx = dot(w,[cos(theta),sin(theta)]);
+vs = cth*(th_nominal+th_delta)+wbx;
+L = cl*vs*vs;
+av = 1/m*(L-W);
+
+vv = vv+av*delta_T;
+h = h+vv*delta_T;
+
+% Horizontal unicycle model
+sh = cth*(th_nominal+th_delta);
+pdot = sh*[cos(theta);sin(theta)]+w;
+
+p = p+pdot*delta_T;
+theta = theta+u_theta*delta_T;  
+theta = wrapToPi(theta); % normalizing between -pi and pi
+\end{lstlisting}
+
+\section{\color{cyan}Optimal Control Generation}
 \label{sec:imp_opt}
 
+\begin{lstlisting}[language=Matlab,caption={[Model predictive control]Model predictive control.},captionpos=b,label=lst:mpc]
+function [c_chain q_chain] = mpc(min_c1,max_c1,min_c2,max_c2,c1,c2,N,eu,b0,b,qc,int_v,q0,Ad,B,C,u,est_u,k,delta_T,r)
+    import casadi.* % import casadi for optimal control
 
+    interval = k+delta_T:delta_T:k+N; % no k+1 in the formula as we add the 
+    % initial condition implicitly
+    hh = length(interval);
+
+    opti = casadi.Opti(); % define opt problem
+    Q = opti.variable(2*r+1,N);
+    U = opti.variable(2,N-1);
+    L = opti.variable(1,N);
+    log_Q = opti.variable(2*r+1,hh);
+    log_b = opti.variable(1,hh);
+
+    opti.set_initial(Q(:,1),q0);
+
+    opti.subject_to(C*Q(:,1)-b0*qc*int_v <= 0);
+    opti.subject_to(U(1,:) == c1);
+    opti.subject_to(min_c2 <= U(2,:) <= max_c2);
+    opti.subject_to(min_c1 <= U(1,:) <= max_c1);
+
+    eeu = eu; % control estimate (from model)
+    eeeu =  est_u(c1,c2);
+
+    jjj = 1;
+    dQ = q0; % initial state
+    log_Q(:,1) = dQ; 
+    
+    for jj=1:hh-1
+        dQ = Ad*dQ+B*u(eeeu,eeu);
+        eeu = eeeu;
+        b0 = b0+delta_T*b(C*dQ); % battery dynamics
+
+        log_Q(:,jj+1) = dQ;
+        log_b(jj+1) = b0; 
+
+        if mod(jj,1/delta_T) == 0 % every sum in the MPC
+            L(jjj) = C*dQ;
+
+            if (jjj < N)                
+                eeeu = est_u(U(1,jjj),U(2,jjj));
+            end
+
+            opti.subject_to(Q(:,jjj+1)-dQ == 0); % dynamics const
+            opti.subject_to(C*Q(:,jjj+1)-b0*qc*int_v <= 0); % battery const
+
+            jjj = jjj+1;
+        end             
+    end
+
+    opti.minimize(-sum(L.^2));
+    opti.solver('ipopt');
+
+    try
+        sol = opti.solve();
+        c_chain = sol.value(U); % optimal control u on N
+    catch
+        c_chain = [ones(1,N-1)*min_c1;ones(1,N-1)*min_c2]; % there is no control which sattisfies consts
+    end            
+
+    q_chain = opti.debug.value(Q);
+end
+\end{lstlisting}
