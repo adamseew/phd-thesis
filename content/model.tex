@@ -323,7 +323,7 @@ The state $\mathbf{q}(t)$ contains the energy coefficients
   \end{array}\right]^T,\\
 \end{equation}
 where $\mathbf{q}(t)\in\mathbb{R}^m$ with $m=2r+1$. The state transition matrix
-\begin{equation}
+\begin{equation}\label{eq:mat_A}
   A=\left[\begin{array}{ccccc}
     0            & 0^{1\times 2}& 0^{1\times 2}& \dots& 0^{1\times 2} \\
     0^{2\times 1}& A_1          & 0^{2\times 2}& \dots& 0^{2\times 2} \\
@@ -337,7 +337,7 @@ where $A\in\mathbb{R}^{m\times m}$. In matrix $A$, the top left entry is zero, t
   A_j:=\begin{bmatrix}0 & \omega j \\ -\omega j & 0\end{bmatrix},
 \end{equation}
 The output matrix
-\begin{equation}
+\begin{equation}\label{eq:mat_C}
   C=(1/T)\left[\begin{array}{cccccc}
     1 & 1 & 0 &\cdots & 1 & 0
   \end{array}\right],
@@ -496,6 +496,10 @@ We thus conclude that the signal and the output are equal, hence the lemma holds
 \end{proof}
 
 We note for practical reasons that the signal would still be periodic with another linear combination of coefficients. For instance, 
+\begin{equation}\label{eq:mat_C_generic}
+  C:=d\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix},
+\end{equation} 
+equivalent to
 \begin{equation}
   C:=d\begin{bmatrix}1 & 0 & 1 & \cdots & 0 & 1\end{bmatrix},
 \end{equation} 
@@ -531,12 +535,12 @@ The nominal control is
   \mathbf{u}(t):=\hat{\mathbf{u}}(t)-\hat{\mathbf{u}}(t-1),
 \end{equation}
 where $\hat{\mathbf{u}}(t)$ is defined as the energy estimate of a given control sequence at time instant $t$, $\hat{\mathbf{u}}(t-1)$ at the previous time instant $t-1$
-\begin{equation}
+\begin{equation}\label{eq:estimate-control}
   \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)\mathbf{c}_i(t)+\tau_i.
 \end{equation}
 
 The input matrix is then
-\begin{equation}
+\begin{equation}\label{eq:mat_B}
   B=\begin{bmatrix} 
     0^{1\times\rho} & 1      & \cdots & 1      \\
     0^{1\times\rho} & 0      & \cdots & 0      \\ 
@@ -546,7 +550,7 @@ The input matrix is then
 where $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the first $\rho$ columns are still zeros and the remaining $\sigma$ are ones. 
 
 $\hat{\mathbf{u}}(t)$ is a stage-dependent scale transformation with 
-\begin{subequations}\begin{align}
+\begin{subequations}\label{eq:scaling}\begin{align}
 \nu_i&=\begin{bmatrix}\nu_i^\rho & \nu_i^\sigma\end{bmatrix}^T,\\ 
 \tau_i&=\begin{bmatrix}\tau_i^\rho & \tau_i^\sigma\end{bmatrix}^T,
 \end{align}\end{subequations}
@@ -613,10 +617,10 @@ $k_e\in\mathbb{R}_{\geq 0}$ is the gain to adjusts the speed of convergence. The
 The scaling factors for the path parameters from \frefeq{eq:state-control} are derived empirically. For the example in \fref{fig:tee1}{Figure}, we can obtain the scaling factor $\nu_{1,1}$ measuring the time needed to compute the path with the lowest configuration $\underline{c}_1$, $\underline{t}$ and the highest $\overline{t}$. 
 
 The variation of the control hence results in an approximate measure of the plans' time variation with factors
-\begin{equation}\label{eq:scale-traj}\begin{split}
+\begin{subequations}\label{eq:scale-traj}\begin{align}
   \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
   \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
-\end{split}\end{equation} 
+\end{align}\end{subequations} 
 
 $\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
 
@@ -630,10 +634,16 @@ The computations are implemented by software components, e.g., Robot Operating S
 
 We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
 
-Let us define $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the tool.
+Let us define the output from \powprof{} formally.
+
+\begin{highlight}
+\begin{defn}[Instantaneous computational energy]\label{def:comp-ener}
+  $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the \powprof{} tool.  
+\end{defn}
+\end{highlight}
 
 The scaling factors add the computational energy component to the model in \frefeq{eq:state-perf}. They are derived similarly to \frefeq{eq:scale-traj}
-\begin{subequations}\begin{align}
+\begin{subequations}\label{eq:scale-comp}\begin{align}
   \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
   \tau_{i,j}&=\underline{c}_{i,j}(g(\underline{c}_{i,j})-g(\overline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+g(\underline{c}_{i,j}),
 \end{align}\end{subequations}
