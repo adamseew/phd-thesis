@@ -10,7 +10,7 @@
 	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#FFAA00" stroke-opacity="1" x1="139.904" y1="221.465" x2="147.623" y2="213.487"/>
 	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="99.6097" y1="215.319" x2="377.125" y2="258.855"/>
 	<path fill="#FFC800" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round" d="M 163.752,67.1159L 158.788,69.0661L 158.554,68.4704L 163.518,66.5202L 163.752,67.1159 Z M 153.824,71.0164L 148.86,72.9667L 148.626,72.3709L 153.59,70.4207L 153.824,71.0164 Z M 143.896,74.9168L 138.932,76.867L 138.698,76.2713L 143.662,74.3211L 143.896,74.9168 Z M 133.968,78.8173L 129.004,80.7676L 128.77,80.1719L 133.734,78.2216L 133.968,78.8173 Z M 124.04,82.7178L 119.076,84.6679L 118.842,84.0722L 123.806,82.122L 124.04,82.7178 Z M 114.112,86.6182L 109.148,88.5685L 108.914,87.9728L 113.878,86.0225L 114.112,86.6182 Z M 104.184,90.5187L 99.9651,92.1761L 99.7311,91.5804L 103.95,89.923L 104.184,90.5187 Z M 173.68,63.2155L 168.716,65.1657L 168.482,64.57L 173.446,62.6198L 173.68,63.2155 Z "/>
-	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="99.6194" y1="255.835" x2="99.6701" y2="45.2765"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#FF0000" stroke-opacity="1" x1="99.629" y1="215.746" x2="99.6701" y2="45.2765"/>
 	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 97.4234,50.0749L 99.6963,48.0699L 101.78,50.0657L 99.5939,44.2973L 97.4234,50.0749 Z "/>
 	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 372.784,255.634L 374.297,258.261L 371.926,259.905L 378.014,258.911L 372.784,255.634 Z "/>
 	<path fill="#989898" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" d="M 191.996,115.118L 195.025,115.041L 195.341,117.909L 197.37,112.083L 191.996,115.118 Z "/>
@@ -59,4 +59,5 @@
 	<text transform="matrix(0.9999999403953552 0.0000000000000000 0.0000000000000000 0.9999999403953552 187.00 186.00)" xml:space="preserve">
 		<tspan style=" font-family:Arial; font-size:11.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">(xp,yp,0)</tspan>
 	</text>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#FF0000" stroke-opacity="1" x1="99.6154" y1="255.818" x2="99.6251" y2="215.729"/>
 </svg>

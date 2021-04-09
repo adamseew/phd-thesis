@@ -41,7 +41,7 @@
 
 
 
-\path[draw=black,line join=round,line width=0.512pt] (99.6194,255.8350) -- (99.6701,45.2765);
+\path[draw=black,line join=round,line width=0.512pt] (99.6290,215.7460) -- (99.6701,45.2765);
 
 
 
@@ -148,6 +148,7 @@
 \path[cm={{1.0,0.0,0.0,1.0,(187.0,186.0)}}] (0.0000,0.0000) node[above right] () {$(x_\mathbf{p},y_\mathbf{p},0)$};
 
 
+\path[draw=c989898,line join=round,line width=0.512pt] (99.6154,255.8180) -- (99.6251,215.7290);
 
 
 \end{tikzpicture}
