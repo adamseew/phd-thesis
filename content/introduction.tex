@@ -181,19 +181,20 @@ We replan the path and computations with model predictive control (MPC)~\cite{ra
 
 \subsection{Applications}
 
-In the spirit of reducing costs and resources, we showcase the approach using dynamic planning of the Opterra for a precision agriculture use case. Precision agriculture is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and aerial robots for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. 
+The dynamic energy planning in this work applies mostly to modern aerial robots with a certain degree of autonomy in the sense that the aerial robot is assumed to perform a predefined set of tasks over a given space. Although most of the guidance in \fref{cp:gd}{Chapter} is specifically meant for aerial robots, the approach can be easily adapted to other energy-constrained mobile robots. For instance, we have applied the approach to the space robotics context~\citep{seewald2020beyond}. We discuss this further in \fref{cp:conc}{Chapter}.
 
-The plan is structured as follows. Path-wise, the Opterra flies in circles and lines covering a polygon. Computation-wise, it detects hazards using a neural network and notifies grounded mobile robots employed for, e.g., harvesting. The approach alters the plan; it controls the processing rate and the radius of the circles affecting the distance between the lines. 
+We specifically focus and show the performance on a search and rescue and precision agriculture scenario implemented with aerial robots. In fact, precision agriculture is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and aerial robots for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. 
+
+In the search and rescue scenario, the aerial robot performs autonomous detections of patterns over the sea. In this scenario, we mostly focus on the validation of the computation energy model (described in detail in \fref{}{}).
+
+In the precision agriculture scenario, the aerial robot covers a given agricultural field (a polygon) and search for ground hazards. The plan is structured as follows. Path-wise, the Opterra fixed-wing drone from \fref{fig:opterra}{Figure} flies in circles and lines covering the polygon. Computation-wise, it detects hazards using a neural network and notifies grounded mobile robots employed for, e.g., harvesting. The approach alters the plan; it controls the processing rate and the radius of the circles affecting the distance between the lines. 
 
 We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery.
-
-We have further investigated the validity of the algorithm on other energy-critical mobile robots, by, for instance, applying the approach to the space robotics context~\citep{seewald2020beyond}.
-
 
 \section{Problem Formulation}
 \label{sec:pb-form}
 
-To formulate the mobile robot planning problem we adopt to the following mathematical notation. 
+To formulate the mobile robot planning problem we adopt to the following mathematical notation. We apply later the formulation to both the search and rescue and the precision agriculture scenario.
 
 Given an integer $x\in\mathbb{Z}_{\geq 0}$, we use the notation $[x]$ for the set $\{0,1,\dots,x\}\subseteq\mathbb{Z}_{\geq 0}$. The notation $[x]_{>0}$ for the set $\{1,2,\dots,x\}\subseteq\mathbb{Z}_{> 0}$ or simply $[x]/\{0\}$ with $x\in\mathbb{Z}_{>0}$. We use bold lower-case letters $\mathbb{x}$ for the vectors.
 
