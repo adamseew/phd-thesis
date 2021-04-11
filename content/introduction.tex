@@ -200,7 +200,7 @@ To specify an integer-valued set, we relay on the following mathematical notatio
 
 Bold lower-case letters such as $\mathbf{x}$ denote vectors. Upper-case letters such as $X$ matrices.
 
-Parameters are variable values than might be either reals $\mathbb{R}$ or integers $\mathbb{Z}$. We use such values to dynamically plan path and computations. $c_{i,j}$ denotes the $j$-th parameter of the $i$-th parameters set $c_i$
+Parameters are variable values that might be either reals $\mathbb{R}$ or integers $\mathbb{Z}$. We use such values to dynamically plan the path and computations. $c_{i,j}$ denotes the $j$-th parameter of the $i$-th parameters set $c_i$
 \begin{equation}
   c_i=\{c_{i,1},c_{i,2},\dots,c_{i,j},\dots,c_{i,l}\},
 \end{equation}
@@ -211,7 +211,7 @@ Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the paramete
   \underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}.
 \end{equation}
 
-We assume there are $\rho$ path-specific parameters, and $\sigma$ computation specific parameters. This means that the path at stage $i$ can be replanned with $\rho$ path parameters
+We assume there are $\rho$ path-specific parameters and $\sigma$ computation-specific parameters. This means that the path at stage $i$ can be replanned with $\rho$ path parameters
 \begin{equation}\label{eq:path-params}
     c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\},
 \end{equation}
@@ -220,9 +220,9 @@ while the computations (i.e., the energy-demanding computational task executed o
     c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}.
 \end{equation}
 
-We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The concept is analogous to the path with no parameters from \frefeq{eq:basic-path}, but here we use the parameters to alter the path and thus alter the overall energy consumption. We express the computations as the value of the computation parameters. These are also employed for the purpose of energy alteration bu e.g., decreasing the granularity of a given computation and thus lowering instantaneous energy consumption We discuss the alteration of the energy with path parameters and computation parameters further in \fref{sec:nom-cont}{Subsection} and \fref{sec:merging}{Subsection}.
+We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The concept is similar to the path with no parameters from \frefeq{eq:basic-path}; here the parameters are used to alter the path and thus change the energy consumption. We express the computations as the value of the computation parameters. These are also employed for the purpose of energy alteration bu e.g., decreasing the granularity of a given computation and thus lowering instantaneous energy consumption. We discuss the alteration of the energy with path parameters and computation parameters further in \fref{sec:nom-cont}{Subsection} and \fref{sec:merging}{Subsection}.
 
-We assume that at each stage the mobile robot executes some computations and travels a path. We formally define the stage in \fref{def:stage}{Definition}.
+We assume that at each stage, the mobile robot executes some computations and travels a path. We formally define the stage in \fref{def:stage}{Definition}.
 
 \begin{highlight}  
   \begin{defn}[Stage]\label{def:stage}
@@ -253,7 +253,7 @@ We can merge the computation constraint sets and the path constraint set in a si
   \end{defn}
 \end{highlight}
 
-To move from a given stage $i$ to the next stage $i+1$, we define specific points. As soon as the mobile robot reaches the proximity if these points in switches to the next stage.
+To move from a given stage $\Gamma_i$ to the next stage $\Gamma_{i+1}$, we define some specific points. As soon as the mobile robot reaches the proximity of these points, it switches to the next stage.
 
 \begin{highlight}  
   \begin{defn}[Triggering, and final point]\label{def:trigs}
@@ -299,7 +299,7 @@ We show the definition of plan, stage, trigerring, and final point visually with
   \label{fig:state-machine}
 \end{figure}
 
-\fref{fig:state-machine}{Figure} illustrates the definition of plan. It shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
+\fref{fig:state-machine}{Figure} illustrates the definition of plan. It shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
 
 \begin{figure}[h]
   \center
@@ -357,7 +357,7 @@ One can define the plan using primitive paths or define all the stages explicitl
 \begin{pb}[Mobile robot planning problem]\label{pb}
   Consider an initial plan $\Gamma$ from \fref{def:stage}{Definition}. We are interested in the planning of the path and computation parameters $c_i,\,\forall i\in[l]^+$ under energy constraints.
   
-  We are further interested in the guidance to the path, and scheduling of the computations resulting from such planning.
+We are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
 \end{pb}    
 \end{highlight}
 
