@@ -18,6 +18,7 @@
 
 
 \section{\color{cyan}Energy Model of the Computations}
+\label{sec:comp-ener-model}
 
 Numerous new challenges have been introduced in embedded systems through evolution from small and predictable to large and complex architectures featuring different computational units. Limited energy availability, security considerations, and time requirements are among the most common challenges and significantly impact the level of autonomy of modern heterogeneous systems. These systems use many-core architectures, where a CPU executes along a general-purpose GPU or GPGPU with energy-efficient small cores. A parallel CPU-GPU execution is a core aspect to achieve the best possible energy efficiency and speed-up~\citep{woo2008extending}.%\footnote{This is implied by Amdahl's law~\citep{amdahl1967validity}, and can be seen as its extension. For a program, the maximum achievable speed-up is limited by its sequential execution. The law, more recently reevaluated by Gustafson~\citep{gustafson1988reevaluating}, is still relevant to assess the achievable speedup for heterogeneous parallel systems~\citep{marowka2012extending}.}
 %
@@ -301,7 +302,7 @@ We refer to the instantaneous energy consumption evolution simply as the energy 
 
 We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. We show after the main results how this approach allows us variability in terms of non-periodic signals.
 
-After having illustrated the energy model, we enhance it with the energy contribution of the path in and of the computations in \fref{cp:model:periodic:merging}{Subsection}. 
+After having illustrated the energy model, we enhance it with the energy contribution of the path in and of the computations in \fref{sec:merging}{Subsection}. 
 
 Let us consider a periodic energy signal of period $T$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the energy signal
 \begin{equation}\label{eq:fourier}
@@ -510,6 +511,7 @@ or
 for a constant value $d\in\mathbb{R}$.
 
 \subsection{Derivation of the nominal control}
+\label{sec:nom-cont}
 
 Let us suppose that at time instant $t$ the plan reached the $i$-th stage $\Gamma_i$ and the control
 \begin{equation}\label{eq:state-control2}
@@ -563,7 +565,7 @@ $B\mathbf{u}(t)$ merely includes the difference in power into the model in \fref
 
 
 \subsection{Merging computations and motion}
-\label{cp:model:periodic:merging}
+\label{sec:merging}
 
 \begin{figure}[h]
   \centering
@@ -626,7 +628,7 @@ $\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters se
 
 Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
 
-Let us recall from \fref{def:mission}{Definition} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using {\small\tt{powprofiler}}, the open-source modeling tool adapted from earlier work on computational energy analysis~\citep{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\citep{seewald2020mechanical}. 
+Let us recall from \fref{def:stage}{Definition} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using {\small\tt{powprofiler}}, the open-source modeling tool adapted from earlier work on computational energy analysis~\citep{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\citep{seewald2020mechanical}. 
 
 For this purpose, we assume the UAV carries an embedded board that runs the computations. Our tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
 

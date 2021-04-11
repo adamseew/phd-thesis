@@ -103,8 +103,8 @@ Moreover, it is often desirable to reschedule the computations in an energy-awar
 In the remainder of this work, we refer to computational tasks that can be scheduled in an energy-aware fashion as \emph{computations}, opposed to the other tasks that have no significant effect on energy consumption.
 
 \begin{highlight}
-  \begin{defn}[Computations]
-    Computations are computational tasks executed on energy-demanding heterogeneous computing hardware carried by a mobile robot along with microcontrollers, sensors, and actuators.
+  \begin{defn}[Computations]\label{def:comps}
+    Computations are energy-demanding computational tasks executed on heterogeneous computing hardware carried by a mobile robot along with microcontrollers, sensors, and actuators.
   \end{defn}
 \end{highlight}
 
@@ -151,7 +151,7 @@ The initial plan consists of different stages. At each stage, the mobile robot t
 The alterations are bounded. There is one path constraint set which bounds the path and multiple computation constraint sets, one per each computation parameter, that bound computations.
 
 To model the path we use multiple mathematical functions $\varphi_1,\varphi_2,\dots$. If the path is expressed in 2D at a fixed altitude $h$, the function $\varphi:\mathbb{R}^2\rightarrow\mathbb{R}$ quantifies the distance of a generic point $\mathbf{p}$ in the 2D space from the path. For instance one can define a path as a line
-\begin{equation}
+\begin{equation}\label{eq:basic-path}
   \varphi(x,y):=ax+by+c,
 \end{equation}
 where $a,b,c$ are given constants. A generic point $\mathbf{p}:=(x_{\mathbf{p}},y_{\mathbf{p}})$ quantifies the distance on the $z$ axis from $ax+by+c=0$. 
@@ -185,7 +185,7 @@ The dynamic energy planning in this work applies mostly to modern aerial robots 
 
 We specifically focus and show the performance on a search and rescue and precision agriculture scenario implemented with aerial robots. In fact, precision agriculture is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and aerial robots for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. 
 
-In the search and rescue scenario, the aerial robot performs autonomous detections of patterns over the sea. In this scenario, we mostly focus on the validation of the computation energy model (described in detail in \fref{}{}).
+In the search and rescue scenario, the aerial robot performs autonomous detections of patterns over the sea. In this scenario, we mostly focus on the validation of the computation energy model (described in detail in \fref{sec:comp-ener-model}{Section}).
 
 In the precision agriculture scenario, the aerial robot covers a given agricultural field (a polygon) and search for ground hazards. The plan is structured as follows. Path-wise, the Opterra fixed-wing drone from \fref{fig:opterra}{Figure} flies in circles and lines covering the polygon. Computation-wise, it detects hazards using a neural network and notifies grounded mobile robots employed for, e.g., harvesting. The approach alters the plan; it controls the processing rate and the radius of the circles affecting the distance between the lines. 
 
@@ -194,39 +194,77 @@ We observe that not only the path but also the computations significantly impact
 \section{Problem Formulation}
 \label{sec:pb-form}
 
-To formulate the mobile robot planning problem we adopt to the following mathematical notation. We apply later the formulation to both the search and rescue and the precision agriculture scenario.
+Before formulating the mobile robot planning problem in \fref{sec:plan-pb}{Subsection}, we first provide the formal definition of some of the main constructs we will use in the remainder of this work.
 
-Given an integer $x\in\mathbb{Z}_{\geq 0}$, we use the notation $[x]$ for the set $\{0,1,\dots,x\}\subseteq\mathbb{Z}_{\geq 0}$. The notation $[x]_{>0}$ for the set $\{1,2,\dots,x\}\subseteq\mathbb{Z}_{> 0}$ or simply $[x]/\{0\}$ with $x\in\mathbb{Z}_{>0}$. We use bold lower-case letters $\mathbb{x}$ for the vectors.
+To specify an integer-valued set, we relay on the following mathematical notation: $[x]$ is the set positive set $\{0,1,\dots,x\}\subseteq\mathbb{Z}_{\geq 0}$, where $x\in\mathbb{Z}_{\geq 0}$. $[x]_{>0}$ is the strictly positive set $\{1,2,\dots,x\}\subseteq\mathbb{Z}_{> 0}$ (or $[x]/\{0\}$). where $x\in\mathbb{Z}_{>0}$. 
 
-We use extensively the term parameters. These are variable values that we use to dynamically plan path and computations. $c_{i,j}$ denotes the $j$-th parameter of the $i$-th parameters set $c_i$. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound of the parameter $c_{i,j}$, i.e., $\underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}$.
+Bold lower-case letters such as $\mathbf{x}$ denote vectors. Upper-case letters such as $X$ matrices.
 
-Let us assume that the path at stage $i$ can be altered with $\rho$ path parameters
+Parameters are variable values than might be either reals $\mathbb{R}$ or integers $\mathbb{Z}$. We use such values to dynamically plan path and computations. $c_{i,j}$ denotes the $j$-th parameter of the $i$-th parameters set $c_i$
+\begin{equation}
+  c_i=\{c_{i,1},c_{i,2},\dots,c_{i,j},\dots,c_{i,l}\},
+\end{equation}
+where $c_{i,l}$ is the last parameter.
+
+Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound of the parameter $c_{i,j}$
+\begin{equation}
+  \underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}.
+\end{equation}
+
+We assume there are $\rho$ path-specific parameters, and $\sigma$ computation specific parameters. This means that the path at stage $i$ can be replanned with $\rho$ path parameters
 \begin{equation}\label{eq:path-params}
     c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\},
 \end{equation}
-and the computations with $\sigma$ computation parameters 
+while the computations (i.e., the energy-demanding computational task executed on heterogeneous computing hardware from \fref{def:comps}{Definition}) with $\sigma$ computation parameters 
 \begin{equation}\label{eq:comp-params}
     c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}.
 \end{equation}
 
-We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The function returns a metric of the distance between the point and the nominal trajectory. We express the computations as the value of the computation parameters. We discuss the concrete meaning of the value of path parameters in \fref{cp:model}{Chapter}.
+We then express the path as a continuous twice differentiable function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ of a point and the path parameters. The concept is analogous to the path with no parameters from \frefeq{eq:basic-path}, but here we use the parameters to alter the path and thus alter the overall energy consumption. We express the computations as the value of the computation parameters. These are also employed for the purpose of energy alteration bu e.g., decreasing the granularity of a given computation and thus lowering instantaneous energy consumption We discuss the alteration of the energy with path parameters and computation parameters further in \fref{sec:nom-cont}{Subsection} and \fref{sec:merging}{Subsection}.
+
+We assume that at each stage the mobile robot executes some computations and travels a path. We formally define the stage in \fref{def:stage}{Definition}.
 
 \begin{highlight}  
-  \begin{defn}[Stage]\label{def:mission}
-    The $i$-th \emph{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
+  \begin{defn}[Stage]\label{def:stage}
+    Given $\mathbf{p}(t)$, a point of a mobile robot travelling at an altitude $h\in\mathbb{R}_{\geq 0}$ with respect to some inertial navigation frame $\mathcal{O}_W$, the $i$-th \emph{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
     \begin{equation*}\begin{split}
       \Gamma_i:=\{\varphi_i(\mathbf{p}(t),c_i^\rho),c_i^\sigma\mid
-      \,&\exists\,\,\mathbf{p}(t),\,\varphi_i(\mathbf{p}(t),c_i^\rho)\in\mathcal{C}_i,\,\\
-        &\,\forall j\in[\sigma]^+,\,c_{i,\rho+j}\in\mathcal{S}_{i,j}\,\},
+      \,&\forall j\,\in\,[\rho]^+,\,c_{i,j}\,\,\,\,\,\,\,\in\mathcal{C}_{i,j},\,\\
+        &\,\forall k\in[\sigma]^+,\,c_{i,\rho+k}\in\mathcal{S}_{i,k}\,\},
     \end{split}\end{equation*}
-    where $\mathcal{C}_i:=[\underline{c}_i,\overline{c}_i]\subseteq\mathbb{R}$ is the path constraint set, and $\mathcal{S}_{i,j}:=[\underline{c}_{i,\rho+j},\overline{c}_{i,\rho+j}]\subseteq\mathbb{Z}_{\geq 0}$ the $j$-th computation constraint set. 
-    
-    $\mathbf{p}(t)$ is a point of a mobile robot travelling at an altitude $h\in\mathbb{R}_{\geq 0}$ with respect to some inertial navigation frame $\mathcal{O}_W$.
+    where $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$-th path parameter constraint set, and $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ the $k$-th computation parameter constraint set.
   \end{defn}
 \end{highlight}
 
+The altitude $h$ from \fref{def:stage}{Definition} might change at different flying phases and under different atmospheric conditions
+
+We can merge the computation constraint sets and the path constraint set in a single constraint set, as defined in \fref{def:const-set}{Definition}.
+
+\begin{highlight}
+  \begin{defn}[Constraint set]\label{def:const-set}
+    Given a stage $i$, the constraint set is defined as
+    \begin{equation*}
+      \mathcal{U}_i:=\begin{cases}
+        \mathcal{C}_{i,j} & \text{for } c_{i,j} \text{ with } j\leq\rho\\
+        \mathcal{S}_{i,j-\rho} & \text{for } c_{i,j} \text{ with } \rho<j\leq\sigma
+      \end{cases}.
+    \end{equation*}
+    
+  \end{defn}
+\end{highlight}
+
+To move from a given stage $i$ to the next stage $i+1$, we define specific points. As soon as the mobile robot reaches the proximity if these points in switches to the next stage.
+
 \begin{highlight}  
-  \begin{defn}[Plan]
+  \begin{defn}[Triggering, and final point]\label{def:trigs}
+    The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
+  \end{defn}
+\end{highlight}
+
+We then define the plan in \fref{def:plan}{Definition} as a finite state machine. It returns at any point in space a specific stage.
+
+\begin{highlight}  
+  \begin{defn}[Plan]\label{def:plan}
     The \emph{plan} is a finite state machine (FSM) $\Gamma$ where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
     \begin{equation*}s(\Gamma_i,\mathbf{p}_k):=\begin{cases}
       \Gamma_{i+1} & \text{if }\mathbf{p}_k=\mathbf{p}_{\Gamma_i}\\
@@ -235,11 +273,7 @@ We then express the path as a continuous twice differentiable function $\varphi_
   \end{defn}
 \end{highlight}
 
-\begin{highlight}  
-  \begin{defn}[Triggering, and final point]\label{def:mission}
-    The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
-  \end{defn}
-\end{highlight}
+We show the definition of plan, stage, trigerring, and final point visually with \fref{fig:state-machine}{Figure} and \fref{fig:state-machine2}{Figure}.
 
 \begin{figure}[h]
   \center
@@ -254,9 +288,9 @@ We then express the path as a continuous twice differentiable function $\varphi_
     (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}$} (q_0)
     (q_0) edge node {$\mathbf{p}_{\Gamma_i}$} (q_dots1)
     (q_dots1) edge node {$\mathbf{p}_{\Gamma_{l}}$} (q_f)    
-    (q_i) edge [loop above] node {$\mathbf{p}_{k_1}$} (q_i)
-    (q_0) edge [loop above] node {$\mathbf{p}_{k_2}$} (q_0)
-    (q_f) edge [loop above] node {$\mathbf{p}_{k_3}$} (q_f)
+    (q_i) edge [loop above] node {$\mathbf{p}(t_1)$} (q_i)
+    (q_0) edge [loop above] node {$\mathbf{p}(t_2)$} (q_0)
+    (q_f) edge [loop above] node {$\mathbf{p}(t_3)$} (q_f)
     ; %end path 
     \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
     (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-9ex]{$\Gamma$};
@@ -265,20 +299,7 @@ We then express the path as a continuous twice differentiable function $\varphi_
   \label{fig:state-machine}
 \end{figure}
 
-\begin{figure}[t]
-    \centering
-    \input{figures/traj1.tikz}
-    \caption[Definition notation on a slice of the plan]{Definition notation shown on an slice of the plan.}
-    \label{fig:traj1}
-\end{figure}
-
-The altitude $h$ from \fref{def:mission}{Definition} might change at different flying phases and under different atmospheric conditions
-
-In \fref{fig:traj1}{Figure}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraints set $\mathcal{C}_1,\mathcal{C}_2,\dots$ forms the area where the paths $\varphi_1,\varphi_2,\dots$ can be altered with the parameters $c_{i,1},\dots,c_{i,\rho}$ (gray area in the figure). This area is bounded by $\underline{c}_i,\overline{c}_i$, and can be different per each stage \fref{fig:traj1}{Figure}, the area relative to $\Gamma_4$ is bounded by $\underline{c}_4,\overline{c}_4$).
-
-In \fref{fig:traj1}{Figure}, $\mathbf{p}_{\Gamma_1}$ allows the transition between $\Gamma_1$ and $\Gamma_2$, $\mathbf{p}_{\Gamma_4}$ between $\Gamma_4$ and $\Gamma_5$, and $\mathbf{p}_{\Gamma_5}$ between $\Gamma_5$ and $\Gamma_6$.
-
-A slice of the plan in \fref{fig:state-machine}{Figure} shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}_{k_2}$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
+\fref{fig:state-machine}{Figure} illustrates the definition of plan. It shows the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. The stage $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
 
 \begin{figure}[h]
   \center
@@ -289,7 +310,7 @@ A slice of the plan in \fref{fig:state-machine}{Figure} shows the transition bet
     \path[->]
     (q_dots0) edge node{$\mathbf{p}_{\Gamma_{i-1}}(c_1^\rho,\dots,c_{i-1}^\rho)$} (q_0)
     (q_0) edge node {$\mathbf{p}_{\Gamma_i}(c_1^\rho,\dots,c_{i}^\rho)$} (q_dots1)    
-    (q_0) edge [loop above] node {$\mathbf{p}_{k}$} (q_0)
+    (q_0) edge [loop above] node {$\mathbf{p}(t_2)$} (q_0)
     ; %end path
   \end{tikzpicture}
 \caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM}
@@ -297,13 +318,26 @@ A slice of the plan in \fref{fig:state-machine}{Figure} shows the transition bet
 \end{figure}
     
 Generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary (see \fref{fig:state-machine2}{Figure}).
-   
+
+\subsection{\color{cyan}The flight plan}
+
+\begin{figure}[h]
+  \centering
+  \input{figures/traj1.tikz}
+  \caption[Definition notation on a slice of the plan]{Definition notation shown on an slice of the plan.}
+  \label{fig:traj1}
+\end{figure}
+
+In \fref{fig:traj1}{Figure}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraints set $\mathcal{C}_1,\mathcal{C}_2,\dots$ forms the area where the paths $\varphi_1,\varphi_2,\dots$ can be altered with the parameters $c_{i,1},\dots,c_{i,\rho}$ (gray area in the figure). This area is bounded by $\underline{c}_i,\overline{c}_i$, and can be different per each stage \fref{fig:traj1}{Figure}, the area relative to $\Gamma_4$ is bounded by $\underline{c}_4,\overline{c}_4$).
+
+In \fref{fig:traj1}{Figure}, $\mathbf{p}_{\Gamma_1}$ allows the transition between $\Gamma_1$ and $\Gamma_2$, $\mathbf{p}_{\Gamma_4}$ between $\Gamma_4$ and $\Gamma_5$, and $\mathbf{p}_{\Gamma_5}$ between $\Gamma_5$ and $\Gamma_6$.
 
 \subsection{Mobile robot planning problem}
+\label{sec:plan-pb}
 
 In order to simplify the problem formulation, we consider some primitive paths. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_d,y_d)$.
 
-Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}$ and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
+Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}(t_0)$ at the initial time $t_0$, and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
 \begin{equation}\label{eq:primitive}\begin{split}
   &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
 \end{split}\end{equation}
@@ -320,8 +354,10 @@ The algorithm measures the time between the paths and assumes the initial period
 One can define the plan using primitive paths or define all the stages explicitly and find $n$ searching the value which satisfies the \frefeq{eq:primitive}. If there is no such value, (e.g., when the plan is composed of only one stage), the period $T$ from \fref{def:period}{Definition} can be determined empirically from energy data.
 
 \begin{highlight}
-\begin{pb}[Aerila robot planning problem]\label{pb}
-  Consider an initial plan $\Gamma$ from \fref{def:mission}{Definition}. We are interested in the planning of the parameters $c_i,\,\forall i\in[l]^+$ and energy constraints and in the guidance of the aerial robot to the path resulting from such plan.
+\begin{pb}[Mobile robot planning problem]\label{pb}
+  Consider an initial plan $\Gamma$ from \fref{def:stage}{Definition}. We are interested in the planning of the path and computation parameters $c_i,\,\forall i\in[l]^+$ under energy constraints.
+  
+  We are further interested in the guidance to the path, and scheduling of the computations resulting from such planning.
 \end{pb}    
 \end{highlight}
 
