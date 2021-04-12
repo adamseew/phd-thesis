@@ -8,7 +8,7 @@
 
 %\begin{highlight}
 %    \begin{st}
-%        Initial version up to \fref{cp:opt:unconstrained}{Subsection}. From \fref{cp:opt:constrained}{Subsection} dummy text.
+%        Initial version up to \fref{cp:opt:unconstrained}{Subsection}. From \fref{sec:opt-constrained}{Subsection} dummy text.
 %    \end{st} 
 %\end{highlight}
 
@@ -120,11 +120,11 @@ The evolution of the model is used to derive an optimal control trajectory $\mat
 All these initial assumption (known final time step, absence of state constraints, static optimal control law) will be eased in the remaining of the chapter.
 
 \subsection{\color{red}Continuous systems: constrained case}
-\label{cp:opt:constrained}
+\label{sec:opt-constrained}
 
-\subsection{\color{red}Perturbed systems}
+\subsection{\color{orange}Perturbed systems}
 
-\subsection{\color{red}Multistage systems}
+\subsection{\color{orange}Multistage systems}
 
 
 \section{\color{red}Numerical Simulation and Differentiation}
@@ -135,7 +135,7 @@ All these initial assumption (known final time step, absence of state constraint
 \subsection{\color{red}Runge-Kutta methods}
 \label{sec:rk4}
 
-\subsection{\color{red}Algorithmic differentiation}
+\subsection{\color{orange}Algorithmic differentiation}
 
 
 \section{\color{red}Direct Optimal Control Methods}
@@ -144,7 +144,7 @@ All these initial assumption (known final time step, absence of state constraint
 
 \subsection{\color{red}Direct multiple shooting}
 
-\subsection{\color{red}Direct collocation}
+\subsection{\color{orange}Direct collocation}
 
 
 \section{\color{red}Numerical Optimization}
@@ -153,18 +153,67 @@ All these initial assumption (known final time step, absence of state constraint
 
 \subsection{\color{red}Optimality conditions}
 
-\subsection{\color{red}First order optimality conditions}
+\subsection{\color{orange}First order optimality conditions}
 
-\subsection{\color{red}Second order optimality conditions}
+\subsection{\color{orange}Second order optimality conditions}
 
-\subsection{\color{red}Sequential quadratic programming}
+\subsection{\color{orange}Sequential quadratic programming}
 
-\subsection{\color{red}Nonlinear interior point methods}
+\subsection{\color{orange}Nonlinear interior point methods}
 
 
 \section{\color{red}Model Predictive Control}
 
-\subsection{\color{red}Output model predictive control}
+
+
+\subsection{\color{cyan}Output model predictive control}
+
+In this section, we address the problem of generating the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is configuration of the path and computations parameters. 
+
+To derive the optimal control, we use the estimated state $\hat{\mathbf{q}}$ in \fref{cp:est}{Chapter}, opposed to the ideal state in \fref{cp:model}{Chapter}. The estimated state differs from the ideal state $\mathbf{q}$ due to the presence of uncertainty. Indeed the name of output model predictive control in the literature refers to the notion that some available outputs are used to estimate the not fully known state~\citep{rawlings2017model}. For a differential model, such as the periodic model in \frefeq{eq:state-perf} in \fref{sec:periodic-model}{Subsection}, state estimation is done utilizing techniques such as Kalman filtering in \fref{cp:est}{Chapter}).
+
+Before defining and solving the OCP in the case of uncertainty over the finite horizon, let us revaluate the output constraints. We stated earlier in \fref{sec:periodic-model}{Subsection} that the output of the ideal periodic model $y$ in \frefeq{eq:state-perf}--the instantaneous energy consumption--evolves in $\mathbb{R}$. This is an inexact simplification as physical mobile robots are bounded by strict energy budgets due to battery limitations (see \fref{sec:motivation}{Section}).
+
+Let us hence redefine the original output constraint ($\mathbb{R}$) to include the battery model in \fref{sec:battery-model}{Subsection}. We consider SoC $b$ of the mobile robot's battery with the simplistic difference model in \frefeqM{eq:battery-model-1}{eq:battery-model-2}
+\begin{equation}\label{eq:bat}
+  \dot{b}(t)=-k_b\left(V-
+  \sqrt{
+    V^2-
+    4R_ry_k}
+  \right)/(2R_rQ_c),
+\end{equation}
+where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery 
+% and $\tilde{V}\in\mathbb{R}$ the stabilized 
+voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
+
+We note that the maximum instantaneous energy consumption can be computed by multiplying the constant nominal capacity by the SoC and the internal battery voltage. Therefore, we define a time-varying constraint for the output in \fref{def:const}{Definition}, being the maximum instantaneous energy consumption dependent on the time-dependent SoC $b$ from \frefeq{eq:bat}.
+
+\begin{highlight}
+\begin{defn}[Output constraint]\label{def:const}
+The output constraint is the set
+\begin{equation*}
+  \mathcal{Y}(t):=\{y\mid y\in[0,b(t)Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+\end{equation*}
+where $b(t)Q_cV$ is the maximum instantaneous energy consumption.
+\end{defn}
+\end{highlight}
+
+We assume the mobile robot carries a battery energy sensor and obtain the initial state of charge $b(t_0)$ accordingly.
+
+---
+
+The OCP can be hence stated similarly as in \fref{sec:opt-constrained}{Subsection}, with the constraints: the constraint in \fref{def:const-set}{Definition}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf}
+\begin{subequations}\begin{align}
+   &\min_{\mathbf{q},\mathbf{u}}{\int_t^{t+N}{\mathbf{q}^TQ\mathbf{q}+\mathbf{u}^{T}R\mathbf{u}}\,dt}+\mathbf{q}^TQ_f\mathbf{q},\label{eq:ocp}\\
+   &\text{~~s.t. }\dot{\mathbf{q}}=A\mathbf{q}+B\mathbf{u},\\
+   &\text{~~~~~~~~}\mathbf{u}\in\mathcal{U}_i,\mathbf{q}\in\mathbb{R}^l,\\
+   &\text{~~~~~~~~}C\mathbf{q}\leq dQ_cV,\label{eq:ocp-batt}
+\end{align}\end{subequations}
+where $N$ is the optimization horizon, and $\mathcal{U}$ is the control constraint set. $\mathcal{U}$ is $\mathcal{C}_i$ for the first $m$ controls and $\mathcal{S}_{i,j}$ for the remaining $n$. $Q,Q_f\in\mathbb{R}^{l\times l},R\in\mathbb{R}^{v\times v}$ in Equation~(\ref{eq:ocp}) are positive semidefinite matrices. The Equation~(\ref{eq:ocp-batt}) verifies that the modeled power does not exceed the maximum power available from the battery. $d$ is the battery state of charge, $Q_c\in\mathbb{R}$ battery nominal capacity, and $V$ the battery voltage. The state of charge can be retrieved from a sensor and evolved using a differential model~\cite{seewald2019coarse}.
+
+The modeled state $\mathbf{q}$ value can be estimated from an energy sensor which measures the power of all the robot's components using a state estimator~\cite{seewald202Xenergy}.
+
+
 
 \subsection{\color{red}Optimal control generation with model predictive control}
 

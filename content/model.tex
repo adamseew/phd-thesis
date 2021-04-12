@@ -1,3 +1,4 @@
+
 %%%%%%%%%%%%%%%%%%%
 %                 %
 % Energy Models   %
@@ -7,7 +8,7 @@
 
 %\begin{highlight}
 %    \begin{st}
-%        Started filling the model from~\citep{seewald202Xenergy} (\fref{cp:model:periodic:diff-model}{Subsection}), rest is dummy text.
+%        Started filling the model from~\citep{seewald202Xenergy} (\fref{sec:periodic-model}{Subsection}), rest is dummy text.
 %    \end{st} 
 %\end{highlight}
 
@@ -258,6 +259,7 @@ Ideally, any component combination can be profiled by specifying possible sets o
 As an example of energy modeling, we implemented a combination of three different parameters and generated a surface that shows approximately where the minimum power consumption is expected. \fref{fig:matrix-exponent}{Figure}~and~\fref{fig:matrix-sleep}{Figure} show how the output of the predictive model includes, but is not limited to, overall energy in~\fref{fig:matrix-exponent:energy}{Figure} and \fref{fig:matrix-sleep:energy}{Figure} and average power consumption in \fref{fig:matrix-exponent:power}{Figure} and \fref{fig:matrix-sleep:power}{Figure} for all the combinations. 
 
 \section{\color{cyan}Battery Model}
+\label{sec:battery-model}
 
 The battery model is a mathematical abstraction that models draining energy from a battery used to power the computation being measured. It was derived from the state-space problem representation of the empirical battery model through an equivalent electrical circuit, presented by Hasan et al.~\cite{hasan2018exogenous}. The battery evolution model can be represented in this way using an ordinary differential equation that is a function of the power drained from the system, and represents the SoC of the battery at a given instant
 \begin{equation}\label{eq:battery-model-1}
@@ -279,14 +281,14 @@ U_{\mathrm{ext}}(t)=U_{\mathrm{int}}-R_{\mathrm{int}}\cdot I_{\mathrm{int}}(t)
 The approach allows modeling the computational system not only in terms of the overall power consumption but also in terms of the actual amount of power drained from the battery. This is especially important with a mobile robot dependent on a limited and time-dependent energy supply, running computationally heavy parallel algorithms. Critically, although this mathematical model is a simple abstraction, it models how a stable power consumption over time can induce less drain from the battery compared to using the same amount of energy distributed in a number of spikes. The battery model allows this information to be determined for specific usage scenarios and thus provides a useful way to determine what configuration corresponds to the best power usage combination for a mobile use case.
 
 
-\subsection{\color{red}UAV batteries}
+\subsection{\color{orange}Batteries for aerial robots}
 
 \subsection{\color{red}Derivation of differential battery model}
 
 
 \section{\color{red}Energy Model of the Motion}
 
-\subsection{\color{red}Mechanical energy of the UAV}
+\subsection{\color{red}Mechanical energy of the aerial robot}
 
 \subsection{\color{red}Experimental methodology}
 
@@ -296,7 +298,7 @@ The approach allows modeling the computational system not only in terms of the o
 \subsection{\color{red}Furier series of empirical data}
 
 \subsection{Derivation of differential periodic model}
-\label{cp:model:periodic:diff-model}
+\label{sec:periodic-model}
 
 We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and estimated using a state estimator. 
 
