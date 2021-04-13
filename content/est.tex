@@ -12,7 +12,7 @@
 %    \end{st} 
 %\end{highlight}
 
-\lettrine{A}{a}, 
+%\lettrine{A}{a}, 
 
 
 \section{\color{orange}A Brief History of State Estimation}
@@ -47,13 +47,13 @@ As the environment uncertainty and measurement error evolve in a normal distribu
 The prediction is done using
 \begin{subequations}\label{eq:kalman-pred}\begin{align}
   \hat{\mathbf{q}}_{k+1}^-&=A\hat{\mathbf{q}}_{k}+B\mathbf{u}_k,\label{eq:kalman-pred1}\\
-  P_{k+1}^-&=AP_kA^T+Q,\label{eq:kalman-pred2}
+  P_{k+1}^-&=AP_kA'+Q,\label{eq:kalman-pred2}
 \end{align}\end{subequations}
 where $\hat{\mathbf{q}}_k^-,\hat{\mathbf{q}}_k\in\mathbb{R}^j$ depicts the estimate of the state before and after measurement (or simply estimate), and $P_k,P_k^-\in\mathbb{R}^{j\times j}$ the error covariance matrix (i.e., the variance of the estimate). 
 
 The estimation of the state and the update of the predicted output is done using
 \begin{subequations}\label{eq:kalman-est}\begin{align}
-  K_k&=(CP_{k+1}^-C^T+R)^{-1}(P_{k+1}^-C^T),\\
+  K_k&=(CP_{k+1}^-C'+R)^{-1}(P_{k+1}^-C'),\\
   \hat{\mathbf{q}}_{k+1}&=\hat{\mathbf{q}}_{k+1}^-+K_k(y_k^s+y_k^c-C\hat{\mathbf{q}}_{k+1}^-),\label{eq:kalman-est2}\\
   P_{k+1}&=(I-K_kC)P_{k+1}^-,\\
   \hat{y}_k&=C\hat{\mathbf{q}}_{k+1},\label{eq:kalman-est4}

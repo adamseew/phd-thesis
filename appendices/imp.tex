@@ -6,7 +6,7 @@
 \chapter{\color{red}Implementation}
 \label{app:imp}
 
-\lettrine{A}{a}
+%\lettrine{A}{a}
 
 
 \section{Energy Models}
@@ -56,7 +56,7 @@ dat.nu = nu;
 dat.tau = tau;
 \end{lstlisting}
 
-The function \stt{build\_model} and the structure \stt{dat} can be used along an initial guess of parameters and a time horizon to model the future energy consumption using the Euler or Runge-Kutta methods for numerical integration. The Euler method is described in \fref{sec:euler}{Subsection} and implemented in \fref{lst:euler}{Listing}, the Runge-Kutta method in \fref{sec:rk4}{Subsection} and \fref{lst:rk4}{Listing}. For the Runge-Kutta method we use the fourth order fixed size standard algorithm. 
+The function \stt{build\_model} and the structure \stt{dat} can be used along an initial guess of parameters and a time horizon to model the future energy consumption using the Euler or Runge-Kutta methods for numerical integration. The Euler method is described in \fref{sec:euler}{Subsection} and implemented in \fref{lst:euler}{Listing}, the Runge-Kutta method in \fref{sec:rk4}{Subsection} and \fref{lst:rk4}{Listing}. For the Runge-Kutta method, we use the fourth-order fixed size standard algorithm. 
 
 \begin{lstlisting}[language=Matlab,caption={[Euler method for numerical integration]Euler method for numerical integration of the model.},captionpos=b,label=lst:euler]
 function [q,y] = evolve_model_euler(model,dat,init)
@@ -133,7 +133,7 @@ model = build_model(dat);
 
 A generic routine to plot the resulting modeled energy and the coefficients $\mathbf{q}$ is illustrated in \fref{lst:model_plot}{Listing}.
 
-\begin{lstlisting}[language=Matlab,caption={[Plot of the modeled energy and coefficients]A generic polotting routine for them modeled energy evultion and coefficients evolution.},captionpos=b,label=lst:model_plot]
+\begin{lstlisting}[language=Matlab,caption={[Plot of the modeled energy and coefficients]A generic polotting routine for them modeled energy and coefficients evolution.},captionpos=b,label=lst:model_plot]
 time = dat.t0:model.delta_T:dat.tf;
 
 figure;

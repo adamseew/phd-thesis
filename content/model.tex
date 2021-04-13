@@ -12,7 +12,7 @@
 %    \end{st} 
 %\end{highlight}
 
-\lettrine{A}{a}
+%\lettrine{A}{a}
 
 
 \section{\color{red}Models Classification}
@@ -34,7 +34,7 @@ The term \emph{computing} is used here to denote the energy consumed by the soft
 
 Complex software applications are often composed of many components interacting concurrently to achieve a specific functionality. Our approach aims to predict the energy consumption of a provided set of software components, in a specific configuration, executed according to a given scheduling policy. Statistical methods are used to derive a predictive model allowing prediction of the components' total power consumption as scheduling and configuration parameters are varied. High-level modeling of using a battery as energy-source is used to model the energy that would be drained from the system during computation. The energy model is segmented into two layers: the measurement layer, which describes energy consumption as a function of time, and the predictive layer, which describes energy consumption as a function of component configuration and scheduling. The model generation process starts from the developer, who specifies the configuration space within which software components can run on a given system. A profiling process collects power samples for every component configuration (measurement layer). A model that maps configuration parameters to an energy metric, such as overall energy or average power, is generated from the data, showing the energy evolution for every possible configuration (predictive layer).
 
-\subsection{\color{cyan}Computational energy of the UAV}
+\subsection{\color{cyan}Computational energy of the aerial robot}
 
 We use software for drones as a case study for energy efficiency. Drones (known also as aerial robots, Unmanned Aerial Vehicles, or UAVs) are often composed of two computational units. A controller that manages real-time control of the physical aspects of the drone, and a companion computer that handles heavy computations. The latter is often a heterogeneous parallel system. A coarse-grained model of these systems can be used for energy-aware planning and optimization from a computational point of view. Moreover, energy constraints are of particular interest for drones, since their level of autonomy is directly proportional to the power-to-compute \citep{fabiani2007autonomous}. Unlike their grounded counterparts, drones must trade-off size, weight, and power, resulting in strict limits to their energy source that may not accommodate their computational needs. Operating from a limited energy source, typically a lithium-ion battery, can significantly reduce the amount of autonomy that the drone can carry on. One of the reasons why this happens is the high energy demand required by complex parallel algorithms used in several use cases, from computer vision to data processing. To this extent, many tasks in aerial robotics are still not fully autonomous. Advanced operations that require a significant level of autonomy, such as path planning, obstacle avoidance, environment mapping, and object detection, often involve human interaction. Thus there is still little difference between flying robots and their manned counterparts, except that the pilot operates from a ground station rather than onboard~\citep{siciliano2016springer}.
 
@@ -297,7 +297,7 @@ The approach allows modeling the computational system not only in terms of the o
 
 \subsection{\color{red}Furier series of empirical data}
 
-\subsection{Derivation of differential periodic model}
+\subsection{Derivation of the differential periodic model}
 \label{sec:periodic-model}
 
 We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of a Fourier series) and estimated using a state estimator. 
@@ -323,7 +323,7 @@ The state $\mathbf{q}(t)$ contains the energy coefficients
 \begin{equation}\label{eq:state-details}
   \mathbf{q}(t)=\left[\begin{array}{cccccc}
     \alpha_0(t) & \alpha_1(t) & \beta_1(t) & \cdots & \alpha_r(t) & \beta_r(t)
-  \end{array}\right]^T,\\
+  \end{array}\right]',\\
 \end{equation}
 where $\mathbf{q}(t)\in\mathbb{R}^m$ with $m=2r+1$. The state transition matrix
 \begin{equation}\label{eq:mat_A}
@@ -352,7 +352,7 @@ The linear model in \frefeq{eq:state-perf} allows us to include the control in t
 \begin{highlight}
 \begin{lem}[Signal, output equality]\label{lem:eqv}Suppose control $\mathbf{u}$ is a zero vector, matrices $A,C$ are described by \frefeq{eq:state-details}, and the initial guess $\mathbf{q}_0$ is 
   \begin{equation*}
-  \mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}^T.
+  \mathbf{q}_0=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}'.
   \end{equation*} 
   Then, the signal $h$ in \frefeq{eq:fourier} is equal to the output $y$ in \frefeq{eq:state-perf}.
 \end{lem}
@@ -466,12 +466,12 @@ The polynomial $\lambda^2+\omega^2$, gives two complex roots--the two eigenvalue
 
 The eigenvector associated with the eigenvalue $\lambda_1^0$ is 
 \begin{equation}
-  v_1^0=\begin{bmatrix}0 & -i&1&0&\cdots&0\end{bmatrix}^T.  
+  v_1^0=\begin{bmatrix}0 & -i&1&0&\cdots&0\end{bmatrix}'.  
 \end{equation}
 
 The eigenvector associated with the eigenvalue $\lambda_1^1$ is 
 \begin{equation}
-  v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}^T. 
+  v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}'. 
 \end{equation}
 Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences 
 \begin{equation}\begin{cases}    
@@ -517,7 +517,7 @@ for a constant value $d\in\mathbb{R}$.
 
 Let us suppose that at time instant $t$ the plan reached the $i$-th stage $\Gamma_i$ and the control
 \begin{equation}\label{eq:state-control2}
-  \mathbf{c}_i(t)=\begin{bmatrix}c_i^\rho(t) & c_i^\sigma(t)\end{bmatrix}^T,
+  \mathbf{c}_i(t)=\begin{bmatrix}c_i^\rho(t) & c_i^\sigma(t)\end{bmatrix}',
 \end{equation}
 where $\mathbf{c}_i(t)\in\mathbb{R}^n$ with $n:=\rho+\sigma$ differs from the nominal control $\mathbf{u}(t)$ in \frefeq{eq:state-perf}. We include the control in the nominal control exploiting the following observation. 
 
@@ -525,7 +525,7 @@ where $\mathbf{c}_i(t)\in\mathbb{R}^n$ with $n:=\rho+\sigma$ differs from the no
   \begin{obs}
     We observe that:
     \begin{itemize}
-      \item A change in path parameters affects the energy indirectly. It alters the time when the UAV reaches the final point $\mathbf{p}_{\Gamma_l}$.
+      \item A change in path parameters affects the energy indirectly. It alters the time when the aerial robot reaches the final point $\mathbf{p}_{\Gamma_l}$.
       \item A change in computation parameters affects the energy directly. It alters the instantaneous energy consumption as more computations require more power (and vice versa).
     \end{itemize}
   \end{obs}
@@ -555,8 +555,8 @@ where $B\in\mathbb{R}^{m\times n}$ contains zeros except the first row where the
 
 $\hat{\mathbf{u}}(t)$ is a stage-dependent scale transformation with 
 \begin{subequations}\label{eq:scaling}\begin{align}
-\nu_i&=\begin{bmatrix}\nu_i^\rho & \nu_i^\sigma\end{bmatrix}^T,\\ 
-\tau_i&=\begin{bmatrix}\tau_i^\rho & \tau_i^\sigma\end{bmatrix}^T,
+\nu_i&=\begin{bmatrix}\nu_i^\rho & \nu_i^\sigma\end{bmatrix}',\\ 
+\tau_i&=\begin{bmatrix}\tau_i^\rho & \tau_i^\sigma\end{bmatrix}',
 \end{align}\end{subequations}
 scaling factors quantifying the contribution to the plan of a given parameter in terms of time for the first $\rho$ parameters, and power for the remaining $\sigma$ (we use the same notation for the path and computation scaling factors as for the parameters). 
 
@@ -572,7 +572,7 @@ $B\mathbf{u}(t)$ merely includes the difference in power into the model in \fref
 \begin{figure}[h]
   \centering
   \input{figures/traj4.tikz}
-  \caption[Path of a UAV flying a given stage]{.}
+  \caption[Path of a aerial robot flying a given stage]{.}
   \label{fig:tee1}
 \end{figure}
 \begin{figure}[h]
@@ -595,7 +595,7 @@ The set
 \begin{equation}\label{eq:area}
   \mathcal{P}_i:=\{\mathbf{p}_k\mid\varphi_i(\mathbf{p}_k,c_{i}^\rho)\in\mathcal{C}_i\},
 \end{equation}
-delimits the area where the $i$-th path $\varphi_i$ is free to evolve using the path parameters $c_i^\rho$ (the gray area in \fref{fig:tee1}{Figure}). $\varphi_i$ is a function of the two coordinates and the path parameters, and is equal to zero when a point $\mathbf{p}_k$ is on the path. Physically, this means the UAV is flying exactly over the nominal trajectory. 
+delimits the area where the $i$-th path $\varphi_i$ is free to evolve using the path parameters $c_i^\rho$ (the gray area in \fref{fig:tee1}{Figure}). $\varphi_i$ is a function of the two coordinates and the path parameters, and is equal to zero when a point $\mathbf{p}_k$ is on the path. Physically, this means the aerial robot is flying exactly over the nominal trajectory. 
 
 The path parameters allows to change the path. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy by changing the flying time in the example in \fref{fig:il-abs}{Figure}.
 In fact, the algorithm uses the set from \frefeq{eq:area} to find the path parameters such that the plan consisting of flying $\varphi_i$ has the highest energy, while still respecting the constraints. In \fref{fig:tee1}{Figure}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions do not allow to terminate the plan.
@@ -632,7 +632,7 @@ Whenever the trajectory parameters are not equally distributed, one can define $
 
 Let us recall from \fref{def:stage}{Definition} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using {\small\tt{powprofiler}}, the open-source modeling tool adapted from earlier work on computational energy analysis~\citep{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\citep{seewald2020mechanical}. 
 
-For this purpose, we assume the UAV carries an embedded board that runs the computations. Our tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
+For this purpose, we assume the mobile robot carries an embedded board that runs the computations. Our tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per each computation. 
 
 The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS-based system~\citep{quigley2009ros}. The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\citep{seewald2019component}. In both cases, with ROS~\citep{zamanakos2020energy} or with generic software components system~\citep{seewald2019component}, the tool performs automatic modeling. For instance, if the computation is an object detector, a computation parameter $c_{1,2}$ might correspond to frames-per-second (fps) rate. The tool then measures power according to the detection frequency.
 

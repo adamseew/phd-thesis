@@ -12,7 +12,7 @@
 %    \end{st} 
 %\end{highlight}
 
-\lettrine{T}{his} chapter provides essential theoretical background on optimal control theory necessary to derive an optimal configuration of the path and computations of the flying \Gls{acr:uav}. It solves the problem posed in~\fref{sec:pb-form}{Section} and illustrate an algorithm that generates the optimal configuration dynamically. The algorithm relies on a modern optimal control technique known as model predictive control (\Gls{acr:mpc}), where the optimal control trajectory is evaluated on a receding horizon for each optimization step~\citep{rawlings2017model}. 
+\lettrine{T}{his} chapter provides essential theoretical background on optimal control theory necessary to derive an optimal configuration of the path and computations of the mobile robot. It solves the problem posed in~\fref{sec:pb-form}{Section} and illustrate an algorithm that generates the optimal configuration dynamically. The algorithm relies on a modern optimal control technique known as model predictive control (\Gls{acr:mpc}), where the optimal control trajectory is evaluated on a receding horizon for each optimization step~\citep{rawlings2017model}. 
 
 Optimal control deals with finding optimal ways to control a dynamic system~\citep{sethi2019optimal}. It determines the control signal--the evolution in time of the decision variables--such that the model satisfies the dynamics and simultaneously optimizes a performance index~\citep{kirk2004optimal}.
 
@@ -23,19 +23,19 @@ Many optimization problems originating in fields such as robotics, economics, an
     \footnotesize
     \begin{tikzpicture}[auto, node distance=3.2cm,>=latex']
         \node [input, name=rinput] (rinput) {};
-        \node [right of=rinput] (uav) {\input{figures/opterra-bp.tikz}};
-        \node [block,right of=uav,node distance=2.2cm] (theblock) {\Gls{acr:ocp}};
+        \node [right of=rinput] (mobrob) {\input{figures/opterra-bp.tikz}};
+        \node [block,right of=mobrob,node distance=2.2cm] (theblock) {\Gls{acr:ocp}};
         \node [block,right of=theblock,node distance=2.2cm] (theblock2) {\Gls{acr:nlp}};
-        \draw [->] (uav) -- node{} (theblock);
+        \draw [->] (mobrob) -- node{} (theblock);
         \draw [->] (theblock) -- node{} (theblock2);
         \draw [->] (theblock2) -- ++(0,-1cm) -| node[pos=0.23] {path/computations} 
-        node [near end] {} (uav);
+        node [near end] {} (mobrob);
         \draw [decorate,decoration={brace,amplitude=5pt,raise=26pt},yshift=0pt] (theblock.north west) -- (theblock2.north east) node [black,midway,yshift=10ex]{numerical simulation};
 
         \draw [decorate,decoration={brace,amplitude=5pt,raise=4pt},yshift=0pt] (theblock2.north west) -- (theblock2.north east) node [black,midway,yshift=3ex]{numerical optimization};
-        \draw [decorate,decoration={brace,amplitude=5pt,raise=4pt},yshift=0pt] (uav.north west) -- (uav.north west -| theblock.north east) node [black,midway,sloped,yshift=3ex]{dynamic planing problem};
+        \draw [decorate,decoration={brace,amplitude=5pt,raise=4pt},yshift=0pt] (mobrob.north west) -- (mobrob.north west -| theblock.north east) node [black,midway,sloped,yshift=3ex]{dynamic planing problem};
     \end{tikzpicture}
-    \caption[Summary of the optimal control approach]{Summary of the optimal control approach. The problem is formulated as an \Gls{acr:ocp}, into finite-dimensional discrete \Gls{acr:nlp} using numerical simulation. \Gls{acr:nlp} is solved using numerical optimization and the optimal configuration for a given time horizon is returned to the UAV. The following horizon is evaluated again in a technique known as \Gls{acr:mpc}.}
+    \caption[Summary of the optimal control approach]{Summary of the optimal control approach. The problem is formulated as an \Gls{acr:ocp}, into finite-dimensional discrete \Gls{acr:nlp} using numerical simulation. \Gls{acr:nlp} is solved using numerical optimization and the optimal configuration for a given time horizon is returned to the aerial robot. The following horizon is evaluated again in a technique known as \Gls{acr:mpc}.}
     \label{fig:opt:process-summary}
 \end{figure}
 
@@ -43,7 +43,7 @@ A typical performance measure for an \Gls{acr:ocp} is built such that the system
 
 The outline of the chapter is as follows. After a brief history of optimal control, we introduce formally the \Gls{acr:ocp} subject to continuous dynamics. We then illustrate numerical simulation approaches to convert the infinite-dimensional continuous dynamics into finite-dimensional discrete dynamics. We formulate later in the chapter the dynamic planning problem for the optimal configuration of the path and computations with proper constraints. Finally, we illustrate \Gls{acr:mpc} to solve \Gls{acr:ocp} on a receding horizon. We propose an algorithm to solve such \Gls{acr:ocp} using a numerical method on the horizon along with the analysis of its practical feasibility.
 
-The chapter builds on the rest of the work as follows. In the \Gls{acr:ocp} formulation, we use the estimated state from \fref{cp:est}{Chapter} of a perfect model in \fref{cp:model}{Chapter} to solve the planning problem in \fref{sec:pb-form}{Section} and guide the UAV with the obtained optimal configuration from this chapter with the technique in \fref{cp:gd}{Chapter}.
+The chapter builds on the rest of the work as follows. In the \Gls{acr:ocp} formulation, we use the estimated state from \fref{cp:est}{Chapter} of a perfect model in \fref{cp:model}{Chapter} to solve the planning problem in \fref{sec:pb-form}{Section} and guide the aerial robot with the obtained optimal configuration from this chapter with the technique in \fref{cp:gd}{Chapter}.
 
 \section{A Brief History of Optimal Control}
 
@@ -80,7 +80,7 @@ If the control trajectory $\mathbf{u}(t_0),\mathbf{u}(t_1),\dots,\mathbf{u}(T-\D
 
 Optimal control finds a control trajectory which maximizes (or minimizes) a performance index
 \begin{equation}
-    L=l_f(\mathbf{q}(T),T)+\int_{t_0}^{T}{l(\mathbf{q}(t),\mathbf{u}(t),t)\,dt},
+    L=l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),\mathbf{u}(t),t)\,dt},
 \end{equation}
 where $l,l_f$ are given instantaneous and final cost functions. The instantaneous cost function maps state, controls, and time to a value that quantifies the cost of a given instant $l:\mathbb{R}^m\times\mathbb{R}^n\times\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$. The final cost function maps the state and time to a value which quantifies the cost of the final instant $l_f:\mathbb{R}^m\times\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$. The performance index $L\in\mathbb{R}$ is then the sum of all the contribution on the time horizon.
 
@@ -94,9 +94,10 @@ where $\,\mathcal{U}(t)\subseteq \mathbb{R}^m$ is the control constraint set. It
 
 The \frefeqM{eq:optimization:perfect-model}{eq:optimization:control-constraint-set} forms unconstrained \Gls{acr:ocp}s. These problems are formalized
 \begin{equation}\label{eq:optimization:unconstrained-opt-control-pb}\begin{split}
-    &\max_{\mathbf{u(t)\in\,\mathcal{U}(t)}}{l_f(\mathbf{q}(T),T)+\int_{t_0}^{T}{l(\mathbf{q}(t),\mathbf{u}(t),t)\,dt}},\\
-    &\text{s.t.}\,\,\,\dot{\mathbf{q}}(t)=f(\mathbf{q}(t),\mathbf{u}(t),t)\\
-    &\mathbf{q}(t_0)=\mathbf{q}_0\,\,\,\text{given}.
+    \max_{\mathbf{\mathbf{q}(t),\mathbf{u}(t)}}&{l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),\mathbf{u}(t),t)\,dt}},\\
+    \text{s.t. }\dot{\mathbf{q}}(t)&=f(\mathbf{q}(t),\mathbf{u}(t),t),\\
+    \mathbf{u}(t)&\in\,\mathcal{U}(t),\,\,\,\mathbf{q}(t)\in\,\mathcal{Q}(t),\\
+    \mathbf{q}(t_0)&=\mathbf{q}_0\,\,\,\text{given}.
 \end{split}\end{equation}
 
 %A simplistic controller which uses \frefeq{eq:optimization:unconstrained-opt-control-pb} is shown in \fref{fig:unconstrained-controller}{Fig.}.
@@ -115,7 +116,7 @@ The \frefeqM{eq:optimization:perfect-model}{eq:optimization:control-constraint-s
 %    \caption[Unconstrained state optimal control trajectory controller]{Controller that select the optimal control trajectory from the unconstrained \Gls{acr:ocp} in \frefeq{eq:optimization:unconstrained-opt-control-pb}.}
 %    \label{fig:unconstrained-controller}
 %\end{figure}
-The evolution of the model is used to derive an optimal control trajectory $\mathbf{u}(t)$ from an initial guess of the state $\mathbf{q}_0$ and the horizon. This initial simplistic controller does not represent a realistic scenario. The controller implies that the horizon is known. However, it is often the case that only the initial time step of the horizon $[t_0,T]$ is known. In the model from \fref{cp:model}{Chapter} it is indeed unknown apriori when the UAV plan terminates. Moreover the controller does not include any constraint on the state $\mathbf{q}$, although UAVs are often bounded by strict battery requirements. Lastly, the optimal control generated with such controller is static given the initial state and the horizon. It is unrealistic to assume that the state of the UAV travelling the optimal control $\mathbf{u}$ does not change for instants $t_0+\Delta t,t_0+2\Delta t,\dots,T$.
+The evolution of the model is used to derive an optimal control trajectory $\mathbf{u}(t)$ from an initial guess of the state $\mathbf{q}_0$ and the horizon. This initial simplistic controller does not represent a realistic scenario. The controller implies that the horizon is known. However, it is often the case that only the initial time step of the horizon $[t_0,T]$ is known. In the model from \fref{cp:model}{Chapter} it is indeed unknown apriori when the aerial robot plan terminates. Moreover the controller does not include any constraint on the state $\mathbf{q}$, although mobile robots are often bounded by strict battery requirements. Lastly, the optimal control generated with such controller is static given the initial state and the horizon. It is unrealistic to assume that the state of the aerial robot travelling the optimal control $\mathbf{u}$ does not change for instants $t_0+\Delta t,t_0+2\Delta t,\dots,T$.
 
 All these initial assumption (known final time step, absence of state constraints, static optimal control law) will be eased in the remaining of the chapter.
 
@@ -166,54 +167,82 @@ All these initial assumption (known final time step, absence of state constraint
 
 
 
-\subsection{\color{cyan}Output model predictive control}
+\subsection{Output model predictive control}
 
-In this section, we address the problem of generating the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is configuration of the path and computations parameters. 
+In this section, we address the problem of generating the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is the configuration of the path and computations parameters (see \fref{sec:nom-cont}{Subsection}). 
 
-To derive the optimal control, we use the estimated state $\hat{\mathbf{q}}$ in \fref{cp:est}{Chapter}, opposed to the ideal state in \fref{cp:model}{Chapter}. The estimated state differs from the ideal state $\mathbf{q}$ due to the presence of uncertainty. Indeed the name of output model predictive control in the literature refers to the notion that some available outputs are used to estimate the not fully known state~\citep{rawlings2017model}. For a differential model, such as the periodic model in \frefeq{eq:state-perf} in \fref{sec:periodic-model}{Subsection}, state estimation is done utilizing techniques such as Kalman filtering in \fref{cp:est}{Chapter}).
+To derive the optimal control, we use the estimated state $\hat{\mathbf{q}}$ in \fref{cp:est}{Chapter}, opposed to the perfect state in \fref{cp:model}{Chapter}. The estimated state differs from the perfect state $\mathbf{q}$ due to the uncertainty. The name of output model predictive control in the literature refers to the notion that some available outputs are used to estimate the not fully known state~\citep{rawlings2017model}. For a differential model, such as the periodic model in \frefeq{eq:state-perf} in \fref{sec:periodic-model}{Subsection}, state estimation is done utilizing techniques such as Kalman filtering in \fref{cp:est}{Chapter}.
 
-Before defining and solving the OCP in the case of uncertainty over the finite horizon, let us revaluate the output constraints. We stated earlier in \fref{sec:periodic-model}{Subsection} that the output of the ideal periodic model $y$ in \frefeq{eq:state-perf}--the instantaneous energy consumption--evolves in $\mathbb{R}$. This is an inexact simplification as physical mobile robots are bounded by strict energy budgets due to battery limitations (see \fref{sec:motivation}{Section}).
+Before defining and solving the OCP in the case of uncertainty over the finite horizon, let us re-evaluate the output constraints. The output of the model in \frefeq{eq:state-perf} is the instantaneous energy consumption $y$. We stated earlier that it evolves in $\mathbb{R}$. This is an inexact simplification as physical mobile robots are bounded by strict energy budgets due to battery limitations (see \fref{sec:motivation}{Section}).
 
 Let us hence redefine the original output constraint ($\mathbb{R}$) to include the battery model in \fref{sec:battery-model}{Subsection}. We consider SoC $b$ of the mobile robot's battery with the simplistic difference model in \frefeqM{eq:battery-model-1}{eq:battery-model-2}
 \begin{equation}\label{eq:bat}
-  \dot{b}(t)=-k_b\left(V-
+  \dot{b}(y(t),t)=-k_b\left(V-
   \sqrt{
     V^2-
-    4R_ry_k}
+    4R_ry(t)}
   \right)/(2R_rQ_c),
 \end{equation}
-where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery 
-% and $\tilde{V}\in\mathbb{R}$ the stabilized 
-voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
+where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
 
-We note that the maximum instantaneous energy consumption can be computed by multiplying the constant nominal capacity by the SoC and the internal battery voltage. Therefore, we define a time-varying constraint for the output in \fref{def:const}{Definition}, being the maximum instantaneous energy consumption dependent on the time-dependent SoC $b$ from \frefeq{eq:bat}.
+We note that the maximum instantaneous energy consumption can be computed by multiplying the constant nominal capacity, the SoC, and the internal battery voltage. We also assume the maximum energy consumption cannot be negative
+\begin{equation}
+  0\leq y(t)\leq b(y(t),t)Q_cV.
+\end{equation}
+
+Therefore, we define a time-varying constraint for the output in \fref{def:const}{Definition}, being the maximum instantaneous energy consumption dependent on the time-dependent SoC $b$ from \frefeq{eq:bat}.
 
 \begin{highlight}
 \begin{defn}[Output constraint]\label{def:const}
 The output constraint is the set
 \begin{equation*}
-  \mathcal{Y}(t):=\{y\mid y\in[0,b(t)Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+  \mathcal{Y}(t):=\{y\mid y\in[0,b(y(t),t)Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation*}
-where $b(t)Q_cV$ is the maximum instantaneous energy consumption.
+where $b(y(t),t)Q_cV$ is the maximum instantaneous energy consumption.
 \end{defn}
 \end{highlight}
 
-We assume the mobile robot carries a battery energy sensor and obtain the initial state of charge $b(t_0)$ accordingly.
+We assume the mobile robot carries a battery energy sensor and obtain the initial state of charge $b(y(t_0),t_0)$ accordingly.
+
+The evaluation of the output constraint again requires numerical simulation being the battery model in \frefeq{eq:bat} a differential equation. This is similar to the energy dynamics in \frefeq{eq:state-perf}. The numerical simulation can be once again computed using the Euler method in \fref{sec:euler}{Subsectiion}. or the Runge-Kutta method in \fref{sec:rk4}{Subsection}.
+
+The OCP can is stated similarly as in \fref{sec:opt-constrained}{Subsection}, with the constraints: the constraint in \fref{def:const-set}{Definition}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf}
+\begin{subequations}\begin{align}
+   \max_{\mathbf{q}(t),\mathbf{u}(t)}&{l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),\mathbf{u}(t),t)\,dt}},\\
+   \text{s.t. }\dot{\mathbf{q}}&=f(\mathbf{q}(t),\mathbf{u}(t),t),\\
+   \mathbf{u}(t)&\in\mathcal{U}_i,\mathbf{q}(t)\in\mathbb{R}^m,\label{eq:state-cont-const-mpc}\\
+   y(t)&\in\mathcal{Y}(t),\label{eq:batt-const-mpc}\\
+   q(t_0)&=\mathbf{q}_0\,\,\,\text{given},\text{ and}\\
+   b(y(t_0),t_0)&=b_0\,\,\,\text{given}.
+\end{align}\end{subequations}
+
+The sizes of the state and control ($m$ and $n$) are defined in \fref{sec:periodic-model}{Subsectoion} and \fref{sec:nom-cont}{Subsection} 
+
+The dynamic evolution is then the periodic model in \frefeq{eq:state-perf}
+\begin{equation}\label{eq:perf-model-in-mpc}
+  f(\mathbf{q}(t),\mathbf{u}(t),t)=A\mathbf{q}(t)+B\mathbf{u}(t).
+\end{equation}
 
 ---
 
-The OCP can be hence stated similarly as in \fref{sec:opt-constrained}{Subsection}, with the constraints: the constraint in \fref{def:const-set}{Definition}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf}
-\begin{subequations}\begin{align}
-   &\min_{\mathbf{q},\mathbf{u}}{\int_t^{t+N}{\mathbf{q}^TQ\mathbf{q}+\mathbf{u}^{T}R\mathbf{u}}\,dt}+\mathbf{q}^TQ_f\mathbf{q},\label{eq:ocp}\\
-   &\text{~~s.t. }\dot{\mathbf{q}}=A\mathbf{q}+B\mathbf{u},\\
-   &\text{~~~~~~~~}\mathbf{u}\in\mathcal{U}_i,\mathbf{q}\in\mathbb{R}^l,\\
-   &\text{~~~~~~~~}C\mathbf{q}\leq dQ_cV,\label{eq:ocp-batt}
-\end{align}\end{subequations}
-where $N$ is the optimization horizon, and $\mathcal{U}$ is the control constraint set. $\mathcal{U}$ is $\mathcal{C}_i$ for the first $m$ controls and $\mathcal{S}_{i,j}$ for the remaining $n$. $Q,Q_f\in\mathbb{R}^{l\times l},R\in\mathbb{R}^{v\times v}$ in Equation~(\ref{eq:ocp}) are positive semidefinite matrices. The Equation~(\ref{eq:ocp-batt}) verifies that the modeled power does not exceed the maximum power available from the battery. $d$ is the battery state of charge, $Q_c\in\mathbb{R}$ battery nominal capacity, and $V$ the battery voltage. The state of charge can be retrieved from a sensor and evolved using a differential model~\cite{seewald2019coarse}.
+The instantaneous cost function is defined with the quadratic expression
+\begin{equation}\label{eq:insta-cost-mpc}
+  l(\mathbf{q}(t),\mathbf{u}(t),t)=\mathbf{q}'(t)Q\mathbf{q}(t)+\mathbf{u}'(t)R\mathbf{u}(t),
+\end{equation}
+where $Q\in\mathbb{R}^{m\times m},R\in\mathbb{R}^{n\times n}$ are positive semidefinite matrices.
 
-The modeled state $\mathbf{q}$ value can be estimated from an energy sensor which measures the power of all the robot's components using a state estimator~\cite{seewald202Xenergy}.
+The final cost function is alike defined with a quadratic expression but with no control
+\begin{equation}\label{eq:final-cost-mpc}
+  l_f(\mathbf{q}(T),T)=\mathbf{q}'(T)Q_f\mathbf{q}(T),
+\end{equation}
+where $Q_f\in\mathbb{R}^{m\times m}$ is a positive semidefinite matrix.
 
+The optimization horizon is limited to $N$ measured in seconds, meaning the controller will select the optimal control trajectory $\mathbf{u}^*(t)$ over $[t_0,T]$, with $T=t_0+N$.
 
+The controller selects the optimal control trajectory as follows.
+At each time step the controller refines the optimal control trajectory $\mathbf{u}^*(t)$ which respects the constraints: the dynamics in \frefeq{eq:perf-model-in-mpc}, and the control constraint in \frefeq{eq:state-cont-const-mpc}, and maximizes the instantaneous cost function $l$ in \frefeq{eq:insta-cost-mpc}. The controller refines similarly the state trajectory which respects the dynamics, the state constraint in \frefeq{eq:state-cont-const-mpc}, and the battery constraint in \frefeq{eq:batt-const-mpc}. It maximizes both the instantaneous cost function $l$, and the final cost function $l_f$ in \frefeq{eq:final-cost-mpc}.
+
+The dynamics constraint satisfaction requires to evolve the perfect model $f$ in \frefeq{eq:perf-model-in-mpc} over horizon $[t_0,t_0+N]$ beginning from the latest estimated state $\mathbf{q}_0=\hat{\mathbf{q}}(t_0)$. The battery constraint is likewise evolved beginning from the latest battery measurement $b_0$ obtained from the battery energy sensor.
 
 \subsection{\color{red}Optimal control generation with model predictive control}
 
