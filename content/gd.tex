@@ -17,6 +17,25 @@
 
 \section{\color{red}Vector Fields for Guidance}
 
+ The use of vector fields for guidance is widely discussed in the literature~\citep{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}.
+
+ We derive the new position $\mathbf{p}_{k+1}$ computing the vector field 
+ \begin{equation}
+   \nabla\varphi_i:=\begin{bmatrix}\partial\varphi_i/\partial x \\ \partial\varphi_i/\partial y\end{bmatrix},  
+ \end{equation}
+ and the direction to follow in the form of velocity vector~\cite{de2017guidance}
+ \begin{equation}\label{eq:pd}
+   \dot{\mathbf{p}}_d(\mathbf{p}_k):=E\nabla\varphi_i-k_e\varphi_i\nabla\varphi_i,
+ \end{equation}
+ where $E$ specifies the rotation (it influence the tracking direction). For instance
+ \begin{equation}
+   E=\begin{bmatrix}
+     0&1\\-1&0
+   \end{bmatrix},
+ \end{equation}
+ is the counter clockwise direction, $-E$ the clockwise direction. 
+ 
+ $k_e\in\mathbb{R}_{\geq 0}$ is the gain to adjusts the speed of convergence. The direction the velocity vector $\dot{\mathbf{p}}_d$ is pointing at is generally different from the course heading $\dot{\mathbf{p}}$ due to the atmospheric interferences (wind $w\in\mathbb{R}$ in the top of \fref{fig:tee1}{Figure}).
 
 \section{\color{red}Derivation of the Guidance Action}
 

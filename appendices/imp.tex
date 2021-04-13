@@ -44,7 +44,7 @@ end
 
 The function builds the matrices from \frefeq{eq:state-perf}. In particular matrix $A$ from \frefeq{eq:mat_A}, $B$ from \frefeq{eq:mat_B}, and $C$ from \frefeq{eq:mat_C}. The term $1/T$ is missing in \stt{C} as we motivated in the proof of \fref{lem:eqv}{Lemma} in \frefeq{eq:mat_C_generic}. The nominal control from \frefeq{eq:state-control} is \stt{u}, and the energy estimate of a given control sequence at time instant $t$ and the previous time instant $t-1$ from \frefeq{eq:estimate-control} is \stt{est\_u}. 
 
-The function requires the structure \stt{dat} illustrated in \fref{lst:struct_dat}{Listing}. The structure contains some information about the model. In particular, \stt{r} is the order $r$ of the model from \fref{sec:periodic-model}{Subsection}, \stt{omega} is the angular frequency $\omega$, \stt{rho} the number of path parameters to alter the path $\rho$, and \stt{sigma} the number of computation parameters to alter the computations $\sigma$. The path parameters are defined in \frefeq{eq:path-params}, and the computation parameters are defined in \frefeq{eq:comp-params}. Furthermore, \stt{delta\_T} is the sampling step $\Delta t$, and \stt{nu} and \stt{tau} are scaling factors from \frefeq{eq:scaling}.
+The function requires the structure \stt{dat} illustrated in \fref{lst:struct_dat}{Listing}. The structure contains some information about the model. In particular, \stt{r} is the order $r$ of the model from \fref{sec:periodic-model}{Subsection}, \stt{omega} is the angular frequency $\omega$, \stt{rho} the number of path parameters to alter the path $\rho$, and \stt{sigma} the number of computation parameters to alter the computations $\sigma$. The path parameters are defined in \frefeq{eq:path-params}, and the computation parameters are defined in \frefeq{eq:comp-params}. Furthermore, \stt{delta\_T} is the sampling step $\Delta t$, and \stt{nu} and \stt{tau} are scaling factors ($\nu$ and $\tau$) from \frefeq{eq:scaling}.
 
 \begin{lstlisting}[language=Matlab,caption={[Struct used to build the model]Struct \stt{dat} used by function \stt{build\_model} to build the model.},captionpos=b,label=lst:struct_dat]
 dat.r = 3;
@@ -56,7 +56,7 @@ dat.nu = nu;
 dat.tau = tau;
 \end{lstlisting}
 
-The function \stt{build\_model} and the structure \stt{dat} can be used along an initial guess of parameters and a time horizon to model the future energy consumption using the Euler or Runge-Kutta methods for numerical integration. The Euler method is described in \fref{sec:euler}{Subsection} and implemented in \fref{lst:euler}{Listing}, the Runge-Kutta method in \fref{sec:rk4}{Subsection} and \fref{lst:rk4}{Listing}. For the Runge-Kutta method, we use the fourth-order fixed size standard algorithm. 
+The function \stt{build\_model} and the structure \stt{dat} can be used along an initial guess of parameters and a time horizon to model the future energy consumption using the Euler or Runge-Kutta methods for numerical integration. The Euler method is described in \fref{sec:euler}{Subsection} and implemented in \fref{lst:euler}{Listing}, the Runge-Kutta method in \fref{sec:rk4}{Subsection} and \fref{lst:rk4}{Listing}. For the Runge-Kutta method, we use the fourth-order fixed size standard method. 
 
 \begin{lstlisting}[language=Matlab,caption={[Euler method for numerical integration]Euler method for numerical integration of the model.},captionpos=b,label=lst:euler]
 function [q,y] = evolve_model_euler(model,dat,init)
@@ -99,13 +99,13 @@ init.est_u0 = est_u0;
 init.c_chain = c_chain;
 \end{lstlisting}
 
-In \fref{lst:init}{Listing}, the field \stt{t0} indicates the initial time $t_0$ (the mathematical simulation starts at $t_0+\Delta t$ assuming the instant $t_0$ corresponds to the state $\mathbf{q}(t_0)$). The field \stt{tf} indicates the final time $t_f$ when the simulation stops. Both fields are expressed in seconds. The field \stt{q0} indicates the initial state guess at time instant $t_0$, $\mathbf{q}(t_0)$, and finally \stt{c\_chain} the sequence of controls. If we assume that the simulation horizon is $N:=t_f-t_0$ with $(t_f-t_0)\in\mathbb{R}_{>0}$, then the user is expected to provide $N-1$ controls. Finally, the field \stt{est\_u0} contains the control energy estimate at time $t_0$, the value $\hat{\mathbf{u}}(t_{-1})$. If $t_0$ is the initial time step, then \stt{est\_u0} is set to zero.  
+In \fref{lst:init}{Listing}, the field \stt{t0} indicates the initial time $t_0$ (the mathematical simulation starts at $t_0+\Delta t$ assuming the instant $t_0$ corresponds to the state $\mathbf{q}(t_0)=\mathbf{q}_0$). The field \stt{tf} indicates the final time $t_f$ when the simulation stops. This is usually $t_0+N$ where $N$ is the optimization horizon. Both fields are expressed in seconds. The field \stt{q0} indicates the initial state guess at time instant $t_0$, $\mathbf{q}_0$, and finally \stt{c\_chain} the sequence of controls. If we assume that the horizon is $N:=t_f-t_0$ with $(t_f-t_0)\in\mathbb{R}_{>0}$, then the user is expected to provide $N-1$ controls. Finally, the field \stt{est\_u0} contains the control energy estimate at time $t_0$, the value $\hat{\mathbf{u}}(t_{-1})$. If $t_0$ is the initial time step, then \stt{est\_u0} is set to zero.  
 
 \begin{lstlisting}[language=Matlab,caption={Runge-Kutta fourth order method for numerical integration of the model.},captionpos=b,label=lst:rk4]
 % TODO
 \end{lstlisting}
 
-Before calling structure \stt{dat}, it is necessary to define the scaling factors $\nu_1,\nu_2,\dots,\nu_{\rho}$ and $\tau_1,\tau_2,\dots,\tau_{\rho}$ for the path parameters, and $\nu_{\rho+1},\nu_{\rho+2},\dots,\nu_{\rho+\sigma}$ and $\tau_{\rho+1},\tau_{\rho+2},\dots,\tau_{\rho+\sigma}$ for the computation parameters. If we use \fref{lst:init}{Listing} there is one path and one computation parameters. 
+Before calling structure \stt{dat}, it is necessary to define the scaling factors $\nu_1,\nu_2,\dots,\nu_{\rho}$ and $\tau_1,\tau_2,\dots,\tau_{\rho}$ for the path parameters, and $\nu_{\rho+1},\nu_{\rho+2},\dots,\nu_{\rho+\sigma}$ and $\tau_{\rho+1},\tau_{\rho+2},\dots,\tau_{\rho+\sigma}$ for the computation parameters. For example, we suppose there is one path and one computation parameters. 
 
 \begin{lstlisting}[language=Matlab,caption={[Implementation of path and computation parameters scaling factors]Implementation of path and computation parameters scaling factors.},captionpos=b,label=lst:nu_tau,escapechar=|]
 nu1 = -(max_t-min_t)/min_c1;|\label{inlst:path-params}|
@@ -118,11 +118,13 @@ nu = [nu1;nu2];
 tau = [tau1;tau2];
 \end{lstlisting}
 
-The scaling factors thus can be defined according to \frefeq{eq:scale-traj} for the path parameter on \fref{inlst:path-params}{Line} and according to \frefeq{eq:scale-comp} for the computation parameter on \fref{inlst:comp-params}{Line}.
+\fref{lst:nu_tau}{Listing} has to run before \fref{lst:struct_dat}{Listing}.
 
-Let us assume there is one path parameter $c_1$ which doesn't change for the stages $i=\{1,2,\dots,l\}$. \stt{max\_t} and \stt{min\_t} are the maximum and minimum times that correspond to the time needed to hypothetically execute the path with parameter $c_1=\overline{c}_1$ and with parameter value $c_1=\underline{c}_1$. A guess for these values can be obtained empirically; we obtained them by running the simulator. They correspond to $\overline{t}$ and $\underline{t}$ in \frefeq{eq:scale-traj}.
+The scaling factors can be defined according to \frefeq{eq:scale-traj} for the path parameter on \fref{inlst:path-params}{Line} and according to \frefeq{eq:scale-comp} for the computation parameter on \fref{inlst:comp-params}{Line}.
 
-Let us further assume there is one computation parameter $c_2$ which doesn't change for the stages $i=\{1,2,\dots,l\}$. \stt{max\_c2} and \stt{min\_c2} are the minimum and maximum configuration of the computation parameter $c_2$ defined in \fref{def:stage}{Definition}. \stt{g\_max\_c2} and \stt{g\_min\_c2} are values retrieved from \powprof{} and they correspond to $g(\overline{c}_2)$ and $g(\underline{c}_2)$ in \frefeq{eq:scale-comp}. Function $g$ is formally defined in \fref{def:comp-ener}{Definition}.
+Let us assume that the one path parameter $c_1$ doesn't change for the stages $i=\{1,2,\dots,l\}$. \stt{max\_t} and \stt{min\_t} are the maximum and minimum times that correspond to the time needed to hypothetically execute the path with parameter $c_1=\overline{c}_1$ and with parameter value $c_1=\underline{c}_1$. A guess for these values can be obtained empirically; we obtained them by running the simulation. They correspond to $\overline{t}$ and $\underline{t}$ in \frefeq{eq:scale-traj}.
+
+Let us further assume that the one computation parameter $c_2$ doesn't change for the stages $i=\{1,2,\dots,l\}$. \stt{max\_c2} and \stt{min\_c2} are the minimum and maximum configuration of the computation parameter $c_2$ defined in \fref{def:stage}{Definition}. \stt{g\_max\_c2} and \stt{g\_min\_c2} are values retrieved from \powprof{} and they correspond to $g(\overline{c}_2)$ and $g(\underline{c}_2)$ in \frefeq{eq:scale-comp}. Function $g$ is formally defined in \fref{def:comp-ener}{Definition}.
 
 A possible call to the functions \stt{build\_model} and \stt{evolve\_model\_euler} or \stt{evolve\_model\_rk4} from \fref{lst:build_model}{Listing} and \fref{lst:euler}{Listing} or \fref{lst:rk4}{Listing} is illustrated in \fref{lst:call_model}{Listing}.
 
@@ -131,7 +133,7 @@ model = build_model(dat);
 [q,y] = evolve_model_euler(model,dat,init);
 \end{lstlisting}
 
-A generic routine to plot the resulting modeled energy and the coefficients $\mathbf{q}$ is illustrated in \fref{lst:model_plot}{Listing}.
+A generic routine to plot the resulting modeled energy and the coefficients $\mathbf{q}$ in \frefeq{eq:state-perf} is illustrated in \fref{lst:model_plot}{Listing}.
 
 \begin{lstlisting}[language=Matlab,caption={[Plot of the modeled energy and coefficients]A generic polotting routine for them modeled energy and coefficients evolution.},captionpos=b,label=lst:model_plot]
 time = dat.t0:model.delta_T:dat.tf;
@@ -159,7 +161,7 @@ xlabel(t,'time (sec)');
 ylabel(t,'value');
 \end{lstlisting}
 
-We describe the estimation of $T$, \stt{period} in structure \stt{dat}, in \fref{sec:imp_period_est}{Subsection}. We generate the $N-1$ controls in \fref{sec:imp_opt}{Section}. For benchmarking, one can define the lowest (or similarly the highest) level of parameters with \fref{lst:lowest_control}{Listing}. It has to be executed before defining the structure \stt{init}.
+We describe the estimation of $T$, the \stt{period} in structure \stt{dat}, in \fref{sec:imp_period_est}{Subsection}. We generate the $N-1$ controls in \fref{sec:imp_opt}{Section}. For benchmarking, one can define the lowest (or similarly the highest) level of parameters with \fref{lst:lowest_control}{Listing}. It has to run before defining the structure \stt{init} in \fref{lst:init}{Listing}.
 
 \begin{lstlisting}[language=Matlab,caption={[Lowest control chain]Implementation of the lowest possible control for benchmarking.},captionpos=b,label=lst:lowest_control]
 c_chain = min_c1*ones(1,N-1);
