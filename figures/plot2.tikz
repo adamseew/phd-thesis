@@ -1,0 +1,44 @@
+
+\def \globalscale {1.000000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-.7*\globalscale, xscale=.7*\globalscale, inner sep=0pt, outer sep=0pt]
+
+\path[cm={{1.0,0.0,0.0,1.0,(0,0)}}] (0.0000,0.0000) node[below right] () {\includegraphics[width=3.122in]{figures/source/out30(1)}};
+
+\path[fill=foo,line join=round,fill opacity=0.35,line width=0.256pt] (0.0000,247.7590) -- (227.8430,146.1690) -- (403.2000,150.1500) -- (403.2000,273.8490) -- (0.0000,247.7590) -- cycle;
+
+\path[draw=white,line join=round,line width=0.512pt] (19.6911,244.5640) -- (56.0711,227.9040);
+
+
+
+\path[draw=white,line join=round,line width=0.512pt] (19.8503,205.9030) -- (19.8504,244.6440) -- (67.5301,247.1570);
+
+
+
+\path[fill=white,line join=round,line width=0.160pt] (63.6000,244.7010) -- (65.5307,247.0370) -- (63.4689,249.0560) -- (69.3046,247.0560) -- (63.6000,244.7010) -- cycle;
+
+
+
+\path[fill=white,line join=round,line width=0.160pt] (52.5130,227.1350) -- (55.3596,228.1760) -- (54.6000,230.9590) -- (58.6260,226.2860) -- (52.5130,227.1350) -- cycle;
+
+
+
+\path[fill=white,line join=round,line width=0.160pt] (17.6441,209.5580) -- (19.8958,207.5300) -- (22.0002,209.5030) -- (19.7535,203.7580) -- (17.6441,209.5580) -- cycle;
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(13.0,267.0)}}] (0.0000,0.0000) node[above right] () {\color{white}$\mathcal{O}_W$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(69.0,259.0)}}] (0.0000,0.0000) node[above right] () {\color{white}$x$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(50.0,220.0)}}] (0.0000,0.0000) node[above right] () {\color{white}$y$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(10.0,203.0)}}] (0.0000,0.0000) node[above right] () {\color{white}$z$};
+
+\end{tikzpicture}
+

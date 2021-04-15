@@ -187,7 +187,14 @@ We focus and show the performance on search and rescue and precision agriculture
 
 In the search and rescue scenario, the aerial robot performs autonomous detections of patterns over the sea. With this scenario, we mostly focus on the validation of the computation energy model (described in detail in \fref{sec:comp-ener-model}{Section}).
 
-In the precision agriculture scenario, the aerial robot covers a given agricultural field (a polygon) and search for ground hazards. The plan is structured as follows. Path-wise, the Opterra fixed-wing drone from \fref{fig:opterra}{Figure} flies in circles and lines covering the polygon. Computation-wise, it detects hazards using a neural network and notifies grounded mobile robots employed for, e.g., harvesting. The approach alters the plan; it controls the processing rate and the radius of the circles affecting the distance between the lines. In the literature, precision agriculture is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and aerial robots for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. With this scenario, we validated the work experimentally.
+\begin{figure}[h]
+  \centering
+  \input{figures/plot2.tikz}
+  \caption[The covering problem in a precision agriculture scenario]{The covering problem in a precision agriculture scenario. The aerial robot has to cover an agricultural field that forms a polygon (blue/transparent area in the frame) and run some autonomous tasks {\scriptsize(photo credit: Amit Ferencz Appel)}.}
+  \label{fig:plot2}
+\end{figure}
+
+In the precision agriculture scenario, the aerial robot covers a given agricultural field (a polygon) and search for ground hazards. The covering problem in the precision agriculture scenario is illustrated in \fref{fig:plot2}{Figure}. The plan is structured as follows. Path-wise, the Opterra fixed-wing drone from \fref{fig:opterra}{Figure} flies in circles and lines covering the polygon. Computation-wise, it detects hazards using a neural network and notifies grounded mobile robots employed for, e.g., harvesting. The approach alters the plan; it controls the processing rate and the radius of the circles affecting the distance between the lines. In the literature, precision agriculture is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and aerial robots for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. With this scenario, we validated the work experimentally.
 
 We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery.
 
@@ -325,6 +332,21 @@ Generally, one can express the triggering points in function of the $i$-th traje
 
 \subsection{\color{cyan}The flight plan}
 \label{sec:flight-plan}
+
+\begin{figure}[h]
+  \centering
+  \input{figures/plot3.tikz}
+  \caption[.]{.}
+  \label{fig:plot3}
+\end{figure}
+
+\begin{figure}[p!]
+  \centering
+  \input{figures/plot4.tikz}
+  \caption[.]{.}
+  \label{fig:plot4}
+\end{figure}
+
 
 \begin{figure}[h]
   \centering
