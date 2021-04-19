@@ -330,78 +330,99 @@ We illustrate the definition of plan, stage, trigerring, and final points in \fr
     
 Generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary (see \fref{fig:state-machine2}{Figure}).
 
-\subsection{\color{cyan}The flight plan}
+\subsection{Example}
 \label{sec:flight-plan}
 
-In this section we discuss an example of some flight plans for autonomous robots addressing the covering problem in \fref{fig:plot2}{Figure}. Let us assume the polygon is regular and has four side (is a rectangle). An initial static plan $\Gamma$ can be composed of four stages. Each stage contains a path
-\begin{subequations}\label{eq:basic-plan}\begin{align}
-  \varphi_1(\mathbf{p}(t))&:=x-10\\
-  \varphi_2(\mathbf{p}(t))&:=(x-15)^2+(y-10)^2-25\\
-  \varphi_3(\mathbf{p}(t))&:=x-20\\
-  \varphi_4(\mathbf{p}(t))&:=(x-25)^2+(y-140)^2-25
-\end{align}\end{subequations}
-where $x,y$s are the $x$- and $y$-coordinates of the point $\mathbf{p}(t)$.
+In this section, we discuss an example of a flight plan for autonomous robots addressing the covering problem in \fref{fig:plot2}{Figure}. We assume the polygon is regular and has four sides--it is a rectangle. An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage. Such intuitive static plan is illustrated in \fref{fig:plot3}{Figure}.
 
 \begin{figure}[t]
   \centering
-  \input{figures/plot3x.tikz}
-  \caption[.]{.}
+  \input{figures/plot3.tikz}
+  \caption[Intuitive plan to cover a regular polygon with four sides]{An intuitive plan to cover a regular polygon with four sides. The plan is composed of circles $\varphi_2,\varphi_4$ and lines $\varphi_1,\varphi_3$ (gray lines). To switch between paths the aerial robot reaches the proximity of triggering points ($\mathbf{p}_{\Gamma_1}:=(x_{\Gamma_1},y_{\Gamma_1}),\mathbf{p}_{\Gamma_2},\mathbf{p}_{\Gamma_3},\mathbf{p}_{\Gamma_4}$). The dashed blue line indicates the triggering points, and the black line is the planned flight. The rest of the polygon is covered iterating these primitive paths $\varphi_1,\varphi_2,\varphi_3,\varphi_4$.}
   \label{fig:plot3}
 \end{figure}
 
-These four paths are illustrated in \fref{fig:plot3}{Figure}. The triggering points (the points in which proximity occurs the change of stage) are then the points
-\begin{equation}\label{eq:basic-plan-trigs}
-  \mathbf{p}_{\Gamma_1}:=(10,10),\,\,\,\mathbf{p}_{\Gamma_2}:=(20,10),\,\,\,\mathbf{p}_{\Gamma_3}:=(20,140),\,\,\,\mathbf{p}_{\Gamma_4}:=(30,140).
-\end{equation}
+The intuitive plan can be used to solve the covering problem with a rotary-wing aerial robot. However, it is unsuitable for a fixed-wing craft such as the Opterra that we use for the precision agriculture scenario in this work (see \fref{fig:opterra}{Figure}). Fixed-wing aerial robots have considerably reduced maneuverability compared to rotary-wings. They are generally unable to perform sharp turns in flight.
 
-The covering problem can be solved using the paths in \frefeq{eq:basic-plan} and the triggering points in \frefeq{eq:basic-plan-trigs}. One can easily generate the remaining paths $\varphi_5,\varphi_6,\dots,\varphi_l$ and the remaining triggering points $\mathbf{p}_{\Gamma_5},\mathbf{p}_{\Gamma_6},\dots,\mathbf{p}_{\Gamma_l}$. For the paths, starting from \frefeq{eq:basic-path}, a generic covering problem can be expressed
-\begin{subequations}\label{eq:basic-plan-gene}\begin{align}
-  \varphi_i(\mathbf{p}(t))&:=x-x_{\Gamma_1}-(j-1)x_d,\\
-  \varphi_{i+1}(\mathbf{p}(t))&:=(x-x_{\Gamma_1}-r-(j-1)x_d)^2+(y-y_{\Gamma_1})^2-r^2,\\
-  \varphi_{i+2}(\mathbf{p}(t))&:=x-x_{\Gamma_3}-(j-1)x_d,\\
-  \varphi_{i+3}(\mathbf{p}(t))&:=(x-x_{\Gamma_3}-(j-1)x_d-r)^2+(y-y_{\Gamma_3})^2-r^2,
-\end{align}\end{subequations}
-where $i\in\{1,5,9,\cdots,l-3\}$, $j\in[l/4-1]$, $x_d$ is a shift on the $x$-axis, and $r$ is a constant radius.
-
-The triggering points can be expressed generically
-\begin{subequations}\label{eq:basic-plan-trigs-gene}\begin{align}
-  \mathbf{p}_{\Gamma_1}&:=(x_{\Gamma}+(j-1)x_d,y_{\Gamma_1}),\\
-  \mathbf{p}_{\Gamma_2}&:=(x_{\Gamma}+(j-1)x_d+x_d/2,y_{\Gamma_1}),\\
-  \mathbf{p}_{\Gamma_3}&:=(x_{\Gamma}+(j-1)x_d+x_d/2,y_{\Gamma_3}),\\
-  \mathbf{p}_{\Gamma_4}&:=(x_{\Gamma}+(j-1)x_d+x_d,y_{\Gamma_3}),
-\end{align}\end{subequations}
-where $y_{\Gamma_3}-y_{\Gamma_1}$ is the height of the polygon to be covered, and $lx_d/4$ the length (see \fref{fig:plot3}{Figure}).
-
-The path that we defined in \frefeqM{eq:basic-plan-gene}{eq:basic-plan-trigs-gene} can be used to solve the covering problem using a rotary-wing aerial robot. However, it is unsuitable for a fixed-wing aerial robot such as the Opterra that we use for the precision agriculture scenario (see \fref{fig:opterra}{Figure}). Fixed-wings have considerably reduced maneuverability compared to rotary-wings due to  The Opterra would have to perform sharp turns in flight. We hence change the plan maximizing the efficiency of a fixed-wing aerial robot turning.
-
-A fixed-wing aerial robot plan for the regular polygon with four sides can be expressed with the paths
-\begin{subequations}\label{eq:basic-plan-trigs-gene}\begin{align}
-\varphi_1(\mathbf{p}(t))&:=x-10\\
-\varphi_2(\mathbf{p}(t))&:=(x-85)^2+(y-10)^2-5625\\
-\varphi_3(\mathbf{p}(t))&:=x-160\\
-\varphi_4(\mathbf{p}(t))&:=(x-90)^2+(y-140)^2-4900\end{align}
-\end{subequations}
+An updated version of the intuitive plan for fixed-wing aerial robots is illustrated in \fref{fig:plot4}{Figure}.
 
 \begin{figure}[p!]
   \centering
-  \input{figures/plot4x.tikz}
-  \caption[.]{.}
+  \input{figures/plot4.tikz}
+  \caption[Fixed-wing aerial robot's plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle of the intuitive plan in \fref{fig:plot3}{Figure} but preserving large turns necessary for the flight of a fixed-wing craft. Likewise in \fref{fig:plot3}{Figure}, the entire polygon is covered iterating the primitive paths $\varphi_1,\varphi_2,\varphi_3,\varphi_4$ (gray lines). The dashed blue line indicates the triggering points, and the black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_d/4$.}
   \label{fig:plot4}
 \end{figure}
 
-These four updated paths are illustrated in \fref{fig:plot4}{Figure}. 
+The paths that correspond to the fixed-wing aerial robot's plan 
+\begin{subequations}\label{eq:basic-plan}\begin{align}
+\varphi_1(\mathbf{p}(t))&:=x-10,\label{eq:line1}\\
+\varphi_2(\mathbf{p}(t))&:=(x-85)^2+(y-10)^2-5625,\label{eq:circ1}\\
+\varphi_3(\mathbf{p}(t))&:=x-160,\label{eq:line2}\\
+\varphi_4(\mathbf{p}(t))&:=(x-90)^2+(y-140)^2-4900,\label{eq:circ2}\end{align}
+\end{subequations}
+where $x,y$s are the $x$- and $y$-coordinates of a generic point $\mathbf{p}(t)$. 
 
+The triggering points (the points in which proximity occurs the change of stages) are then the points
+\begin{equation}\label{eq:basic-plan-trigs}
+  \mathbf{p}_{\Gamma_1}:=(10,10),\,\mathbf{p}_{\Gamma_2}:=(160,10),\,\mathbf{p}_{\Gamma_3}:=(160,140),\,\mathbf{p}_{\Gamma_4}:=(20,140).
+\end{equation}
 
-%\begin{figure}[h]
-%  \centering
-%  \input{figures/traj1.tikz}
-%  \caption[Definition notation on a slice of the plan]{Definition notation shown on an slice of the plan.}
-%  \label{fig:traj1}
-%\end{figure}
+The covering problem can be solved using the paths in \frefeq{eq:basic-plan}, the triggering points in \frefeq{eq:basic-plan-trigs}, the remaining paths $\varphi_5,\varphi_6,\dots,\varphi_l$, and triggering points $\mathbf{p}_{\Gamma_5},\mathbf{p}_{\Gamma_6},\dots,\mathbf{p}_{\Gamma_l}$ defined similarly to \frefeqM{eq:basic-plan}{eq:basic-plan-trigs}.
 
-%In \fref{fig:traj1}{Figure}, $\varphi_1,\dots,\varphi_6$ are paths. $\varphi_1$ and $\varphi_5$ are circles, while $\varphi_2$, $\varphi_4$, and $\varphi_6$ are lines. They are all relative to different stages $\Gamma_1,\Gamma_2,\dots$. The constraints set $\mathcal{C}_1,\mathcal{C}_2,\dots$ forms the area where the paths $\varphi_1,\varphi_2,\dots$ can be altered with the parameters $c_{i,1},\dots,c_{i,\rho}$ (gray area in the figure). This area is bounded by $\underline{c}_i,\overline{c}_i$, and can be different per each stage \fref{fig:traj1}{Figure}, the area relative to $\Gamma_4$ is bounded by $\underline{c}_4,\overline{c}_4$).
+A generic solution for the covering problem is then defined with the paths
+\begin{subequations}\label{eq:line-gene}\begin{align}
+  \varphi_i(\mathbf{p}(t))&:=x-x_{\Gamma_1}-\lfloor i/4\rfloor x_d,\\
+  \varphi_{i+2}(\mathbf{p}(t))&:=x-x_{\Gamma_2}-\lfloor i/4\rfloor x_d,
+\end{align}
+\end{subequations}
+$\forall i\in\{1,5,9,\dots,l-3\}$ ($i$ is used to iterate all the paths up to the last path $\varphi_l$), $x_d$ is a shift on the $x-$axis, $\lfloor i/4\rfloor$ is the integer division. The expressions in \frefeq{eq:line-gene} correspond to the generalizations of the lines in \frefeq{eq:line1} and \frefeq{eq:line2}. The generalizations of the circles in \frefeq{eq:circ1} and \frefeq{eq:circ2} are
+\begin{subequations}\begin{align}
+  \varphi_{i+1}(\mathbf{p}(t))&:=(x-x_{\Gamma_1}-r_1-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_1})^2-r_1^2,\\
+  \varphi_{i+3}(\mathbf{p}(t))&:=(x-x_{\Gamma_2}+r_2-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_3})^2-r_2^2,\label{eq:second-circ-gene}
+\end{align}
+\end{subequations}
+where index $i$ is defined the same way as in \frefeq{eq:line-gene} along the shift and integer division. $r_1$ and $r_2$ are given radiuses of the circles (see \fref{fig:plot4}{Figure}).
 
-%In \fref{fig:traj1}{Figure}, $\mathbf{p}_{\Gamma_1}$ allows the transition between $\Gamma_1$ and $\Gamma_2$, $\mathbf{p}_{\Gamma_4}$ between $\Gamma_4$ and $\Gamma_5$, and $\mathbf{p}_{\Gamma_5}$ between $\Gamma_5$ and $\Gamma_6$.
+The triggering points can be expressed similarly with the expressions
+\begin{subequations}\label{eq:trigs-gene}\begin{align}
+  \mathbf{p}_{\Gamma_i}&:=(x_{\Gamma_1}+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
+  \mathbf{p}_{\Gamma_{i+1}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
+  \mathbf{p}_{\Gamma_{i+2}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_3}),\\
+  \mathbf{p}_{\Gamma_{i+2}}&:=(x_{\Gamma_1}+2r_1-2r_2+\lfloor i/4\rfloor x_d,y_{\Gamma_3})\label{eq:last-trig-gene}.
+\end{align}
+\end{subequations}
+
+We note from \fref{fig:plot4}{Figure} and \frefeqM{eq:line-gene}{eq:trigs-gene} that $y_{\Gamma_3}-y_{\Gamma_1}$ is the height of the polygon to be covered, $2(r_1-r_2)$ the distance between the covering lines (which is equal to the shift $x_d$), and $lx_d/4$ is the length of the polygon.
+
+The plan in \frefeqM{eq:line-gene}{eq:trigs-gene} is static. There is no path parameter that allows to alter the plan. We can easily transform such plan with the addition of a path parameter $c_{4,1}$ relative to the radius of the second circle $\varphi_4$ in \fref{fig:plot4}{Figure}
+\begin{equation}\label{eq:radius-dynamic}
+  r_2(c_{4,1}):=(r-c_{4,1}),
+\end{equation}
+where $r<r_1$ is a given constant initial radius.
+
+We note from the expression in \frefeq{eq:radius-dynamic} that \frefeq{eq:last-trig-gene} and \frefeq{eq:second-circ-gene} depend on the parameter $c_{4,1}$ (they contain $r_2$, which depend on $c_{4,1}$). They are thereby dynamically replanned, resulting in an alteration of the quality of the coverage. They indeed change the distance of the survey lines.
+
+We can bound the alteration (see \fref{def:stage}{Definition}) with $\mathcal{C}_{4,1}:=[\underline{c}_{4,1},\overline{c}_{4,1}]$. 
+
+The concept is illustrated in \fref{fig:plot5}{Figure}. The black line is the un-altered path, the dashed blue line the replanned path. The gray area delimits the bound $\mathcal{C}_{4,1}$. The alteration of the plan using path parameter $c_{4,1}$ shortens or extends the flying time.
+
+\begin{figure}[p!]
+  \centering
+  \input{figures/plot5.tikz}
+  \caption[Alteration of a path parameter of the fixed-wing aerial robot's plan]{Alteration of a path parameter of the fixed-wing aerial robot's plan in \fref{fig:plot4}{Figure}. The black line is the un-altered path, the dashed blue line the replanned path. The gray area delimits the bound $\mathcal{C}_{4,1}$. The alteration changes the distance between the survey lines hence extending or shortening the flying time. The figures show the concept for the path parameter $c_{4,1}$. Same principle applies to path parameter $c_{8,1}$ for the next two survey lines, $c_{12,1}$, and so on.}
+  \label{fig:plot5}
+\end{figure}
+
+Since the last path $\varphi_4$ is a function of the parameter $c_{4,1}$, the correct expression for \frefeq{eq:second-circ-gene} is 
+\begin{equation}
+  \varphi_{i+3}(\mathbf{p}(t),c_{4,1}):=(x-x_{\Gamma_2}+r_2(c_{4,1})-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_3})^2-r_2(c_{4,1})^2.
+\end{equation}
+
+The last triggering point $\mathbf{p}_{\Gamma_4}$ of the example in \frefeq{eq:last-trig-gene} is likewise a function of the parameter $c_{4,1}$
+\begin{equation}
+  \mathbf{p}_{\Gamma_{i+2}}:=(x_{\Gamma_1}+2r_1-2r_2(c_{4,1})+\lfloor i/4\rfloor x_d,y_{\Gamma_3})
+\end{equation}
+as it depends on the radius $r_2$ of the circle $\varphi_4$. The same applies to all the following functions $\varphi_5,\varphi_6,\varphi_7$, since these are all a function of the triggering point $\mathbf{p}_{\Gamma_4}$. The path $\varphi_8$ is then a function of the parameter $c_{4,1}$ and $c_{8,1}$ propagating the parameters for all the following paths $\varphi_9,\varphi_{10},\varphi_{11}$ and so on.
 
 \subsection{Mobile robot planning problem}
 \label{sec:plan-pb}
