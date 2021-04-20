@@ -206,7 +206,7 @@ We assume the mobile robot carries a battery energy sensor and obtain the initia
 
 The evaluation of the output constraint requires numerical simulation being the battery model in \frefeq{eq:bat} differential, similarly to the energy dynamics of the periodic model in \frefeq{eq:state-perf}. The numerical simulation can be computed using the Euler method in \fref{sec:euler}{Subsectiion}. or the Runge-Kutta method in \fref{sec:rk4}{Subsection}.
 
-The OCP can be stated similarly as in \fref{sec:opt-constrained}{Subsection}, with the constraints: the control constraint in \fref{def:const-set}{Definition}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf}
+The OCP can be stated similarly as in \fref{sec:opt-constrained}{Subsection}, with the constraints: the control constraint in \frefeq{eq:const-set}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf}
 \begin{subequations}\begin{align}
    \max_{\mathbf{q}(t),\mathbf{c}_i(t)}&{l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),\mathbf{c}_i(t),t)\,dt}},\\
    \text{s.t. }\dot{\mathbf{q}}&=f(\mathbf{q}(t),\mathbf{c}_i(t),t),\\
