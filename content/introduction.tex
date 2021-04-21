@@ -60,7 +60,7 @@ Modern aerial robots are designed to handle unexplored terrain with little inter
   \label{fig:ingenuity}
 \end{figure}
 
-In summary, aerial robots have a relatively recent past. Some initial experiments of unmanned fligt were performed shortly after the first heavier-than-air manned powered flight. Modern aerial robots have been applied to many autonomous scenarios and their is expected to increase. Aerial robots are expected to grow significantly in many areas of robotics research raging from agriculture to planetary exploration. For the latter, \fref{fig:ingenuity}{Figure} shows NASA's Ingenuity Mars Helicopter. A small coaxial aerial robot that performed the first powered, controlled flight on another planet on April 19, 2021. Aerial robots for planetary exploration are expected to be further deployed in future explorations of the Saturn's moon Titan~\citep{voosen2019nasa}.
+In summary, aerial robots have a relatively recent past. Some initial experiments of unmanned fligts were performed shortly after the first heavier-than-air manned powered flight. These initial experiments were mostly developed for military purposes, whereas modern aerial robots are used in a broad range of civil autonomous scenarios. Aerial robots are expected to grow significantly in numerous areas of robotics research raging from agriculture to planetary exploration. For the latter, \fref{fig:ingenuity}{Figure} shows NASA's Ingenuity Mars Helicopter. A small coaxial aerial robot that performed the first powered, controlled flight on another planet on April 19, 2021. Aerial robots for planetary exploration are to be further deployed in future explorations of the Saturn's moon Titan~\citep{voosen2019nasa}.
 
 Finally, we conclude this section with a quote from~\citep{anderson2005introduction}: ``the Wright brothers worked so hard to put humans in the air in flying machines, a hundred years later some [...] are working hard to take them out of flying machines''.
 
@@ -483,19 +483,23 @@ We are further interested in the guidance to the path and the scheduling of the 
 \section{Structure}
 \label{sec:structure}
 
-\fref{cp:soa}{Chapter} presents the state of the art in energy modeling and planning for mobile robots and includes the available energy models for heterogeneous computing hardware used on mobile robots.
+The remainder of this work is structured as follows.
 
-\fref{cp:model}{Chapter} elaborates on energy models for computations, motion, and the battery. It derives and formally proofs a periodic energy model that we use in the remainder of this work to predict the future energy consumption while solving the mobile robot planning problem.
+In this chapter, we presented the mobile robot planning problem. We propose the solution to the problem in \fref{cp:opt}{Chapter}, which builds upon the topics presented in the remaining chapters.
 
-\fref{cp:est}{Chapter} describes the ways which we use to estimate the coefficients of the energy models and hence refine the future predictions with the data.
+In particular, in \fref{cp:soa}{Chapter} we present the state-of-the-art in energy modeling and planning for mobile robots. We include some energy models for heterogeneous computing hardware.
 
-\fref{cp:gd}{Chapter} propose an approach to guide the aerial robot on the path derived from the approach.
+Dynamic planning requires accurate future energy predictions. We present the derivation of some energy models to address future energy predictions in \fref{cp:model}{Chapter}. Specifically, we propose energy models for computations, motion, and the battery. We derive and formally prove a periodic energy model that we use in the remainder of this work to predict future energy consumption.
 
-\fref{cp:opt}{Chapter} presents the optimization algorithm to select the energy optimal parameters configuration for the path and computations simultaneously.
+The periodic energy model's accuracy depends on the availability of measurements of energy data. We detail the process in \fref{cp:est}{Chapter}. We describe how to estimate some of the coefficients of the different models and refine the future predictions with the available data.
 
-\fref{cp:conc}{Chapter} concludes our work and presents some recommendations for future research.
+Flying on a dynamic plan requires the derivation of a guidance action to guide the aerial robot in space. This process is elaborated in \fref{cp:gd}{Chapter}. We discuss an approach to guide the aerial robot in space on the planned path.
 
-We present some additional information in the appendices.
+An optimal solution for the dynamic mobile robot planning problem relies on optimal control techniques. We describe such techniques in \fref{cp:opt}{Chapter}. Specifically, after summarizing some of the optimal control techniques, we propose an optimization algorithm to select the optimal parameters configuration for the path and computations simultaneously.
 
-\fref{app:imp}{Appendix} propose the implementations of the planning problem, the model, the estimation technique, the guidance action, and the derivation of the optimal control.  
+Finally, we conclude our work in \fref{cp:conc}{Chapter} along some recommendations for future research direction.
+
+We then present some additional information in appendices.
+
+In \fref{app:imp}{Appendix} we propose the implementation in MATLAB(R) of the planning problem, the model, the estimation technique, the guidance action, and the derivation of the optimal control. 
 

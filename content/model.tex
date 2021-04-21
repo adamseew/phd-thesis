@@ -14,10 +14,6 @@
 
 %\lettrine{A}{a}
 
-
-\section{\color{red}Models Classification}
-
-
 \section{\color{cyan}Energy Model of the Computations}
 \label{sec:comp-ener-model}
 
@@ -243,12 +239,26 @@ All experiments reported in this section are performed using the standard perfor
 
 The \powprof{} tool implements all the features described in this paper and is designed to be useable for heterogeneous parallel embedded systems. The tool supports all the platforms described in \fref{sec:experimental-setup:hw}{Section}. It is designed for extensibility and can, in principle, support any Linux-based embedded device that provides power measurement metrics. Concretely, to support a new embedded device, a subclass defining the device-specific features can be derived from a virtual class, and only requires the implementation of a function that returns the current measurements in the form of a weighted vector where every element can represent a different metric. In a first iteration, the tool profiles a set of configurations of a component and builds a layer 1 model as described in \fref{sec:measurement}{Section}. Once \powprof{} obtains power profiles and other metrics that are considered useful for the purpose of energy modeling, it builds a predictive model as described in \fref{sec:predictive-model}{Section}. The tool relies on \stt{gnuplot} utility to visualize energy evolution if the configuration search space allows it. Automatically generated output includes CSV files containing measured data as well as the 2D- and 3D-plots shown in this paper.
 
+The tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per computation. 
+
+The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS-based system~\citep{quigley2009ros} (see \fref{sec:rosmiddle}{Subsection}). The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\citep{seewald2019component}.
+
+We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
+
+Let us define the output from \powprof{} formally.
+
+\begin{highlight}
+\begin{defn}[Instantaneous computational energy]\label{def:comp-ener}
+  $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the \powprof{} tool.  
+\end{defn}
+\end{highlight}
+
 \subsection{\color{red}Energy-aware design of algorithms}
 
-\subsection{\color{red}ROS middleware}
+\subsection{\color{red}ROS integration}
 \label{sec:rosmiddle}
 
-\subsection{\color{cyan}Experimental methodology}
+\subsection{\color{cyan}Experimental evaluation}
 
 % maybe another section??
 
@@ -260,10 +270,16 @@ Ideally, any component combination can be profiled by specifying possible sets o
 
 As an example of energy modeling, we implemented a combination of three different parameters and generated a surface that shows approximately where the minimum power consumption is expected. \fref{fig:matrix-exponent}{Figure}~and~\fref{fig:matrix-sleep}{Figure} show how the output of the predictive model includes, but is not limited to, overall energy in~\fref{fig:matrix-exponent:energy}{Figure} and \fref{fig:matrix-sleep:energy}{Figure} and average power consumption in \fref{fig:matrix-exponent:power}{Figure} and \fref{fig:matrix-sleep:power}{Figure} for all the combinations. 
 
-\section{\color{cyan}Battery Model}
+\section{\color{red}Battery Model}
 \label{sec:battery-model}
 
-The battery model is a mathematical abstraction that models draining energy from a battery used to power the computation being measured. It was derived from the state-space problem representation of the empirical battery model through an equivalent electrical circuit, presented by Hasan et al.~\cite{hasan2018exogenous}. The battery evolution model can be represented in this way using an ordinary differential equation that is a function of the power drained from the system, and represents the SoC of the battery at a given instant
+%AdS: you are right but this is purely copy/paste from ijpp so the idea here is to have indeed a short text on battery model and then the 'Equations' in the 'Derivation of differential battery model'
+
+\subsection{\color{orange}Batteries for aerial robots}
+
+\subsection{\color{cyan}Derivation of differential battery model}
+
+The battery model is a mathematical abstraction that models draining energy from a battery used to power the mobile robot. It was derived from the state-space problem representation of the empirical battery model through an equivalent electrical circuit, presented by Hasan et al.~\cite{hasan2018exogenous}. The battery evolution model can be represented in this way using an ordinary differential equation that is a function of the power drained from the system, and represents the SoC of the battery at a given instant
 \begin{equation}\label{eq:battery-model-1}
   \frac{d}{dt}\mathrm{SoC}(t)=-\frac{I_\mathrm{int}(t)}{Q_c},
 \end{equation}
@@ -283,31 +299,28 @@ U_{\mathrm{ext}}(t)=U_{\mathrm{int}}-R_{\mathrm{int}}\cdot I_{\mathrm{int}}(t)
 The approach allows modeling the computational system not only in terms of the overall power consumption but also in terms of the actual amount of power drained from the battery. This is especially important with a mobile robot dependent on a limited and time-dependent energy supply, running computationally heavy parallel algorithms. Critically, although this mathematical model is a simple abstraction, it models how a stable power consumption over time can induce less drain from the battery compared to using the same amount of energy distributed in a number of spikes. The battery model allows this information to be determined for specific usage scenarios and thus provides a useful way to determine what configuration corresponds to the best power usage combination for a mobile use case.
 
 
-\subsection{\color{orange}Batteries for aerial robots}
-
-\subsection{\color{red}Derivation of differential battery model}
-
-
 \section{\color{red}Energy Model of the Motion}
 
+% This is just IRC paper one (the one with hector). The current model is the Periodic energy model
+
 \subsection{\color{red}Mechanical energy of the aerial robot}
-
-\subsection{\color{red}Experimental methodology}
-
-
-\section{\color{red}Periodic Energy Model}
 
 \subsection{\color{red}Fourier series of empirical data}
 \label{sec:fourier}
 
+
+\section{\color{red}Periodic Energy Model}
+
+Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often supposed to iterate a set of tasks and paths (see \fref{sec:outline}{Section}) in a periodic fashion. For instance, the aerial robot might be covering a polygon in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will see the assumption of the periodic energy model being eased in practice to quasi aperiodic or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
+
+We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot flying the agricultural scenario (see \fref{sec:flight-plan}{Section}) in \fref{fig:energy-1}{Figure} and \fref{fig:spectrum-1}{Figure}.
+
+In the remainder of this section, we first derive a differential periodic energy model in \fref{sec:periodic-model}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, allowing us to predict the energy consumption of a given configuration of parameters. We explain the means by which we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
+
 \subsection{Derivation of the differential periodic model}
 \label{sec:periodic-model}
 
-We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of the Fourier series in \fref{sec:fourier}{Subsection}) and estimated using a state estimator (see \fref{cp:est}{Chapter}). 
-
-We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. We show after the main results how this approach allows us variability in terms of non-periodic signals.
-
-After illustrating the energy model, we enhance it with the energy contribution of the path in and of the computations in \fref{sec:merging}{Subsection}. 
+We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of the Fourier series in \fref{sec:fourier}{Subsection}) and estimated using a state estimator (see \fref{cp:est}{Chapter}). We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. We show after the main results how this approach allows us variability in terms of non-periodic signals. After illustrating the energy model, we enhance it with the energy contribution of the path in and of the computations in \fref{sec:merging}{Subsection}. 
 
 Let us consider a periodic energy signal of period $T$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the energy signal
 \begin{equation}\label{eq:fourier}
@@ -518,7 +531,7 @@ or
 \end{equation} 
 for a constant value $d\in\mathbb{R}$.
 
-\subsection{Derivation of the nominal control}
+\subsection{Nominal control}
 \label{sec:nom-cont}
 
 Let us suppose that at time instant $t$ the plan reached the $i$-th stage $\Gamma_i$ and the control
@@ -538,7 +551,7 @@ where $\mathbf{c}_i(t)\in\mathbb{R}^n$ with $n:=\rho+\sigma$ differs from the no
 \end{highlight}
 
 
-We use this information later in \fref{sec:opt-cont-gener}{Subsection} to check that the battery discharge time is greater and replan the path parameters accordingly.  We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
+We use this observation later in \fref{sec:opt-cont-gener}{Subsection} to check that the battery discharge time is greater and replan the path parameters accordingly.  We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
 
 The nominal control is
 \begin{equation}\label{eq:state-control}
@@ -546,8 +559,10 @@ The nominal control is
 \end{equation}
 where $\hat{\mathbf{u}}(t)$ is defined as the energy estimate of a given control sequence at time instant $t$, $\hat{\mathbf{u}}(t-1)$ at the previous time instant $t-1$
 \begin{equation}\label{eq:estimate-control}
-  \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)\mathbf{c}_i(t)+\tau_i.
+  \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)\mathbf{c}_i(t)+\tau_i,
 \end{equation}
+where $\mathrm{diag}(\nu_i)$ is a diagonal matrix with the parameters
+$\nu_{i,j}\in\nu_i,\,\forall j\in[\rho+\sigma]_{>0}$.
 
 The input matrix is then
 \begin{equation}\label{eq:mat_B}
@@ -570,7 +585,7 @@ The nominal control $\mathbf{u}(t)$ is then the difference of these contribution
 
 $B\mathbf{u}(t)$ merely includes the difference in power into the model in \frefeq{eq:state-perf}.
 
-\subsection{Merging computations and motion}
+\subsection{Parameters domain transformation}
 \label{sec:merging}
 
 \begin{figure}[h]
@@ -620,21 +635,9 @@ Let us recall from \fref{def:stage}{Definition} that the $i$-th stage $\Gamma_i$
 %adapted from earlier work on computational energy analysis~\citep{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\citep{seewald2020mechanical}. 
 
 %For this purpose, we assume the mobile robot carries an embedded board that runs the computations. Our
-The tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per computation. 
-
-The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS-based system~\citep{quigley2009ros} (see \fref{sec:rosmiddle}{Subsection}). The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\citep{seewald2019component}. 
+ 
 %In both cases, with ROS~\citep{zamanakos2020energy} or with generic software components system~\citep{seewald2019component}, the tool performs automatic modeling. 
 For instance, if the computation is an object detector, a computation parameter $c_{1,2}$ might correspond to frames-per-second (fps) rate. The tool then measures power according to the detection frequency.
-
-We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
-
-Let us define the output from \powprof{} formally.
-
-\begin{highlight}
-\begin{defn}[Instantaneous computational energy]\label{def:comp-ener}
-  $g:\mathbb{Z}_{\geq 0}\rightarrow\mathbb{R}_{\geq 0}$ as the instantaneous computational energy consumption value obtained using the \powprof{} tool.  
-\end{defn}
-\end{highlight}
 
 The scaling factors add the computational energy component to the model in \frefeq{eq:state-perf}. They are derived similarly to \frefeq{eq:scale-traj}
 \begin{subequations}\label{eq:scale-comp}\begin{align}
@@ -643,6 +646,8 @@ The scaling factors add the computational energy component to the model in \fref
 \end{align}\end{subequations}
 $\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
+\subsection{Aperiodic energy evolution}
+\label{sec:non-perio}
 
 \section{\color{red}Contribution}
 

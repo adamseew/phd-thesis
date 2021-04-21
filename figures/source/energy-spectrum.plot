@@ -19,8 +19,13 @@ set xlabel 'Time (sec)' rotate parallel center offset -.7,1.1 font 'Times,8'
 set ylabel 'Power (W)' rotate parallel center offset 1.2,-.1 font 'Times,8'
 set key font 'Times,8'
 
-plot 'periodic_energy.csv' using 1:2 w l notitle lc rgb 'black' lw .5
+#plot 'periodic_energy.csv' using 1:2 w l notitle lc rgb 'black' lw .5
+#pause -1
+#/home/user/Dropbox/acad/papers/iros-2021/data/simulation1/pprz_throttle.csv
+set xrange [680.43:1000.43]
+plot '/home/user/Dropbox/acad/papers/iros-2021/data/simulation1/pprz_throttle.csv' using 1:3 w l notitle lc rgb 'black' lw .5
 pause -1
+
 
 
 set term qt size 320,240
