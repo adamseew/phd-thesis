@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="385.215" height="351.521" viewBox="0 0 385.22 351.52" enable-background="new 0 0 385.22 351.52" xml:space="preserve">
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 79.4506,100.054C 79.4506,67.3495 105.963,40.8368 138.668,40.8368C 171.373,40.8368 197.886,67.3495 197.886,100.054"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 189.534,100.269C 189.534,67.5641 216.046,41.0516 248.751,41.0516C 281.456,41.0516 307.969,67.5641 307.969,100.269"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 134.492,100.269C 134.492,67.5642 161.005,41.0516 193.71,41.0516C 226.415,41.0516 252.927,67.5642 252.927,100.269"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 10.5394,13.0741L 12.8123,11.0693L 14.8958,13.065L 12.7098,7.29668L 10.5394,13.0741 Z "/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 372.646,260.905L 374.623,263.203L 372.601,265.261L 378.396,263.148L 372.646,260.905 Z "/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="4.54447" y1="263.32" x2="376.099" y2="263.32"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="12.7825" y1="351.201" x2="12.783" y2="9.99693"/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 0.00 6.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">y</tspan>
+	</text>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="24.409" y1="100.224" x2="24.409" y2="251.852"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 197.827,251.485C 197.827,299.364 159.014,338.177 111.135,338.177C 63.2569,338.177 24.4437,299.364 24.4437,251.485"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="197.884" y1="100.219" x2="197.884" y2="251.848"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="79.4506" y1="100.438" x2="79.4506" y2="252.067"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="252.925" y1="100.434" x2="252.925" y2="252.062"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 252.869,251.7C 252.869,299.579 214.055,338.392 166.177,338.392C 118.299,338.392 79.4854,299.579 79.4854,251.7"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="134.492" y1="100.438" x2="134.492" y2="252.067"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="307.967" y1="100.434" x2="307.967" y2="252.062"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 307.91,251.7C 307.91,299.578 269.097,338.392 221.219,338.392C 173.34,338.392 134.527,299.578 134.527,251.7"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="189.534" y1="100.438" x2="189.534" y2="252.067"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="363.009" y1="100.434" x2="363.009" y2="252.062"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 362.952,251.7C 362.952,299.579 324.139,338.392 276.26,338.392C 228.382,338.392 189.569,299.579 189.569,251.7"/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 379.00 274.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">x</tspan>
+	</text>
+</svg>

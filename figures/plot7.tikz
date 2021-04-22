@@ -1,0 +1,314 @@
+
+\definecolor{cECECEC}{RGB}{236,236,236}
+\definecolor{cFFFFFF}{RGB}{255,255,255}
+
+\def \globalscale {1.000000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
+\path[fill=cECECEC,line join=round,line width=0.512pt,rounded corners=0.0000cm] (87.8254,28.6703) rectangle (287.0154,141.7963);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,114.4430) -- (220.9180,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,110.4430) -- (214.8400,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,106.4430) -- (208.7630,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,102.4430) -- (202.6850,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,126.4430) -- (239.1500,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,130.4430) -- (245.2270,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,134.4430) -- (251.3050,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,138.4430) -- (257.3820,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,98.4426) -- (196.6080,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,94.4426) -- (190.5310,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,90.4426) -- (184.4530,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,86.4426) -- (178.3760,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,118.4430) -- (226.9950,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,122.4430) -- (233.0720,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,54.9620) -- (130.5460,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,50.9620) -- (124.4680,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,46.9620) -- (118.3910,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,42.9620) -- (112.3130,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,66.9620) -- (148.7780,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,70.9620) -- (154.8550,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,74.9620) -- (160.9330,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,78.9620) -- (167.0100,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,82.4426) -- (172.2980,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,38.9620) -- (106.2360,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,34.9620) -- (100.1590,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (136.6230,22.5329) -- (81.2745,58.9620);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,62.9620) -- (142.7000,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (123.0100,147.4920) -- (292.9440,35.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (116.9330,147.4920) -- (292.9440,31.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (110.8560,147.4920) -- (292.9440,27.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (141.2430,147.4920) -- (292.9440,47.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (147.3200,147.4920) -- (292.9440,51.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (153.3970,147.4920) -- (292.9440,55.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (159.4750,147.4920) -- (292.9440,59.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (98.7008,147.4920) -- (288.5580,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (92.6234,147.4920) -- (282.4810,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,142.9620) -- (264.2490,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (81.2745,146.9620) -- (270.3260,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (129.0880,147.4920) -- (292.9440,39.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (135.1650,147.4920) -- (292.9440,43.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (274.9460,147.4920) -- (292.9440,135.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (268.8680,147.4920) -- (292.9440,131.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (262.7910,147.4920) -- (292.9440,127.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (214.1710,147.4920) -- (292.9440,95.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (208.0940,147.4920) -- (292.9440,91.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (202.0170,147.4920) -- (292.9440,87.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (195.9390,147.4920) -- (292.9440,83.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (232.4040,147.4920) -- (292.9440,107.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (238.4810,147.4920) -- (292.9440,111.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (244.5590,147.4920) -- (292.9440,115.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (250.6360,147.4920) -- (292.9440,119.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (256.7130,147.4920) -- (292.9440,123.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (189.8620,147.4920) -- (292.9440,79.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (183.7840,147.4920) -- (292.9440,75.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (177.7070,147.4920) -- (292.9440,71.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (165.5520,147.4920) -- (292.9440,63.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (171.6300,147.4920) -- (292.9440,67.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (220.2490,147.4920) -- (292.9440,99.6462);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (226.3260,147.4920) -- (292.9440,103.6460);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (86.5460,147.4920) -- (276.4030,22.5329);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (104.7780,147.4920) -- (292.9440,23.6462);
+
+
+
+\path[fill=cFFFFFF,line join=round,even odd rule,line width=0.512pt] (96.8091,15.9084) -- (296.1540,19.5982) -- (294.8280,139.1820) -- (246.6580,53.9253) -- (94.4984,22.9653) -- (96.8091,15.9084) -- cycle;
+
+
+
+\path[draw=black,fill=cFFFFFF,line join=round,line width=0.512pt] (87.8254,28.6703) -- (240.4110,59.6693) -- (287.0160,141.7960) -- (87.8254,141.7960) -- (87.8254,28.6703) -- cycle;
+
+
+
+\path[fill=black,line join=round,line width=0.160pt] (40.2846,16.3558) -- (42.5576,14.3509) -- (44.6410,16.3467) -- (42.4551,10.5783) -- (40.2846,16.3558) -- cycle;
+
+
+
+\path[fill=black,line join=round,line width=0.160pt] (311.2300,168.8650) -- (313.2060,171.1630) -- (311.1840,173.2210) -- (316.9790,171.1080) -- (311.2300,168.8650) -- cycle;
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (33.7496,171.1390) -- (314.8740,171.1390);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (42.5583,179.1700) -- (42.5588,12.9691);
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(324.0,194.0)}}] (0.0000,0.0000) node[above right] () {\footnotesize flight time};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(0.0,6.0)}}] (0.0000,0.0000) node[above right] () {\footnotesize energy};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(58.0,159)}}] (0.0000,0.0000) node[above right] () {$\neg\mathcal{U}_i$};
+
+
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(114.0,119.0)}}] (0.0000,0.0000) node[above right] () {$\mathcal{U}_i\wedge \mathcal{Y}$};
+
+
+
+\path[fill=cECECEC,line join=round,even odd rule,line width=0.512pt] (271.4110,28.5172) -- (286.8770,28.5703) -- (287.0190,125.3610) -- (246.6320,53.8773) -- (122.6190,28.6772) -- (271.4110,28.5172) -- cycle;
+
+
+
+\path[fill=foo,line join=round,line width=0.160pt] (240.4120,58.7857) .. controls (240.9260,58.7857) and (241.3420,59.2021) .. (241.3420,59.7157) .. controls (241.3420,60.2293) and (240.9260,60.6457) .. (240.4120,60.6457) .. controls (239.8990,60.6457) and (239.4820,60.2293) .. (239.4820,59.7157) .. controls (239.4820,59.2021) and (239.8990,58.7857) .. (240.4120,58.7857) -- cycle;
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(258.0,57.0)}}] (0.0000,0.0000) node[above right] () {$\neg\mathcal{Y}$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(225.0,79.0)}}] (0.0000,0.0000) node[above right] () {\color{foo}$c_i^*$};
+
+
+
+
+\end{tikzpicture}
+

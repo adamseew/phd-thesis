@@ -281,11 +281,11 @@ We formally define the stage in \fref{def:stage}{Definition}.
 We note that the altitude $h$ from \fref{def:stage}{Definition} is not strictly fixed. It might change at different flying phases for an aerial robot, and under different atmospheric conditions.
 
 Furthermore, we merge the computation constraint sets and the path constraint set in a single constraint set for simplicity. The constraint set for the $i$-th stage
-\begin{equation*}
+\begin{equation}\label{eq:constraint-set}
   \mathcal{U}_i:=\begin{cases}
   \mathcal{C}_{i,j} & \text{for } c_{i,j} \text{ with } j\leq\rho\\
   \mathcal{S}_{i,j-\rho} & \text{for } c_{i,j} \text{ with } \rho<j\leq\sigma
-\end{cases}.\end{equation*}
+\end{cases}.\end{equation}
 
 To move from a given stage $\Gamma_i$ to the next stage $\Gamma_{i+1}$, we define some specific points. As soon as the mobile robot reaches the proximity of these points, it switches to the next stage.
 

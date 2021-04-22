@@ -1,0 +1,92 @@
+
+
+
+\def \globalscale {1.000000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-.7*\globalscale, xscale=.7*\globalscale, inner sep=0pt, outer sep=0pt]
+\path[draw=black,line join=round,line width=0.512pt] (79.4506,100.0540) .. controls (79.4506,67.3495) and (105.9630,40.8368) .. (138.6680,40.8368) .. controls (171.3730,40.8368) and (197.8860,67.3495) .. (197.8860,100.0540);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (189.5340,100.2690) .. controls (189.5340,67.5641) and (216.0460,41.0516) .. (248.7510,41.0516) .. controls (281.4560,41.0516) and (307.9690,67.5641) .. (307.9690,100.2690);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (134.4920,100.2690) .. controls (134.4920,67.5642) and (161.0050,41.0516) .. (193.7100,41.0516) .. controls (226.4150,41.0516) and (252.9270,67.5642) .. (252.9270,100.2690);
+
+
+
+\path[fill=black,line join=round,line width=0.160pt] (10.5394,13.0741) -- (12.8123,11.0693) -- (14.8958,13.0650) -- (12.7098,7.2967) -- (10.5394,13.0741) -- cycle;
+
+
+
+\path[fill=black,line join=round,line width=0.160pt] (372.6460,260.9050) -- (374.6230,263.2030) -- (372.6010,265.2610) -- (378.3960,263.1480) -- (372.6460,260.9050) -- cycle;
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (4.5445,263.3200) -- (376.0990,263.3200);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (12.7825,351.2010) -- (12.7830,9.9969);
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(0.0,6.0)}}] (0.0000,0.0000) node[above right] () {$y$};
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (24.4090,100.2240) -- (24.4090,251.8520);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (197.8270,251.4850) .. controls (197.8270,299.3640) and (159.0140,338.1770) .. (111.1350,338.1770) .. controls (63.2569,338.1770) and (24.4437,299.3640) .. (24.4437,251.4850);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (197.8840,100.2190) -- (197.8840,251.8480);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (79.4506,100.4380) -- (79.4506,252.0670);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (252.9250,100.4340) -- (252.9250,252.0620);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (252.8690,251.7000) .. controls (252.8690,299.5790) and (214.0550,338.3920) .. (166.1770,338.3920) .. controls (118.2990,338.3920) and (79.4854,299.5790) .. (79.4854,251.7000);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (134.4920,100.4380) -- (134.4920,252.0670);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (307.9670,100.4340) -- (307.9670,252.0620);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (307.9100,251.7000) .. controls (307.9100,299.5780) and (269.0970,338.3920) .. (221.2190,338.3920) .. controls (173.3400,338.3920) and (134.5270,299.5780) .. (134.5270,251.7000);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (189.5340,100.4380) -- (189.5340,252.0670);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (363.0090,100.4340) -- (363.0090,252.0620);
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (362.9520,251.7000) .. controls (362.9520,299.5790) and (324.1390,338.3920) .. (276.2600,338.3920) .. controls (228.3820,338.3920) and (189.5690,299.5790) .. (189.5690,251.7000);
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(379.0,274.0)}}] (0.0000,0.0000) node[above right] () {$x$};
+
+
+
+
+\end{tikzpicture}
+

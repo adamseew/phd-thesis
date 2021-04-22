@@ -309,31 +309,31 @@ The approach allows modeling the computational system not only in terms of the o
 \label{sec:fourier}
 
 
-\section{\color{red}Periodic Energy Model}
+\section{Periodic Energy Model}
 
-Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often supposed to iterate a set of tasks and paths (see \fref{sec:outline}{Section}) in a periodic fashion. For instance, the aerial robot might be covering a polygon in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will see the assumption of the periodic energy model being eased in practice to quasi aperiodic or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
+Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often expected to iterate a set of tasks and paths periodically (see \fref{sec:outline}{Section}). For instance, the aerial robot might be covering a polygon such as the one proposed in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
 
 We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot flying the agricultural scenario (see \fref{sec:flight-plan}{Section}) in \fref{fig:energy-1}{Figure} and \fref{fig:spectrum-1}{Figure}.
 
-In the remainder of this section, we first derive a differential periodic energy model in \fref{sec:periodic-model}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, allowing us to predict the energy consumption of a given configuration of parameters. We explain the means by which we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
+In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:periodic-model}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
 
 \subsection{Derivation of the differential periodic model}
 \label{sec:periodic-model}
 
-We refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of the Fourier series in \fref{sec:fourier}{Subsection}) and estimated using a state estimator (see \fref{cp:est}{Chapter}). We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. We show after the main results how this approach allows us variability in terms of non-periodic signals. After illustrating the energy model, we enhance it with the energy contribution of the path in and of the computations in \fref{sec:merging}{Subsection}. 
+In the remainder of this section, we refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of the Fourier series in \fref{sec:fourier}{Section}) and estimated using a state estimator in \fref{cp:est}{Chapter}. We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. %Later, we show how this approach allows us variability in terms of different evolutions, including aperiodic signals in \fref{sec:non-perio}{Section}. After illustrating the energy model, we enhance it with the energy contribution of the path and computations in \fref{sec:merging}{Section}. 
 
 Let us consider a periodic energy signal of period $T$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the energy signal
 \begin{equation}\label{eq:fourier}
   h(t)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jt}+b_j\sin{\omega jt}\right)},
 \end{equation}
-where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a,b\in\mathbb{R}$ the Fourier series coefficients.
+where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a_j,b_j\in\mathbb{R}$ the Fourier series coefficients $\forall j\in[r]_{>0}$.
 
 The energy signal can be modeled by \frefeq{eq:fourier} and by the output of a linear model
 \begin{subequations}\label{eq:state-perf}\begin{align}
   \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t),\\
   y(t)&=C\mathbf{q}(t),
 \end{align}\end{subequations}
-where $y(t)\in\mathbb{R}$ is the instantaneous energy consumption. 
+where $y(t)\in\mathbb{R}$ is the instantaneous energy consumption. We discuss matrices $A,C,$ and $B$ in \frefeq{eq:mat_A}, \frefeq{eq:mat_C}, and \frefeq{eq:mat_B} respectively.
 
 The state $\mathbf{q}(t)$ contains the energy coefficients
 \begin{equation}\label{eq:state-details}
@@ -355,7 +355,7 @@ where $A\in\mathbb{R}^{m\times m}$. In matrix $A$, the top left entry is zero, t
 \begin{equation}
   A_j:=\begin{bmatrix}0 & \omega j \\ -\omega j & 0\end{bmatrix},
 \end{equation}
-The output matrix
+$\forall j\in[r]_{>0}$. The output matrix
 \begin{equation}\label{eq:mat_C}
   C=(1/T)\left[\begin{array}{cccccc}
     1 & 1 & 0 &\cdots & 1 & 0
@@ -363,7 +363,7 @@ The output matrix
 \end{equation}
 where $C\in\mathbb{R}^m$.
 
-The linear model in \frefeq{eq:state-perf} allows us to include the control in the model of \frefeq{eq:fourier}.
+The linear model in \frefeq{eq:state-perf} allows us to include the control in the model of \frefeq{eq:fourier} as described in \fref{sec:nom-cont}{Section}. In the remainder we formally proof the equivalence and equality of the models in \frefeq{eq:fourier} and \frefeq{eq:state-perf}.
 
 \begin{highlight}
 \begin{lem}[Signal, output equality]\label{lem:eqv}Suppose control $\mathbf{u}$ is a zero vector, matrices $A,C$ are described by \frefeqM{eq:mat_A}{eq:mat_C}, and the initial guess $\mathbf{q}_0$ is 
@@ -375,7 +375,7 @@ The linear model in \frefeq{eq:state-perf} allows us to include the control in t
 \end{highlight}
 
 \begin{proof}
-We propose a formal proof of the lemma. The proof justifies the choice of the items of the matrices $A,C$ and of the initial guess $\mathbf{q}_0$ in \frefeqM{eq:state-details}{eq:mat_C}. We write these elements such that the coefficients of the series $a_0,\dots,b_r$ are the same as the coefficients of the state $\alpha_0,\dots,\beta_r$.
+The proof justifies the choice of the items of the matrices $A,C$ and of the initial guess $\mathbf{q}_0$ in \frefeqM{eq:state-details}{eq:mat_C}. We write these elements such that the coefficients of the series $a_0,\dots,b_r$ are the same as the coefficients of the state $\alpha_0,\dots,\beta_r$.
 
 Let us re-write the Fourier series expression in \frefeq{eq:fourier} in its complex form with the well-known Euler's formula 
 \begin{equation}
@@ -393,10 +393,11 @@ by substitution of $\sin{\omega jt}$ and $\cos{\omega jt}$ respectively. This le
   h(t)=a_0/T+&(1/T)\sum_{j=1}^{r}{e^{i\omega jt}(a_j-ib_j)}+\\&(1/T)\sum_{j=1}^{r}{e^{-i\omega jt}(a_j+ib_j)}.
  \end{split}\end{equation} 
 
-The solution at time $t$ of the model in \frefeq{eq:state-perf} can be expressed
+The solution at time $t$ of the model in \frefeq{eq:state-perf} under the assumptions in in the lemma (the control is a zero vector) can be expressed
 \begin{equation}
   \mathbf{q}(t)=e^{At}\mathbf{q}_0.
 \end{equation}
+
 Both the solution and the system in \frefeq{eq:state-perf} are well-established expressions derived using standard textbooks~\citep{kuo1967automatic, ogata2002modern}. 
 
 To solve the matrix exponential $e^{At}$, we use the eigenvectors matrix decomposition method~\citep{moler2003nineteen}.
@@ -421,14 +422,10 @@ We then consider the diagonal matrix of eigenvalues
 \end{equation}
 $\lambda_0$ is the eigenvalue associated to the first item of $A$. $\lambda_j^0,\lambda_j^1$ are the two eigenvalues associated with the block $A_j$. We can write 
 \begin{equation}
-  Av_j=\lambda_jv_j,\,\,\,\forall j=\{1,\dots,m\}, 
-\end{equation}
-and 
-\begin{equation}
 AV=VD.
 \end{equation}
 
-We apply the approach in terms of \frefeq{eq:state-perf}, under the assumptions made in the lemma (the control is a zero vector) 
+We apply the approach in terms of \frefeq{eq:state-perf} (under the assumptions made in the lemma) 
 \begin{equation}
   \dot{\mathbf{q}}(t)=A\mathbf{q}(t).
 \end{equation}
@@ -457,22 +454,25 @@ The matrix $A$ is a block diagonal matrix, so we can express its determinant as 
 
 We now conclude the proof by computing the first determinant and the others separately.
 
-Thereby we first prove that the first terms of the \frefeq{eq:proof-complex} and \frefeq{eq:proof-output} match. We find the eigenvalue from $\det(0)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily
-\begin{equation}
+By computing the first determinant, we prove that the first terms in \frefeq{eq:proof-complex} and \frefeq{eq:proof-output} match. We find the eigenvalue from $\det(0)=0$, which is $\lambda_0=0$. The corresponding eigenvector can be chosen arbitrarily
+\begin{equation}\label{eq:proof-first-det}
   (0-\lambda_0)v_0=\begin{bmatrix} 0 & \cdots & 0 \end{bmatrix},
 \end{equation}
 $\forall v_0$, thus we choose
-\begin{equation}
+\begin{equation}\label{eq:proof-v0}
   v_0=\begin{bmatrix}1 & 0 & \cdots & 0\end{bmatrix}.
-\end{equation} 
-We find the value $\gamma_0$ of the vector $\gamma$ so that the terms are equal 
+\end{equation}
+The sizes of the zero vector and of $v_0$ in \frefeqM{eq:proof-first-det}{eq:proof-v0} are both $\mathbb{R}^m$.
+
+We find the value $\gamma_0$ in \frefeq{eq:proof-output} so that the terms are equal 
 \begin{equation}
-  \gamma_0=\begin{bmatrix}a_0 & 0 & \cdots & 0\end{bmatrix}.
+  \gamma_0=\begin{bmatrix}a_0 & 0 & \cdots & 0\end{bmatrix},
 \end{equation} 
+where $\gamma_0\in\mathbb{R}^m$.
 
-Then, we prove that all the terms in the sum of both the \frefeq{eq:proof-complex} and \frefeq{eq:proof-output} match. 
+Then, we prove the other determinants. In this way, we prove that all the terms in the sum of both \frefeq{eq:proof-complex} and \frefeq{eq:proof-output} match. 
 
-For the first block $A_1$, we find the eigenvalues from 
+By computing the second determinant, we prove that the first terms in both summaries in \frefeq{eq:proof-complex} and \frefeq{eq:proof-output} match. We thus focus on the first block $A_1$, and find the eigenvalues from 
 \begin{equation}
   \det(A_1-\lambda I)=0.
 \end{equation}
@@ -492,7 +492,9 @@ The eigenvector associated with the eigenvalue $\lambda_1^1$ is
 \begin{equation}
   v_1^1=\begin{bmatrix}0&i&1&0&\cdots&0\end{bmatrix}'. 
 \end{equation}
-Again, we find the values $\gamma_1$ of the vector $\gamma$ such that the equivalences 
+Both eigenvectors are equally sized $v_1^0,v_1^1\in\mathbb{R}^m$.
+
+Again, we find the values $\gamma_1$ in \frefeq{eq:proof-output} such that the equivalences 
 \begin{equation}\begin{cases}    
   e^{i\omega t}(a_1-ib_1)&=\gamma_1 e^{i\omega t}v_1^0\\
   e^{-i\omega t}(a_1+ib_1)&=\gamma_1 e^{i\omega t}v_1^1
@@ -504,7 +506,7 @@ hold. They hold for
 
 The proof for the remaining $r-1$ blocks is equivalent.
 
-The initial guess is build such that the sum of the coefficients is the same in both the signals. In the output matrix, the frequency $1/T$ accounts for the period in \frefeq{eq:proof-complex}, \frefeq{eq:proof-output}, and~\frefeq{eq:fourier}. At time instant zero, the coefficients $b_j$ are not present and the coefficients $a_j$ are doubled for each $j=1,2,\dots,r$ (thus we multiply by a half the corresponding coefficients in $\mathbf{q}_0$). To match the outputs $h(t)=y(t)$, or equivalently 
+The initial guess $\mathbf{q}_0$ is build such that the sum of the coefficients is the same in both the signals. In the output matrix, the frequency $1/T$ accounts for the period in \frefeq{eq:proof-complex}, \frefeq{eq:proof-output}, and~\frefeq{eq:fourier}. At time instant zero, the coefficients $b_j$ are not present and the coefficients $a_j$ are doubled for each $j=1,2,\dots,r$ (thus we multiply by a half the corresponding coefficients in $\mathbf{q}_0$). To match the outputs $h(t)=y(t)$, or equivalently 
 \begin{equation}
   F\mathbf{q}(t)/T=C\mathbf{q}(t), 
 \end{equation}
@@ -517,7 +519,7 @@ We thus conclude that the signal and the output are equal and that the lemma hol
 
 \end{proof}
 
-We note for practical reasons that the signal would still be periodic with another linear combination of coefficients. For instance, 
+We note for practical reasons that the signal would still be periodic with another linear combination of coefficients. For instance
 \begin{equation}\label{eq:mat_C_generic}
   C:=d\begin{bmatrix}1 & 1 & 0 & \cdots & 1 & 0\end{bmatrix},
 \end{equation} 
@@ -534,24 +536,44 @@ for a constant value $d\in\mathbb{R}$.
 \subsection{Nominal control}
 \label{sec:nom-cont}
 
-Let us suppose that at time instant $t$ the plan reached the $i$-th stage $\Gamma_i$ and the control
+Let us suppose that at time instant $t$ the plan (see \fref{def:plan}{Definition}) reached the $i$-th stage $\Gamma_i$ and the control contains the configuration of path and computations parameters 
 \begin{equation}\label{eq:state-control2}
-  \mathbf{c}_i(t)=\begin{bmatrix}c_i^\rho(t) & c_i^\sigma(t)\end{bmatrix}',
+  c_i(t)=\begin{bmatrix}c_i^\rho(t) & c_i^\sigma(t)\end{bmatrix}',
 \end{equation}
-where $\mathbf{c}_i(t)\in\mathbb{R}^n$ with $n:=\rho+\sigma$ differs from the nominal control $\mathbf{u}(t)$ in \frefeq{eq:state-perf}. We include the control in the nominal control exploiting the following observation. 
+where $c_i(t)\in\mathbb{R}^n$ with $n:=\rho+\sigma$ differs from the nominal control $\mathbf{u}(t)$ in \frefeq{eq:state-perf}. We include the control in the nominal control exploiting the following observation. 
 
 \begin{highlight}
   \begin{obs}
     We observe that:
     \begin{itemize}
-      \item A change in path parameters affects the energy indirectly. It alters the time when the aerial robot reaches the final point $\mathbf{p}_{\Gamma_l}$.
+      \item A change in path parameters affects the energy indirectly. It alters the time when the aerial robot reaches the final point $\mathbf{p}_{\Gamma_l}$, and enters the accepting stage $\Gamma_f$.
       \item A change in computation parameters affects the energy directly. It alters the instantaneous energy consumption as more computations require more power (and vice versa).
     \end{itemize}
   \end{obs}
 \end{highlight}
 
+\begin{figure}[p]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/plot8.tikz}
+  \caption[Trajectory of the aerial robot flying the highest path configuration]{The trajectory of the aerial robot flying paths $\varphi_1,\varphi_2,\dots,\varphi_l$ from \fref{sec:flight-plan}{Section} with the highest configuration of the path parameter $c_{i,1}=\overline{c}_{i,1}$. This configuration of path parameter has the longest time but the shortest distance between the lines and thus the highest quality of the coverage in \fref{fig:plot2}{Figure}.}
+  \label{fig:plot-8}
+\end{figure}
+\begin{figure}[p]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/plot9.tikz}
+  \caption[Trajectory of the aerial robot flying the lowest path configuration]{The trajectory of the aerial robot similarly as in \fref{fig:plot-8}{Figure} but with the lowest configuration of the path parameter $c_{i,1}=\underline{c}_{i,1}$. This configuration has the longest distance between the lines and thus the lowest quality of the coverage in \fref{fig:plot2}{Figure}.}
+  \label{fig:plot-9}
+\end{figure}
 
-We use this observation later in \fref{sec:opt-cont-gener}{Subsection} to check that the battery discharge time is greater and replan the path parameters accordingly.  We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
+The second bullet point in the observation is easily verified. The \powprof{} profiling tool models the energy consumption of the heterogeneous computing hardware the mobile robot is caring. A variation in the computation parameter affects the schedule and hence the instantaneous energy consumption of the mobile robot.
+
+The first bullet point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we increase the parameter $c_{i,1}$, which is relative to the radius of the circle, the flying time decreses. This is further shown in \fref{fig:plot-8}{Figure} and \fref{fig:plot-8}{Figure}. \fref{fig:plot-8}{Figure} illustrates the trajectory of the aerial robot (composed of all the paths $\varphi_1,\varphi_2\,\dots,\varphi_l$) flying at the highest configuration of the path parameter $c_{i,1}=\overline{c}_{i,1}$. \fref{fig:plot-9}{Figure} then illustrate the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{i,1}$. The flying time differs significantly, along with the quality of the coverage of the polygon (the agricultural field) in \fref{fig:plot2}{Figure}.
+
+In \fref{fig:plot-9}{Figure}, the parameter $c_{1,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., averse atmospheric conditions do not allow to terminate the original plan in \fref{fig:plot-8}{Figure}.
+
+We use the observation later in \fref{sec:opt-cont-gener}{Section} to check that the time to completely discharge the battery is greater than the flight time and replan the path parameters accordingly.  We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
 
 The nominal control is
 \begin{equation}\label{eq:state-control}
@@ -559,10 +581,10 @@ The nominal control is
 \end{equation}
 where $\hat{\mathbf{u}}(t)$ is defined as the energy estimate of a given control sequence at time instant $t$, $\hat{\mathbf{u}}(t-1)$ at the previous time instant $t-1$
 \begin{equation}\label{eq:estimate-control}
-  \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)\mathbf{c}_i(t)+\tau_i,
+  \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)c_i(t)+\tau_i,
 \end{equation}
 where $\mathrm{diag}(\nu_i)$ is a diagonal matrix with the parameters
-$\nu_{i,j}\in\nu_i,\,\forall j\in[\rho+\sigma]_{>0}$.
+$\nu_{i,j}\in\nu_i,\,\forall j\in[n]_{>0}$ where $n=\rho+\sigma$.
 
 The input matrix is then
 \begin{equation}\label{eq:mat_B}
@@ -579,63 +601,46 @@ $\hat{\mathbf{u}}(t)$ is a stage-dependent scale transformation with
 \nu_i&=\begin{bmatrix}\nu_i^\rho & \nu_i^\sigma\end{bmatrix}',\\ 
 \tau_i&=\begin{bmatrix}\tau_i^\rho & \tau_i^\sigma\end{bmatrix}',
 \end{align}\end{subequations}
-scaling factors quantifying the contribution to the plan of a given parameter in terms of time for the first $\rho$ parameters, and power for the remaining $\sigma$ (we use the same notation for the path and computation scaling factors as for the parameters). This is derived directly from the observation.
+scaling factors. They quantify the contribution to the plan of a given parameter in terms of time for the first $\rho$ parameters, and instantaneous energy consumption for the remaining $\sigma$ (we use the same notation for the path and computation scaling factors as for the parameters). 
 
 The nominal control $\mathbf{u}(t)$ is then the difference of these contributions of two consecutive controls $\mathbf{u}(t-1),\mathbf{u}(t)$ applied to the system. 
 
-$B\mathbf{u}(t)$ merely includes the difference in power into the model in \frefeq{eq:state-perf}.
+$B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy consumption into the model in \frefeq{eq:state-perf}.
 
-\subsection{Parameters domain transformation}
+\subsection{Parameters scale transformation}
 \label{sec:merging}
 
-\begin{figure}[h]
-  \centering
-  \input{figures/traj4.tikz}
-  \caption[Path parameter in the flight of an aerial robot]{A path parameter in the flight of an aerial robot can be used to alter the overall energy consumption}
-  \label{fig:tee1}
-\end{figure}
-\begin{figure}[h]
-  \centering
-  \input{figures/traj2.tikz}
-  \caption[Alteration of the path parameter]{The alteration of the path parameter $c_{1,1}$, the radius of the circle.}
-  \label{fig:tee2}
-\end{figure}
+%\begin{figure}[h]
+%  \centering
+%  \input{figures/traj4.tikz}
+%  \caption[Path parameter in the flight of an aerial robot]{A path parameter in the flight of an aerial robot can be used to alter the overall energy consumption}
+%  \label{fig:tee1}
+%\end{figure}
+%\begin{figure}[h]
+%  \centering
+%  \input{figures/traj2.tikz}
+%  \caption[Alteration of the path parameter]{The alteration of the path parameter $c_{1,1}$, the radius of the circle.}
+%  \label{fig:tee2}
+%\end{figure}
 
 %Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the trajectory $\varphi_1$ is a circle (see Figure~\ref{fig:tee1}), a decrement in the trajectory parameter $c_{1,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption ($\nu_{1,1}c_{1,1}>\nu_{1,1}c_{1,1}^-$) for a given $\nu_{1,1}$, that is then summed to the first coefficient $\alpha_0$ in Equation~(\ref{eq:state-details}), shifting the modeled energy.
 
-The set
-\begin{equation}\label{eq:area}
-  \mathcal{P}_i:=\{\mathbf{p}(t)\mid\varphi_i(\mathbf{p}(t),c_{i}^\rho),c_i^\rho\in\mathcal{U}_i\},
-\end{equation}
-delimits the area where the $i$-th path $\varphi_i$ is free to evolve using the path parameters $c_i^\rho$ (the gray area in \fref{fig:tee1}{Figure}). $\varphi_i$ is a function of the two coordinates and the path parameters, and is equal to zero when a point $\mathbf{p}(t)$ is on the path. Physically, this means the aerial robot is flying exactly over the nominal trajectory. 
+To transform the control $c_i(t)$ at $i$-th stage and time instant $t$ we use different approaches for the path and computation scaling factors.
 
-The path parameters allow changing the path. They are a way to alter the nominal trajectory in the initial plan and thus alter the energy by changing the flying time in \fref{fig:tee1}{Figure}.
-In fact, the algorithm uses the set from \frefeq{eq:area} to find the path parameters such that the plan consisting of flying $\varphi_i$ has the highest energy, while still respecting the constraints. In \fref{fig:tee2}{Figure}, the parameter radius of the circle $c_{1,1}$ is replanned as, e.g., averse atmospheric conditions (headwind in \fref{fig:tee3}{Figure}) do not allow to terminate the plan.
-
-\begin{figure}[h]
-  \centering
-  \input{figures/traj3.tikz}
-  \caption[External interference on the path]{Effects of the external interference (wind) on the flight.}
-  \label{fig:tee3}
-\end{figure}
-
-The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{1,1}$ in \fref{fig:tee1}{Figure} measuring the time needed to compute the path with the lowest configuration $\underline{c}_{1,1}$, $\underline{t}$ and the highest $\overline{t}$. 
+The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{1,1}$ relative to the alteration of the upper circle $c_{i,1}$ from \fref{sec:flight-plan} measuring the time needed to compute the path with the lowest configuration $\underline{c}_{1,1}$, $\underline{t}$ in \fref{fig:plot-9}{Figure}, and the highest $\overline{t}$ in \fref{fig:plot-8}{Figure}. 
 
 The variation of the control hence results in an approximate measure of the plans' time variation with factors
 \begin{subequations}\label{eq:scale-traj}\begin{align}
   \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
   \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
 \end{align}\end{subequations} 
-
 $\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
 
 %Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
 
-Let us recall from \fref{def:stage}{Definition} that the $i$-th stage $\Gamma_i$ of the plan $\Gamma$ contains the computation parameters which characterize the computations. We estimate the energy cost of these computations using {\small\tt{powprofiler}}, the open-source modeling tool from \fref{sec:powprof}{Subsection}.
+The scaling factors for the computations parameters from \frefeq{eq:scaling} are derived using {\small\tt{powprofiler}}, the open-source modeling tool from \fref{sec:powprof}{Section}. We estimate the energy cost of a given schedule (a given computations configuration) with the function $g$ from \fref{def:comp-ener}{Definition}. 
 %adapted from earlier work on computational energy analysis~\citep{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\citep{seewald2020mechanical}. 
-
 %For this purpose, we assume the mobile robot carries an embedded board that runs the computations. Our
- 
 %In both cases, with ROS~\citep{zamanakos2020energy} or with generic software components system~\citep{seewald2019component}, the tool performs automatic modeling. 
 For instance, if the computation is an object detector, a computation parameter $c_{1,2}$ might correspond to frames-per-second (fps) rate. The tool then measures power according to the detection frequency.
 
@@ -644,9 +649,19 @@ The scaling factors add the computational energy component to the model in \fref
   \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
   \tau_{i,j}&=\underline{c}_{i,j}(g(\underline{c}_{i,j})-g(\overline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j})+g(\underline{c}_{i,j}),
 \end{align}\end{subequations}
-$\forall j\in[\rho+1,\rho+\sigma]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
+$\forall j\in[\rho+1,n]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
-\subsection{Aperiodic energy evolution}
+\begin{figure}[h]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/plot6.tikz}
+  \caption[Concept of a path and computation parameter scale transformation]{The concept of a path and computation parameter scale transformation. Without any battery constraints, the dynamic energy planning selects the highest configuration which respects the control constraint (inner rectangle) from \frefeq{eq:constraint-set}.}
+  \label{fig:plot-6}
+\end{figure}
+
+The concept of a path and a computation parameter scale transformation is illustrated in \fref{fig:plot-6}{Figure}. The control constraint set $\mathcal{U}_i$ extends to both the flight time and energy domain. The energy domain is bounded by the output of the \powprof{} tool, while the flight time domain by the empirical data. The dynamic energy planning selects the highest possible configuration under the constraints. Currently, the highest configuration of parameters (the optimal control law $c^*_i(t)$) corresponds to the highest configuration of parameters $(\overline{c}_{i,1},\overline{c}_{i,2})$ (blue point in the figure). We will show in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints. 
+
+\subsection{\color{red}Aperiodic energy evolution}
 \label{sec:non-perio}
 
 \section{\color{red}Contribution}

@@ -168,6 +168,7 @@ All these initial assumption (known final time step, absence of state constraint
 
 
 \subsection{Output model predictive control}
+\label{sec:output-mpc}
 
 In this section, we address the problem of generating the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is the configuration of the path and computations parameters, and it differs from the nominal control (see \fref{sec:nom-cont}{Subsection}). 
 
@@ -242,6 +243,14 @@ It selects the optimal control trajectory as follows.
 At each time step the controller refines the control trajectory which respects the constraints: the dynamics in \frefeq{eq:perf-model-in-mpc}, and the control constraint in \frefeq{eq:state-cont-const-mpc}, and maximizes the instantaneous cost function $l$ in \frefeq{eq:insta-cost-mpc}. The controller refines similarly the state trajectory which respects the dynamics, the state constraint in \frefeq{eq:state-cont-const-mpc}, and the battery constraint in \frefeq{eq:batt-const-mpc}. It maximizes both the instantaneous cost function $l$, and the final cost function $l_f$ in \frefeq{eq:final-cost-mpc}.
 
 The dynamics constraint satisfaction requires to evolve the perfect model $f$ in \frefeq{eq:perf-model-in-mpc} over horizon $[t_0,t_0+N]$ beginning from the last estimated state $\mathbf{q}_0=\hat{\mathbf{q}}(t_0)$ at time instant $t_0$. The battery constraint is likewise evolved beginning from the last battery measurement $b_0$ obtained from the battery energy sensor also at time instant $t_0$.
+
+\begin{figure}[h]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/plot7.tikz}
+  \caption[.]{.}
+  \label{fig:plot-7}
+\end{figure}
 
 \subsection{\color{red}Optimal control generation with model predictive control}
 \label{sec:opt-cont-gener}
