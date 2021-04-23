@@ -540,7 +540,7 @@ Let us suppose that at time instant $t$ the plan (see \fref{def:plan}{Definition
 \begin{equation}\label{eq:state-control2}
   c_i(t)=\begin{bmatrix}c_i^\rho(t) & c_i^\sigma(t)\end{bmatrix}',
 \end{equation}
-where $c_i(t)\in\mathbb{R}^n$ with $n:=\rho+\sigma$ differs from the nominal control $\mathbf{u}(t)$ in \frefeq{eq:state-perf}. We include the control in the nominal control exploiting the following observation. 
+where $c_i(t)\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal control $\mathbf{u}(t)$ in \frefeq{eq:state-perf}. We include the control in the nominal control exploiting the following observation. 
 
 \begin{highlight}
   \begin{obs}
@@ -556,22 +556,22 @@ where $c_i(t)\in\mathbb{R}^n$ with $n:=\rho+\sigma$ differs from the nominal con
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/plot8.tikz}
-  \caption[Trajectory of the aerial robot flying the highest path configuration]{The trajectory of the aerial robot flying paths $\varphi_1,\varphi_2,\dots,\varphi_l$ from \fref{sec:flight-plan}{Section} with the highest configuration of the path parameter $c_{i,1}=\overline{c}_{i,1}$. This configuration of path parameter has the longest time but the shortest distance between the lines and thus the highest quality of the coverage in \fref{fig:plot2}{Figure}.}
+  \caption[Trajectory of the aerial robot flying the highest path configuration]{The trajectory of the aerial robot flying paths $\varphi_1,\varphi_2,\dots,\varphi_l$ from \fref{sec:flight-plan}{Section} with the highest configuration of the path parameter $c_{4,1}=\overline{c}_{4,1}$. This configuration of path parameter has the longest time but the shortest distance between the lines and thus the highest quality of the coverage in \fref{fig:plot2}{Figure}.}
   \label{fig:plot-8}
 \end{figure}
 \begin{figure}[p]
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/plot9.tikz}
-  \caption[Trajectory of the aerial robot flying the lowest path configuration]{The trajectory of the aerial robot similarly as in \fref{fig:plot-8}{Figure} but with the lowest configuration of the path parameter $c_{i,1}=\underline{c}_{i,1}$. This configuration has the longest distance between the lines and thus the lowest quality of the coverage in \fref{fig:plot2}{Figure}.}
+  \caption[Trajectory of the aerial robot flying the lowest path configuration]{The trajectory of the aerial robot similarly as in \fref{fig:plot-8}{Figure} but with the lowest configuration of the path parameter $c_{4,1}=\underline{c}_{4,1}$. This configuration has the longest distance between the lines and thus the lowest quality of the coverage in \fref{fig:plot2}{Figure}.}
   \label{fig:plot-9}
 \end{figure}
 
 The second bullet point in the observation is easily verified. The \powprof{} profiling tool models the energy consumption of the heterogeneous computing hardware the mobile robot is caring. A variation in the computation parameter affects the schedule and hence the instantaneous energy consumption of the mobile robot.
 
-The first bullet point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we increase the parameter $c_{i,1}$, which is relative to the radius of the circle, the flying time decreses. This is further shown in \fref{fig:plot-8}{Figure} and \fref{fig:plot-8}{Figure}. \fref{fig:plot-8}{Figure} illustrates the trajectory of the aerial robot (composed of all the paths $\varphi_1,\varphi_2\,\dots,\varphi_l$) flying at the highest configuration of the path parameter $c_{i,1}=\overline{c}_{i,1}$. \fref{fig:plot-9}{Figure} then illustrate the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{i,1}$. The flying time differs significantly, along with the quality of the coverage of the polygon (the agricultural field) in \fref{fig:plot2}{Figure}.
+The first bullet point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we increase the parameter $c_{4,1}$, which is relative to the radius of the circle, the flying time decreses. This is further shown in \fref{fig:plot-8}{Figure} and \fref{fig:plot-9}{Figure}. \fref{fig:plot-8}{Figure} illustrates the trajectory of the aerial robot (composed of all the paths $\varphi_1,\varphi_2\,\dots,\varphi_l$) flying at the highest configuration of the path parameter $c_{4,1}=\overline{c}_{4,1}$. \fref{fig:plot-9}{Figure} then illustrate the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{4,1}$. The flying time differs significantly, along with the quality of the coverage of the polygon (the agricultural field in \fref{fig:plot2}{Figure}).
 
-In \fref{fig:plot-9}{Figure}, the parameter $c_{1,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., averse atmospheric conditions do not allow to terminate the original plan in \fref{fig:plot-8}{Figure}.
+In \fref{fig:plot-9}{Figure}, the parameter $c_{4,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., averse atmospheric conditions do not allow to terminate the original plan in \fref{fig:plot-8}{Figure}.
 
 We use the observation later in \fref{sec:opt-cont-gener}{Section} to check that the time to completely discharge the battery is greater than the flight time and replan the path parameters accordingly.  We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
 
@@ -584,7 +584,7 @@ where $\hat{\mathbf{u}}(t)$ is defined as the energy estimate of a given control
   \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)c_i(t)+\tau_i,
 \end{equation}
 where $\mathrm{diag}(\nu_i)$ is a diagonal matrix with the parameters
-$\nu_{i,j}\in\nu_i,\,\forall j\in[n]_{>0}$ where $n=\rho+\sigma$.
+$\nu_{i,j}\in\nu_i,\,\forall j\in[n]_{>0}$.
 
 The input matrix is then
 \begin{equation}\label{eq:mat_B}
@@ -627,7 +627,7 @@ $B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy cons
 
 To transform the control $c_i(t)$ at $i$-th stage and time instant $t$ we use different approaches for the path and computation scaling factors.
 
-The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{1,1}$ relative to the alteration of the upper circle $c_{i,1}$ from \fref{sec:flight-plan} measuring the time needed to compute the path with the lowest configuration $\underline{c}_{1,1}$, $\underline{t}$ in \fref{fig:plot-9}{Figure}, and the highest $\overline{t}$ in \fref{fig:plot-8}{Figure}. 
+The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{4,1}$ relative to the alteration of the upper circle $c_{4,1}$ from \fref{sec:flight-plan}{Section} by measuring the time needed to compute the path with the lowest configuration $\underline{c}_{4,1}$, $\underline{t}$ in \fref{fig:plot-9}{Figure}, and the highest $\overline{t}$ in \fref{fig:plot-8}{Figure}. 
 
 The variation of the control hence results in an approximate measure of the plans' time variation with factors
 \begin{subequations}\label{eq:scale-traj}\begin{align}
