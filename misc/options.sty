@@ -32,6 +32,8 @@
 
 \newcommand*{\formatpagenum}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont#1}}
 \newcommand*{\findex}[1]{\index{#1|formatpagenum}}
+\newcommand*{\sref}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont\ref{#1}}}
+\newcommand*{\srefscriptsize}[1]{\textcolor{foo}{\scriptsize\fontfamily{phv}\selectfont\ref{#1}}}
 \newcommand*{\fref}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont#2~\ref{#1}}}
 \newcommand*{\frefeq}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equation~(\ref{#1})}}
 \newcommand*{\frefeqM}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equations~(\ref{#1}--\ref{#2})}}
@@ -177,7 +179,7 @@
 \DeclareCaptionFont{captionff}{\footnotesize\fontfamily{phv}\selectfont}
 \captionsetup[figure]{labelsep=period,font=captionff}
 \captionsetup[table]{labelsep=period,font=captionff}
-
+\captionsetup[sub]{font=captionff}
 
 \renewcommand{\thefigure}{\textcolor{foo}{\fontfamily{phv}\selectfont\thechapter.\arabic{figure}}}
 \renewcommand{\figurename}{\textcolor{foo}{\fontfamily{phv}\selectfont Fig.}}

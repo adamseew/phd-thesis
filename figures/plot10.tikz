@@ -86,7 +86,7 @@
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(237.0,25.0)}}] (0.0000,0.0000) node[above right] () {fixed-wings};
+  \path[cm={{1.0,0.0,0.0,1.0,(240.0,39.0)}}] (0.0000,0.0000) node[above right] () {{\color{white}fix}ed-wings};
 
 
 
@@ -138,7 +138,7 @@
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(302.0,147.0)}}] (0.0000,0.0000) node[above right] () {rotary-wings};
+  \path[cm={{1.0,0.0,0.0,1.0,(302.0,157.0)}}] (0.0000,0.0000) node[above right] () {rotary-wings};
 
 
 
@@ -146,7 +146,7 @@
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(17.0,187.0)}}] (0.0000,0.0000) node[above right] () {flapping-wings};
+  \path[cm={{1.0,0.0,0.0,1.0,(3.0,287.0)}}] (0.0000,0.0000) node[above right] () {flapping-wings};
 
 
 
