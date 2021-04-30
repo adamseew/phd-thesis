@@ -308,8 +308,31 @@ The approach allows modeling the computational system not only in terms of the o
 \subsection{\color{red}Fourier series of empirical data}
 \label{sec:fourier}
 
+\begin{figure}[t]
+  \footnotesize
+  \centering
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \footnotesize\fontfamily{phv}
+    \input{figures/energy_1.tikz}
+    \caption{Energy evolution}
+    \label{fig:energy-1}
+  \end{subfigure}\hspace{2mm}
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \footnotesize\fontfamily{phv}
+    \input{figures/spectrum_1.tikz}
+    \caption{Power spectrum}
+    \label{fig:spectrum-1}
+  \end{subfigure}
+  \caption[Energy data of a fixed-wing aerial robot]{Empirical energy data collected flying a fixed-wing aerial robot's plan and covering the polygon in \fref{fig:plot2}{Figure}. The data shows that the energy signal is periodic over time with the fixed-wing aerial robot reiterating a set of paths.}
+\end{figure}
+
+Some collected energy data from the Opterra (in \fref{fig:opterra}{Figure}) adapted for precision agriculture scenario along its power spectrum back the choice of the periodic energy model. A periodic energy evolution of a fixed-wing aerial robot flying a plan and covering the polygon in \fref{fig:plot2}{Figure} (we describe the fixed-wing aerial robot plan in detail in \fref{sec:flight-plan}{Section}) is shown in \fref{fig:energy-1}{Figure}. \fref{fig:spectrum-1}{Figure} shows its frequency spectrum (the data are uniformly sampled). The spectrum is centered at zero frequency, which peaks at 4$\cdot$10${}^{\text{5}}$ and indicates the shift on the power-axis in \fref{fig:energy-1}{Figure}. The power spectrum shows that the energy evolution from \fref{fig:energy-1}{Figure} needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
+
 
 \section{Periodic Energy Model}
+\label{sec:periodic-model}
 
 Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often expected to iterate a set of tasks and paths periodically (see \fref{sec:outline}{Section}). For instance, the aerial robot might be covering a polygon such as the one proposed in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
 
@@ -318,7 +341,6 @@ We motivate the choice of a periodic energy model further with some empirical en
 In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:periodic-model}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
 
 \subsection{Derivation of the differential periodic model}
-\label{sec:periodic-model}
 
 In the remainder of this section, we refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of the Fourier series in \fref{sec:fourier}{Section}) and estimated using a state estimator in \fref{cp:est}{Chapter}. We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. %Later, we show how this approach allows us variability in terms of different evolutions, including aperiodic signals in \fref{sec:non-perio}{Section}. After illustrating the energy model, we enhance it with the energy contribution of the path and computations in \fref{sec:merging}{Section}. 
 

@@ -31,7 +31,7 @@ We investigate different physical aerial robotics platforms in this work but we 
 
 In the remainder of the chapter and before we introduce the problem in \fref{sec:pb-form}{Section}, we briefly investigate the evolution of the field of aerial robotics in the next section. We then analyze the main aerial robots available today, and how they apply to dynamic energy planning in \fref{sec:aerial-robo-types}{Section}. We then provide some further motivation for our planning in \fref{sec:motivation}{Section} and the outline of the approach in \fref{sec:outline}{Section}. Finally, we provide the structure of the remaining chapters in \fref{sec:structure}{Section}.
 
-This chapter connects to the remainder of this work as follows. Here we present some definitions and formalize the planning problem. We describe the derivation of a proper energy model to predict the future energy consumption of the planning problem in \fref{cp:model}{Chapter}. We estimate some coefficients of the model using robust estimation techniques in \fref{cp:est}{Chapter}. We implement an optimal configuration of the path and computations using data-driven control\findex{data-driven control} and other modern optimal control techniques in \fref{cp:opt}{Chapter}. This optimal configuration solves the planning problem from this chapter. We use such configuration for guidance and scheduling of the aerial robot in \fref{cp:gd}{Chapter}. The guidance moves physically the robot; the scheduling defines the granularity of the tasks being executed in flight.
+This chapter connects to the remainder of this work as follows. Here we present some definitions and formalize the planning problem. We describe the derivation of a proper energy model to predict the future energy consumption of the planning problem in \fref{cp:model}{Chapter}. We estimate some coefficients of the model using robust estimation techniques in \fref{cp:est}{Chapter}. We implement an optimal configuration of the path and computations using data-driven control\findex{data-driven control} and other modern optimal control techniques in \fref{cp:opt}{Chapter}. This optimal configuration solves the planning problem from this chapter. We use such configuration for guidance and scheduling of the aerial robot in \fref{cp:gd}{Chapter}. The guidance moves physically the robot; the scheduling defines the granularity of the tasks being executed in flight. Moreover, we describe previous approaches to solve the dynamic planning problem in \fref{cp:soa}{Chapter}. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,54 +125,30 @@ We are interested in the energy optimization of the path and computations under 
 
 We formally define the robot planning problem after outlining the approach in the next section.
 
----
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Outline of the Approach}
 \label{sec:outline}
 
-The approach that we present in this work combines, generalizes, and extends some past body of knowledge (see \fref{cp:soa}{Chapter}) on mobile robot planning problems. The approach addresses the increasing computational demands, in relation to aerial robot's energy consumption, path, and autonomy. We apply the approach to aerial robots in different autonomous scenarios. 
+In this work, we address the increasing demands for autonomy of modern aerial robots with a dynamic planning approach. The approach provides a simultaneous energy-aware plan of the path and a power-saving schedule of the computations. To this end, we first need a user-defined initial plan that is then replanned energy-wise using an energy model for future prediction. Later, an algorithm inputs the initial plan, estimates the state of the energy model, evaluates future energy consumption and replans parameters relative to the path and computations. The plan consists of different stages. At each stage, the aerial robot flies a path and executes some computations. Furthermore, it contains some additional parameters to alter the path and computations along with an energy budget. The alterations are bounded. There are path constraint sets that bound the path alterations and computations constraint sets, one per each computation, that bound computations alterations.
 
-The approach necessitates a user-defined initial plan that is replanned energy-wise using an energy model for future prediction. In the remainder of this work, we progressively build an algorithm that inputs a user-specified initial plan, estimates an energy model, evaluates future energy consumption, and eventually replans parameters relative to the path and computations. The initial plan consists of different stages. At each stage, the mobile robot travels a path and executes some computations. The plan then contains the parameters to alter the path and computations along with an energy budget. The alterations are bounded. There are path constraint sets that bound the path alterations and computation constraint sets, one per each computation parameter, that bound computations alterations.
+We use the concept of different stages to model complex paths. For instance, the path might contain multiple circles and lines. We will see such plan later in \fref{sec:flight-plan}{Section}. The approach guides the aerial robot on different paths (the plan is composed of) using vector field~\citep{de2017guidance}. The robot switches between the paths as soon as it reaches specific triggering points. 
 
-We use the concept of different stages to model complex paths. For instance, the path might contain multiple circles and lines, as shown in \fref{sec:flight-plan}{Subsection}. The approach then guides the aerial robot on such a complex path using vector field~\citep{de2017guidance} that converges to the path. The robot switches between the paths as soon as it reaches specific triggering points. 
+The approach further relies on \powprof{}, a profiling and modeling tool that we introduce in \fref{sec:comp-ener-model}{Section}. The tool models the energy consumption of the computations and is later employed to estimate the future energy of the aerial robot flying. To this end, we empirically derive and formally prove a periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\citep{seewald2020mechanical}. Indeed, mobile robots often iterate over a set of tasks and paths~\citep{seewald2021energy}. Given that the plan is periodic, we expect the energy consumption to evolve (approximately) periodically. We describe in detail such model in \fref{sec:periodic-model}{Section}. 
 
-The approach further relies on \powprof{}, a profiling tool presented in~\citep{seewald2019coarse} to model the computations. Future energy predictions are achieved via a formally proved periodic energy model that accounts for the uncertainty. We use Fourier analysis to derive the model, and state estimation to address the uncertainty. Periodicity is often present due to repetitive patterns in the plan~\citep{seewald2020mechanical}. Indeed, mobile robots often iterate over a set of tasks and paths. Given that the plan is periodic, we expect the energy consumption to approximately evolve periodically. We describe in detail such model in \fref{cp:model}{Chapter}. 
+The replanning of the path and computations is achieved with modern optimal control techniques, such as optimal state estimation in \fref{cp:est}{Chapter}, and  model predictive control (MPC)~\citep{rawlings2017model} in \fref{cp:opt}{Chapter}. The control is data-driven. Energy sensor data estimates some coefficients of the model used to predict the future energy consumption with uncertainty. The replanning is done under an energy budget--the battery capacity and other battery parameters. Our goal is to complete the plan with the highest possible parameters configuration as the mobile robot executes the plan. 
 
-The replanning of the path and computations is achieved with modern optimal control techniques, such as model predictive control (MPC)~\citep{rawlings2017model}. The control is data-driven. Energy sensor data estimates some coefficients of the model used to predict the future energy consumption in presence of uncertainty. The replanning is done under an energy budget--the battery capacity and other battery parameters. Our goal is to complete the plan with the highest possible parameters configuration as the mobile robot executes the plan. 
 
-\subsection{Periodic model}
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Applications}
 
-\begin{figure}[t]
-  \footnotesize
-  \centering
-  \begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \footnotesize\fontfamily{phv}
-    \input{figures/energy_1.tikz}
-    \caption{Energy evolution}
-    \label{fig:energy-1}
-  \end{subfigure}\hspace{2mm}
-  \begin{subfigure}[b]{0.48\textwidth}
-    \centering
-    \footnotesize\fontfamily{phv}
-    \input{figures/spectrum_1.tikz}
-    \caption{Power spectrum}
-    \label{fig:spectrum-1}
-  \end{subfigure}
-  \caption[Energy data of a fixed-wing aerial robot]{Empirical energy data collected flying a fixed-wing aerial robot's plan and covering the polygon in \fref{fig:plot2}{Figure}. The data shows that the energy signal is periodic over time with the fixed-wing aerial robot reiterating a set of paths.}
-\end{figure}
+The dynamic energy planning in this work applies to modern aerial robots with a certain degree of autonomy: the aerial robot performs a predefined set of tasks over a given space. Although most of the guidance in \fref{cp:gd}{Chapter} is designed for aerial robots, the approach can be easily adapted to other energy-constrained mobile robots. For instance, we have applied the approach in the space robotics context~\citep{seewald2020beyond}. We discuss applications out of aerial robotics domain further in \fref{cp:conc}{Chapter}.
 
-Some collected energy data from the Opterra (in \fref{fig:opterra}{Figure}) adapted for precision agriculture scenario along its power spectrum back the choice of the periodic energy model. A periodic energy evolution of a fixed-wing aerial robot flying a plan and covering the polygon in \fref{fig:plot2}{Figure} (we describe the fixed-wing aerial robot plan in detail in \fref{sec:flight-plan}{Section}) is shown in \fref{fig:energy-1}{Figure}. \fref{fig:spectrum-1}{Figure} shows its frequency spectrum (the data are uniformly sampled). The spectrum is centered at zero frequency, which peaks at 4$\cdot$10${}^{\text{5}}$ and indicates the shift on the power-axis in \fref{fig:energy-1}{Figure}. The power spectrum shows that the energy evolution from \fref{fig:energy-1}{Figure} needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
+We focus on the precision agriculture scenarios, where the aerial robot covers a given agricultural field (a polygon) and searches for ground hazards. We illustrate such scenario in \fref{fig:plot2}{Figure}. The plan is structured as follows. Path-wise, the Opterra from \fref{fig:opterra}{Figure} flies in circles and lines covering the polygon. Computation-wise, it detects hazards using the CNN and notifies grounded mobile robots employed for, e.g., harvesting. The approach alters the plan; it controls the processing rate and the radius of the circles affecting the distance between the lines. With the scenario, we validated the work experimentally.
 
-\subsection{Applications}
+%We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery.
 
-The dynamic energy planning in this work applies mostly to modern aerial robots with a certain degree of autonomy: the aerial robot is assumed to perform a predefined set of tasks over a given space (the plan). Although most of the guidance in \fref{cp:gd}{Chapter} is specifically meant for aerial robots, the approach can be easily adapted to other energy-constrained mobile robots. For instance, we have applied the approach in the space robotics context~\citep{seewald2020beyond}. We discuss applications out of aerial robotics further in \fref{cp:conc}{Chapter}.
-
-We focus on the precision agriculture scenarios, where the aerial robot covers a given agricultural field (a polygon) and searches for ground hazards. The covering problem in the precision agriculture scenario is illustrated in \fref{fig:plot2}{Figure}. The plan is structured as follows. Path-wise, the Opterra fixed-wing aerial robot from \fref{fig:opterra}{Figure} flies in circles and lines covering the polygon. Computation-wise, it detects hazards using the CNN and notifies grounded mobile robots employed for, e.g., harvesting. The approach alters the plan; it controls the processing rate and the radius of the circles affecting the distance between the lines. With this scenario, we validated the work experimentally.
-
-We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery.
-
+---
 
 \section{Problem Formulation}
 \label{sec:pb-form}
