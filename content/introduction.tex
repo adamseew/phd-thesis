@@ -14,7 +14,7 @@
 
 \lettrine{M}{obile robots} are a class of robots with the ability to move through the environment~\citep{corke2017robotics}. Most of these robots are power-demanding devices constrained by battery limitations. Although such limitations are a common challenge in many areas, they are critical in mobile robots' design and development. They influence the level of autonomy~\citep{seewald2020mechanical}, which in turn is expected to increase in the foreseeable future~\citep{fisher2013verifying}.
 
-To move, mobile robots combine different components which sense and interact with the surrounding environment~\citep{mei2006deployment}. The analysis and interpretation of the data originating from these components often rely on high-level decisions, usually implemented on energy-demanding heterogeneous computing hardware. Planning an energy-aware path with a power-saving scheduling policy on such hardware is an underrepresented topic in the literature. Many past approaches focus almost exclusively on one of these topics. Some generate an energy-optimized path, despite the computation energy almost equaling the motion energy of some instances of low-energy mobile robots~\citep{sudhakar2020balancing}. Moreover, due to the recent advancements in the computational capabilities of heterogeneous computing hardware, such as the introduction of powerful portable GPUs\findex{GPU}~\citep{rizvi2017general}, the use of computations is on the rise~\citep{abramov2012real,satria2016real,jaramillo2019visual}. Others provide a power-saving scheduling policy. Yet, moving a mobile robot requires considerable energy expenditure over mere computations~\citep{mei2004energy,mei2005case}.
+To move, mobile robots combine different components which sense and interact with the surrounding environment~\citep{mei2006deployment}. The analysis and interpretation of the data originating from these components often rely on high-level decisions, usually implemented on energy-demanding heterogeneous computing hardware. Planning an energy-aware path with a power-saving scheduling policy on such hardware is an underrepresented topic in the literature. Many past approaches focus almost exclusively on one of these topics. Some generate an energy-optimized path, despite the computations energy almost equaling the motion energy of some instances of low-energy mobile robots~\citep{sudhakar2020balancing}. Moreover, due to the recent advancements in the computational capabilities of heterogeneous computing hardware, such as the introduction of powerful portable GPUs\findex{GPU}~\citep{rizvi2017general}, the use of computations is on the rise~\citep{abramov2012real,satria2016real,jaramillo2019visual}. Others provide a power-saving scheduling policy. Yet, moving a mobile robot requires considerable energy expenditure over mere computations~\citep{mei2004energy,mei2005case}.
 
 In this work, we focus on dynamic energy planning. We generate both an energy-aware plan of the path and a power-saving schedule of the computations. We plan these two aspects simultaneously, exploring their tradeoffs. We demonstrate the approach both in simulation and empirically, and we focus on aerial mobile robots. These systems share with the broader class of mobile robots stringent battery limitations, yet, handling the battery in flight introduces additional complications. Indeed it is generally required landing to replace or recharge the battery~\citep{zamanakos2020energy}. Aerial robots are an ideal instance of energy-constrained systems that would benefit from a dynamic energy planning technique. In the remainder of this work, we thus focus our analysis on aerial robots.
 
@@ -85,7 +85,7 @@ Common instances of lighter-than-air aerial robots\findex{lighter-than-air aeria
 
 Some other classifications found in aerial robotics literature trade size and maneuverability and include classes as micro aerial vehicles (MAVs)\findex{micro aerial vehicles} or vertical take-off and landing (VTOLs)\findex{vertical take-off and landing} aerial robots. The former are aerial robots with all dimensions lower than 15 cm. The latter are aerial robots flying in a fixed-wing configuration except if taking-off and landing where they use thrust from rotors rather than lift from wings. 
 
-Among the classes in this section, rotary-wings are the most maneuverable and lighter-than-air aerial robots are the least. These, however, have the highest flight time followed by fixed-wing aerial robots. Flapping-wings and mixed configurations, such as VTOLs, fall into the intersection of rotary and fixed-wings for what concerns maneuverability and flight time~\citep{siciliano2016springer}. The energy requirements are critical for all aerial robots, but the difference of motion and computation energy (\Gls{acr:mace}) varies greatly. The energy--inversely proportional to flight time--is highest in rotary-wings and lowest in lighten-than-air aerial robots as shown later in \fref{fig:plot10}{Figure}. The dynamic energy planning approach thus relies on both power-saving task scheduling and energy-efficient path planning for the fixed-wings robots while relying almost exclusively on energy-efficient path planning for rotary-wing aerial robots. In the former \Gls{acr:mace} is close to zero, in the latter is usually high except in energy optimized designs such as some rotary-wing MAVs. Hypothetically, in lighter-than-air aerial robots, \Gls{acr:mace} might be negative; the energy planning approach would rely heavily on power-saving task scheduling.
+Among the classes in this section, rotary-wings are the most maneuverable and lighter-than-air aerial robots are the least. These, however, have the highest flight time followed by fixed-wing aerial robots. Flapping-wings and mixed configurations, such as VTOLs, fall into the intersection of rotary and fixed-wings for what concerns maneuverability and flight time~\citep{siciliano2016springer}. The energy requirements are critical for all aerial robots, but the difference of motion and computations energy (\Gls{acr:mace}) varies greatly. The energy--inversely proportional to flight time--is highest in rotary-wings and lowest in lighten-than-air aerial robots as shown later in \fref{fig:plot10}{Figure}. The dynamic energy planning approach thus relies on both power-saving task scheduling and energy-efficient path planning for the fixed-wings robots while relying almost exclusively on energy-efficient path planning for rotary-wing aerial robots. In the former \Gls{acr:mace} is close to zero, in the latter is usually high except in energy optimized designs such as some rotary-wing MAVs. Hypothetically, in lighter-than-air aerial robots, \Gls{acr:mace} might be negative; the energy planning approach would rely heavily on power-saving task scheduling.
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -160,32 +160,33 @@ Firstly, we define computations, motion, their energy, and M\&CE.
 
 \begin{highlight}
   \begin{defn}[Computations/motion]\label{def:comps}
-    Computations are energy-demanding computational tasks. The mobile robot runs the computations on heterogeneous computing hardware.
+    Computations are energy-demanding computational tasks. The mobile robot runs the computations on heterogeneous computing hardware. The computing hardware interface microcontrollers.
     
-    Motion is the act of the mobile robot moving in the surrounding environment. The mobile robot runs some primitives on microcontrollers for this purpose. The microcontrollers interface actuators, motors, and other components. The primitives often originate from the computing hardware.
+    Motion is the act of the mobile robot moving in the surrounding environment. The mobile robot runs some primitives on microcontrollers for this purpose. The microcontrollers interface actuators, motors, and other components.%The primitives often originate from the computing hardware.
   \end{defn}
 \end{highlight}
 
-Autonomous capabilities are achieved by interconnecting heterogeneous computing hardware and microcontrollers. We assume that for the computations, the heterogeneous computing hardware runs a schedule. The schedule is then characterized by some parameters. For instance, for the CNN detection from the precision agriculture scenario, a parameter is the frames per second (\Gls{acr:fps})\findex{frames per second} rate. Alike for the computations, we assume that for the motion, the robot travels some paths characterized by some other parameters. For instance, for the covering problem from the precision agriculture scenario, a parameter changes the distance between the survey lines.
+Autonomous capabilities are achieved by interconnecting heterogeneous computing hardware and microcontrollers. We assume that for the computations, the heterogeneous computing hardware runs a schedule. The schedule is then characterized by some parameters. For instance, for the CNN detection from the precision agriculture scenario, a parameter is the frames per second (\Gls{acr:fps})\findex{frames per second} rate. Alike for the computations, we assume that for the motion, the robot travels some paths characterized by some other parameters. For instance, for the covering problem, a parameter changes the distance between the survey lines.
 
 \begin{highlight}
-\begin{defn}[Computations/motion energy]
-  Given a schedule composed of $\sigma$ computations characterized by parameters $c_i^\sigma:=\{c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\}$, the computation energy is the energy spent by heterogeneous computing hardware while executing the schedule characterized by $c_i^\sigma$.
+\begin{defn}[Computations/motion energy]\label{def:comp-mot-energy}
+  Given a schedule characterized by parameters $c_i^\sigma:=\{c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\}$, the computations energy is the energy spent by heterogeneous computing hardware executing the schedule.
   
-  The motion energy is the remaining energy the mobile robot requires for the motion. Given a path characterized by $\rho$ parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, the motion energy is the energy by the mobile robot while moving on the path characterized by $c_i^\rho$.
+  Given a path characterized by $\rho$ parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, the motion energy is the energy spent by the mobile robot while moving on the path.
 \end{defn}
 \end{highlight}
 
-Computations energy and motion energy are measured in watts if instantaneous or average. They are measured in joules if over a given time interval. We show in \fref{sec:defs-stages-triggs}{Section} what we mean by characterization of path and computations with some parameters. We illustrate the concept on an example in \fref{sec:flight-plan}{Section}. 
+Physically, the motion energy is the energy spent by all the systems powering the mobile robot, excluding the heterogeneous computing hardware. Computations energy and motion energy are measured in watts for instantaneous or average measures. They are measured in joules for measures over a given time interval. We show in \fref{sec:defs-stages-triggs}{Section} what we mean by characterization of path and computations with some parameters and illustrate the concept on an example in \fref{sec:flight-plan}{Section}. 
 
-\Gls{acr:mace}\findex{difference of motion and computational energy} that we introduced in \fref{sec:aerial-robo-types}{Section} is the difference of average motion and computation energy. It is measured in watts, and it gives a measure of which of the two energy components is predominant. For \Gls{acr:mace} greater than zero, the motion energy dominates over the computations. The dynamic planning approach plans first an energy-efficient path. This is the case for rotary-wing aerial robots \sref{lab:matrice}, and \sref{lab:agras} in \fref{fig:plot10}{Figure}. For \Gls{acr:mace} lower than zero, the computation energy dominates. The dynamic planning approach plans first a power-saving schedule. It is the case for lighter-than-air aerial robot \sref{lab:skye} in \fref{fig:plot10}{Figure}. For \Gls{acr:mace} close to zero, both energy components are important energy-wise. The dynamic planning approach plans both an energy-efficient path and power-saving schedule to a similar extent. This M\&CE is characteristic for fixed-wing aerial robots \sref{lab:cumulus}\fref{lab:opterra}{--\hspace*{-.8ex}} in \fref{fig:plot10}{Figure}.
+\Gls{acr:mace}\findex{difference of motion and computational energy} that we introduced in \fref{sec:aerial-robo-types}{Section} is the difference of average motion and computations energy. It is measured in watts, and it gives a measure of which of the two energy components is predominant. For \Gls{acr:mace} greater than zero, the motion energy dominates over the computations. The dynamic planning approach plans first an energy-efficient path. This is the case for rotary-wing aerial robots \sref{lab:matrice}, and \sref{lab:agras} in \fref{fig:plot10}{Figure}. For \Gls{acr:mace} lower than zero, the computations energy dominates. The dynamic planning approach plans first a power-saving schedule. It is the case for lighter-than-air aerial robot \sref{lab:skye} in \fref{fig:plot10}{Figure}. For \Gls{acr:mace} close to zero, both energy components are important energy-wise. The dynamic planning approach plans both an energy-efficient path and power-saving schedule to a similar extent. This M\&CE is characteristic for fixed-wing aerial robots \sref{lab:cumulus}\fref{lab:opterra}{--\hspace*{-.8ex}} in \fref{fig:plot10}{Figure}.
 
 \subsection{Definitions of path functions}
+\label{sec:path-functions}
 
-To model the path we use multiple mathematical functions $\varphi_1,\varphi_2,\dots$. These functions express the path in 2D at a fixed altitude $h$. 
+To model the path we use multiple mathematical functions $\varphi_1,\varphi_2,\dots$ that we call path functions. These functions express the path in 2D at a fixed altitude $h$. 
 
 \begin{highlight}
-  \begin{defn}[Path functions]
+  \begin{defn}[Path functions]\label{def:paths}
     The functions $\varphi_i:\mathbb{R}^2\rightarrow\mathbb{R}$ are the path functions $\forall i\in\{1,2,\dots\}$. They quantify the distance of a generic point $\mathbf{p}:=(x_{\mathbf{p}},y_{\mathbf{p}})$ in the 2D space on the $z$-axis from $\varphi_i=0$ and are continuous and twice differentiable. 
   \end{defn}
 \end{highlight}
@@ -197,7 +198,7 @@ To model the path we use multiple mathematical functions $\varphi_1,\varphi_2,\d
   \label{fig:plot1}
 \end{figure}
 
-We use this notion for guiding the aerial robot using a vector field in \fref{cp:gd}{Chapter}. For instance, one can define a line
+We use this notion to guide the aerial robot using a vector field in \fref{cp:gd}{Chapter}. For instance, one can define a line
 \begin{equation}\label{eq:basic-path}
   \varphi(x,y):=ax+by+c,
 \end{equation}
@@ -207,9 +208,7 @@ where $a,b,c\in\mathbb{R}$ are given constants. A generic point $\mathbf{p}:=(x_
 \end{equation}
 at $z=\varphi(\mathbf{p})$. The path at a fixed altitude is then $\varphi(x,y)=0$, or more generally $\varphi(x,y)=h$ with $h\in\mathbb{R}$. $\varphi(\mathbf{p})-h$ is then the distance on $z$-axis.
 
-In this work, we use lines and circles as path functions. We connect these functions using some specific points--the triggering points. However, one can define any mathematical function, with the only requirement being the function continuous and twice differentiable. We use the first derivative for the vector field, the second derivative to derive the control action. We explain both derivatives further in \fref{cp:gd}{Chapter}.
-
----
+In this work, we use lines and circles as path functions. We connect these functions using some specific points--the triggering points. However, one can define any mathematical function, with the only requirement being continuity and twice differentiability. We use the first derivative for the vector field, the second derivative to derive the control action. We explain both derivatives further in \fref{cp:gd}{Chapter}.
 
 \subsection{Definitions of stages and triggering points}
 \label{sec:defs-stages-triggs}
@@ -218,29 +217,29 @@ In this work, we use lines and circles as path functions. We connect these funct
 
 %Bold lower-case letters, such as $\mathbf{x}$, denote vectors. Upper-case letters, such as $X$, denote matrices.
 
-Parameters are variable values that might either be reals $\mathbb{R}$ or integers $\mathbb{Z}$. We use such values to dynamically plan the path and computations, and they are related to the computations/motion energy in \fref{}{Definition}. With  $c_{i,j}$ we denote the $j$-th parameter of the $i$-th parameters set $c_i$
+Parameters are real- $\mathbb{R}$ or integer-valued $\mathbb{Z}$ variable values. We use the parameters to dynamically plan the path and computations, since they influence the computations/motion energy in \fref{def:comp-mot-energy}{Definition}. We use the notation  $c_{i,j}$ to denote the $j$-th parameter of the $i$-th parameters set $c_i$
 \begin{equation}
   c_i=\{c_{i,1},c_{i,2},\dots,c_{i,j},\dots\}.
 \end{equation}
 
-The user-defined plan has a fixed number of stages $i=\{1,2,\dots\}$, and we assume that at each stage $i$ the mobile robot executes some computations and travels a path using the parameters set $c_i$. Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound
+The user-defined plan has a number of stages $i=\{1,2,\dots\}$, and we assume that at each stage $i$ the mobile robot runs a schedule and travels a path function $\varphi_i$ using the parameters set $c_i$. Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound
 \begin{equation}
   \underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}.
 \end{equation}
 
-We assume there are $\rho$ path-specific parameters and $\sigma$ computation-specific parameters for every stage. This means that the path at stage $i$ can be replanned with $\rho$ path parameters
+We assume there are $\rho$ \emph{path}-specific \emph{parameters}\findex{path parameters} and $\sigma$ \emph{computations}-specific \emph{parameters}\findex{computations parameters} for every stage. This means that the path at stage $i$ can be replanned with $\rho$ path parameters
 $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$,
-while the computations (i.e., the energy-demanding computational task executed on heterogeneous computing hardware from \fref{def:comps}{Definition}) with $\sigma$ computation parameters 
-$c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}$, likewise in \fref{}{Definition}.
+while the computations (i.e., the energy-demanding computational task executed on heterogeneous computing hardware in \fref{def:comps}{Definition}) with $\sigma$ computation parameters 
+$c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}$.
 
-We enhance the path function in \fref{}{Section} with the path parameters $c_i^\rho$. $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ is thus a (continuous twice differentiable) function of a point and the path parameters. The parameters are used to alter the path and thus change the energy consumption. 
-We express the computations as the value of the computation parameters. These are also employed for the purpose of energy alteration by, e.g., decreasing the granularity of a given computation and thus lowering instantaneous energy consumption. We discuss the alteration of the energy with path parameters and computation parameters further in \fref{sec:nom-cont}{Section} and \fref{sec:merging}{Section}.
+Returning to \fref{sec:path-functions}{Section}, by characterization of the path with parameters, we mean that we enhance $\varphi_i$ with the path parameters $c_i^\rho$. $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ is thus a (continuous twice differentiable) function of a point and the path parameters. The parameters are used to alter the path and thus change the energy consumption.
+Similarly, by characterization of the schedule with parameters, we mean that we express the computations as the value of the computation parameters. These are also employed for the purpose of energy alteration by, e.g., decreasing the granularity of a given computation and thus lowering instantaneous energy consumption. We discuss the alteration of the energy with path parameters and computation parameters further in \fref{sec:nom-cont}{Section} and \fref{sec:merging}{Section}.
 
 We formally define the stage in \fref{def:stage}{Definition}.
 
 \begin{highlight}  
   \begin{defn}[Stage]\label{def:stage}
-    Given $\mathbf{p}(t)$, a point of a mobile robot travelling at an altitude $h\in\mathbb{R}_{\geq 0}$ with respect to an inertial navigation frame $\mathcal{O}_W$, the $i$-th \emph{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
+    Given $\mathbf{p}(t)$, a point of a mobile robot travelling at an altitude $h\in\mathbb{R}_{\geq 0}$ with respect to an inertial navigation frame $\mathcal{O}_W$, the $i$-th \emph{stage}\findex{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
     \begin{equation*}\begin{split}
       \Gamma_i:=\{\varphi_i(\mathbf{p}(t),c_i^\rho),c_i^\sigma\mid
       \,&\forall j\,\in\,[\rho]_{>0},\,c_{i,j}\,\,\,\,\,\,\,\in\mathcal{C}_{i,j},\,\\
@@ -250,9 +249,7 @@ We formally define the stage in \fref{def:stage}{Definition}.
   \end{defn}
 \end{highlight}
 
-We note that the altitude $h$ from \fref{def:stage}{Definition} is not strictly fixed. It might change at different flying phases, and under different atmospheric conditions.
-
-Furthermore, we merge the computation constraint sets and the path constraint set in a single constraint set for simplicity. The constraint set for the $i$-th stage
+We note that the altitude $h$ from \fref{def:stage}{Definition} is not strictly fixed. It might change at different flying phases, and under different atmospheric conditions. Furthermore, we merge the computation constraint sets and the path constraint set in a single constraint set for simplicity. The constraint set for the $i$-th stage
 \begin{equation}\label{eq:constraint-set}
   \mathcal{U}_i:=\begin{cases}
   \mathcal{C}_{i,j} & \text{for } c_{i,j} \text{ with } j\leq\rho\\
@@ -270,11 +267,11 @@ To move from a given stage $\Gamma_i$ to the next stage $\Gamma_{i+1}$, we defin
 \subsection{Definition of the plan}
 \label{sec:plan}
 
-We now define the plan in \fref{def:plan}{Definition} as a finite state machine. It returns at any point in space a specific stage.
+We now define the plan in \fref{def:plan}{Definition} as a finite state machine using the constructs of path functions in \fref{def:paths}{Definition}, stages and triggering points in \fref{def:stage}{Definitions}\fref{def:trigs}{--\hspace*{-.8ex}}.
 
 \begin{highlight}  
   \begin{defn}[Plan]\label{def:plan}
-    Given $\mathbf{p}(t)$ from \fref{def:stage}{Definition}, the \emph{plan} is a finite state machine (FSM) $\Gamma$, where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
+    Given $\mathbf{p}(t)$ from \fref{def:stage}{Definition}, the \emph{plan} is a finite state machine\findex{finite state machine} (\Gls{acr:fsm}) $\Gamma$, where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
     \begin{equation*}s(\Gamma_i,\mathbf{p}(t)):=\begin{cases}
       \Gamma_{i+1} & \text{if }\mathbf{p}(t)=\mathbf{p}_{\Gamma_i}\\
       \Gamma_i & \text{otherwise}
@@ -282,9 +279,9 @@ We now define the plan in \fref{def:plan}{Definition} as a finite state machine.
   \end{defn}
 \end{highlight}
 
-We illustrate the definition of plan, stage, trigerring, and final points in \fref{fig:state-machine}{Figure} and \fref{fig:state-machine2}{Figure}.
+We illustrate the definition of plan, stage, trigerring, and final points in \fref{fig:state-machine}{Figures}\fref{fig:state-machine2}{--\hspace*{-.8ex}}.
 
-\begin{figure}[h]
+\begin{figure}[h!]
   \center
   \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto,initial text=\footnotesize\fontfamily{phv}\selectfont{start}]
     \node[state,initial] (q_i) {$\Gamma_1$}; 
@@ -304,13 +301,11 @@ We illustrate the definition of plan, stage, trigerring, and final points in \fr
     \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=10pt},yshift=0pt]
     (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-9ex]{$\Gamma$};
   \end{tikzpicture}
-  \caption[The plan definition]{The plan definition as an FSM. Each state is a stage $\Gamma_i$, the transition happens in proximity of specific points called triggering points $\mathbf{p}_{\Gamma_i}$. The accepting stage $\Gamma_f$ indicates the termination of the plan.}
+  \caption[Definition of a plan]{Definition of a plan $\Gamma$ as an FSM. Each state is a stage $\Gamma_i$, the transition happens in proximity of specific points called triggering points $\mathbf{p}_{\Gamma_i}$. The accepting stage $\Gamma_f$ indicates the termination of the plan.}
   \label{fig:state-machine}
 \end{figure}
-
-\fref{fig:state-machine}{Figure} illustrates the transition between the stages with the FSM. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
-
-\begin{figure}[h]
+In \fref{fig:state-machine}{Figure} we illustrate a simple linear plan. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
+\begin{figure}[h!]
   \center
   \begin{tikzpicture}[shorten >=1pt,node distance=27ex,on grid,auto]
     \node        (q_dots0) {$\cdots$};
@@ -322,20 +317,80 @@ We illustrate the definition of plan, stage, trigerring, and final points in \fr
     (q_0) edge [loop above] node {$\mathbf{p}(t_2)$} (q_0)
     ; %end path
   \end{tikzpicture}
-\caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between stages (states in the FSM) re expressed in function of the last and/or previous triggering points.}
+\caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between stages (states in the FSM) are expressed in function of the last and/or previous triggering points.}
 \label{fig:state-machine2}
 \end{figure}
-    
-Generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary (see \fref{fig:state-machine2}{Figure}). We further expand on this notion in the example in \fref{sec:flight-plan}{Section}.
+In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}. 
 
-The plan that we show in \fref{fig:state-machine}{Figure} does not have backwards loops. We discuss more complex plans in \fref{cp:conc}{Chapter}. 
+In order to simplify the planning problem, we consider some \emph{primitive paths}\findex{primitive paths}. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_{\mathbf{d}},y_{\mathbf{d}})$. 
+
+Let us suppose the plan is composed of $l$ stages. Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}(t_0)$ at the initial time $t_0$, and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
+\begin{equation}\label{eq:primitive}\begin{split}
+  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
+\end{split}\end{equation}
+$\forall i\in[l/n-1]^+,j\in[n]^+$, where $e_j\in\mathbb{R}$ is the $j$-th constant difference.
+
+\begin{figure}[h!]
+  \center
+  \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto,initial text=\footnotesize\fontfamily{phv}\selectfont{start}]
+    \node[state,initial] (q_i) {$\Gamma_1$}; 
+    \node[state] (q_2) [right=of q_i] {$\Gamma_2$}; 
+    \node        [right=of q_2] (q_dots0) {$\cdots$};
+    \node[state] (q_0) [right=of q_dots0] {$\Gamma_n$};
+    \node[state,accepting] (q_f) [right=of q_0] {$\Gamma_f$};
+    \path[->]
+    (q_i) edge node {$\mathbf{p}_{\Gamma_{1}}$} (q_2)
+    (q_2) edge node {$\mathbf{p}_{\Gamma_{2}}$} (q_dots0)
+    (q_dots0) edge node{$\mathbf{p}_{\Gamma_{n-1}}$} (q_0)
+    (q_0) edge [bend right=65] node [above] {$\mathbf{p}_{\Gamma_n}$} (q_i)
+    (q_i) edge [bend left=-65] node [above] {$\mathbf{p}_{\Gamma_l}$} (q_f)
+    (q_2) edge [bend left=-45] node [above] {$\mathbf{p}_{\Gamma_l}$} (q_f)
+    (q_0) edge node {$\mathbf{p}_{\Gamma_{l}}$} (q_f)    
+    (q_i) edge [loop above] node {$\mathbf{p}(t_1)$} (q_i)
+    (q_2) edge [loop above] node {$\mathbf{p}(t_2)$} (q_2)
+    (q_0) edge [loop above] node {$\mathbf{p}(t_3)$} (q_0)
+    (q_f) edge [loop above] node {$\mathbf{p}(t_4)$} (q_f)
+    ; %end path 
+    \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=60pt},yshift=0pt]
+    (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-22ex]{$\Gamma$};
+  \end{tikzpicture}
+  \caption[Definition of a plan with a loop]{Definition of a plan $\Gamma$ that contain a loop. Stages $\Gamma_1,\Gamma_2,\dots,\Gamma_i$ containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ are iterated with a shift $\mathbf{d}$.}
+  \label{fig:state-machine-loop}
+\end{figure}
+In \fref{fig:state-machine-loop}{Figure} we illustrate a plan composed of $n$ primitive stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ (containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$) that are reiterated with the shift $\mathbf{d}$.
+
+An important concept for the energy estimation is the concept of period--the time required to fly the primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ (or generally $\varphi_{(i-1)n+1},$ $\varphi_{(i-1)n+2},\dots,\varphi_{(i-1)n+n}$). 
+
+\begin{highlight}
+  \begin{defn}[Period]\label{def:period}\findex{period}
+    The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in \frefeq{eq:primitive}.
+  \end{defn} 
+\end{highlight}
+  
+We assume the initial period is one and measure the period required to fly the paths physically or in simulation. The periods might be different for different $j$s due to atmospheric interferences. For the path functions, one can define the plan using primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ or define all the stages explicitly and find $n$ searching the value which satisfies the \frefeq{eq:primitive}. If there is no such value, (e.g., when the plan is composed of only one stage or the plan is aperiodic), the period $T$ from \fref{def:period}{Definition} can be determined empirically from energy data or assumed as the total flight time. The latter eventuality has an effect on the energy model. We discuss the period estimation further in \fref{sec:period-est}{Section}.
+
+\subsection{Planning problem}
+\label{sec:plan-pb}
+
+We now wrap all the constructs from the previous sections and define the planning problem.
+
+\begin{highlight}
+\begin{pb}[Planning problem]\label{pb}\findex{planning problem}
+  Consider an initial plan $\Gamma$ from \fref{def:stage}{Definition}. We are interested in the planning of the path and computations parameters $c_i,\,\forall i\in[l]^+$ under energy constraints and uncertainty.
+  
+  We are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
+\end{pb}    
+\end{highlight}
+
+
+---
 
 \subsection{Precision agriculture example}
 \label{sec:flight-plan}
 
-In this section, we discuss an example of a flight plan for autonomous robots addressing the covering problem in \fref{fig:plot2}{Figure}. We assume the polygon is regular and has four sides (it is a rectangle). An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage. Such intuitive static plan is illustrated in \fref{fig:plot3}{Figure}.
+In this section, we discuss an example of a plan for an autonomous aerial robot in a precision agriculture scenario addressing the covering problem in \fref{fig:plot2}{Figure}. We assume the polygon is regular and has four sides (it is a rectangle). An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage. Such intuitive static plan is illustrated in \fref{fig:plot3}{Figure}.
 
-\begin{figure}[t]
+\begin{figure}[h]
   \centering
   \input{figures/plot3.tikz}
   \caption[Intuitive plan to cover a regular polygon with four sides]{An intuitive plan to cover a regular polygon with four sides. The plan is composed of circles $\varphi_2,\varphi_4$ and lines $\varphi_1,\varphi_3$ (gray lines). To switch between paths the aerial robot reaches the proximity of triggering points ($\mathbf{p}_{\Gamma_1}:=(x_{\Gamma_1},y_{\Gamma_1}),\mathbf{p}_{\Gamma_2},\mathbf{p}_{\Gamma_3},\mathbf{p}_{\Gamma_4}$). The dashed blue line indicates the triggering points, and the black line is the planned flight. The rest of the polygon is covered iterating these primitive paths $\varphi_1,\varphi_2,\varphi_3,\varphi_4$.}
@@ -423,35 +478,6 @@ The last triggering point $\mathbf{p}_{\Gamma_4}$ of the example in \frefeq{eq:l
   \mathbf{p}_{\Gamma_{i+2}}:=(x_{\Gamma_1}+2r_1-2r_2(c_{4,1})+\lfloor i/4\rfloor x_d,y_{\Gamma_3})
 \end{equation}
 as it depends on the radius $r_2$ of the circle $\varphi_4$. The same applies to all the following functions $\varphi_5,\varphi_6,\varphi_7$, since these are all a function of the triggering point $\mathbf{p}_{\Gamma_4}$. The path $\varphi_8$ is then a function of the parameter $c_{4,1}$ and $c_{8,1}$ propagating the parameters for all the following paths $\varphi_9,\varphi_{10},\varphi_{11}$ and so on.
-
-\subsection{Mobile robot planning problem}
-\label{sec:plan-pb}
-
-In order to simplify the problem formulation, we consider some primitive paths. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_d,y_d)$.
-
-Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}(t_0)$ at the initial time $t_0$, and the current levels of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
-\begin{equation}\label{eq:primitive}\begin{split}
-  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\\ &\,\,\,\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
-\end{split}\end{equation}
-$\forall i\in[l/n-1]^+,j\in[n]^+$, where $e_j\in\mathbb{R}$ is the $j$-th constant difference.
-
-\begin{highlight}
-\begin{defn}[Period]\label{def:period}
-  The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in \frefeq{eq:primitive}.
-\end{defn} 
-\end{highlight}
-
-The algorithm measures the time between the paths and assumes the initial period is one. The periods might be different for different $j$s due to atmospheric interferences.
-
-One can define the plan using primitive paths or define all the stages explicitly and find $n$ searching the value which satisfies the \frefeq{eq:primitive}. If there is no such value, (e.g., when the plan is composed of only one stage), the period $T$ from \fref{def:period}{Definition} can be determined empirically from energy data. We discuss the period estimation further in \fref{sec:period-est}{Section}.
-
-\begin{highlight}
-\begin{pb}[Mobile robot planning problem]\label{pb}
-  Consider an initial plan $\Gamma$ from \fref{def:stage}{Definition}. We are interested in the planning of the path and computation parameters $c_i,\,\forall i\in[l]^+$ under energy constraints and uncertainty.
-  
-We are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
-\end{pb}    
-\end{highlight}
 
 \section{Structure}
 \label{sec:structure}
