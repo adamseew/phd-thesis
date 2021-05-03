@@ -16,15 +16,15 @@
 
 
 
-\path[draw=c989898,line join=round,line width=0.512pt] (252.0790,17.3728) -- (252.0790,429.9190);
+\path[draw=c989898,line join=round,line width=0.256pt] (252.0790,17.3728) -- (252.0790,429.9190);
 
 
 
-\path[draw=c989898,line join=round,line width=0.512pt] (34.8827,17.3632) -- (34.8827,429.9090);
+\path[draw=c989898,line join=round,line width=0.256pt] (34.8827,17.3632) -- (34.8827,429.9090);
 
 
 
-\path[draw=c989898,line join=round,line width=0.512pt] (150.8380,125.0660) ellipse (2.8574cm and 2.8574cm);
+\path[draw=c989898,line join=round,line width=0.256pt] (150.8380,125.0660) ellipse (2.8574cm and 2.8574cm);
 
 
 
@@ -74,7 +74,7 @@
 
 
 
-\path[draw=c989898,line join=round,line width=0.512pt] (143.4670,313.1890) ellipse (3.0633cm and 3.0633cm);
+\path[draw=c989898,line join=round,line width=0.256pt] (143.4670,313.1890) ellipse (3.0633cm and 3.0633cm);
 
 
 
