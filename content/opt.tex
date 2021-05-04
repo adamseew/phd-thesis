@@ -142,6 +142,7 @@ All these initial assumption (known final time step, absence of state constraint
 \section{\color{red}Direct Optimal Control Methods}
 
 \subsection{\color{red}Direct single shooting}
+\label{sec:single-shoot}
 
 \subsection{\color{red}Direct multiple shooting}
 
@@ -170,13 +171,11 @@ All these initial assumption (known final time step, absence of state constraint
 \subsection{Output model predictive control}
 \label{sec:output-mpc}
 
-In this section, we address the problem of generating the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is the configuration of the path and computations parameters, and it differs from the nominal control (see \fref{sec:nom-cont}{Subsection}). 
+In this section, we address the problem of deriving the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is the configuration of the path and computations parameters, and it differs from the nominal control. In \fref{sec:nom-cont}{Section} we presented a motivation for such control against the nominal control, based on empirical observations.  
 
-To derive the optimal control, we use the estimated state $\hat{\mathbf{q}}$ in \fref{cp:est}{Chapter}, opposed to the perfect state in \fref{cp:model}{Chapter}. The estimated state differs from the perfect state $\mathbf{q}$ due to the uncertainty. The name of output model predictive control in the literature refers to the notion that some available outputs are used to estimate the not fully known state~\citep{rawlings2017model}. For a differential model, such as the periodic model in \frefeq{eq:state-perf} in \fref{sec:periodic-model}{Subsection}, state estimation is done utilizing techniques such as Kalman filtering (see \fref{cp:est}{Chapter}).
+To derive the optimal control, we use the estimated state $\hat{\mathbf{q}}$ in \fref{cp:est}{Chapter}, opposed to the perfect state in \fref{cp:model}{Chapter}. The estimated state differs from the perfect state $\mathbf{q}$ due to the uncertainty. In fact, the name of output model predictive control in the literature refers to the notion that some available outputs are used to estimate the not fully known state~\citep{rawlings2017model}. For a differential model, such as the periodic model in \frefeq{eq:state-perf} in \fref{sec:periodic-model}{Section}, state estimation is done utilizing techniques such as Kalman filtering that we introduced in \fref{cp:est}{Chapter}.
 
-Before defining and solving the OCP in the case of uncertainty over the finite horizon, let us re-evaluate the output constraints. The output of the model in \frefeq{eq:state-perf} is the instantaneous energy consumption $y$. We stated earlier that it evolves in $\mathbb{R}$. This is an inexact simplification as physical mobile robots are bounded by strict energy budgets due to battery limitations (see \fref{sec:motivation}{Section}).
-
-Let us hence redefine the original output constraint ($\mathbb{R}$) to include the battery model in \fref{sec:battery-model}{Subsection}. We consider SoC $b$ of the mobile robot's battery with the simplistic difference model in \frefeqM{eq:battery-model-1}{eq:battery-model-2}
+Before defining and solving the OCP in the case of uncertainty over the finite horizon, let us re-evaluate the output constraints. The output of the model in \frefeq{eq:state-perf} is the instantaneous energy consumption $y$. We stated earlier that it evolves in $\mathbb{R}$. This is an inexact simplification as aerial robots are bounded by strict energy budgets due to battery limitations, as we motivated in \fref{sec:motivation}{Section}. Let us hence redefine the original output constraint ($\mathbb{R}$) to include the battery model in \fref{sec:battery-model}{Section}. We consider SoC $b$ of the mobile robot's battery with the simplistic differential model in \frefeqM{eq:battery-model-1}{eq:battery-model-2}
 \begin{equation}\label{eq:bat}
   \dot{b}(y(t),t)=-k_b\left(V-
   \sqrt{
@@ -188,10 +187,9 @@ where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{
 
 We note that the maximum instantaneous energy consumption can be computed by multiplying the constant nominal capacity, the SoC, and the internal battery voltage. We assume the maximum energy consumption cannot be negative
 \begin{equation}
-  0\leq y(t)\leq b(y(t),t)Q_cV.
+  0\leq y(t)\leq b(y(t),t)Q_cV,
 \end{equation}
-
-Therefore, we define a time-varying constraint for the output in \fref{def:const}{Definition}, being the maximum instantaneous energy consumption dependent on the SoC $b$ from \frefeq{eq:bat}, which is dependent on time and the instantaneous energy consumption (at the previous time step).
+and therefore, we define a time-varying constraint for the output in \fref{def:const}{Definition}, being the maximum instantaneous energy consumption dependent on the SoC $b$ from \frefeq{eq:bat}, which is dependent on time and the instantaneous energy consumption (at the previous time step).
 
 \begin{highlight}
 \begin{defn}[Output constraint]\label{def:const}
@@ -203,31 +201,32 @@ where $b(y(t),t)Q_cV$ is the maximum instantaneous energy consumption.
 \end{defn}
 \end{highlight}
 
-We assume the mobile robot carries a battery energy sensor and obtain the initial state of charge $b(y(t_0),t_0)$ accordingly.
+We assume the mobile robot carries a battery energy sensor and obtain the initial state of charge $b(y(t_0),t_0)$ utilizing the output of such sensor. This is often the case of aerial robots with a flight controller, which returns various matrix including the battery state of charge. 
 
-The evaluation of the output constraint requires numerical simulation being the battery model in \frefeq{eq:bat} differential, similarly to the energy dynamics of the periodic model in \frefeq{eq:state-perf}. The numerical simulation can be computed using the Euler method in \fref{sec:euler}{Subsectiion}. or the Runge-Kutta method in \fref{sec:rk4}{Subsection}.
+The evaluation of the output constraint requires numerical simulation being the battery model in \frefeq{eq:bat} differential, similarly to the energy dynamics of the periodic model in \frefeq{eq:state-perf}. The numerical simulation can be computed using the Euler method in \fref{sec:euler}{Section}. or the Runge-Kutta method in \fref{sec:rk4}{Section}.
 
-The OCP can be stated similarly as in \fref{sec:opt-constrained}{Subsection}, with the constraints: the control constraint in \frefeq{eq:const-set}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf}
-\begin{subequations}\begin{align}
-   \max_{\mathbf{q}(t),\mathbf{c}_i(t)}&{l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),\mathbf{c}_i(t),t)\,dt}},\\
-   \text{s.t. }\dot{\mathbf{q}}&=f(\mathbf{q}(t),\mathbf{c}_i(t),t),\\
-   \mathbf{c}_i(t)&\in\mathcal{U}_i,\mathbf{q}(t)\in\mathbb{R}^m,\label{eq:state-cont-const-mpc}\\
+The OCP can be stated similarly as in \fref{sec:opt-constrained}{Section}, with the constraints: the control constraint in \frefeq{eq:constraint-set}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf}
+\begin{subequations}\label{eq:ocp-output-mpc}\begin{align}
+   \max_{\mathbf{q}(t),c_i(t)}&{l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),c_i(t),t)\,dt}},\\
+   \text{s.t. }\dot{\mathbf{q}}&=f(\mathbf{q}(t),c_i(t),t),\label{eq:dyn-evol}\\
+   c_i(t)&\in\mathcal{U}_i,\mathbf{q}(t)\in\mathbb{R}^m,\label{eq:state-cont-const-mpc}\\
    y(t)&\in\mathcal{Y}(t),\label{eq:batt-const-mpc}\\
-   q(t_0)&=\mathbf{q}_0\,\,\,\text{given},\text{ and}\\
-   b(y(t_0),t_0)&=b_0\,\,\,\text{given}.
+   \mathbf{q}(t_0)&=\hat{\mathbf{q}}_0\,\,\,\text{given (last estimate state)},\text{ and}\\
+   b(y(t_0),t_0)&=b_0\,\,\,\text{given},
 \end{align}\end{subequations}
+where constraints in \frefeqM{eq:dyn-evol}{eq:batt-const-mpc} are evaluated on $t\in[t_0,T]$. $\mathbf{q}(t)$ and $c_i(t)$ are the state and control trajectories. 
 
-The sizes of the state and control ($m$ and $n$) are defined in \fref{sec:periodic-model}{Subsectoion} and \fref{sec:nom-cont}{Subsection} 
+The sizes of the state and control ($m$ and $n$) are defined in \fref{sec:periodic-model}{Section} and \fref{sec:nom-cont}{Section}. 
 
-The dynamic evolution is then the periodic model in \frefeq{eq:state-perf} together with the scale transformation from \fref{sec:merging}{Subsection}
+The dynamic evolution in \fref{eq:dyn-evol}{Equation} is then the periodic model in \frefeq{eq:state-perf} together with the scale transformation from \fref{sec:merging}{Section}
 \begin{equation}\label{eq:perf-model-in-mpc}
-  f(\mathbf{q}(t),\mathbf{c}_i(t),t)=A\mathbf{q}(t)+B\mathrm{diag}(\nu_i)(\mathbf{c}_i(t)-\mathbf{c}_i(t-1)),
+  f(\mathbf{q}(t),c_i(t),t)=A\mathbf{q}(t)+B\mathrm{diag}(\nu_i)(c_i(t)-c_i(t-1)),
 \end{equation}
-where $\mathbf{c}_i(t-1)$ is the control at the time instant preceding $t$.
+where $c_i(t-1)$ is the control at the time instant preceding $t$.
 
 The instantaneous cost function is defined with the quadratic expression
 \begin{equation}\label{eq:insta-cost-mpc}
-  l(\mathbf{q}(t),\mathbf{c}_i(t),t)=\mathbf{q}'(t)Q\mathbf{q}(t)+\mathbf{c}_i'(t)R\mathbf{c}_i(t),
+  l(\mathbf{q}(t),c_i(t),t)=\mathbf{q}'(t)Q\mathbf{q}(t)+c_i'(t)Rc_i(t),
 \end{equation}
 where $Q\in\mathbb{R}^{m\times m},R\in\mathbb{R}^{n\times n}$ are positive semidefinite matrices.
 
@@ -235,14 +234,13 @@ The final cost function is alike defined with a quadratic expression but with no
 \begin{equation}\label{eq:final-cost-mpc}
   l_f(\mathbf{q}(T),T)=\mathbf{q}'(T)Q_f\mathbf{q}(T),
 \end{equation}
-where $Q_f\in\mathbb{R}^{m\times m}$ is a positive semidefinite matrix.
+where $Q_f\in\mathbb{R}^{m\times m}$ is a positive semidefinite matrix. We discuss in \fref{sec:opt-cont-gener}{Section} the items of the matrices $Q,R,$ and $Q_f$ in a concrete implementation of the output model predictive controller. 
 
-The optimization horizon is limited to $N$ measured in seconds, meaning the controller will select the optimal control trajectory $\mathbf{c}_i^*(t)$ over $[t_0,T]$, with $T=t_0+N$.
-
-It selects the optimal control trajectory as follows.
-At each time step the controller refines the control trajectory which respects the constraints: the dynamics in \frefeq{eq:perf-model-in-mpc}, and the control constraint in \frefeq{eq:state-cont-const-mpc}, and maximizes the instantaneous cost function $l$ in \frefeq{eq:insta-cost-mpc}. The controller refines similarly the state trajectory which respects the dynamics, the state constraint in \frefeq{eq:state-cont-const-mpc}, and the battery constraint in \frefeq{eq:batt-const-mpc}. It maximizes both the instantaneous cost function $l$, and the final cost function $l_f$ in \frefeq{eq:final-cost-mpc}.
+The optimization horizon is limited to $N$ measured in seconds, meaning the controller will select the optimal control trajectory $c_i^*(t)$ over $[t_0,T]$, with $T=t_0+N$. At each time instant the controller refines the control trajectory which respects the constraints: the dynamics in \frefeq{eq:dyn-evol} and \frefeq{eq:perf-model-in-mpc}, and the control constraint in \frefeq{eq:state-cont-const-mpc}. To evaluate the state trajectory--needed for the instantaneous cost function $l$ and the final cost function $l_f$--the controller evaluates the battery trajectory $b(y(t),t)$. It then maximizes the instantaneous cost function $l$ for all the time instants but $T$ ($t_0\leq t < t_0+N$), and the final cost function $l_f$ in \frefeq{eq:final-cost-mpc} for the time instant $T$ ($t=t_0+N$).
 
 The dynamics constraint satisfaction requires to evolve the perfect model $f$ in \frefeq{eq:perf-model-in-mpc} over horizon $[t_0,t_0+N]$ beginning from the last estimated state $\mathbf{q}_0=\hat{\mathbf{q}}(t_0)$ at time instant $t_0$. The battery constraint is likewise evolved beginning from the last battery measurement $b_0$ obtained from the battery energy sensor also at time instant $t_0$.
+
+The OCP from \frefeq{eq:ocp-output-mpc} is infinite dimensional, being the system dynamics in \frefeq{eq:dyn-evol} and the battery dynamics in \frefeq{eq:bat} given in continuous opposed to discrete time. Such an infinite dimensional OCP has an infinite dimension of constraints and decision variables since there are infinite time instants between $t_0$ and $t_0+N$. We discretize the infinite dinemnsional OCP and discuss the solution to the planning problem in \fref{sec:pb-form}{Chapter} in \fref{sec:opt-cont-gener}{Section}.
 
 \begin{figure}[h]
   \centering
@@ -252,8 +250,47 @@ The dynamics constraint satisfaction requires to evolve the perfect model $f$ in
   \label{fig:plot-7}
 \end{figure}
 
-\subsection{\color{red}Optimal control generation with model predictive control}
+\subsection{Optimal control generation with model predictive control}
 \label{sec:opt-cont-gener}
+
+In this section we combine the notions from the previous sections in this chapter and \fref{cp:model}{Chapters}\fref{cp:gd}{--\hspace*{-.8ex}} and provide a solution to the planning problem in \fref{sec:pb-form}{Chapter}.
+
+First, we need to transform the OCP in \frefeq{eq:ocp-output-mpc} into an NLP. The optimization problem to be solved numerically in the discrete form is effectively an NLP, due to the nonlinearity in the cost functions $l,l_f,$ and in the constaints
+\begin{subequations}\label{eq:disc-ocp-output-mpc}\begin{align}
+  \max_{\mathbf{q}(k),c_i(k)}{l_f(\mathbf{q}(T}&{),T)+\sum_{k\in\mathcal{K}}{l_d(\mathbf{q}(k),c_i(k),k)}},\\
+  \text{s.t. }\mathbf{q}(k+h)&=f_d(\mathbf{q}(k),c_i(k),k),\label{eq:disc-dyn-evol}\\
+  c_i(k)&\in\mathcal{U}_i,\mathbf{q}(k)\in\mathbb{R}^m,\label{eq:disc-state-cont-const-mpc}\\
+  y(k)&\in\mathcal{Y}(k),\label{eq:disc-batt-const-mpc}\\
+  \mathbf{q}(t_0)&=\hat{\mathbf{q}}_0\,\,\,\text{given (last estimated state)},\text{ and}\\
+  b(y(t_0),t_0)&=b_0\,\,\,\text{given},
+\end{align}\end{subequations}
+where the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} are now evaluated on a finite interval $k\in\mathcal{K}=\{t_0,t_0+h,t_0+2h,\dots,T\}$, and $h$ is a given distance between two time instants; the smaller the distance the more precise the simulation. The other expressions are analogous to \frefeq{eq:ocp-output-mpc}.
+
+We use numerical simulation to transform \frefeq{eq:ocp-output-mpc} into \frefeq{eq:disc-ocp-output-mpc}. We can use either the Runge-Kutta methods in \fref{sec:rk4}{Section}, or the Euler method in \fref{sec:euler}{Section}. For simplicity, we show the transformation with the Euler method. The instantaneous cost function $l_d$
+\begin{equation}
+  l_d(\mathbf{q}(k),c_i(k),k)=hl(\mathbf{q}(k),c_i(k),k),
+\end{equation}
+where $l$ is given in \fref{eq:insta-cost-mpc}{Equation}.
+
+The discrete dynamic evolution in \fref{eq:disc-dyn-evol}{Equation}
+\begin{equation}
+  f_d(\mathbf{q}(k),c_i(k),k)=A_d\mathbf{q}(k)+B\mathrm{diag}(\nu_i)(c_i(k)-c_i(k-h)),
+\end{equation}
+where $A_d$ is the discretized version of the state transition matrix $A$ and for small enough interval of $h$ is 
+\begin{equation}
+A_d=(hA+\mathrm{diag}(1,1,\dots,1)),
+\end{equation}
+where $\mathrm{diag}(1,1,\dots,1)\in\mathbb{R}^{m\times m}$ is a diagonal matrix of ones. We discretize the battery dynamics in \frefeq{eq:bat} 
+\begin{equation}
+  b_d(y(k+h),k+h)=b(y(k),k)+hb(y(k+h),k+h).
+\end{equation}
+
+We transformed the OCP in \frefeq{eq:} into an NLP in \frefeq{} by first discretizing and thus effectively implementing the direct multiple shooting method in \fref{sec:multi-shoot}{Section}. We note that we can implement the single shooting method by keeping only the initial state as the decision variable $\hat{\mathbf{q}}_0$ opposed to 
+using the interval boundary time points as decision variable in the multiple shooting method~\citep{rawlings2017model}.
+
+For convenience, we replace the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} using equality and inequeality constraints such that the problem can be then solved by a numerical optimization algorithm. The \frefeq{eq:disc-dyn-evol} becames
+
+---
 
 \section{\color{red}Results}
 
