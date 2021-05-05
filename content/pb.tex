@@ -2,7 +2,10 @@
 \chapter{Problem Formulation}
 \label{sec:pb-form}
 
-We formulate the mobile robot planning problem in \fref{sec:plan-pb}{Section}. Before we provide a formal definition of some basic constructs in \fref{sec:definitions}{Sections}\fref{sec:plan}{--\hspace*{-.8ex}}. We then provide a formal example of the precision agriculture scenario in \fref{sec:flight-plan}{Section}.
+\lettrine{I}{n this chapter}, we discuss the planning problem that we are interested in solving in the rest of this work. In particular, we formulate the problem in \fref{sec:plan-pb}{Section}. In \fref{sec:definitions}{Sections}\fref{sec:plan}{--\hspace*{-.8ex}}, we provide formal definitions of some basic constructs. We then illustrate the planning problem on an example of the precision agriculture scenario in \fref{sec:flight-plan}{Section}.
+
+This chapter connects to the remainder of this work as follows. Here we formalize the planning problem. We use the characteristics of the problem to derive an energy model in \fref{cp:model}{Chapter}, which we estimate from measured data in \fref{cp:est}{Chapter}. We solve the planning problem using modern optimal control techniques in \fref{cp:opt}{Chapter}. With the solution, we refine the original problem in terms of both the path and computations. We guide the aerial robot on the refined path using vector field that we describe in \fref{cp:gd}{Chapter}. We discuss past approaches to solve the planning problem in \fref{cp:soa}{Chapter}, and the concrete implementation in \fref{app:imp}{Appendix}.
+
 
 \section{Definitions of computations and motion}
 \label{sec:definitions}
@@ -21,15 +24,16 @@ Autonomous capabilities are achieved by interconnecting heterogeneous computing 
 
 \begin{highlight}
 \begin{defn}[Computations/motion energy]\label{def:comp-mot-energy}
-  Given a schedule characterized by parameters $c_i^\sigma:=\{c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\}$, the computations energy is the energy spent by heterogeneous computing hardware executing the schedule.
-  
   Given a path characterized by $\rho$ parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, the motion energy is the energy spent by the mobile robot while moving on the path.
+
+  Given a schedule characterized by parameters $c_i^\sigma:=\{c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\}$, the computations energy is the energy spent by heterogeneous computing hardware executing the schedule.
 \end{defn}
 \end{highlight}
 
-Physically, the motion energy is the energy spent by all the systems powering the mobile robot, excluding the heterogeneous computing hardware. Computations energy and motion energy are measured in watts for instantaneous or average measures. They are measured in joules for measures over a given time interval. We show in \fref{sec:defs-stages-triggs}{Section} what we mean by characterization of path and computations with some parameters and illustrate the concept on an example in \fref{sec:flight-plan}{Section}. 
+Physically, motion energy is the energy spent by all the systems powering the mobile robot, excluding the heterogeneous computing hardware. Computations energy and motion energy are measured in watts for instantaneous or average measures. They are measured in joules for measures over a given time interval. We show in \fref{sec:defs-stages-triggs}{Section} what we mean by characterization of path and computations with some parameters and illustrate the concept on an example in \fref{sec:flight-plan}{Section}. 
 
 \Gls{acr:mace}\findex{difference of motion and computations energy} that we introduced in \fref{sec:aerial-robo-types}{Section} is the difference of average motion and computations energy. It is measured in watts, and it gives a measure of which of the two energy components is predominant. For \Gls{acr:mace} greater than zero, the motion energy dominates over the computations. The dynamic planning approach plans first an energy-efficient path. This is the case for rotary-wing aerial robots \sref{lab:matrice}, and \sref{lab:agras} in \fref{fig:plot10}{Figure}. For \Gls{acr:mace} lower than zero, the computations energy dominates. The dynamic planning approach plans first a power-saving schedule. It is the case for lighter-than-air aerial robot \sref{lab:skye} in \fref{fig:plot10}{Figure}. For \Gls{acr:mace} close to zero, both energy components are important energy-wise. The dynamic planning approach plans both an energy-efficient path and power-saving schedule to a similar extent. This M\&CE is characteristic for fixed-wing aerial robots \sref{lab:cumulus}\fref{lab:opterra}{--\hspace*{-.8ex}} in \fref{fig:plot10}{Figure}.
+
 
 \section{Definitions of path functions}
 \label{sec:path-functions}
@@ -38,7 +42,7 @@ To model the path we use multiple mathematical functions $\varphi_1,\varphi_2,\d
 
 \begin{highlight}
   \begin{defn}[Path functions]\label{def:paths}
-    The functions $\varphi_i:\mathbb{R}^2\rightarrow\mathbb{R}$ are the path functions $\forall i\in\{1,2,\dots\}$. They quantify the distance of a generic point $\mathbf{p}:=(x_{\mathbf{p}},y_{\mathbf{p}})$ in the 2D space on the $z$-axis from $\varphi_i=0$ and are continuous and twice differentiable. 
+    $\varphi_i:\mathbb{R}^2\rightarrow\mathbb{R}\,\forall i\in\{1,2,\dots\}$ are \emph{path functions}\findex{path functions} used to model the path. They quantify the distance of a generic point $\mathbf{p}:=(x_{\mathbf{p}},y_{\mathbf{p}})$ in the 2D space on the $z$-axis from $\varphi_i=0$ and are continuous and twice differentiable. 
   \end{defn}
 \end{highlight}
 
@@ -49,7 +53,7 @@ To model the path we use multiple mathematical functions $\varphi_1,\varphi_2,\d
   \label{fig:plot1}
 \end{figure}
 
-We use this notion to guide the aerial robot using a vector field in \fref{cp:gd}{Chapter}. For instance, one can define a line
+We use this notion to guide the aerial robot using vector field in \fref{cp:gd}{Chapter}. For instance, one can define a line
 \begin{equation}\label{eq:basic-path}
   \varphi(x,y):=ax+by+c,
 \end{equation}
@@ -73,7 +77,7 @@ Parameters are real- $\mathbb{R}$ or integer-valued $\mathbb{Z}$ variable values
   c_i=\{c_{i,1},c_{i,2},\dots,c_{i,j},\dots\}.
 \end{equation}
 
-The user-defined plan has a number of stages $i=\{1,2,\dots\}$, and we assume that at each stage $i$ the mobile robot runs a schedule and travels a path function $\varphi_i$ using the parameters set $c_i$. Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound
+The user-defined plan, that we introduced in \fref{sec:outline}{Section}, has a number of stages $i=\{1,2,\dots\}$, and we assume that at each stage $i$ the mobile robot runs a schedule and travels a path function $\varphi_i$ using the parameters set $c_i$. Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound
 \begin{equation}
   \underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}.
 \end{equation}
@@ -100,7 +104,7 @@ We formally define the stage in \fref{def:stage}{Definition}.
   \end{defn}
 \end{highlight}
 
-We note that the altitude $h$ from \fref{def:stage}{Definition} is not strictly fixed. It might change at different flying phases, and under different atmospheric conditions. Furthermore, we merge the computation constraint sets and the path constraint set in a single constraint set for simplicity. The constraint set for the $i$-th stage
+We note that the altitude $h$ from \fref{def:stage}{Definition} is not strictly fixed. It might change at different flight phases, and under different atmospheric conditions. Furthermore, we merge the computation constraint sets and the path constraint set in a single constraint set for simplicity. The constraint set for the $i$-th stage
 \begin{equation}\label{eq:constraint-set}
   \mathcal{U}_i:=\begin{cases}
   \mathcal{C}_{i,j} & \text{for } c_{i,j} \text{ with } j\leq\rho\\
@@ -114,6 +118,7 @@ To move from a given stage $\Gamma_i$ to the next stage $\Gamma_{i+1}$, we defin
     The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called \emph{final point}.
   \end{defn}
 \end{highlight}
+
 
 \section{Definition of the plan}
 \label{sec:plan}
@@ -171,7 +176,7 @@ In \fref{fig:state-machine}{Figure} we illustrate a simple linear plan. The trig
 \caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between stages (states in the FSM) are expressed in function of the last and/or previous triggering points.}
 \label{fig:state-machine2}
 \end{figure}
-In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can express the triggering points in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}. 
+In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can express the basic constructs--such as path functions and triggering points--in function of the $i$-th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}. 
 
 In order to simplify the planning problem, we consider some \emph{primitive paths}\findex{primitive paths}. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_{\mathbf{d}},y_{\mathbf{d}})$. 
 
@@ -227,19 +232,22 @@ We now wrap all the constructs from the previous sections and define the plannin
 
 \begin{highlight}
 \begin{pb}[Planning problem]\label{pb}\findex{planning problem}
-  Consider an initial plan $\Gamma$ from \fref{def:stage}{Definition}. We are interested in the planning of the path and computations parameters $c_i,\,\forall i\in[l]^+$ under energy constraints and uncertainty.
+  Consider an initial plan $\Gamma$ from \fref{def:stage}{Definition} composed of $l$ stages. We are interested in the planning of the path and computations parameters $c_i,\,\forall i\in[l]^+$ under energy constraints and uncertainty.
   
   We are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
 \end{pb}    
 \end{highlight}
 
 
----
-
 \section{Precision agriculture example}
 \label{sec:flight-plan}
 
-In this section, we discuss an example of a plan for an autonomous aerial robot in a precision agriculture scenario addressing the covering problem in \fref{fig:plot2}{Figure}. We assume the polygon is regular and has four sides (it is a rectangle). An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage. Such intuitive static plan is illustrated in \fref{fig:plot3}{Figure}.
+In this section, we discuss an example of a plan for an autonomous aerial robot in a precision agriculture scenario addressing the covering problem in \fref{fig:plot2}{Figure}. Path-wise, the aerial robot covers a polygon with variable quality of coverage. Computation-wise, it detects ground hazards and communicates eventual detection with other ground-based actors. We discuss the path planning sub-problem formulation in \fref{sec:path-wise}{Section} and the computations planning sub-problem formulation in \fref{sec:computation-wise}{Section}.
+
+\subsection{Path planning sub-problem formulation}
+\label{sec:path-wise}
+
+We assume the polygon to cover in the agricultural scenario shown in \fref{fig:plot2}{Figure} is regular and has four sides (it is a rectangle). An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage. Such intuitive static plan is illustrated in \fref{fig:plot3}{Figure}.
 
 \begin{figure}[h]
   \centering
@@ -248,7 +256,7 @@ In this section, we discuss an example of a plan for an autonomous aerial robot 
   \label{fig:plot3}
 \end{figure}
 
-The intuitive plan can be used to solve the covering problem with a rotary-wing aerial robot. However, it is unsuitable for a fixed-wing craft such as the Opterra that we use for the precision agriculture scenario in this work (see \fref{fig:opterra}{Figure}). Fixed-wing aerial robots have considerably reduced maneuverability compared to rotary-wings. They are generally unable to perform quick turns in flight.
+The intuitive plan can be used to solve the covering problem with a rotary-wing aerial robot. However, it is unsuitable for a fixed-wing craft such as the Opterra that we use for the precision agriculture scenario in this work in \fref{fig:opterra}{Figure}. Fixed-wing aerial robots have considerably reduced maneuverability compared to rotary-wings. They are generally unable to perform quick turns in flight.
 
 An updated version of the intuitive plan for fixed-wing aerial robots is illustrated in \fref{fig:plot4}{Figure}.
 
@@ -259,7 +267,7 @@ An updated version of the intuitive plan for fixed-wing aerial robots is illustr
   \label{fig:plot4}
 \end{figure}
 
-The paths that correspond to the fixed-wing aerial robot's plan 
+The paths that correspond to the fixed-wing aerial robot's plan are composed of four primitives
 \begin{subequations}\label{eq:basic-plan}\begin{align}
 \varphi_1(\mathbf{p}(t))&:=x-10,\label{eq:line1}\\
 \varphi_2(\mathbf{p}(t))&:=(x-85)^2+(y-10)^2-5625,\label{eq:circ1}\\
@@ -281,8 +289,8 @@ A generic solution for the covering problem is then defined with the paths
   \varphi_{i+2}(\mathbf{p}(t))&:=x-x_{\Gamma_2}-\lfloor i/4\rfloor x_d,
 \end{align}
 \end{subequations}
-$\forall i\in\{1,5,9,\dots,l-3\}$ ($i$ is used to iterate all the paths up to the last path $\varphi_l$), $x_d$ is a shift on the $x-$axis, $\lfloor i/4\rfloor$ is the integer division. The expressions in \frefeq{eq:line-gene} correspond to the generalizations of the lines in \frefeq{eq:line1} and \frefeq{eq:line2}. The generalizations of the circles in \frefeq{eq:circ1} and \frefeq{eq:circ2} are
-\begin{subequations}\begin{align}
+$\forall i\in\{1,5,9,\dots,l-3\}$ ($i$ is used to iterate all the paths up to the last path $\varphi_l$), $x_d$ is a shift on the $x$-axis, $\lfloor i/4\rfloor$ is the integer division. The expressions in \frefeq{eq:line-gene} correspond to the generalizations of the lines in \frefeq{eq:line1} and \frefeq{eq:line2}. The generalizations of the circles in \frefeq{eq:circ1} and \frefeq{eq:circ2} are
+\begin{subequations}\label{eq:circ-gene}\begin{align}
   \varphi_{i+1}(\mathbf{p}(t))&:=(x-x_{\Gamma_1}-r_1-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_1})^2-r_1^2,\\
   \varphi_{i+3}(\mathbf{p}(t))&:=(x-x_{\Gamma_2}+r_2-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_3})^2-r_2^2,\label{eq:second-circ-gene}
 \end{align}
@@ -294,7 +302,7 @@ The triggering points can be expressed similarly with the expressions
   \mathbf{p}_{\Gamma_i}&:=(x_{\Gamma_1}+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
   \mathbf{p}_{\Gamma_{i+1}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
   \mathbf{p}_{\Gamma_{i+2}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_3}),\\
-  \mathbf{p}_{\Gamma_{i+2}}&:=(x_{\Gamma_1}+2r_1-2r_2+\lfloor i/4\rfloor x_d,y_{\Gamma_3})\label{eq:last-trig-gene}.
+  \mathbf{p}_{\Gamma_{i+3}}&:=(x_{\Gamma_1}+2r_1-2r_2+\lfloor i/4\rfloor x_d,y_{\Gamma_3})\label{eq:last-trig-gene}.
 \end{align}
 \end{subequations}
 
@@ -302,13 +310,12 @@ We note from \fref{fig:plot4}{Figure} and \frefeqM{eq:line-gene}{eq:trigs-gene} 
 
 The plan in \frefeqM{eq:line-gene}{eq:trigs-gene} is static. There is no path parameter that allows to alter the plan. We can easily transform such plan with the addition of a path parameter $c_{4,1}$ relative to the radius of the second circle $\varphi_4$ in \fref{fig:plot4}{Figure}
 \begin{equation}\label{eq:radius-dynamic}
-  r_2(c_{4,1}):=(r-c_{4,1}),
+  r_2(c_{4,1}):=(r+c_{4,1}),
 \end{equation}
-where $r<r_1$ is a given constant initial radius.
+where $r<r_1$ is a given positive constant initial radius and $c_{4,1}\in(-r,0]$. We assume that the highest value is thus $\overline{c}_{4,1}=0$, the lowest is strictly higher than the constant initial radius $\underline{c}_{4,1}>-r$.
 
 We note from the expression in \frefeq{eq:radius-dynamic} that \frefeq{eq:last-trig-gene} and \frefeq{eq:second-circ-gene} depend on the parameter $c_{4,1}$ (they contain $r_2$, which depend on $c_{4,1}$). They can be thereby dynamically replanned, resulting in an alteration of the quality of the coverage. They indeed change the distance between the survey lines.
-
-We can bound the alteration (see \fref{def:stage}{Definition}) with $\mathcal{C}_{4,1}:=[\underline{c}_{4,1},\overline{c}_{4,1}]$. 
+We can bound the alteration with $\mathcal{C}_{4,1}:=[\underline{c}_{4,1},\overline{c}_{4,1}]$. 
 
 The concept is illustrated in \fref{fig:plot5}{Figure}. The black line is the un-altered path, the blue line the replanned path. The gray area delimits the bound $\mathcal{C}_{4,1}$. The alteration of the plan using path parameter $c_{4,1}$ shortens or extends the flying time.
 
@@ -320,12 +327,34 @@ The concept is illustrated in \fref{fig:plot5}{Figure}. The black line is the un
 \end{figure}
 
 Since the last path $\varphi_4$ is a function of the parameter $c_{4,1}$, the correct expression for \frefeq{eq:second-circ-gene} is 
-\begin{equation}
+\begin{equation}\label{eq:line-gene-param}
   \varphi_{i+3}(\mathbf{p}(t),c_{4,1}):=(x-x_{\Gamma_2}+r_2(c_{4,1})-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_3})^2-r_2(c_{4,1})^2.
 \end{equation}
 
 The last triggering point $\mathbf{p}_{\Gamma_4}$ of the example in \frefeq{eq:last-trig-gene} is likewise a function of the parameter $c_{4,1}$
 \begin{equation}
-  \mathbf{p}_{\Gamma_{i+2}}:=(x_{\Gamma_1}+2r_1-2r_2(c_{4,1})+\lfloor i/4\rfloor x_d,y_{\Gamma_3})
+  \mathbf{p}_{\Gamma_{i+3}}:=(x_{\Gamma_1}+2r_1-2r_2(c_{4,1})+\lfloor i/4\rfloor x_d,y_{\Gamma_3})
 \end{equation}
 as it depends on the radius $r_2$ of the circle $\varphi_4$. The same applies to all the following functions $\varphi_5,\varphi_6,\varphi_7$, since these are all a function of the triggering point $\mathbf{p}_{\Gamma_4}$. The path $\varphi_8$ is then a function of the parameter $c_{4,1}$ and $c_{8,1}$ propagating the parameters for all the following paths $\varphi_9,\varphi_{10},\varphi_{11}$ and so on.
+
+\subsection{Computations planning sub-problem formulation}
+\label{sec:computation-wise}
+
+The aerial robot detects ground hazard running a CNN implemented in a Robot Operating System (ROS)~\citep{quigley2009ros} node. The CNN detects hazards from image frames from a downward-facing camera on the aerial robot. A computation parameter is thus the FPS rate at which the frames are sent from the camera to the CNN ROS node. The communication between the aerial robot and its ground-based counterparts occurs on another ROS node, which utilizes the technical standard for wireless communication IEEE 802.11~\citep{crow1997ieee}. It sends the detected images either unencrypted or using public key infrastructure for encryption.
+
+We hance write the stages with the primitive paths in \frefeqM{eq:line-gene}{eq:circ-gene} and the parameter dependent version in \frefeq{eq:line-gene-param}
+\begin{subequations}\begin{align}
+  \Gamma_i&:=\{\varphi_i(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1}),c_{i,2},c_{i,3}\},\label{eq:line-plan}\\
+  \Gamma_{i+1}&:=\{\varphi_{i+1}(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1}),c_{i+1,2},c_{i+1,3}\},\label{eq:circ-plan}\\
+  \Gamma_{i+2}&:=\{\varphi_{i+2}(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1}),c_{i+2,2},c_{i+2,3}\},\label{eq:line2-plan}\\
+  \Gamma_{i+3}&:=\{\varphi_{i+3}(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1},c_{i+3,1}),c_{i+3,2},c_{i+3,3}\},\label{eq:circ2-plan}
+\end{align}
+\end{subequations}
+$\forall i\in\{1,5,9,\dots,l-3\}$. The computations parameters $c_{i,2},$ and $c_{i,3}$ are relative to the detection FPS rate and to the encryption. The upper and lower bounds of $c_{i,3}\in\{0,1\}:=\mathcal{S}_{i,3},\,\forall i\in[l]_{>0}$ (encryption is active or data are sent unencrypted).
+
+We note from the path plan in \fref{sec:path-wise}{Section} that during the turns the aerial robot is not surveying the polygon. We thus place different constraints for different paths. For the circles in \frefeq{eq:circ-plan} and \frefeq{eq:circ2-plan} the computation $c_{i+1,2},c_{i+3,2}\in\mathcal{S}_{i+1,2}=\mathcal{S}_{i+3,2}:=\{0\}$ and for the lines in \frefeq{eq:line-plan} and \frefeq{eq:line2-plan} $c_{i,2},c_{i+2,2}\in\mathcal{S}_{i,2}=\mathcal{S}_{i+2,2}:=[2,10]\,\forall i\in\{1,5,9,\dots,l-3\}$ the FPS rate varies between two and ten.
+
+---
+
+\section{\color{red}Summary}
+

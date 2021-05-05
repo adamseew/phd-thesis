@@ -145,6 +145,7 @@ All these initial assumption (known final time step, absence of state constraint
 \label{sec:single-shoot}
 
 \subsection{\color{red}Direct multiple shooting}
+\label{sec:multi-shoot}
 
 \subsection{\color{orange}Direct collocation}
 
@@ -164,7 +165,7 @@ All these initial assumption (known final time step, absence of state constraint
 \subsection{\color{orange}Nonlinear interior point methods}
 
 
-\section{\color{red}Model Predictive Control}
+\section{\color{cyan}Model Predictive Control}
 
 
 
@@ -193,7 +194,7 @@ and therefore, we define a time-varying constraint for the output in \fref{def:c
 
 \begin{highlight}
 \begin{defn}[Output constraint]\label{def:const}
-The output constraint is the set
+The \emph{output constraint}\findex{output constraint} is the set
 \begin{equation*}
   \mathcal{Y}(t):=\{y\mid y\in[0,b(y(t),t)Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
 \end{equation*}
@@ -201,7 +202,7 @@ where $b(y(t),t)Q_cV$ is the maximum instantaneous energy consumption.
 \end{defn}
 \end{highlight}
 
-We assume the mobile robot carries a battery energy sensor and obtain the initial state of charge $b(y(t_0),t_0)$ utilizing the output of such sensor. This is often the case of aerial robots with a flight controller, which returns various matrix including the battery state of charge. 
+We assume the mobile robot carries a battery energy sensor and obtain the initial state of charge $b(y(t_0),t_0)$ utilizing the output of such sensor. This is often the case of aerial robots with a flight controller, which returns various metrics including the battery state of charge. 
 
 The evaluation of the output constraint requires numerical simulation being the battery model in \frefeq{eq:bat} differential, similarly to the energy dynamics of the periodic model in \frefeq{eq:state-perf}. The numerical simulation can be computed using the Euler method in \fref{sec:euler}{Section}. or the Runge-Kutta method in \fref{sec:rk4}{Section}.
 
@@ -218,11 +219,11 @@ where constraints in \frefeqM{eq:dyn-evol}{eq:batt-const-mpc} are evaluated on $
 
 The sizes of the state and control ($m$ and $n$) are defined in \fref{sec:periodic-model}{Section} and \fref{sec:nom-cont}{Section}. 
 
-The dynamic evolution in \fref{eq:dyn-evol}{Equation} is then the periodic model in \frefeq{eq:state-perf} together with the scale transformation from \fref{sec:merging}{Section}
+The dynamic evolution in \frefeq{eq:dyn-evol} is then the periodic model in \frefeq{eq:state-perf} together with the scale transformation from \fref{sec:merging}{Section}
 \begin{equation}\label{eq:perf-model-in-mpc}
-  f(\mathbf{q}(t),c_i(t),t)=A\mathbf{q}(t)+B\mathrm{diag}(\nu_i)(c_i(t)-c_i(t-1)),
+  f(\mathbf{q}(t),c_i(t),t)=A\mathbf{q}(t)+B\mathrm{diag}(\nu_i)(c_i(t)-c_i(t-\Delta t)),
 \end{equation}
-where $c_i(t-1)$ is the control at the time instant preceding $t$.
+where $c_i(t-\Delta t)$ is the control at the time instant preceding $t$.
 
 The instantaneous cost function is defined with the quadratic expression
 \begin{equation}\label{eq:insta-cost-mpc}
@@ -234,9 +235,9 @@ The final cost function is alike defined with a quadratic expression but with no
 \begin{equation}\label{eq:final-cost-mpc}
   l_f(\mathbf{q}(T),T)=\mathbf{q}'(T)Q_f\mathbf{q}(T),
 \end{equation}
-where $Q_f\in\mathbb{R}^{m\times m}$ is a positive semidefinite matrix. We discuss in \fref{sec:opt-cont-gener}{Section} the items of the matrices $Q,R,$ and $Q_f$ in a concrete implementation of the output model predictive controller. 
+where $Q_f\in\mathbb{R}^{m\times m}$ is a positive semidefinite matrix. %We discuss in \fref{sec:opt-cont-gener}{Section} the items of the matrices $Q,R,$ and $Q_f$ in a concrete implementation of the output model predictive controller. 
 
-The optimization horizon is limited to $N$ measured in seconds, meaning the controller will select the optimal control trajectory $c_i^*(t)$ over $[t_0,T]$, with $T=t_0+N$. At each time instant the controller refines the control trajectory which respects the constraints: the dynamics in \frefeq{eq:dyn-evol} and \frefeq{eq:perf-model-in-mpc}, and the control constraint in \frefeq{eq:state-cont-const-mpc}. To evaluate the state trajectory--needed for the instantaneous cost function $l$ and the final cost function $l_f$--the controller evaluates the battery trajectory $b(y(t),t)$. It then maximizes the instantaneous cost function $l$ for all the time instants but $T$ ($t_0\leq t < t_0+N$), and the final cost function $l_f$ in \frefeq{eq:final-cost-mpc} for the time instant $T$ ($t=t_0+N$).
+The optimization horizon is limited to $N$ measured in seconds, meaning the controller will select the optimal control trajectory $c_i^*(t)$ over $[t_0,T]$, with $T=t_0+N$. At each time instant, the controller refines the control trajectory which respects the constraints: the dynamics in \frefeq{eq:dyn-evol} and \frefeq{eq:perf-model-in-mpc}, and the control constraint in \frefeq{eq:state-cont-const-mpc}. To evaluate the state trajectory--needed for the instantaneous cost function $l$ and the final cost function $l_f$--the controller evaluates the battery trajectory $b(y(t),t)$. It then maximizes the instantaneous cost function $l$ for all the time instants but $T$ ($t_0\leq t < t_0+N$), and the final cost function $l_f$ in \frefeq{eq:final-cost-mpc} for the time instant $T$ ($t=t_0+N$).
 
 The dynamics constraint satisfaction requires to evolve the perfect model $f$ in \frefeq{eq:perf-model-in-mpc} over horizon $[t_0,t_0+N]$ beginning from the last estimated state $\mathbf{q}_0=\hat{\mathbf{q}}(t_0)$ at time instant $t_0$. The battery constraint is likewise evolved beginning from the last battery measurement $b_0$ obtained from the battery energy sensor also at time instant $t_0$.
 
@@ -270,13 +271,13 @@ We use numerical simulation to transform \frefeq{eq:ocp-output-mpc} into \frefeq
 \begin{equation}
   l_d(\mathbf{q}(k),c_i(k),k)=hl(\mathbf{q}(k),c_i(k),k),
 \end{equation}
-where $l$ is given in \fref{eq:insta-cost-mpc}{Equation}.
+where $l$ is given in \frefeq{eq:insta-cost-mpc}.
 
-The discrete dynamic evolution in \fref{eq:disc-dyn-evol}{Equation}
+The discrete dynamic evolution in \frefeq{eq:disc-dyn-evol}
 \begin{equation}
   f_d(\mathbf{q}(k),c_i(k),k)=A_d\mathbf{q}(k)+B\mathrm{diag}(\nu_i)(c_i(k)-c_i(k-h)),
 \end{equation}
-where $A_d$ is the discretized version of the state transition matrix $A$ and for small enough interval of $h$ is 
+where $A_d$ is the discretized version of the state transition matrix $A$ and for small enough interval of $h$
 \begin{equation}
 A_d=(hA+\mathrm{diag}(1,1,\dots,1)),
 \end{equation}
@@ -285,10 +286,10 @@ where $\mathrm{diag}(1,1,\dots,1)\in\mathbb{R}^{m\times m}$ is a diagonal matrix
   b_d(y(k+h),k+h)=b(y(k),k)+hb(y(k+h),k+h).
 \end{equation}
 
-We transformed the OCP in \frefeq{eq:} into an NLP in \frefeq{} by first discretizing and thus effectively implementing the direct multiple shooting method in \fref{sec:multi-shoot}{Section}. We note that we can implement the single shooting method by keeping only the initial state as the decision variable $\hat{\mathbf{q}}_0$ opposed to 
-using the interval boundary time points as decision variable in the multiple shooting method~\citep{rawlings2017model}.
+We transformed the OCP in \frefeq{eq:ocp-output-mpc} into an NLP in \frefeq{eq:disc-ocp-output-mpc} by first discretizing and thus effectively implementing the direct multiple shooting method in \fref{sec:multi-shoot}{Section}. We note that we can implement the single shooting method by keeping only the initial state as the decision variable $\hat{\mathbf{q}}_0$ opposed to 
+using the interval boundary time points as a decision variable in the multiple shooting method~\citep{rawlings2017model}.
 
-For convenience, we replace the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} using equality and inequeality constraints such that the problem can be then solved by a numerical optimization algorithm. The \frefeq{eq:disc-dyn-evol} becames
+%For convenience, we replace the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} using equality and inequeality constraints such that the problem can be then solved by a numerical optimization algorithm. The \frefeq{eq:disc-dyn-evol} becames
 
 ---
 

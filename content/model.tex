@@ -241,7 +241,7 @@ The \powprof{} tool implements all the features described in this paper and is d
 
 The tool measures the instantaneous energy consumption of a subset of possible computation parameters within the computation constraint sets and builds an energy model: a linear interpolation, one per computation. 
 
-The computations are implemented by software components, e.g., Robot Operating System (ROS) nodes in a ROS-based system~\citep{quigley2009ros} (see \fref{sec:rosmiddle}{Subsection}). The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\citep{seewald2019component}.
+The computations are implemented by software components, e.g., ROS nodes in a ROS-based system (see \fref{sec:rosmiddle}{Subsection}). The user implements these nodes such that they change the computational load according to node-specific ROS parameters--the computation parameters. In a generic software component system, the user maps the computational load to the arguments~\citep{seewald2019component}.
 
 We note that while the path can differ for each stage, the tasks remain the same. However, the user can inhibit or enable a computation varying its computation constraint set.
 
@@ -440,11 +440,12 @@ Some collected energy data from the Opterra (in \fref{fig:opterra}{Figure}) adap
 
 Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often expected to iterate a set of tasks and paths periodically (see \fref{sec:outline}{Section}). For instance, the aerial robot might be covering a polygon such as the one proposed in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
 
-We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot flying the agricultural scenario (see \fref{sec:flight-plan}{Section}) in \fref{fig:energy-1}{Figure} and \fref{fig:spectrum-1}{Figure}.
+We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot flying the agricultural scenario in \fref{fig:energy-1}{Figure} and \fref{fig:spectrum-1}{Figure}.
 
-In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:periodic-model}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
+In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:deriv}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
 
 \subsection{Derivation of the differential periodic model}
+\label{sec:deriv}
 
 In the remainder of this section, we refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of the Fourier series in \fref{sec:fourier}{Section}) and estimated using a state estimator in \fref{cp:est}{Chapter}. We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. %Later, we show how this approach allows us variability in terms of different evolutions, including aperiodic signals in \fref{sec:non-perio}{Section}. After illustrating the energy model, we enhance it with the energy contribution of the path and computations in \fref{sec:merging}{Section}. 
 
@@ -703,9 +704,9 @@ We use the observation later in \fref{sec:opt-cont-gener}{Section} to check that
 
 The nominal control is
 \begin{equation}\label{eq:state-control}
-  \mathbf{u}(t):=\hat{\mathbf{u}}(t)-\hat{\mathbf{u}}(t-1),
+  \mathbf{u}(t):=\hat{\mathbf{u}}(t)-\hat{\mathbf{u}}(t-\Delta t),
 \end{equation}
-where $\hat{\mathbf{u}}(t)$ is defined as the energy estimate of a given control sequence at time instant $t$, $\hat{\mathbf{u}}(t-1)$ at the previous time instant $t-1$
+where $\hat{\mathbf{u}}(t)$ is defined as the energy estimate of a given control sequence at time instant $t$, $\hat{\mathbf{u}}(t-\Delta t)$ at the previous time instant $t-\Delta t$
 \begin{equation}\label{eq:estimate-control}
   \hat{\mathbf{u}}(t):=\mathrm{diag}(\nu_i)c_i(t)+\tau_i,
 \end{equation}
@@ -729,7 +730,7 @@ $\hat{\mathbf{u}}(t)$ is a stage-dependent scale transformation with
 \end{align}\end{subequations}
 scaling factors. They quantify the contribution to the plan of a given parameter in terms of time for the first $\rho$ parameters, and instantaneous energy consumption for the remaining $\sigma$ (we use the same notation for the path and computation scaling factors as for the parameters). 
 
-The nominal control $\mathbf{u}(t)$ is then the difference of these contributions of two consecutive controls $\mathbf{u}(t-1),\mathbf{u}(t)$ applied to the system. 
+The nominal control $\mathbf{u}(t)$ is then the difference of these contributions of two consecutive controls $\mathbf{u}(t-\Delta t),\mathbf{u}(t)$ applied to the system. 
 
 $B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy consumption into the model in \frefeq{eq:state-perf}.
 
@@ -785,7 +786,7 @@ $\forall j\in[\rho+1,n]$. Moreover, let the factors be zero when the parameters 
   \label{fig:plot-6}
 \end{figure}
 
-The concept of a path and a computation parameter scale transformation is illustrated in \fref{fig:plot-6}{Figure}. The control constraint set $\mathcal{U}_i$ extends to both the flight time and energy domain. The energy domain is bounded by the output of the \powprof{} tool, while the flight time domain by the empirical data. The dynamic energy planning selects the highest possible configuration under the constraints. Currently, the highest configuration of parameters (the optimal control law $c^*_i(t)$) corresponds to the highest configuration of parameters $(\overline{c}_{i,1},\overline{c}_{i,2})$ (blue point in the figure). We will show in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints. 
+The concept of a path and a computation parameter scale transformation is illustrated in \fref{fig:plot-6}{Figure}. The energy domain is bounded by the output of \powprof{}, while the flight time domain by the empirical data. The dynamic energy planning selects the highest possible configuration under the constraints. Currently, the highest configuration of parameters corresponds to the highest configuration of parameters $(\overline{c}_{i,1},\overline{c}_{i,2})$ (blue point in the figure). We will show in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints. 
 
 \subsection{\color{red}Aperiodic energy evolution}
 \label{sec:non-perio}
