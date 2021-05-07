@@ -151,9 +151,50 @@ In the remainder of this work, we focus on the precision agriculture scenario in
 %We observe that not only the path but also the computations significantly impact the energy, with a potential extension of up to 13 minutes over an hour by switching from the highest to the lowest level of computations in presence of a standard battery.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{\color{red}Contribution}
+
+
 %%%%%%%%%%%%%%%%%%%
 \section{Structure}
 \label{sec:structure}
+
+\begin{figure}[!h]
+  \centering
+  \footnotesize
+  \begin{tikzpicture}[auto, node distance=3.5cm,>=latex']
+      \node [block,node distance=1cm] (theblock) {Planning Problem};
+      \node [right of=theblock] (arrow) {\fref{cp:intro}{Chapter}};
+      \node [block,below=1cm] (theblock2) {Optimal Control Generation};
+      \node [right of=theblock2,node distance=3.54cm] (arrow2) {\fref{cp:opt}{Chapter}};
+      \node [block,below left=.5cm and -.5cm of theblock2] (theblock3) {Energy Models};
+      \node [right of=theblock3,node distance=2.1cm] (arrow3) {\fref{cp:model}{Chapter}};
+      \node [block,below right=.5cm and -.5cm of theblock2] (theblock4) {Guidance};
+      \node [right of=theblock4,node distance=1.8cm] (arrow4) {\fref{cp:gd}{Chapter}};
+      \node [block,below=.5cm and -.5cm of theblock3] (theblock5) {State Estimation};
+      \node [right of=theblock5,node distance=2.14cm] (arrow5) {\fref{cp:est}{Chapter}};
+      \draw [->] (arrow) -- node{} (theblock);
+      \draw [->] (theblock) -- node{} (theblock2);
+      \draw [->] (arrow2) -- node{} (theblock2);
+      \draw [->] (theblock3) -- node{} (theblock2);
+      \draw [->] (arrow3) -- node{} (theblock3);
+      \draw [->] (theblock2) -- node{} (theblock4);
+      \draw [->] (arrow4) -- node{} (theblock4);
+      \draw [->] (theblock5) -- node{} (theblock3);
+      \draw [->] (arrow5) -- node{} (theblock5);
+
+      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=35pt},yshift=0pt]
+      (theblock5.north west) -- (theblock5.north west -| theblock4.north east) node [black,midway,yshift=-18ex] (notextnode) {$\Gamma$};
+      \node [block,below=.2cm and -.5cm of notextnode] (theblock6) {Implementation};
+      \node [right of=theblock6,node distance=2.14cm] (arrow6) {\fref{cp:imp}{Appendix}};
+
+      \draw [->] (notextnode) -- node{} (theblock6);
+
+
+  \end{tikzpicture}
+  \caption[]{.}
+  \label{fig:opt:process-summary}
+\end{figure}
 
 The remainder of this work is structured as follows.
 
