@@ -18,7 +18,7 @@ To move, mobile robots combine different components which sense and interact wit
 
 In this work, we focus on dynamic energy planning. We generate both an energy-aware plan of the path and a power-saving schedule of the computations. We plan these two aspects simultaneously, exploring their tradeoffs. We demonstrate the approach both in simulation and empirically, and we focus on aerial mobile robots. Although these systems share with the broader class of mobile robots stringent battery limitations, handling the battery in flight introduces additional complications. It is generally required landing to replace or recharge the battery~\citep{zamanakos2020energy}. Aerial robots are thus an ideal instance of energy-constrained systems that would benefit from a dynamic energy planning technique. In the remainder of this work, we thus focus our analysis on aerial robots.
 
-There are many autonomous use cases involving aerial robots, such as precision agriculture, search and rescue, payload delivery, transportation, and many others. To formulate a mobile robot planning problem later in \fref{sec:pb-form}{Chapter}, we focus on precision agriculture and progressively build dynamic planning of a fixed-wing aerial robot flying over an agricultural field with little human input.
+There are many autonomous use cases involving aerial robots, such as precision agriculture, search and rescue, payload delivery, transportation, and many others. To formulate a mobile robot planning problem later in \fref{cp:pb}{Chapter}, we focus on precision agriculture and progressively build dynamic planning of a fixed-wing aerial robot flying over an agricultural field with little human input.
 
 \begin{figure}[t]
   \centering
@@ -29,9 +29,9 @@ There are many autonomous use cases involving aerial robots, such as precision a
 
 We investigate different physical aerial robotics platforms in this work but we focus most on the Opterra fixed-wing aerial robot\findex{Opterra fixed-wing aerial robot}~\citep{opterra} adapted for precision agriculture. Precision agriculture\findex{precision agriculture} is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and unmanned aerial vehicles (\Gls{acr:uav}s) for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. The aerial robot is shown in \fref{fig:opterra}{Figure}.
 
-In the remainder of the chapter and before we introduce the problem in \fref{sec:pb-form}{Chapter}, we briefly investigate the evolution of the field of aerial robotics in the next section. We then analyze the main aerial robots available today, and how they apply to dynamic energy planning in \fref{sec:aerial-robo-types}{Section}. We then provide some further motivation for our planning in \fref{sec:motivation}{Section} and the outline of the approach in \fref{sec:outline}{Section}. Finally, we provide the structure of the remaining chapters in \fref{sec:structure}{Section}.
+In the remainder of the chapter and before we introduce the problem in \fref{cp:pb}{Chapter}, we briefly investigate the evolution of the field of aerial robotics in the next section. We then analyze the main aerial robots available today, and how they apply to dynamic energy planning in \fref{sec:aerial-robo-types}{Section}. We then provide some further motivation for our planning in \fref{sec:motivation}{Section} and the outline of the approach in \fref{sec:outline}{Section}. Finally, we provide the structure of the remaining chapters in \fref{sec:structure}{Section}.
 
-This chapter connects to the remainder of this work as follows. Here we introduce and motivate the dynamic energy planning for autonomous aerial robots. We formalize the planning problem in \fref{sec:pb-form}{Chapter}. We describe the derivation of a proper energy model to predict the future energy consumption of the planning problem in \fref{cp:model}{Chapter}. We estimate some coefficients of the model using robust estimation techniques in \fref{cp:est}{Chapter}. We implement an optimal configuration of the path and computations using data-driven control\findex{data-driven control} and other modern optimal control techniques in \fref{cp:opt}{Chapter}. We use such configuration for guidance and scheduling of the aerial robot in \fref{cp:gd}{Chapter}. The guidance moves physically the robot; the scheduling defines the granularity of the tasks being executed in flight. Moreover, we discuss previous approaches to solve the dynamic planning problem in \fref{cp:soa}{Chapter}. 
+This chapter connects to the remainder of this work as follows. Here we introduce and motivate the dynamic energy planning for autonomous aerial robots. We formalize the planning problem in \fref{cp:pb}{Chapter}. We describe the derivation of a proper energy model to predict the future energy consumption of the planning problem in \fref{cp:model}{Chapter}. We estimate some coefficients of the model using robust estimation techniques in \fref{cp:est}{Chapter}. We implement an optimal configuration of the path and computations using data-driven control\findex{data-driven control} and other modern optimal control techniques in \fref{cp:opt}{Chapter}. We use such configuration for guidance and scheduling of the aerial robot in \fref{cp:gd}{Chapter}. The guidance moves physically the robot; the scheduling defines the granularity of the tasks being executed in flight. Moreover, we discuss previous approaches to solve the dynamic planning problem in \fref{cp:soa}{Chapter}. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -162,17 +162,21 @@ In the remainder of this work, we focus on the precision agriculture scenario in
 \begin{figure}[!h]
   \centering
   \footnotesize
-  \begin{tikzpicture}[auto, node distance=3.5cm,>=latex']
-      \node [block,node distance=1cm] (theblock) {Planning Problem};
-      \node [right of=theblock] (arrow) {\fref{cp:intro}{Chapter}};
-      \node [block,below=1cm] (theblock2) {Optimal Control Generation};
-      \node [right of=theblock2,node distance=3.54cm] (arrow2) {\fref{cp:opt}{Chapter}};
+  \begin{tikzpicture}[auto, node distance=3cm,>=latex']
+      \node [block,node distance=1cm] (theblock0) {Introduction};
+      \node [right of=theblock0,node distance=3cm] (arrow0) {\fref{cp:intro}{Chapter}};
+      \node [block,below=1cm,node distance=1cm] (theblock) {Planning Problem};
+      \node [right of=theblock] (arrow) {\fref{cp:pb}{Chapter}};
+      \node [block,below=2.5cm] (theblock2) {Optimal Control Generation};
+      \node [right of=theblock2,node distance=2.99cm] (arrow2) {\fref{cp:opt}{Chapter}};
       \node [block,below left=.5cm and -.5cm of theblock2] (theblock3) {Energy Models};
-      \node [right of=theblock3,node distance=2.1cm] (arrow3) {\fref{cp:model}{Chapter}};
-      \node [block,below right=.5cm and -.5cm of theblock2] (theblock4) {Guidance};
-      \node [right of=theblock4,node distance=1.8cm] (arrow4) {\fref{cp:gd}{Chapter}};
+      \node [right of=theblock3,node distance=1.9cm] (arrow3) {\fref{cp:model}{Chapter}};
+      \node [block,below right=.5cm and 1.8cm of theblock3] (theblock4) {Guidance};
+      \node [right of=theblock4,node distance=1.7cm] (arrow4) {\fref{cp:gd}{Chapter}};
       \node [block,below=.5cm and -.5cm of theblock3] (theblock5) {State Estimation};
-      \node [right of=theblock5,node distance=2.14cm] (arrow5) {\fref{cp:est}{Chapter}};
+      \node [right of=theblock5,node distance=1.94cm] (arrow5) {\fref{cp:est}{Chapter}};
+      \draw [->] (arrow0) -- node{} (theblock0);
+      \draw [->] (theblock0) -- node{} (theblock);
       \draw [->] (arrow) -- node{} (theblock);
       \draw [->] (theblock) -- node{} (theblock2);
       \draw [->] (arrow2) -- node{} (theblock2);
@@ -183,22 +187,32 @@ In the remainder of this work, we focus on the precision agriculture scenario in
       \draw [->] (theblock5) -- node{} (theblock3);
       \draw [->] (arrow5) -- node{} (theblock5);
 
-      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=35pt},yshift=0pt]
-      (theblock5.north west) -- (theblock5.north west -| theblock4.north east) node [black,midway,yshift=-18ex] (notextnode) {$\Gamma$};
-      \node [block,below=.2cm and -.5cm of notextnode] (theblock6) {Implementation};
-      \node [right of=theblock6,node distance=2.14cm] (arrow6) {\fref{cp:imp}{Appendix}};
+      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=30pt},yshift=0pt]
+      (theblock5.north west) -- (theblock5.north west -| theblock4.north east) node [black,midway,yshift=-15ex] (notextnode) {};
+      \node [block,below=0cm and -.5cm of notextnode,xshift=-2.7cm] (theblock6) {Implementation};
+      \node [left of=theblock6,node distance=3.1cm] (arrow6) {\fref{app:imp}{Appendix}};
+      \node [block,below=0cm and -.5cm of notextnode,xshift=.5cm] (theblock8) {Summary and Future Directions};
+      \node [below=.35cm and -.5cm of notextnode,xshift=-1.55cm] (comma) {,};
+      \node [right of=theblock8,node distance=3.06cm] (arrow8) {\fref{cp:conc}{Chapter}};
 
-      \draw [->] (notextnode) -- node{} (theblock6);
+      \draw [->] (arrow6) -- node{} (theblock6);
+      \draw [->] (arrow8) -- node{} (theblock8);
+
+
+      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=56pt},yshift=0pt] (theblock.north west) -- (theblock3.south west -| theblock3.south east) node [black,midway] (notextnode2) {};
+      \node [block,left of=notextnode2,node distance=3.49cm] (theblock7) {State of the Art};
+      \node [left of=theblock7,node distance=1.95cm] (arrow7) {\fref{cp:soa}{Chapter}};
+
+      \draw [->] (arrow7) -- node{} (theblock7);
+      
 
 
   \end{tikzpicture}
-  \caption[]{.}
-  \label{fig:opt:process-summary}
+  \caption[Diagram of the structure]{Diagram of the structure of this work. \fref{cp:intro}{Chapter} serves as an introduction while \fref{cp:soa}{Chapter} presents the state of the art. \fref{cp:pb}{Chapter} presents the planning problem, which is solved in \fref{cp:opt}{Chapter} using notions from \fref{cp:model}{Chapters}\fref{cp:est}{--\hspace*{-.8ex}}. \fref{cp:est}{Chapter} presents the guidance action to move over a replanned path and \fref{app:imp}{Appendix} the implementation. \fref{cp:conc}{Chapter} concludes the work and proposes future directions.}
+  \label{fig:structure}
 \end{figure}
 
-The remainder of this work is structured as follows.
-
-In this chapter, we introduced the dynamic energy planning for aerial robots. We define the planning problem in \fref{sec:plan-pb}{Chapter}, and propose the solution to the problem in \fref{cp:opt}{Chapter}, which builds upon the topics presented in the remaining chapters. In particular, in \fref{cp:soa}{Chapter} we present the state-of-the-art in energy modeling and planning for mobile robots. We include some energy models for heterogeneous computing hardware.
+The remainder of this work is illustrated in \fref{fig:structure}{Figure} structured as follows. In this chapter, we introduced the dynamic energy planning for aerial robots. We define the planning problem in \fref{cp:pb}{Chapter}, and propose the solution to the problem in \fref{cp:opt}{Chapter}, which builds upon the topics presented in the remaining chapters. In particular, in \fref{cp:soa}{Chapter} we present the state-of-the-art in energy modeling and planning for mobile robots. We include some energy models for heterogeneous computing hardware.
 
 Dynamic planning requires accurate future energy predictions. We present the derivation of some energy models to address future energy predictions in \fref{cp:model}{Chapter}. Specifically, we propose energy models for computations, motion, and the battery. We derive and formally prove a periodic energy model that we use in the remainder of this work to predict future energy consumption. The periodic energy model's accuracy depends on the availability of measurements of energy data. We detail the process in \fref{cp:est}{Chapter}. We describe how to estimate the coefficients of the periodic energy model and refine the future predictions with the available data.
 

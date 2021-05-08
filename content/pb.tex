@@ -1,32 +1,36 @@
 
 \chapter{Problem Formulation}
-\label{sec:pb-form}
+\label{cp:pb}
 
-\lettrine{I}{n this chapter}, we discuss the planning problem that we are interested in solving in the rest of this work. In particular, we formulate the problem in \fref{sec:plan-pb}{Section}. In \fref{sec:definitions}{Sections}\fref{sec:plan}{--\hspace*{-.8ex}}, we provide formal definitions of some basic constructs. We then illustrate the planning problem on an example of the precision agriculture scenario in \fref{sec:flight-plan}{Section}.
+\lettrine{I}{n this chapter}, we discuss the planning problem that we are interested in solving. Such planning problem relies on the initial user-defined (that we introduced in \fref{sec:outline}{Section}) from this chapter. It is replanned energy-wise in the eventuality of energy constraints dissatisfaction, and whenever the uncertainty affects the flight unexpectedly. Such an initial user-defined plan includes both the computations and motion, and we thus will define both these constructs. In particular, we provide formal definitions of some basic constructs in \fref{sec:definitions}{Sections}\fref{sec:plan}{--\hspace*{-.8ex}}. These include the computations, motion, difference between computation and motion energy (\Gls{acr:mace}) that we encountered in \fref{sec:aerial-robo-types}{Section}, path, and some other plan specific constructs. We then use these constructs to formulate the planning problem in \fref{sec:plan-pb}{Section}. We illustrate the problem on an example of the precision agriculture scenario in \fref{sec:flight-plan}{Section}.
 
-This chapter connects to the remainder of this work as follows. Here we formalize the planning problem. We use the characteristics of the problem to derive an energy model in \fref{cp:model}{Chapter}, which we estimate from measured data in \fref{cp:est}{Chapter}. We solve the planning problem using modern optimal control techniques in \fref{cp:opt}{Chapter}. With the solution, we refine the original problem in terms of both the path and computations. We guide the aerial robot on the refined path using vector field that we describe in \fref{cp:gd}{Chapter}. We discuss past approaches to solve the planning problem in \fref{cp:soa}{Chapter}, and the concrete implementation in \fref{app:imp}{Appendix}.
+The algorithm that we present in \fref{sec:algo}{Section} inputs the user-defined plan from this chapter for future energy modeling, estimation of the energy model, and guidance. It optimizes the plan using some parameters (which we also briefly outlined in \fref{sec:outline}{Section}) to plan the best configuration of computations and paths. The replanned plan is optimal energy-wise: the algorithm investigates the tradeoffs between paths and computations with varying battery and atmospheric conditions.
+
+The chapter connects to the remainder of this work as follows. Here we formalize the plan, the planning problem, and some other basic constructs. We use the characteristics of the plan to derive an energy model in \fref{cp:model}{Chapter}, which we estimate from measured data in \fref{cp:est}{Chapter}. We solve the planning problem using modern optimal control techniques in \fref{cp:opt}{Chapter}. With the solution, we refine the original problem in terms of both the path and computations. We guide the aerial robot using a vector field that we describe in \fref{cp:gd}{Chapter} where we utilize the plan's building blocks for paths from this chapter. We discuss past approaches to solve the planning problem in \fref{cp:soa}{Chapter}, and the concrete implementation in \fref{app:imp}{Appendix}.
 
 
 \section{Definitions of computations and motion}
 \label{sec:definitions}
 
-Firstly, we define computations, motion, their energy, and M\&CE.
+Firstly, we define computations, motion, their energy, and M\&CE. These are some basic concepts that out dynamic planning relies upon.
 
 \begin{highlight}
   \begin{defn}[Computations/motion]\label{def:comps}
-    Computations are energy-demanding computational tasks. The mobile robot runs the computations on heterogeneous computing hardware. The computing hardware interface microcontrollers.
+    \emph{Computations}\findex{computations} are energy-demanding computational tasks. The mobile robot runs the computations on heterogeneous computing hardware. The computing hardware interface microcontrollers.
     
-    Motion is the act of the mobile robot moving in the surrounding environment. The mobile robot runs some primitives on microcontrollers for this purpose. The microcontrollers interface actuators, motors, and other components.%The primitives often originate from the computing hardware.
+    \emph{Motion}\findex{motion} is the act of the mobile robot moving in the surrounding environment. The mobile robot runs some primitives on microcontrollers for this purpose. The microcontrollers interface actuators, motors, and other components.%The primitives often originate from the computing hardware.
   \end{defn}
 \end{highlight}
 
 Autonomous capabilities are achieved by interconnecting heterogeneous computing hardware and microcontrollers. We assume that for the computations, the heterogeneous computing hardware runs a schedule. The schedule is then characterized by some parameters. For instance, for the CNN detection from the precision agriculture scenario, a parameter is the frames per second (\Gls{acr:fps})\findex{frames per second} rate. Alike for the computations, we assume that for the motion, the robot travels some paths characterized by some other parameters. For instance, for the covering problem, a parameter changes the distance between the survey lines.
 
 \begin{highlight}
-\begin{defn}[Computations/motion energy]\label{def:comp-mot-energy}
-  Given a path characterized by $\rho$ parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, the motion energy is the energy spent by the mobile robot while moving on the path.
+\begin{defn}[Computations/motion and overall energy]\label{def:comp-mot-energy}
+  Given a path characterized by $\rho$ parameters $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$, the \emph{motion energy}\findex{motion energy} is the energy spent by the mobile robot while moving on the path.
 
-  Given a schedule characterized by parameters $c_i^\sigma:=\{c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\}$, the computations energy is the energy spent by heterogeneous computing hardware executing the schedule.
+  Given a schedule characterized by parameters $c_i^\sigma:=\{c_{i,\rho+1},\dots,c_{i,\rho+\sigma}\}$, the \emph{computations energy}\findex{computations energy} is the energy spent by heterogeneous computing hardware executing the schedule.
+
+  The \emph{overall energy}\findex{overall energy} is the sum of motion energy and computation energy.
 \end{defn}
 \end{highlight}
 
@@ -72,12 +76,12 @@ In this work, we use lines and circles as path functions. We connect these funct
 
 %Bold lower-case letters, such as $\mathbf{x}$, denote vectors. Upper-case letters, such as $X$, denote matrices.
 
-Parameters are real- $\mathbb{R}$ or integer-valued $\mathbb{Z}$ variable values. We use the parameters to dynamically plan the path and computations, since they influence the computations/motion energy in \fref{def:comp-mot-energy}{Definition}. We use the notation  $c_{i,j}$ to denote the $j$-th parameter of the $i$-th parameters set $c_i$
+Parameters are variable values that we use to plan dynamically the path and computations, since they influence the computations/motion energy in \fref{def:comp-mot-energy}{Definition}. The path parameters are real-valued variable values ($\mathbb{R}$), the computations parameters are integer-valued variable values ($\mathbb{Z}$). We use the notation  $c_{i,j}$ to denote the $j$-th parameter of the $i$-th parameters set $c_i$
 \begin{equation}
   c_i=\{c_{i,1},c_{i,2},\dots,c_{i,j},\dots\}.
 \end{equation}
 
-The user-defined plan, that we introduced in \fref{sec:outline}{Section}, has a number of stages $i=\{1,2,\dots\}$, and we assume that at each stage $i$ the mobile robot runs a schedule and travels a path function $\varphi_i$ using the parameters set $c_i$. Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound
+The user-defined plan, has a number of stages $i=\{1,2,\dots\}$, and we assume that at each stage $i$ the mobile robot runs a schedule and travels a path function $\varphi_i$ using the parameters set $c_i$. Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the parameter $c_{i,j}$. $\overline{c}_{i,j}$ is the upper bound
 \begin{equation}
   \underline{c}_{i,j}\leq c_{i,j}\leq\overline{c}_{i,j}.
 \end{equation}

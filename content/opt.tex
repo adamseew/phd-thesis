@@ -12,7 +12,7 @@
 %    \end{st} 
 %\end{highlight}
 
-\lettrine{T}{his} chapter provides essential theoretical background on optimal control theory necessary to derive an optimal configuration of the path and computations of the mobile robot. It solves the problem posed in~\fref{sec:pb-form}{Section} and illustrate an algorithm that generates the optimal configuration dynamically. The algorithm relies on a modern optimal control technique known as model predictive control (\Gls{acr:mpc}), where the optimal control trajectory is evaluated on a receding horizon for each optimization step~\citep{rawlings2017model}. 
+\lettrine{T}{his} chapter provides essential theoretical background on optimal control theory necessary to derive an optimal configuration of the path and computations of the mobile robot. It solves the problem posed in~\fref{cp:pb}{Section} and illustrate an algorithm that generates the optimal configuration dynamically. The algorithm relies on a modern optimal control technique known as model predictive control (\Gls{acr:mpc}), where the optimal control trajectory is evaluated on a receding horizon for each optimization step~\citep{rawlings2017model}. 
 
 Optimal control deals with finding optimal ways to control a dynamic system~\citep{sethi2019optimal}. It determines the control signal--the evolution in time of the decision variables--such that the model satisfies the dynamics and simultaneously optimizes a performance index~\citep{kirk2004optimal}.
 
@@ -43,7 +43,7 @@ A typical performance measure for an \Gls{acr:ocp} is built such that the system
 
 The outline of the chapter is as follows. After a brief history of optimal control, we introduce formally the \Gls{acr:ocp} subject to continuous dynamics. We then illustrate numerical simulation approaches to convert the infinite-dimensional continuous dynamics into finite-dimensional discrete dynamics. We formulate later in the chapter the dynamic planning problem for the optimal configuration of the path and computations with proper constraints. Finally, we illustrate \Gls{acr:mpc} to solve \Gls{acr:ocp} on a receding horizon. We propose an algorithm to solve such \Gls{acr:ocp} using a numerical method on the horizon along with the analysis of its practical feasibility.
 
-The chapter builds on the rest of the work as follows. In the \Gls{acr:ocp} formulation, we use the estimated state from \fref{cp:est}{Chapter} of a perfect model in \fref{cp:model}{Chapter} to solve the planning problem in \fref{sec:pb-form}{Section} and guide the aerial robot with the obtained optimal configuration from this chapter with the technique in \fref{cp:gd}{Chapter}.
+The chapter builds on the rest of the work as follows. In the \Gls{acr:ocp} formulation, we use the estimated state from \fref{cp:est}{Chapter} of a perfect model in \fref{cp:model}{Chapter} to solve the planning problem in \fref{cp:pb}{Section} and guide the aerial robot with the obtained optimal configuration from this chapter with the technique in \fref{cp:gd}{Chapter}.
 
 \section{A Brief History of Optimal Control}
 
@@ -241,7 +241,7 @@ The optimization horizon is limited to $N$ measured in seconds, meaning the cont
 
 The dynamics constraint satisfaction requires to evolve the perfect model $f$ in \frefeq{eq:perf-model-in-mpc} over horizon $[t_0,t_0+N]$ beginning from the last estimated state $\mathbf{q}_0=\hat{\mathbf{q}}(t_0)$ at time instant $t_0$. The battery constraint is likewise evolved beginning from the last battery measurement $b_0$ obtained from the battery energy sensor also at time instant $t_0$.
 
-The OCP from \frefeq{eq:ocp-output-mpc} is infinite dimensional, being the system dynamics in \frefeq{eq:dyn-evol} and the battery dynamics in \frefeq{eq:bat} given in continuous opposed to discrete time. Such an infinite dimensional OCP has an infinite dimension of constraints and decision variables since there are infinite time instants between $t_0$ and $t_0+N$. We discretize the infinite dinemnsional OCP and discuss the solution to the planning problem in \fref{sec:pb-form}{Chapter} in \fref{sec:opt-cont-gener}{Section}.
+The OCP from \frefeq{eq:ocp-output-mpc} is infinite dimensional, being the system dynamics in \frefeq{eq:dyn-evol} and the battery dynamics in \frefeq{eq:bat} given in continuous opposed to discrete time. Such an infinite dimensional OCP has an infinite dimension of constraints and decision variables since there are infinite time instants between $t_0$ and $t_0+N$. We discretize the infinite dinemnsional OCP and discuss the solution to the planning problem in \fref{cp:pb}{Chapter} in \fref{sec:opt-cont-gener}{Section}.
 
 \begin{figure}[h]
   \centering
@@ -254,7 +254,7 @@ The OCP from \frefeq{eq:ocp-output-mpc} is infinite dimensional, being the syste
 \subsection{Optimal control generation with model predictive control}
 \label{sec:opt-cont-gener}
 
-In this section we combine the notions from the previous sections in this chapter and \fref{cp:model}{Chapters}\fref{cp:gd}{--\hspace*{-.8ex}} and provide a solution to the planning problem in \fref{sec:pb-form}{Chapter}.
+In this section we combine the notions from the previous sections in this chapter and \fref{cp:model}{Chapters}\fref{cp:gd}{--\hspace*{-.8ex}} and provide a solution to the planning problem in \fref{cp:pb}{Chapter}.
 
 First, we need to transform the OCP in \frefeq{eq:ocp-output-mpc} into an NLP. The optimization problem to be solved numerically in the discrete form is effectively an NLP, due to the nonlinearity in the cost functions $l,l_f,$ and in the constaints
 \begin{subequations}\label{eq:disc-ocp-output-mpc}\begin{align}
@@ -292,6 +292,9 @@ using the interval boundary time points as a decision variable in the multiple s
 %For convenience, we replace the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} using equality and inequeality constraints such that the problem can be then solved by a numerical optimization algorithm. The \frefeq{eq:disc-dyn-evol} becames
 
 ---
+
+\subsection{\color{cyan}Dynamic planning algorithm}
+\label{sec:algo}
 
 \section{\color{red}Results}
 
