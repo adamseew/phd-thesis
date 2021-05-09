@@ -260,7 +260,7 @@ The planning problem is then the problem of finding the optimal configurations o
 
 In this section, we discuss an example of a plan for the Opterra autonomous aerial robot in a precision agriculture scenario addressing the covering problem in \fref{fig:plot2}{Figure}. Path-wise, the aerial robot covers a polygon with variable quality of coverage. Computation-wise, it detects ground hazards and communicates eventual detection with other ground-based actors. To simplify the notation, we split the plan into two sub-plans, one containing exclusively the paths and the other the computations. We discuss the paths sub-plan in \fref{sec:path-wise}{Section} and the computations sub-plan in \fref{sec:computation-wise}{Section}.
 
-\subsection{paths sub-plan}
+\subsection{Paths sub-plan}
 \label{sec:path-wise}
 
 \begin{figure}[h]
@@ -275,7 +275,7 @@ In the paths sub-plan, we define the paths that form the plan of the agricultura
 \begin{figure}[p!]
   \centering
   \input{figures/plot4.tikz}
-  \caption[Fixed-wing aerial robot's plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle of the intuitive plan in \fref{fig:plot3}{Figure} but preserving long turns necessary for the flight of a fixed-wing craft. Likewise in \fref{fig:plot3}{Figure}, the entire polygon is covered iterating the primitive paths $\varphi_1,\varphi_2,\varphi_3,\varphi_4$ (gray lines). The dashed blue line indicates the triggering points, and the black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_d/4$.}
+  \caption[Fixed-wing aerial robot's plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle of the intuitive plan in \fref{fig:plot3}{Figure} but preserving long turns necessary for the flight of a fixed-wing craft. Likewise in \fref{fig:plot3}{Figure}, the entire polygon is covered iterating the primitive paths $\varphi_1,\varphi_2,\varphi_3,\varphi_4$ (gray lines). The dashed blue line indicates the triggering points, and the black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_\mathbf{d}/4$.}
   \label{fig:plot4}
 \end{figure}
 
@@ -294,28 +294,28 @@ where $x,y$s are the $x$- and $y$-coordinates of a generic point $\mathbf{p}(t)$
 
 The covering problem can be solved using the paths in \frefeq{eq:basic-plan}, the triggering points in \frefeq{eq:basic-plan-trigs}, the remaining paths $\varphi_5,\varphi_6,\dots,\varphi_l$, and triggering points $\mathbf{p}_{\Gamma_5},\mathbf{p}_{\Gamma_6},\dots,\mathbf{p}_{\Gamma_l}$ defined similarly to \frefeqM{eq:basic-plan}{eq:basic-plan-trigs}. A generic solution for the covering problem is then defined with the paths
 \begin{subequations}\label{eq:line-gene}\begin{align}
-  \varphi_i(\mathbf{p}(t))&:=x-x_{\Gamma_1}-\lfloor i/4\rfloor x_d,\\
-  \varphi_{i+2}(\mathbf{p}(t))&:=x-x_{\Gamma_2}-\lfloor i/4\rfloor x_d,
+  \varphi_i(\mathbf{p}(t))&:=x-x_{\Gamma_1}-\lfloor i/4\rfloor x_\mathbf{d},\\
+  \varphi_{i+2}(\mathbf{p}(t))&:=x-x_{\Gamma_2}-\lfloor i/4\rfloor x_\mathbf{d},
 \end{align}
 \end{subequations}
-$\forall i\in\{1,5,9,\dots,l-3\}$ ($i$ is used to iterate all the paths up to the last path $\varphi_l$), $x_d$ is a shift on the $x$-axis, $\lfloor i/4\rfloor$ is the integer division. The expressions in \frefeq{eq:line-gene} correspond to the generalizations of the lines in \frefeq{eq:line1} and \frefeq{eq:line2}. The generalizations of the circles in \frefeq{eq:circ1} and \frefeq{eq:circ2} are
+$\forall i\in\{1,5,9,\dots,l-3\}$ ($i$ is used to iterate all the paths up to the last path $\varphi_l$), $x_\mathbf{d}$ is a shift on the $x$-axis, $\lfloor i/4\rfloor$ is the integer division. The expressions in \frefeq{eq:line-gene} correspond to the generalizations of the lines in \frefeq{eq:line1} and \frefeq{eq:line2}. The generalizations of the circles in \frefeq{eq:circ1} and \frefeq{eq:circ2} are
 \begin{subequations}\label{eq:circ-gene}\begin{align}
-  \varphi_{i+1}(\mathbf{p}(t))&:=(x-x_{\Gamma_1}-r_1-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_1})^2-r_1^2,\\
-  \varphi_{i+3}(\mathbf{p}(t))&:=(x-x_{\Gamma_2}+r_2-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_3})^2-r_2^2,\label{eq:second-circ-gene}
+  \varphi_{i+1}(\mathbf{p}(t))&:=(x-x_{\Gamma_1}-r_1-\lfloor i/4\rfloor x_\mathbf{d})^2+(y-y_{\Gamma_1})^2-r_1^2,\\
+  \varphi_{i+3}(\mathbf{p}(t))&:=(x-x_{\Gamma_2}+r_2-\lfloor i/4\rfloor x_\mathbf{d})^2+(y-y_{\Gamma_3})^2-r_2^2,\label{eq:second-circ-gene}
 \end{align}
 \end{subequations}
 where index $i$ is defined the same way as in \frefeq{eq:line-gene} along the shift and integer division. $r_1$ and $r_2$ are given radiuses of the circles $\varphi_2$ and $\varphi_4$ (see \fref{fig:plot4}{Figure}).
 
 The triggering points can be expressed similarly with the expressions
 \begin{subequations}\label{eq:trigs-gene}\begin{align}
-  \mathbf{p}_{\Gamma_i}&:=(x_{\Gamma_1}+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
-  \mathbf{p}_{\Gamma_{i+1}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
-  \mathbf{p}_{\Gamma_{i+2}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_3}),\\
-  \mathbf{p}_{\Gamma_{i+3}}&:=(x_{\Gamma_1}+2r_1-2r_2+\lfloor i/4\rfloor x_d,y_{\Gamma_3})\label{eq:last-trig-gene}.
+  \mathbf{p}_{\Gamma_i}&:=(x_{\Gamma_1}+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}),\\
+  \mathbf{p}_{\Gamma_{i+1}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}),\\
+  \mathbf{p}_{\Gamma_{i+2}}&:=(x_{\Gamma_1}+2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}),\\
+  \mathbf{p}_{\Gamma_{i+3}}&:=(x_{\Gamma_1}+2r_1-2r_2+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3})\label{eq:last-trig-gene}.
 \end{align}
 \end{subequations}
 
-We note from \fref{fig:plot4}{Figure} and \frefeqM{eq:line-gene}{eq:trigs-gene} that $y_{\Gamma_3}-y_{\Gamma_1}$ is the height of the polygon to be covered, $2(r_1-r_2)$ the distance between the covering lines (which is equal to the shift $x_d$), and $lx_d/4$ is the length of the polygon.
+We note from \fref{fig:plot4}{Figure} and \frefeqM{eq:line-gene}{eq:trigs-gene} that $y_{\Gamma_3}-y_{\Gamma_1}$ is the height of the polygon to be covered, $2(r_1-r_2)$ the distance between the covering lines (which is equal to the shift $x_\mathbf{d}$), and $lx_\mathbf{d}/4$ is the length of the polygon.
 
 The plan in \frefeqM{eq:line-gene}{eq:trigs-gene} is static. There is no path parameter that allows to alter the plan. We can easily transform such plan with the addition of a path parameter $c_{4,1}$ relative to the radius of the second circle $\varphi_4$ in \fref{fig:plot4}{Figure}
 \begin{equation}\label{eq:radius-dynamic}
@@ -338,31 +338,29 @@ We can bound the alteration with
 
 The concept is illustrated in \fref{fig:plot5}{Figure}. The black line is the un-altered path, the blue line the replanned path. The gray area delimits the bound $\mathcal{C}_{4,1}$. The alteration of the plan using path parameter $c_{4,1}$ shortens or extends the flying time and thus influence the energy consumption over time. Since the last path $\varphi_4$ is a function of the parameter $c_{4,1}$, the correct expression for \frefeq{eq:second-circ-gene} is 
 \begin{equation}\label{eq:line-gene-param}
-  \varphi_{i+3}(\mathbf{p}(t),c_{4,1}):=(x-x_{\Gamma_2}+r_2(c_{4,1})-\lfloor i/4\rfloor x_d)^2+(y-y_{\Gamma_3})^2-r_2(c_{4,1})^2.
+  \varphi_{i+3}(\mathbf{p}(t),c_{4,1}):=(x-x_{\Gamma_2}+r_2(c_{4,1})-\lfloor i/4\rfloor x_\mathbf{d})^2+(y-y_{\Gamma_3})^2-r_2(c_{4,1})^2.
 \end{equation}
 
 The last triggering point $\mathbf{p}_{\Gamma_4}$ of the example in \frefeq{eq:last-trig-gene} is likewise a function of the parameter $c_{4,1}$
 \begin{equation}
-  \mathbf{p}_{\Gamma_{i+3}}:=(x_{\Gamma_1}+2r_1-2r_2(c_{4,1})+\lfloor i/4\rfloor x_d,y_{\Gamma_3})
+  \mathbf{p}_{\Gamma_{i+3}}:=(x_{\Gamma_1}+2r_1-2r_2(c_{4,1})+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3})
 \end{equation}
 as it depends on the radius $r_2$ of the circle $\varphi_4$. The same applies to all the following functions $\varphi_5,\varphi_6,\varphi_7$, since these are all a function of the triggering point $\mathbf{p}_{\Gamma_4}$. The path $\varphi_8$ is then a function of the parameter $c_{4,1}$ and $c_{8,1}$ propagating the parameters for all the following paths $\varphi_9,\varphi_{10},\varphi_{11}$ and so on.
 
 \subsection{Computations sub-plan}
 \label{sec:computation-wise}
 
+In the computations sub-plan, we define the computations that form the plan of the agricultural scenario, opposed to the paths defined in the previous section. In the scenario, we are interested in monitoring the field in \fref{fig:plot2}{Figure}. We detect ground hazards and communicate with other ground-based actors. We utilize a CNN implemented in a ROS node to detect the ground hazards. The CNN detection occurs on image frames from a downward-facing camera mounted on the aerial robot. We assume that there is one centralized work station on the ground to communicate with the ground-based actors. The communication between the aerial robot and the centralized work station occurs on another ROS node, which utilizes the technical standard for wireless communication IEEE 802.11~\citep{crow1997ieee}. It sends the detected images either unencrypted or using public-key infrastructure for encryption. We refer to these two computations as CNN and encryption ROS nodes. The schedule for the CNN ROS node is characterized by the FPS rate at which the frames are sent from the camera. The schedule for the encryption ROS node is characterized by a binary value that indicates whenever the encryption is enabled.
 
-In the computations sub-plan, we define the computations that form the plan of the agricultural scenario, opposed to the paths that we defined in the previous section. In the scenario, we are interested in monitoring the field in \fref{fig:plot2}{Figure}, and thus in the detection ground hazard and communication with the some others ground-based actors. To detect the ground hazard we utilize a CNN implemented in a Robot Operating System (ROS)~\citep{quigley2009ros} node. The CNN detects hazards from image frames from a downward-facing camera on the aerial robot. To communicate with ground-based actors, we assume there is one centralized work station on the ground. The communication between the aerial robot and the centralized work station occurs on another ROS node, which utilizes the technical standard for wireless communication IEEE 802.11~\citep{crow1997ieee}. It sends the detected images either unencrypted or using public key infrastructure for encryption. We refer to this two computations as CNN and encryption ROS nodes respectively. Their schedule is characterized by the FPS rate for the CNN ROS node, by a binary value which indicate whenever the encryption is enabled for the encryption node.
-
-There are two computations parameters. A computation parameter is  the FPS rate at which the frames are sent from the camera to the CNN ROS node, and another computation parameter says whenever the communication between the aerial robot and the work station is encrypted. For simplicity, we assume that we have the same computations for all the stages in the plan. The CNN ROS node computation parameter is $c_{i,2}$, and to the encryption ROS node computation parameter is $c_{i,3}$.
-
+There are thus two computations parameters. A computation parameter is the FPS rate, and another computation parameter the encryption binary value. For simplicity, we assume that we have the same computations for all the stages in the plan. The CNN ROS node computation parameter is $c_{i,2}$, and the encryption ROS node computation parameter is $c_{i,3}$.
 
 The upper and lower bounds of $c_{i,3}$ are 
 \begin{equation}
-  c_{i,3}\in\{0,1\}:=\mathcal{S}_{i,3},\,\forall i
+  c_{i,3}\in\mathcal{S}_{i,3}:=\{0,1\},\,\forall i,
 \end{equation}
-the parameter value is binary and it indicates if the encryption is active (one) or data are sent unencrypted (zero).
+the parameter value thus indicates if the encryption is active (one) or data are sent unencrypted (zero).
 
-For the upper and lower bound of $c_{i,2}$, we first note from the path plan in \fref{sec:path-wise}{Section} that during the turns the aerial robot is not surveying the polygon. We thus place different constraints for different paths. For the circles in \frefeq{eq:circ-plan} and \frefeq{eq:circ2-plan} the computation parameter constraint set are 
+For the upper and lower bound of $c_{i,2}$, we first note from the path plan in \fref{sec:path-wise}{Section} that during the turns the aerial robot is not surveying the polygon. We thus place different constraints for different paths. For the circles in \frefeq{eq:circ-plan} and \frefeq{eq:circ2-plan} the computation parameters constraint sets are 
 \begin{equation}\label{eq:cnn-comp-const}
   c_{i+1,2},c_{i+3,2}\in\mathcal{S}_{i+1,2}=\mathcal{S}_{i+3,2}:=\{0\},\,\forall i\in\{1,5,9,\dots\},
 \end{equation}
@@ -372,11 +370,11 @@ c_{i,2},c_{i+2,2}\in\mathcal{S}_{i,2}=\mathcal{S}_{i+2,2}:=[2,10],\,\forall i\in
 \end{equation} 
 the the CNN ROS node is detecting hazard on the ground with a FPS rate between two and ten.
 
-Energy-wise we expect the highest configuration of computations parameters to correspond to the highest instantaneous energy consumption. We use \powprof{}, the profiling and modeling tool that we briefly outlined in \fref{sec:outline}{Section} and that we introduce in \fref{sec:comp-ener-model}{Section}, to measure and model the future energy consumption of different computations configurations.
+Energy-wise we expect the highest configuration of computations parameters to correspond to the highest instantaneous energy consumption. We use \powprof{}, the profiling and modeling tool that we briefly outlined in \fref{sec:outline}{Section} and that we introduce in \fref{sec:comp-ener-model}{Section}, to measure and model the future energy consumption of different computations' configurations.
 
 \subsection{Planning problem with paths and computations sub-plans}
 
-The plan for the precision agriculture scenario is thus composed of stages containing the primitive paths in \frefeqM{eq:line-gene}{eq:circ-gene}, and the parameter dependent version in \frefeq{eq:line-gene-param}. It further contains the path parameter $c_{i,1}$, the computations parameters $c_{i,2}$ and $c_{i,3}$, and some given triggering and final points. In particular, the stages corresponding to the primitive paths are 
+The plan for the precision agriculture scenario is composed of stages containing the primitive paths in \frefeqM{eq:line-gene}{eq:circ-gene}, and the parameter dependent version in \frefeq{eq:line-gene-param}. It further contains the path parameter $c_{i,1},\,\forall i\in\{4,8,\dots\}$, the computations parameters $c_{i,2}$ and $c_{i,3},\,\forall i\in\{1,2,\dots\}$. In particular, the stages corresponding to the primitive paths are 
 \begin{subequations}\label{eq:ex-pb-stages}\begin{align}
   \Gamma_i&:=\{\varphi_i(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1}),c_{i,2},c_{i,3}\},\label{eq:line-plan}\\
   \Gamma_{i+1}&:=\{\varphi_{i+1}(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1}),c_{i+1,2},c_{i+1,3}\},\label{eq:circ-plan}\\
@@ -386,24 +384,28 @@ The plan for the precision agriculture scenario is thus composed of stages conta
 \end{subequations}
 $\forall i\in\{1,5,9,\dots\}$. The path constraint set for the path parameter $c_{i,1}$ is then defined in \frefeq{eq:path-const-c}, the computation constraint set for the computation parameter $c_{i,2}$ in \frefeq{eq:cnn-comp-const} and for the computation parameter $c_{i,3}$ in \frefeq{eq:encr-comp-const}. The triggering points
 \begin{subequations}\label{eq:ex-pb-trigs}\begin{align}
-  \mathbf{p}_{\Gamma_i}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
-  \mathbf{p}_{\Gamma_{i+1}}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_1}),\\
-  \mathbf{p}_{\Gamma_{i+2}}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\lfloor i/4\rfloor x_d,y_{\Gamma_3}),\\
+  \mathbf{p}_{\Gamma_i}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}),\\
+  \mathbf{p}_{\Gamma_{i+1}}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}),\\
+  \mathbf{p}_{\Gamma_{i+2}}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}),\\
   \begin{split}
   \mathbf{p}_{\Gamma_{i+3}}(c_{4,1},\dots,c_{i+3,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1-2r_2(c_{i+3,1})\\
-    &\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,+\lfloor i/4\rfloor x_d,y_{\Gamma_3}).\end{split}
+    &\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}).\end{split}
 \end{align}
 \end{subequations}
-$\forall i\in\{5,9,\dots\}$. The initial points $x_{\Gamma_1},y_{\Gamma_1},$ and $y_{\Gamma_3}$ are given along the shift $x_d$ on the $x$-axis, and the radius of the larger circle $r_1$. The function $r_2$ which returns the radius of the smaller circle and it is a function of the path parameter $c_{i,1},\,\forall i\in\{4,8,\dots\}$ is given in \frefeq{eq:radius-dynamic}. The last triggering point $\mathbf{p}_l$ is likewise given.
+$\forall i\in\{5,9,\dots\}$. The initial points $x_{\Gamma_1},y_{\Gamma_1},$ and $y_{\Gamma_3}$ are given along the shift $x_\mathbf{d}$ on the $x$-axis, and the radius of the first circle $r_1$. The function $r_2$ which returns the radius of the second circle and it is a function of the path parameter $c_{i,1},\,\forall i\in\{4,8,\dots\}$ is given in \frefeq{eq:radius-dynamic}. The last triggering point $\mathbf{p}_l$ is likewise given.
 
-The solution to the planning problem is thus the three trajectories $c_i^*(t)=\{c_{i,1}^*(t),c_{i,2}^*(t),c_{i,3}^*(t)\},\,\forall i\in\{1,2,\dots\}$ that are optimal energy-wise under given energy constraint and uncertainty. 
-Given that each quadruple of stages in \frefeq{eq:ex-pb-stages} and triggering points \frefeq{eq:ex-pb-trigs} depends only on the last path parameter (of the quadruple), we further assume that $c_{1,1}=c_{1,2}=c_{1,3}=c_{1,4}$ and more generally 
+The solution to the planning problem are thus the three trajectories $c_i^*(t)=\{c_{i,1}^*(t),c_{i,2}^*(t),c_{i,3}^*(t)\},\,\forall i\in\{1,2,\dots\}$ that are optimal energy-wise under given energy constraint and uncertainty. 
+Since each quadruple of stages in \frefeq{eq:ex-pb-stages} and triggering points in \frefeq{eq:ex-pb-trigs} depends only on the last path parameter (of the quadruple), we further assume that $c_{1,1}=c_{1,2}=c_{1,3}=c_{1,4}$ and more generally 
 \begin{equation}
-c_{i,1}=c_{i+1,1}=c_{i+2,1}=c_{i+3,1},\,\forall i\in\{1,5,9,\dots\}. 
+c_{i,1}=c_{i+1,1}=c_{i+2,1}=c_{i+3,1},\,\forall i\in\{1,5,9,\dots\}.
 \end{equation}
 
 We derive the solution for the planning problem of the precision agriculture example in \fref{sec:output-mpc}{Section}.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\color{red}Summary}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+
+In this chapter, we defined the planning problem. We provided a formal definition in \fref{sec:plan-pb}{Section}. The planning problem requires some basic concepts, including path functions in \fref{sec:path-functions}{Section} and plan in \fref{sec:plan}{Section}. The latter is composed of stages, triggering and final points in \fref{sec:defs-stages-triggs}{Section}, and parameters that are used for dynamic replanning. Some parameters characterize the path, and some parameters characterize the computations.
+
+Alternatively to defining all the stages manually, the user might define an autonomous scenario with a certain degree of periodicity using primitive paths and a shift as we saw in \fref{sec:plan}{Section}. We illustrated the concept of an autonomous scenario on the precision agriculture example, first introduced in \fref{sec:objective}{Section}, in \fref{sec:flight-plan}{Section}.

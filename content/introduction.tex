@@ -153,7 +153,15 @@ In the remainder of this work, we focus on the precision agriculture scenario in
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\color{red}Contribution}
+\section{Contribution}
+
+With this work, we contribute with a dynamic planning approach for aerial robots performing autonomous scenarios for different use-cases, under energy constraint, and in an uncertain environment. In particular, we plan both an energy-optimized path and a power-saving schedule. Indeed dynamic planning that incorporates both these aspects simultaneously is underrepresented in the literature. 
+
+The contribution in this work builds upon some other past contributions. In particular, our computational energy modeling relies on an automated profiling and modeling methodology that we proposed in~\citep{seewald2019coarse}. The methodology is based on the \powprof{} tool to derive an energy model for future energy prediction. We proposed an extension of \powprof{} with a component-based energy modeling approach to abstract per-component energy in a dataflow computational network in~\citep{seewald2019component}. We later integrated the tool in a Robot Operating System (ROS)~\citep{quigley2009ros} in~\citep{zamanakos2020energy}.
+
+The agricultural scenario that we briefly introduced in \fref{sec:objective}{Section} is based on simulation of detections over a field under varying atmospheric conditions and with different scheduling options that we proposed in~\citep{zamanakos2020energy}, the energy modeling approach on some empirical observations. We proposed a periodic energy modeling in~\citep{seewald2020mechanical} using the empirical energy data of the Opterra aerial robot flying the precision agriculture scenario. 
+
+A dynamic planning approach that we proposed in~citep{seewald202Xenergy} relies on all the concepts that we propose in this work and derives simultaneously the energy-optimized path and the power-saving schedule. We then studied this approach to other classes of robots in~\citep{seewald2020beyond}.
 
 
 %%%%%%%%%%%%%%%%%%%
