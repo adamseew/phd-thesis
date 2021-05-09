@@ -663,7 +663,7 @@ for a constant value $d\in\mathbb{R}$.
 \subsection{Nominal control}
 \label{sec:nom-cont}
 
-Let us suppose that at time instant $t$ the plan (see \fref{def:plan}{Definition}) reached the $i$-th stage $\Gamma_i$ and the control contains the configuration of path and computations parameters 
+Let us suppose that at time instant $t$ the plan (see \fref{def:plan}{Definition}) reached the $i$th stage $\Gamma_i$ and the control contains the configuration of path and computations parameters 
 \begin{equation}\label{eq:state-control2}
   c_i(t)=\begin{bmatrix}c_i^\rho(t) & c_i^\sigma(t)\end{bmatrix}',
 \end{equation}
@@ -752,7 +752,7 @@ $B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy cons
 
 %Equation~(\ref{eq:state-control}) accounts for the energy due to the change of parameters $\mathbf{u}_k-\mathbf{u}_{k-1}$. For instance, when the trajectory $\varphi_1$ is a circle (see Figure~\ref{fig:tee1}), a decrement in the trajectory parameter $c_{1,1}$--the radius of the circle--adds a negative contribution. It thus simulates the lowering of instantaneous energy consumption ($\nu_{1,1}c_{1,1}>\nu_{1,1}c_{1,1}^-$) for a given $\nu_{1,1}$, that is then summed to the first coefficient $\alpha_0$ in Equation~(\ref{eq:state-details}), shifting the modeled energy.
 
-To transform the control $c_i(t)$ at $i$-th stage and time instant $t$ we use different approaches for the path and computation scaling factors.
+To transform the control $c_i(t)$ at $i$th stage and time instant $t$ we use different approaches for the path and computation scaling factors.
 
 The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{4,1}$ relative to the alteration of the upper circle $c_{4,1}$ from \fref{sec:flight-plan}{Section} by measuring the time needed to compute the path with the lowest configuration $\underline{c}_{4,1}$, $\underline{t}$ in \fref{fig:plot-9}{Figure}, and the highest $\overline{t}$ in \fref{fig:plot-8}{Figure}. 
 
