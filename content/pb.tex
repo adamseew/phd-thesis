@@ -55,14 +55,15 @@ To model the path, we use multiple mathematical functions $\varphi_1,\varphi_2,\
 \begin{figure}[t]
   \centering
   \input{figures/plot1.tikz}
-  \caption[Concept of the path and a generic point in space]{The path is mathematical function $\varphi(\mathbf{p}(t))=h$ at an altitude $h$. A generic point $\mathbf{p}$ in 2D space quantifies the distance $\varphi(\mathbf{p}(t))=d$ on the $z$-axis from $h$.}
+  \caption[Concept of a line as a path function]{The path is mathematical function $\varphi(\mathbf{p}(t))=h$ that represents a line at an altitude $h$. A generic point $\mathbf{p}$ in 2D space intersects the plane formed by $\varphi$ at a given value of $z$-axis $d$.}
   \label{fig:plot1}
 \end{figure}
 
 \begin{figure}[t]
   \centering
   \input{figures/plot11.tikz}
-  \caption[]{.}
+  
+  \caption[Concept of a circle as a path function]{The path now represents a circle at an altitude $h$. $\mathbf{p}$ intersects the cone formed by $\varphi$ at a given value of $z$-axis $d_2$.}
   \label{fig:plot11}
 \end{figure}
 
@@ -75,6 +76,12 @@ where $a,b,c\in\mathbb{R}$ are given constants. The generic point $\mathbf{p}(t)
   \varphi(x,y):=2y-x,
 \end{equation}
 at $z=\varphi(\mathbf{p})$. The path that the aerial robot follows is then $\varphi(x,y)=h$. $\varphi(\mathbf{p})-h$ is the distance on the $z$-axis.
+
+Likewise with the line, one can define a circle as a path function with
+\begin{equation}
+  \varphi(x,y):=(x-x_c)^2+(y-y_c)^2-r^2,
+\end{equation}
+where $x_c,y_c$ are given coordinates of the circle and $r\in\mathbb{R}_{>0}$ the radius. The circle path function is illustrated in \fref{fig:plot11}{Figure} for $x_c,y_c$ both three and $\sqrt{r}$ two. 
 
 In this work, we use lines and circles as path functions. We connect these functions using some specific points--the triggering points. However, one can define any mathematical function, with the only requirement being continuity and twice differentiability. We use the first derivative for the vector field, the second derivative to derive the control action. We explain both derivatives further in \fref{cp:gd}{Chapter}.
 
@@ -131,7 +138,7 @@ For simplicity, we merge the computation constraint sets and the path constraint
 
 To move from a given stage $\Gamma_i$ to the next stage $\Gamma_{i+1}$, we define some specific points $\mathbf{p}_{\Gamma_i}$. As soon as the aerial robot reaches the proximity of these points
 \begin{equation}\label{eq:trig-vareps}
-  \mathbf{p}(t)-\mathbf{p}_{\Gamma_i}=\varepsilon,
+  \norm{\mathbf{p}(t)-\mathbf{p}_{\Gamma_i}}<\varepsilon,
 \end{equation}
 where $\varepsilon\in\mathbb{R}$ is a given constant value expressing the radius of an imaginary circle over the point $\mathbf{p}_{\Gamma_i}$, it switches to the next stage.
 
@@ -146,15 +153,33 @@ where $\varepsilon\in\mathbb{R}$ is a given constant value expressing the radius
 \section{Definition of the plan}
 \label{sec:plan}
 
-Our dynamic planning relies on the concept of the aerial robot flying a set of paths and computations autonomously. Such an autonomous flight plan often presumes a certain degree of periodicity. One can observe the periodicity in the precision agriculture example in \fref{sec:objective}{Section}. An ideal way to monitor the agricultural field in \fref{fig:plot2}{Figure}, is to define a basic pattern. The aerial robot flies over the field once and then iterates the basic pattern until it covers the desired area. It means that the plan can be defined just as a set of stages, triggering points, a final point, and finally a shift which tells how these constructs (except final point) shifts in space per each period. We explain this eased definition of the plan later in this section. Alternatively, one can define the plan as a mere linear succession of stages along with the triggering and final points. In the latter case, the plan can be either periodic or aperiodic. Aperiodicity affects the energy modeling and thus future energy predictions. We discuss the concrete meaning of periodic, aperiodic, and semi-periodic plans in the context of energy modeling in \fref{sec:periodic-model}{Section}.
+Our dynamic planning relies on the concept of the aerial robot flying a set of paths and computations autonomously. Such an autonomous flight plan often presumes a certain degree of periodicity. One can observe the periodicity in the precision agriculture example in \fref{sec:objective}{Section}. An ideal way to monitor the agricultural field in \fref{fig:plot2}{Figure}, is to define a basic pattern. The aerial robot flies over the field once and then iterates the basic pattern until it covers the desired area. It means that the plan can be defined just as a set of stages, triggering points, a final point, and finally a shift which tells how these constructs (except final point) shifts in space per each period. In order to simplify the planning problem to this latter case of plans with a pattern being iterated over time, we consider some primitive paths.
 
-In this section, we define the plan in \fref{def:plan}{Definition} as a finite state machine using the constructs of path functions in \fref{def:paths}{Definition}, stages, and triggering points in \fref{def:stage}{Definitions}\fref{def:trigs}{--\hspace*{-.8ex}}. We later define the concept of period and shift. It is on the plan's user side to decide to what extent the plan has periodic patterns or a linear succession of stages. We illustrate these two cases in \fref{fig:state-machine-loop}{Figure} and \fref{fig:state-machine}{Figure} respectively. The user has the freedom to define any plan which respects \fref{def:plan}{Definition}. We illustrate how the design of a plan looks like in \fref{sec:flight-plan}{Section}. 
+\begin{highlight}
+  \begin{defn}[Primitive paths]\label{def:primitive}
+    Given $n\in\mathbb{Z}_{>0}$, the paths $\varphi_1,\dots\varphi_n$ are called \emph{primitive paths}\findex{primitive paths} if all the remaining paths in the plan are built from these paths with a \emph{shift}\findex{shift} $\mathbf{d}:=(x_{\mathbf{d}},y_{\mathbf{d}})$. 
+  \end{defn}
+\end{highlight}
+
+Let us assume the number of stages in the plan is known and is $l\in\mathbb{Z}$. If the plan is build from the primitive paths it means that $n$ respects the inequation
+\begin{equation}
+  n<l,\,l/n\in\mathbb{Z},
+\end{equation}
+holds. This means that $n$ is a multiplier of $l$, whereas $l/n$ is the multiplicand. One can then write the remaining paths from the $n$ primitive paths as $\varphi_{n+1},$ $\varphi_{n+2},\dots,\varphi_{n+n}$, or more generally $\varphi_{(i-1)n+1},$ $\varphi_{(i-1)n+2},\dots,\varphi_{(i-1)n+n},\,\forall i\in\in[l/n-1]_{>0}$. It can also be written formally
+\begin{equation}\label{eq:primitive}\begin{split}
+  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
+\end{split}\end{equation}
+for a given shift $\mathbf{d}$, an initial point $\mathbf{p}$, and initial value of path parameters $c_1^\rho$. The \frefeq{eq:primitive} holds $\forall i\in[l/n-1]_{>0},j\in[n]_{>0}$. $e_j\in\mathbb{R}$ is the $j$th constant difference.
+
+Generally, if the plan is built from the primitive paths, it is not necessary to know the number of stages $l$ in the plan a priori. The paths can be iterated up until the final point $\mathbf{p}_{\Gamma_l}$. We use the concept of primitive paths for the energy modeling in \fref{cp:model}{Chapter}, where we show from collected energy data that plans build from primitive paths have often a periodic evolution. Alternatively to the primitive paths, one can define the plan as a mere linear succession of stages along with the triggering and final points. In the latter case, the energy can be either periodic or aperiodic. Aperiodicity affects the modeling and thus future energy predictions. We discuss the concrete meaning of periodicity, aperiodicity, and semi-periodicity in the context of energy modeling in \fref{sec:periodic-model}{Section}.
+
+Formally, we define the plan as a finite state machine using the constructs of path functions in \fref{def:paths}{Definition}, stages, and triggering points in \fref{def:stage}{Definitions}\fref{def:trigs}{--\hspace*{-.8ex}}. It is on the plan's user side to decide to what extent the plan has periodic patterns or a linear succession of stages. We illustrate these two cases in \fref{fig:state-machine-loop}{Figure} and \fref{fig:state-machine}{Figure} respectively. We illustrate how the design of a plan looks like in \fref{sec:flight-plan}{Section}. 
 
 \begin{highlight}  
   \begin{defn}[Plan]\label{def:plan}
     Given $\mathbf{p}(t)$, the \emph{plan} is a finite state machine\findex{finite state machine} (\Gls{acr:fsm}) $\Gamma$, where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
     \begin{equation*}s(\Gamma_i,\mathbf{p}(t)):=\begin{cases}
-      \Gamma_{i+1} & \text{if }\mathbf{p}(t)-\mathbf{p}_{\Gamma_i}=\varepsilon\\
+      \Gamma_{i+j} & \exists j\in\mathbb{Z},\text{ if }\norm{\mathbf{p}(t)-\mathbf{p}_{\Gamma_i}}<\varepsilon\\
       \Gamma_i & \text{otherwise}
     \end{cases}.\end{equation*}
   \end{defn}
@@ -201,13 +226,7 @@ In \fref{fig:state-machine}{Figure} we illustrate a simple linear plan. The trig
 \caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between stages (states in the FSM) are expressed in the function of the last and/or previous triggering points.}
 \label{fig:state-machine2}
 \end{figure}
-In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can express the basic constructs--such as path functions and triggering points--in the function of the $i$th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}. 
-
-In order to simplify the planning problem to the case of periodic plans with a pattern being iterated over time, we consider some \emph{primitive paths}\findex{primitive paths}. All the other paths are built from these paths with a shift $\mathbf{d}:=(x_{\mathbf{d}},y_{\mathbf{d}})$. Let us suppose the plan is composed of $l$ stages. Given $n\in\mathbb{Z}_{>0}$ ($n<l,l/n\in\mathbb{Z}$) primitive paths $\varphi_1,\dots\varphi_n$, a generic starting point $\mathbf{p}(t_0)$ at the initial time $t_0$, and some given initial values of the path parameters $c_1^\rho$, all the other paths $\varphi_{n+1},\dots,\varphi_l$ are built
-\begin{equation}\label{eq:primitive}\begin{split}
-  &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
-\end{split}\end{equation}
-$\forall i\in[l/n-1]_{>0},j\in[n]_{>0}$, where $e_j\in\mathbb{R}$ is the $j$th constant difference.
+In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can express the basic constructs--such as path functions and triggering points--in the function of the $i$th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}, where we propagate a path parameter to all the following triggering points and path functions.
 
 \begin{figure}[h!]
   \center
@@ -236,13 +255,13 @@ $\forall i\in[l/n-1]_{>0},j\in[n]_{>0}$, where $e_j\in\mathbb{R}$ is the $j$th c
   \caption[Definition of a plan with a loop]{Definition of a plan $\Gamma$ that contain a loop. Stages $\Gamma_1,\Gamma_2,\dots,\Gamma_i$ containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ are iterated with a shift $\mathbf{d}$.}
   \label{fig:state-machine-loop}
 \end{figure}
-In \fref{fig:state-machine-loop}{Figure} we illustrate a plan composed of $n$ primitive stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ (containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$) that are reiterated with the shift $\mathbf{d}$.
+In \fref{fig:state-machine-loop}{Figure} we illustrate a plan composed of $n$ primitive stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ (containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$) that are reiterated with the shift $\mathbf{d}$. $t_3<t_4$ is a time instant likewise in \fref{fig:state-machine}{Figure}.
 
 A concept that we use in the remainder of this work, and particularly in energy modeling in \fref{cp:model}{Chpater} and estimation in \fref{cp:est}{Chapter}, is the concept of period--the time required to fly the primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ (or generally $\varphi_{(i-1)n+1},$ $\varphi_{(i-1)n+2},\dots,\varphi_{(i-1)n+n}$). 
 
 \begin{highlight}
   \begin{defn}[Period]\label{def:period}\findex{period}
-    The period $T\in\mathbb{R}_{> 0}$ is the time between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$ in \frefeq{eq:primitive}.
+    For a given stage $\Gamma_i$ and $j\in\mathbb{Z}_{>0}$, the \emph{period}\findex{period} $T\in\mathbb{R}_{> 0}$ is the time measured in seconds of physically (or in simulation) flying between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$.
   \end{defn} 
 \end{highlight}
   
@@ -257,11 +276,13 @@ The planning problem is then the problem of finding the optimal configurations o
 
 \begin{highlight}
 \begin{pb}[Planning problem]\label{pb}\findex{planning problem}
-  Consider an initial plan $\Gamma$ in \fref{def:stage}{Definition}. It is either composed of $l$ stages, or $n$ stages and a shift $\mathbf{d}$. We are interested in the \emph{planning} of the \emph{path} and \emph{computations parameters} $c_i,\,\forall i\in[l]_{>0},$ or $\forall i\in\{1,2,\dots\}$\footnote{There is a fixed number of stages in case all the stages are defined explicitly. Otherwise, there is a variable number of stages, in the sense that all the stages are reiterated up until the aerial robot reaches the last triggering point $\mathbf{p}_l$.} under energy constraints and uncertainty.
+  Consider an initial plan $\Gamma$ in \fref{def:stage}{Definition}. It is either composed of $l$ stages, or $n$ stages and a shift $\mathbf{d}$. We are interested in the \emph{planning} of the \emph{path} and \emph{computations parameters} $c_i,\,\forall i\in[l]_{>0},$ or $\forall i\in\{1,2,\dots\}$ under energy constraints and uncertainty.
   
   We are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
 \end{pb}    
 \end{highlight}
+
+In the definition, there is a fixed number of stages in case all the stages are defined explicitly. Otherwise, there is a variable number of stages, in the sense that all the stages are reiterated using the primitive paths in \fref{def:primitive}{Definition} up until the aerial robot reaches the last triggering point $\mathbf{p}_l$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -362,7 +383,7 @@ as it depends on the radius $r_2$ of the circle $\varphi_4$. The same applies to
 
 In the computations sub-plan, we define the computations that form the plan of the agricultural scenario, opposed to the paths defined in the previous section. In the scenario, we are interested in monitoring the field in \fref{fig:plot2}{Figure}. We detect ground hazards and communicate with other ground-based actors. We use a CNN implemented in a ROS node to detect the ground hazards. The CNN detection utilizes image frames from a downward-facing camera mounted on the aerial robot. We assume that there is one centralized work station on the ground to communicate with the ground-based actors. The communication between the aerial robot and the centralized work station occurs on another ROS node, which uses the technical standard for wireless communication IEEE 802.11~\citep{crow1997ieee}. It sends the detected images either unencrypted or using public-key infrastructure for encryption. We refer to these two computations as CNN and encryption ROS nodes. The schedule for the CNN ROS node is characterized by the FPS rate at which the frames are sent from the camera. The schedule for the encryption ROS node is characterized by a binary value that indicates whenever the encryption is enabled.
 
-There are thus two computations parameters. A computation parameter is the FPS rate, and another computation parameter the encryption binary value. For simplicity, we assume that we have the same computations for all the stages in the plan. The CNN ROS node computation parameter is $c_{i,2}$, and the encryption ROS node computation parameter is $c_{i,3}$.
+There are thus two computations parameters. A computation parameter is the FPS rate, and another computation parameter the encryption binary value. The CNN ROS node computation parameter is $c_{i,2}$, and the encryption ROS node computation parameter is $c_{i,3}$.
 
 The upper and lower bounds of $c_{i,3}$ are 
 \begin{equation}
