@@ -429,7 +429,7 @@ Equation~(\ref{eq:mechanical-model-7}) can be used to derive all the constants f
     \caption{Power spectrum}
     \label{fig:spectrum-1}
   \end{subfigure}
-  \caption[Energy data of a fixed-wing aerial robot]{Empirical energy data collected flying a fixed-wing aerial robot's plan and covering the polygon in \fref{fig:plot2}{Figure}. The data shows that the energy signal is periodic over time with the fixed-wing aerial robot reiterating a set of paths.}
+  \caption[Energy data of a fixed-wing aerial robot]{Empirical energy data collected flying a fixed-wing aerial robot's plan and covering the polygon in \fref{fig:plot2}{Figure}. The data shows that the energy signal is periodic over time as the fixed-wing aerial robot reiterates a set of paths.}
 \end{figure}
 
 Some collected energy data from the Opterra (in \fref{fig:opterra}{Figure}) adapted for precision agriculture scenario along its power spectrum back the choice of the periodic energy model. A periodic energy evolution of a fixed-wing aerial robot flying a plan and covering the polygon in \fref{fig:plot2}{Figure} (we describe the fixed-wing aerial robot plan in detail in \fref{sec:flight-plan}{Section}) is shown in \fref{fig:energy-1}{Figure}. \fref{fig:spectrum-1}{Figure} shows its frequency spectrum (the data are uniformly sampled). The spectrum is centered at zero frequency, which peaks at 4$\cdot$10${}^{\text{5}}$ and indicates the shift on the power-axis in \fref{fig:energy-1}{Figure}. The power spectrum shows that the energy evolution from \fref{fig:energy-1}{Figure} needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
@@ -453,7 +453,7 @@ Let us consider a periodic energy signal of period $T$, and a Fourier series of 
 \begin{equation}\label{eq:fourier}
   h(t)=a_0/T+(2/T)\sum_{j=1}^{r}{\left(a_j\cos{\omega jt}+b_j\sin{\omega jt}\right)},
 \end{equation}
-where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a_j,b_j\in\mathbb{R}$ the Fourier series coefficients $\forall j\in[r]_{>0}$.
+where $h:\mathbb{R}_{\geq 0}\rightarrow\mathbb{R}$ maps time to the instantaneous energy consumption, $\omega:=2\pi/T$ is the angular frequency, and $a_0,a_j,b_j\in\mathbb{R}$ the Fourier series coefficients $\forall j\in[r]_{>0}$.
 
 The energy signal can be modeled by \frefeq{eq:fourier} and by the output of a linear model
 \begin{subequations}\label{eq:state-perf}\begin{align}
@@ -663,7 +663,7 @@ for a constant value $d\in\mathbb{R}$.
 \subsection{Nominal control}
 \label{sec:nom-cont}
 
-Let us suppose that at time instant $t$ the plan (see \fref{def:plan}{Definition}) reached the $i$th stage $\Gamma_i$ and the control contains the configuration of path and computations parameters 
+Let us suppose that at time instant $t$ the plan in \fref{def:plan}{Definition} reached the $i$th stage $\Gamma_i$ and the control contains the configuration of path and computations parameters 
 \begin{equation}\label{eq:state-control2}
   c_i(t)=\begin{bmatrix}c_i^\rho(t) & c_i^\sigma(t)\end{bmatrix}',
 \end{equation}
@@ -694,11 +694,9 @@ where $c_i(t)\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal cont
   \label{fig:plot-9}
 \end{figure}
 
-The second bullet point in the observation is easily verified. The \powprof{} profiling tool models the energy consumption of the heterogeneous computing hardware the mobile robot is caring. A variation in the computation parameter affects the schedule and hence the instantaneous energy consumption of the mobile robot.
+The second bullet point in the observation is easily verified. The \powprof{} profiling tool models the energy consumption of the heterogeneous computing hardware the mobile robot is caring. A variation in the computation parameter affects the schedule (as the schedule is characterized by the computation parameter in \fref{def:comp-mot-energy}{Definition}) and hence the instantaneous energy consumption of the mobile robot.
 
-The first bullet point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we increase the parameter $c_{4,1}$, which is relative to the radius of the circle, the flying time decreses. This is further shown in \fref{fig:plot-8}{Figure} and \fref{fig:plot-9}{Figure}. \fref{fig:plot-8}{Figure} illustrates the trajectory of the aerial robot (composed of all the paths $\varphi_1,\varphi_2\,\dots,\varphi_l$) flying at the highest configuration of the path parameter $c_{4,1}=\overline{c}_{4,1}$. \fref{fig:plot-9}{Figure} then illustrate the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{4,1}$. The flying time differs significantly, along with the quality of the coverage of the polygon (the agricultural field in \fref{fig:plot2}{Figure}).
-
-In \fref{fig:plot-9}{Figure}, the parameter $c_{4,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., averse atmospheric conditions do not allow to terminate the original plan in \fref{fig:plot-8}{Figure}.
+The first bullet point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we decrease the parameter $c_{4,1}$, which is relative to the radius of the circle, the flying time decreses. This is further shown in \fref{fig:plot-8}{Figure} and \fref{fig:plot-9}{Figure}. \fref{fig:plot-8}{Figure} illustrates the trajectory of the aerial robot (composed of all the paths $\varphi_1,\varphi_2\,\dots$) flying at the highest configuration of the path parameter $c_{i,1}=\overline{c}_{4,1}$. \fref{fig:plot-9}{Figure} then illustrate the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{4,1}$. The flying time differs significantly, along with the quality of the coverage of the polygon (the agricultural field in \fref{fig:plot2}{Figure}). In \fref{fig:plot-9}{Figure}, the parameter $c_{4,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., averse atmospheric conditions do not allow to terminate the original plan in \fref{fig:plot-8}{Figure}.
 
 We use the observation later in \fref{sec:opt-cont-gener}{Section} to check that the time to completely discharge the battery is greater than the flight time and replan the path parameters accordingly.  We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
 
@@ -730,9 +728,9 @@ $\hat{\mathbf{u}}(t)$ is a stage-dependent scale transformation with
 \end{align}\end{subequations}
 scaling factors. They quantify the contribution to the plan of a given parameter in terms of time for the first $\rho$ parameters, and instantaneous energy consumption for the remaining $\sigma$ (we use the same notation for the path and computation scaling factors as for the parameters). 
 
-The nominal control $\mathbf{u}(t)$ is then the difference of these contributions of two consecutive controls $\mathbf{u}(t-\Delta t),\mathbf{u}(t)$ applied to the system. 
+The nominal control $\mathbf{u}(t)$ is then the difference of these contributions of two consecutive controls $c_i(t-\Delta t),c_i(t)$ applied to the system. 
 
-$B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy consumption into the model in \frefeq{eq:state-perf}.
+$B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy consumption into the model in \frefeq{eq:state-perf}. Matrix $B$ ignores the time contribution of the path parameters in $c_i$. We use them to verify that the flying time is lower than the battery time in \fref{sec:algo}{Section}.
 
 \subsection{Parameters scale transformation}
 \label{sec:merging}
@@ -754,14 +752,14 @@ $B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy cons
 
 To transform the control $c_i(t)$ at $i$th stage and time instant $t$ we use different approaches for the path and computation scaling factors.
 
-The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{4,1}$ relative to the alteration of the upper circle $c_{4,1}$ from \fref{sec:flight-plan}{Section} by measuring the time needed to compute the path with the lowest configuration $\underline{c}_{4,1}$, $\underline{t}$ in \fref{fig:plot-9}{Figure}, and the highest $\overline{t}$ in \fref{fig:plot-8}{Figure}. 
+The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{4,1}$ relative to the alteration $c_{4,1}$ of the upper circle $\varphi_4$ from \fref{sec:flight-plan}{Section} by measuring the time needed to compute the path with the lowest configuration $\underline{c}_{4,1}$, $\underline{t}$ in \fref{fig:plot-9}{Figure}, and the highest $\overline{t}$ in \fref{fig:plot-8}{Figure}. 
 
-The variation of the control hence results in an approximate measure of the plans' time variation with factors
+The variation of the control hence results in an approximate measure of the plan's time variation with factors
 \begin{subequations}\label{eq:scale-traj}\begin{align}
   \nu_{i,j}&=\left((\overline{t}-\underline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})\right)/\rho,\\
   \tau_{i,j}&=\left(\underline{c}_{i,j}(\underline{t}-\overline{t})/(\overline{c}_{i,j}-\underline{c}_{i,j})+\underline{t}\right)/\rho,
 \end{align}\end{subequations} 
-$\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$.
+$\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters set $c_i^\rho=\{\emptyset\}$. We use the latter to initialize the algorithm in \fref{sec:algo}{Section}.
 
 %Whenever the trajectory parameters are not equally distributed, one can define $(y_{\overline{c}_i}-y_{\underline{c}_i})$ as a the highest (and lowest) levels of specific trajectory parameters. 
 
@@ -769,7 +767,7 @@ The scaling factors for the computations parameters from \frefeq{eq:scaling} are
 %adapted from earlier work on computational energy analysis~\citep{seewald2019coarse, seewald2019component}, and energy estimation of a fixed-wing UAV~\citep{seewald2020mechanical}. 
 %For this purpose, we assume the mobile robot carries an embedded board that runs the computations. Our
 %In both cases, with ROS~\citep{zamanakos2020energy} or with generic software components system~\citep{seewald2019component}, the tool performs automatic modeling. 
-For instance, if the computation is an object detector, a computation parameter $c_{1,2}$ might correspond to frames-per-second (fps) rate. The tool then measures power according to the detection frequency.
+For instance, if the computation is the CNN ROS node, the computation parameter $c_{1,2}$ corresponds to the \Gls{acr:fps} rate. The tool then measures power according to the detection frequency.
 
 The scaling factors add the computational energy component to the model in \frefeq{eq:state-perf}. They are derived similarly to \frefeq{eq:scale-traj}
 \begin{subequations}\label{eq:scale-comp}\begin{align}
