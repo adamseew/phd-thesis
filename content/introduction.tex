@@ -170,54 +170,33 @@ A dynamic planning approach that we proposed in~\citep{seewald202Xenergy} relies
 
 \begin{figure}[!h]
   \centering
-  \footnotesize
+  \hspace*{-6ex}
+  \footnotesize\fontfamily{phv}\selectfont
   \begin{tikzpicture}[auto, node distance=3cm,>=latex']
-      \node [block,node distance=1cm] (theblock0) {Introduction};
-      \node [right of=theblock0,node distance=3cm] (arrow0) {\fref{cp:intro}{Chapter}};
-      \node [block,below=1cm,node distance=1cm] (theblock) {Planning Problem};
-      \node [right of=theblock] (arrow) {\fref{cp:pb}{Chapter}};
-      \node [block,below=2.5cm] (theblock2) {Optimal Control Generation};
-      \node [right of=theblock2,node distance=2.99cm] (arrow2) {\fref{cp:opt}{Chapter}};
-      \node [block,below left=.5cm and -.5cm of theblock2] (theblock3) {Energy Models};
-      \node [right of=theblock3,node distance=1.9cm] (arrow3) {\fref{cp:model}{Chapter}};
-      \node [block,below right=.5cm and 1.8cm of theblock3] (theblock4) {Guidance};
-      \node [right of=theblock4,node distance=1.7cm] (arrow4) {\fref{cp:gd}{Chapter}};
-      \node [block,below=.5cm and -.5cm of theblock3] (theblock5) {State Estimation};
-      \node [right of=theblock5,node distance=1.94cm] (arrow5) {\fref{cp:est}{Chapter}};
-      \draw [->] (arrow0) -- node{} (theblock0);
+      \node [block,node distance=1cm] (theblock0) {Introduction,~\fref{cp:intro}{Ch.}};
+      \node [block,below=1cm,node distance=1cm] (theblock) {Planning Problem,~\fref{cp:pb}{Ch.}};
+      \node [block,below=5.5cm] (theblock2) {Optimal Control Generation,~\fref{cp:opt}{Ch.}};
+      \node [block,below left=1cm and -.6cm of theblock] (theblock3) {Energy Models,~\fref{cp:model}{Ch.}};
+      \node [block,below right=.5cm and 2.3cm of theblock3] (theblock4) {Guidance,~\fref{cp:gd}{Ch.}};
+      \node [block,below=.5cm and -.5cm of theblock3] (theblock5) {State Estimation,~\fref{cp:est}{Ch.}};
       \draw [->] (theblock0) -- node{} (theblock);
-      \draw [->] (arrow) -- node{} (theblock);
       \draw [->] (theblock) -- node{} (theblock2);
-      \draw [->] (arrow2) -- node{} (theblock2);
-      \draw [->] (theblock3) -- node{} (theblock2);
-      \draw [->] (arrow3) -- node{} (theblock3);
-      \draw [->] (theblock2) -- node{} (theblock4);
-      \draw [->] (arrow4) -- node{} (theblock4);
+      \draw [->] (theblock5) |- node{} (theblock2);
+      \draw [->] (theblock2) -| node{} (theblock4);
       \draw [->] (theblock5) -- node{} (theblock3);
-      \draw [->] (arrow5) -- node{} (theblock5);
-
-      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=30pt},yshift=0pt]
-      (theblock5.north west) -- (theblock5.north west -| theblock4.north east) node [black,midway,yshift=-15ex] (notextnode) {};
-      \node [block,below=0cm and -.5cm of notextnode,xshift=-2.7cm] (theblock6) {Implementation};
-      \node [left of=theblock6,node distance=3.1cm] (arrow6) {\fref{app:imp}{Appendix}};
-      \node [block,below=0cm and -.5cm of notextnode,xshift=.5cm] (theblock8) {Summary and Future Directions};
-      \node [below=.35cm and -.5cm of notextnode,xshift=-1.55cm] (comma) {,};
-      \node [right of=theblock8,node distance=3.06cm] (arrow8) {\fref{cp:conc}{Chapter}};
-
-      \draw [->] (arrow6) -- node{} (theblock6);
-      \draw [->] (arrow8) -- node{} (theblock8);
-
-
-      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=56pt},yshift=0pt] (theblock.north west) -- (theblock3.south west -| theblock3.south east) node [black,midway] (notextnode2) {};
-      \node [block,left of=notextnode2,node distance=3.49cm] (theblock7) {State of the Art};
-      \node [left of=theblock7,node distance=1.95cm] (arrow7) {\fref{cp:soa}{Chapter}};
-
-      \draw [->] (arrow7) -- node{} (theblock7);
-      
-
-
+      \draw [->] (theblock) |- node{} (theblock3);
+      \draw [->] (theblock) |-   node{} (theblock4);
+      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=64pt},yshift=0pt]
+      (theblock5.north west) -- (theblock5.north west -| theblock4.north east) node [black,midway,yshift=-25ex] (notextnode) {};
+      \node [block,below=-.8cm and -.5cm of notextnode,xshift=-3.3cm] (theblock6) {Implementation,~\fref{app:imp}{App.}};
+      \node [block,below=-.8cm and -.5cm of notextnode,xshift=1.1cm] (theblock8) {Summary and Future Directions,~\fref{cp:conc}{Ch.}};
+      \node [below=-.4cm and -.5cm of notextnode,xshift=-1.62cm] (comma) {,};
+      \node [block,left of=theblock3,node distance=3cm,yshift=1.15cm] (theblock7) {State of the Art,~\fref{cp:soa}{Ch.}};
+      \draw [->] (theblock7) |- node{} (theblock);
+      \draw [->] (theblock7) |- node{} (theblock3);
+      \draw [->] (theblock7) |- node{} (theblock2);
   \end{tikzpicture}
-  \caption[Diagram of the structure]{Diagram of the structure of this work. \fref{cp:intro}{Chapter} serves as an introduction while \fref{cp:soa}{Chapter} presents the state of the art. \fref{cp:pb}{Chapter} presents the planning problem, which is solved in \fref{cp:opt}{Chapter} using notions from \fref{cp:model}{Chapters}\fref{cp:est}{--\hspace*{-.8ex}}. \fref{cp:est}{Chapter} presents the guidance action to move over a replanned path and \fref{app:imp}{Appendix} the implementation. \fref{cp:conc}{Chapter} concludes the work and proposes future directions.}
+  \caption[Diagram of the structure]{Diagram of the structure of this work. The arrows are to be read with ``the chapter influences'' in the direction of the arrow. \fref{cp:intro}{Chapter} serves as an introduction while \fref{cp:soa}{Chapter} presents the state of the art. \fref{cp:pb}{Chapter} presents the planning problem, which is solved in \fref{cp:opt}{Chapter} using notions from \fref{cp:model}{Chapters}\fref{cp:est}{--\hspace*{-.8ex}}. \fref{cp:est}{Chapter} presents the guidance action to move over a replanned. \fref{cp:conc}{Chapter} concludes the work and proposes future directions and \fref{app:imp}{Appendix} the implementation.}
   \label{fig:structure}
 \end{figure}
 
