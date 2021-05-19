@@ -1,74 +1,132 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="384" height="325.483" viewBox="0 0 384.00 325.48" enable-background="new 0 0 384.00 325.48" xml:space="preserve">
-	<path fill="#F5F5F5" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 49.4778,304.793C 49.4778,304.793 59.8838,312.489 61.2031,312.817C 70.4387,315.113 100.88,325.129 113.911,320.385C 113.911,320.385 128.5,319.757 145.034,312.787C 161.568,305.816 145.52,259.494 145.52,259.494C 145.52,259.494 142.162,253.056 134.147,241.332C 117.856,217.504 93.7304,210.865 93.7304,210.865C 93.7304,210.865 63.8068,187.881 25.8309,187.809C 25.8308,187.809 -22.5721,198.76 27.1148,283.808L 49.4778,304.793 Z "/>
-	<path fill="#E4E4E4" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 127.585,194.528C 127.585,194.528 134.147,175.099 158.461,168.667C 182.776,162.236 231.405,165.373 280.034,151.647C 328.663,137.921 369.049,168.667 369.049,168.667C 369.049,168.667 406.979,216.59 336.467,259.494C 265.955,302.397 189.561,259.945 182.776,254C 175.991,248.054 138.074,250.144 129.784,235.179C 121.493,220.214 121.425,207.496 127.585,194.528 Z "/>
-	<path fill="#006432" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 169.325,153.322C 169.325,153.322 214.385,166.482 231.405,160.286C 231.405,160.286 248.77,157.351 265.304,150.381C 281.838,143.411 280.034,102.437 280.034,102.437C 280.034,102.437 278.742,90.4098 280.034,76.2665C 282.449,49.8338 244.543,30.6534 244.543,30.6534C 244.543,30.6534 236.268,14.3982 134.147,38.7128C 134.147,38.7128 106.559,38.7128 123.093,135.971C 123.093,135.971 144.361,149.327 149.368,151.111C 154.375,152.894 169.083,153.135 169.325,153.322 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 319.549,240.66C 320.743,240.66 321.711,241.628 321.711,242.822C 321.711,244.016 320.743,244.984 319.549,244.984C 318.355,244.984 317.387,244.016 317.387,242.822C 317.387,241.628 318.355,240.66 319.549,240.66 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 269.076,214.84C 270.27,214.84 271.238,215.808 271.238,217.002C 271.238,218.196 270.27,219.164 269.076,219.164C 267.882,219.164 266.914,218.196 266.914,217.002C 266.914,215.808 267.882,214.84 269.076,214.84 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 208.493,224.7C 209.687,224.7 210.655,225.668 210.655,226.862C 210.655,228.056 209.687,229.024 208.493,229.024C 207.299,229.024 206.331,228.056 206.331,226.862C 206.331,225.668 207.299,224.7 208.493,224.7 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 201.735,224.7C 202.929,224.7 203.897,225.668 203.897,226.862C 203.897,228.056 202.929,229.024 201.735,229.024C 200.541,229.024 199.573,228.056 199.573,226.862C 199.573,225.668 200.541,224.7 201.735,224.7 Z "/>
-	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 231.438,85.7318C 232.632,85.7318 233.6,86.6998 233.6,87.8938C 233.6,89.0879 232.632,90.056 231.438,90.056C 230.244,90.056 229.276,89.0879 229.276,87.8938C 229.276,86.6998 230.244,85.7318 231.438,85.7318 Z "/>
-	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 196.744,73.3687C 197.938,73.3687 198.906,74.3367 198.906,75.5307C 198.906,76.7248 197.938,77.6928 196.744,77.6928C 195.55,77.6928 194.582,76.7248 194.582,75.5307C 194.582,74.3367 195.55,73.3687 196.744,73.3687 Z "/>
-	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 195.215,96.1679C 196.409,96.1679 197.377,97.1359 197.377,98.33C 197.377,99.524 196.409,100.492 195.215,100.492C 194.021,100.492 193.053,99.524 193.053,98.33C 193.053,97.1359 194.021,96.1679 195.215,96.1679 Z "/>
-	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 192.021,91.855C 193.215,91.855 194.183,92.823 194.183,94.0171C 194.183,95.2111 193.215,96.1791 192.021,96.1791C 190.827,96.1791 189.859,95.2111 189.859,94.0171C 189.859,92.823 190.827,91.855 192.021,91.855 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 77.3763,248.845C 78.5704,248.845 79.5384,249.813 79.5384,251.007C 79.5384,252.201 78.5704,253.169 77.3763,253.169C 76.1823,253.169 75.2143,252.201 75.2143,251.007C 75.2143,249.813 76.1823,248.845 77.3763,248.845 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 72.8985,245.046C 74.0925,245.046 75.0605,246.014 75.0605,247.208C 75.0605,248.402 74.0925,249.37 72.8985,249.37C 71.7044,249.37 70.7364,248.402 70.7364,247.208C 70.7364,246.014 71.7044,245.046 72.8985,245.046 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 19.1786,12.9659C 20.3727,12.9659 21.3407,13.9339 21.3407,15.128C 21.3407,16.3221 20.3727,17.2901 19.1786,17.2901C 17.9845,17.2901 17.0165,16.3221 17.0165,15.128C 17.0165,13.9339 17.9845,12.9659 19.1786,12.9659 Z "/>
-	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 320.576,257.098L 322.552,259.395L 320.53,261.453L 326.325,259.34L 320.576,257.098 Z "/>
-	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 180.746,21.4106L 183.018,19.4057L 185.102,21.4014L 182.916,15.6335L 180.746,21.4106 Z "/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="41.4555" y1="259.332" x2="322.608" y2="259.332"/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="183.023" y1="266.954" x2="183.023" y2="156.775"/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFFFFF" stroke-opacity="1" x1="183.023" y1="156.775" x2="183.023" y2="28.8031"/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="183.023" y1="28.8031" x2="183.023" y2="18.3373"/>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="399.72" height="410.854" viewBox="0 0 399.72 410.85" enable-background="new 0 0 399.72 410.85" xml:space="preserve">
+	<path fill="#CCD3DA" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 60.2057,401.158C 60.2057,401.158 71.6748,407.155 73.029,407.275C 82.5084,408.119 114.131,413.315 126.274,406.616C 126.274,406.616 140.591,403.743 155.85,394.305C 171.11,384.866 148.104,341.576 148.104,341.576C 148.104,341.576 143.793,335.733 134.063,325.387C 114.29,304.359 89.4283,301.524 89.4283,301.524C 89.4283,301.524 27.9072,275.691 18.7837,289.226C 18.7836,289.226 -27.3487,307.517 34.8713,383.876L 60.2057,401.158 Z "/>
+	<path fill="#E6E8E9" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 135.599,284.826C 135.599,284.826 142.161,265.397 166.475,258.965C 190.79,252.533 239.419,255.671 288.048,241.945C 336.677,228.219 377.063,258.965 377.063,258.965C 377.063,258.965 414.993,306.888 344.481,349.792C 273.969,392.695 197.575,350.243 190.79,344.298C 184.005,338.352 146.088,340.442 137.798,325.477C 129.507,310.512 129.439,297.794 135.599,284.826 Z "/>
+	<path fill="#6884A1" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 183.353,211.196C 183.353,211.196 176.509,214.222 232.641,219.676C 232.641,219.676 249.19,220.265 261.35,208.745C 299.903,172.22 292.575,171.672 299.103,158.185C 304.92,146.165 312.438,132.727 312.438,132.727C 312.438,132.727 320.363,104.414 309.664,87.2872C 275.211,32.1296 226.592,48.4205 226.592,48.4205C 226.592,48.4205 197.259,50.0204 184.352,66.1271C 184.352,66.1272 167.561,83.0403 166.889,129.825C 166.889,129.825 164.324,167.57 166.713,172.318C 169.019,176.902 183.111,211.009 183.353,211.196 Z "/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 369.563,323.958C 370.757,323.958 371.725,324.926 371.725,326.12C 371.725,327.314 370.757,328.282 369.563,328.282C 368.369,328.282 367.401,327.314 367.401,326.12C 367.401,324.926 368.369,323.958 369.563,323.958 Z "/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 330.09,290.138C 331.284,290.138 332.252,291.106 332.252,292.3C 332.252,293.494 331.284,294.462 330.09,294.462C 328.896,294.462 327.928,293.494 327.928,292.3C 327.928,291.106 328.896,290.138 330.09,290.138 Z "/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 262.507,299.998C 263.701,299.998 264.669,300.966 264.669,302.16C 264.669,303.354 263.701,304.322 262.507,304.322C 261.313,304.322 260.345,303.354 260.345,302.16C 260.345,300.966 261.313,299.998 262.507,299.998 Z "/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 189.749,299.998C 190.944,299.998 191.911,300.966 191.911,302.16C 191.911,303.354 190.944,304.322 189.749,304.322C 188.555,304.322 187.587,303.354 187.587,302.16C 187.587,300.966 188.555,299.998 189.749,299.998 Z "/>
+	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 288.452,142.03C 289.646,142.03 290.614,142.998 290.614,144.192C 290.614,145.386 289.646,146.354 288.452,146.354C 287.258,146.354 286.29,145.386 286.29,144.192C 286.29,142.998 287.258,142.03 288.452,142.03 Z "/>
+	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 208.758,61.6665C 209.952,61.6665 210.92,62.6345 210.92,63.8286C 210.92,65.0226 209.952,65.9906 208.758,65.9906C 207.564,65.9906 206.596,65.0226 206.596,63.8286C 206.596,62.6345 207.564,61.6665 208.758,61.6665 Z "/>
+	<path fill="#FF5000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 204.229,211.466C 205.423,211.466 206.391,212.434 206.391,213.628C 206.391,214.822 205.423,215.79 204.229,215.79C 203.035,215.79 202.067,214.822 202.067,213.628C 202.067,212.434 203.035,211.466 204.229,211.466 Z "/>
+	<path fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 207.035,181.153C 208.23,181.153 209.198,182.121 209.198,183.315C 209.198,184.509 208.23,185.477 207.035,185.477C 205.841,185.477 204.873,184.509 204.873,183.315C 204.873,182.121 205.841,181.153 207.035,181.153 Z "/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 71.3904,338.143C 72.5845,338.143 73.5525,339.111 73.5525,340.305C 73.5525,341.499 72.5845,342.467 71.3904,342.467C 70.1963,342.467 69.2283,341.499 69.2283,340.305C 69.2283,339.111 70.1963,338.143 71.3904,338.143 Z "/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 62.9126,329.344C 64.1066,329.344 65.0746,330.312 65.0746,331.506C 65.0746,332.7 64.1066,333.668 62.9126,333.668C 61.7185,333.668 60.7505,332.7 60.7505,331.506C 60.7505,330.312 61.7185,329.344 62.9126,329.344 Z "/>
+	<path fill="#043668" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 118.935,11.1629C 118.935,11.1629 103.451,-2.15334 82.7334,17.1301C 61.6047,36.7961 45.3586,44.2209 48.9606,69.0412C 48.9607,69.0412 57.2316,147.223 127.888,78.5956L 131.488,63.5152C 131.488,63.5152 135.935,35.5113 118.935,11.1629 Z "/>
+	<path fill="#FF5000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 106.193,29.2637C 107.387,29.2637 108.355,30.2317 108.355,31.4258C 108.355,32.6199 107.387,33.5879 106.193,33.5879C 104.999,33.5879 104.031,32.6199 104.031,31.4258C 104.031,30.2317 104.999,29.2637 106.193,29.2637 Z "/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="251.557" y1="361.195" x2="251.557" y2="358.836"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="336.553" y1="361.195" x2="336.553" y2="358.836"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#FFFFFF" stroke-opacity="1" x1="188.439" y1="64.7182" x2="190.697" y2="64.7198"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#FFFFFF" stroke-opacity="1" x1="188.439" y1="163.658" x2="190.697" y2="163.66"/>
+	<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="188.357" y1="262.453" x2="190.514" y2="262.456"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 188.228,59.2372L 188.228,59.2162L 194.616,55.4294L 183.416,50.3094L 188.228,46.7894L 188.228,17.037"/>
+	<rect x="355.593" y="45.3188" fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" width="14.255" height="95.3727"/>
 	<g>
-		<text transform="matrix(0.9999999403953552 0.0000000000000000 0.0000000000000000 0.9999999403953552 237.00 25.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">fixed-wings</tspan>
+		<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="57.5301" y1="361.195" x2="57.53" y2="358.836"/>
+		<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 187.654,361.343L 182.633,361.343L 178.846,354.955L 173.726,366.155L 170.206,361.343L 134.25,361.343"/>
+		<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="76.0602" y1="361.343" x2="-7.62939e-006" y2="361.346"/>
+		<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFFFFF" stroke-opacity="1" x1="134.25" y1="361.343" x2="75.9601" y2="361.343"/>
+	</g>
+	<g>
+		<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="355.589" y1="92.5318" x2="357.664" y2="92.5318"/>
+		<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="367.484" y1="92.5318" x2="369.6" y2="92.5318"/>
+		<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="355.78" y1="116.925" x2="357.854" y2="116.925"/>
+		<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="367.674" y1="116.925" x2="369.79" y2="116.925"/>
+		<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#FFFFFF" stroke-opacity="1" x1="355.9" y1="69.3337" x2="357.723" y2="69.3337"/>
+		<line fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#FFFFFF" stroke-opacity="1" x1="367.543" y1="69.3337" x2="369.529" y2="69.3337"/>
+	</g>
+	<g>
+		<text transform="matrix(0.9999998807907103 0.0000000000000000 0.0000000000000000 0.9999998807907103 173.00 266.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">50</tspan>
 		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 118.00 11.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:9.999166pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">flight time</tspan>
+		<text transform="matrix(0.9999998807907103 0.0000000000000000 0.0000000000000000 0.9999998807907103 329.00 378.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">10^3</tspan>
 		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 121.00 240.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Mavic Mini (h)</tspan>
+		<text transform="matrix(0.9999998807907103 0.0000000000000000 0.0000000000000000 0.9999998807907103 243.00 378.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">10^2</tspan>
 		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 306.00 239.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Agras T16 (g)</tspan>
+		<text transform="matrix(0.9999999403953552 0.0000000000000000 0.0000000000000000 0.9999999403953552 167.00 68.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">150</tspan>
 		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 223.00 213.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Matrice 600 (f)</tspan>
+		<text transform="matrix(0.9999999403953552 0.0000000000000000 0.0000000000000000 0.9999999403953552 341.00 12.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">power-</tspan>
+			<tspan x="0" dy="1.35em" style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">saving</tspan>
+			<tspan x="0" dy="1.35em" style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">schedule</tspan>
 		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 212.00 276.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Phantom 4 (j)</tspan>
+		<text transform="matrix(0.9999998807907103 0.0000000000000000 0.0000000000000000 0.9999998807907103 47.00 378.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">-10</tspan>
 		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 138.00 84.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Cumulus (b)</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 208.00 150.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Opterra (e)</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 143.00 144.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Ebee (d)</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 212.00 81.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Penguin BE (c)</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 66.00 311.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Nano-Hummingbird (l)</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 19.00 257.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Delfly II (k)</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 35.00 69.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Skye (a)</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 302.00 147.00)" xml:space="preserve">
-			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">rotary-wings</tspan>
-		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 321.00 277.00)" xml:space="preserve">
+		<text transform="matrix(0.9999999403953552 0.0000000000000000 0.0000000000000000 0.9999999403953552 363.00 377.00)" xml:space="preserve">
 			<tspan style=" font-family:Segoe UI; font-size:9.999166pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">M&amp;CE</tspan>
 		</text>
-		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 17.00 187.00)" xml:space="preserve">
+		<text transform="matrix(0.9999998807907103 0.0000000000000000 0.0000000000000000 0.9999998807907103 167.00 167.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.64" stroke-linejoin="round">100</tspan>
+		</text>
+		<text transform="matrix(0.9999999403953552 0.0000000000000000 0.0000000000000000 0.9999999403953552 343.00 150.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">energy-</tspan>
+			<tspan x="0" dy="1.35em" style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">optimal </tspan>
+			<tspan x="0" dy="1.35em" style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">path</tspan>
+		</text>
+		<text transform="matrix(0.9999998807907103 0.0000000000000000 0.0000000000000000 0.9999998807907103 276.00 160.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">fixed</tspan>
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">-wings</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 126.00 10.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:9.999166pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">flight time</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 111.00 321.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Mavic Mini (h)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 298.00 355.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Agras T16 (g)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 260.00 287.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Matrice 600 (f)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 198.00 352.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">DJI Phantom 4 (j)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 200.00 122.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Cumulus (b)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 146.00 233.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Opterra (e)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 225.00 192.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Ebee (d)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 259.00 137.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Penguin BE</tspan>
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#0000FF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round"> </tspan>
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">(c)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 60.00 406.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Nano-Hummingbird (l)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 7.00 339.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Delfly II (k)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 76.00 87.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">Skye (a)</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 200.00 257.00)" xml:space="preserve">
+			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">rotary-wings</tspan>
+		</text>
+		<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 76.00 337.00)" xml:space="preserve">
 			<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">flapping-wings</tspan>
 		</text>
 	</g>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 373.51,359.103L 375.486,361.401L 373.464,363.459L 379.259,361.346L 373.51,359.103 Z "/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="186.089" y1="361.336" x2="375.542" y2="361.337"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 185.985,19.6096L 188.258,17.6048L 190.341,19.6004L 188.155,13.8326L 185.985,19.6096 Z "/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="188.263" y1="372.153" x2="188.263" y2="221.551"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFFFFF" stroke-opacity="1" x1="188.263" y1="221.551" x2="188.262" y2="61.9915"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="188.262" y1="61.9915" x2="188.262" y2="59.075"/>
+	<text transform="matrix(0.9999998807907103 0.0000000000000000 0.0000000000000000 0.9999998807907103 11.00 105.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">lighter-than</tspan>
+		<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">-</tspan>
+		<tspan style=" font-family:Segoe UI; font-size:8.000000pt;" letter-spacing="0.00em" fill="#FFFFFF" fill-opacity="1" stroke-width="0.32" stroke-linejoin="round">air</tspan>
+	</text>
 </svg>
