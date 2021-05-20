@@ -1,15 +1,15 @@
 Name,Power(W),Weight(g),W/g,M&CE*,Time(min),Source
-Opterra (?),35,1000,0.04,25,75,
-Cumulus,41.2,1100,0.04,31.2,150,http://www.hydronav.com/pdf/Sky-Watch%20Cumulus%20V1%20-%20TECH%20SPECS%20-%202017-APRIL(1).pdf
-Ebee,39.7,1100,0.04,29.7,90,https://www.sensefly.com/app/uploads/2018/09/eBee-X-EN.pdfhttps://www.dronefly.com/sensefly-ebee-x-battery-endurance.html
-DJI Phantom 4,142.8,1380,0.1,132.8,30,https://store.dji.com/product/phantom-4-pro-intelligent-battery-high-capacity
-DJI Mavic Mini,27.6,249,0.11,17.6,30,https://store.dji.com/product/mavic-mini-intelligent-flight-battery
-DJI Matrice 600,822,9100,0.09,812,35,https://www.dji.com/dk/matrice600/info
-DJI Agras T16,2417.3,24500,0.1,2407.3,18,https://www.dji.com/dk/t16/info#specs
-Penguin BE640,279.3,17700,0.02,269.3,110,https://www.uavfactory.com/proddnlds/files_99_1585659977.pdf
-Skye (?),5,9500,0.01,-5,120,https://ieeexplore.ieee.org/abstract/document/6696604
-Delfly II,1.4,16,0.09,-8.6,15,https://www.springer.com/gp/book/9783540303015
-Nano-Hummingbird,3.27,19,0.17,-6.73,11,https://www.springer.com/gp/book/9783540303015
+Opterra (?),35,1000,0.035000,25,75,
+Cumulus,41.2,1100,0.037454,31.2,150,http://www.hydronav.com/pdf/Sky-Watch%20Cumulus%20V1%20-%20TECH%20SPECS%20-%202017-APRIL(1).pdf
+Ebee,39.7,1100,0.036091,29.7,90,https://www.sensefly.com/app/uploads/2018/09/eBee-X-EN.pdfhttps://www.dronefly.com/sensefly-ebee-x-battery-endurance.html
+DJI Phantom 4,142.8,1380,0.103478,132.8,30,https://store.dji.com/product/phantom-4-pro-intelligent-battery-high-capacity
+DJI Mavic Mini,27.6,249,0.110843,17.6,30,https://store.dji.com/product/mavic-mini-intelligent-flight-battery
+DJI Matrice 600,822,9100,0.090330,812,35,https://www.dji.com/dk/matrice600/info
+DJI Agras T16,2417.3,24500,0.098665,2407.3,18,https://www.dji.com/dk/t16/info#specs
+Penguin BE640,279.3,17700,0.015780,269.3,110,https://www.uavfactory.com/proddnlds/files_99_1585659977.pdf
+Skye (?),5,9500,0.000053,-5,120,https://ieeexplore.ieee.org/abstract/document/6696604
+Delfly II,1.4,16,0.087500,-8.6,15,https://www.springer.com/gp/book/9783540303015
+Nano-Hummingbird,3.27,19,0.172105,-6.73,11,https://www.springer.com/gp/book/9783540303015
 ,,,,,,
 *power - avg power of the Jetson Nano with object detection ROS node (10 W),,,,,,
 
