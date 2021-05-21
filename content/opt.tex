@@ -172,11 +172,11 @@ All these initial assumption (known final time step, absence of state constraint
 \subsection{Output model predictive control}
 \label{sec:output-mpc}
 
-In this section, we address the problem of deriving the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is the configuration of the path and computations parameters, and it differs from the nominal control. In \fref{sec:nom-cont}{Section} we presented a motivation for such control against the nominal control, based on empirical observations.  
+In this section, we derive the optimal control over a finite time horizon $N$ for an estimated state $\hat{\mathbf{q}}$. The control is the configuration of the path and computations parameters, and it differs from the nominal control. In \fref{sec:nom-cont}{Section}, we presented a motivation for such control based on empirical observations. The optimal control is then the best possible configuration of the path and computations parameters energy-wise with battery constraints.
 
-To derive the optimal control, we use the estimated state $\hat{\mathbf{q}}$ in \fref{cp:est}{Chapter}, opposed to the perfect state in \fref{cp:model}{Chapter}. The estimated state differs from the perfect state $\mathbf{q}$ due to the uncertainty. In fact, the name of output model predictive control in the literature refers to the notion that some available outputs are used to estimate the not fully known state~\citep{rawlings2017model}. For a differential model, such as the periodic model in \frefeq{eq:state-perf} in \fref{sec:periodic-model}{Section}, state estimation is done utilizing techniques such as Kalman filtering that we introduced in \fref{cp:est}{Chapter}.
+To derive the optimal control, we use the estimated state $\hat{\mathbf{q}}$ in \fref{cp:est}{Chapter}, opposed to the ideal state in \fref{cp:model}{Chapter}. The estimated state is different from the ideal state $\mathbf{q}$ due to the uncertainty. The name of output model predictive control\findex{output model predictive control} in the literature refers to the notion that some available outputs are used to estimate the not fully known state~\citep{rawlings2017model}. For a differential model, such as the periodic model in \frefeq{eq:state-perf} in \fref{sec:periodic-model}{Section}, state estimation is done utilizing filtering techniques that include the Kalman filter in \fref{cp:est}{Chapter}.
 
-Before defining and solving the OCP in the case of uncertainty over the finite horizon, let us re-evaluate the output constraints. The output of the model in \frefeq{eq:state-perf} is the instantaneous energy consumption $y$. We stated earlier that it evolves in $\mathbb{R}$. This is an inexact simplification as aerial robots are bounded by strict energy budgets due to battery limitations, as we motivated in \fref{sec:motivation}{Section}. Let us hence redefine the original output constraint ($\mathbb{R}$) to include the battery model in \fref{sec:battery-model}{Section}. We consider SoC $b$ of the mobile robot's battery with the simplistic differential model in \frefeqM{eq:battery-model-1}{eq:battery-model-2}
+The derivation of the optimal control involves the definition of an \Gls{acr:ocp} and its transformation into an \Gls{acr:nlp}. Before, however, we re-evaluate the output constraints. The output of the model in \frefeq{eq:state-perf} is the instantaneous energy consumption $y$ that we stated earlier evolves in $\mathbb{R}$. Nevertheless, aerial robots are bounded by strict energy budgets due to battery limitations, as we motivated in \fref{sec:motivation}{Section}. Hence, we redefine the original output constraint ($\mathbb{R}$) to include the battery model in \fref{sec:battery-model}{Section}. We consider SoC $b$ of the mobile robot's battery with the simplistic differential model in \frefeqM{eq:battery-model-1}{eq:battery-model-2}
 \begin{equation}\label{eq:bat}
   \dot{b}(y(t),t)=-k_b\left(V-
   \sqrt{
@@ -186,11 +186,13 @@ Before defining and solving the OCP in the case of uncertainty over the finite h
 \end{equation}
 where $k_b$ is the battery coefficient determined experimentally,  $V\in\mathbb{R}$ is the internal battery voltage measured in volts, $R_r\in\mathbb{R}$ the resistance measured in ohms, and $Q_c\in\mathbb{R}$ the constant nominal capacity measured in amperes per hour. 
 
-We note that the maximum instantaneous energy consumption can be computed by multiplying the constant nominal capacity, the SoC, and the internal battery voltage. We assume the maximum energy consumption cannot be negative
+We note the one can compute the maximum instantaneous energy consumption by multiplying the constant nominal capacity, the SoC, and the internal battery voltage. We assume the maximum energy consumption cannot be negative
 \begin{equation}
   0\leq y(t)\leq b(y(t),t)Q_cV,
 \end{equation}
 and therefore, we define a time-varying constraint for the output in \fref{def:const}{Definition}, being the maximum instantaneous energy consumption dependent on the SoC $b$ from \frefeq{eq:bat}, which is dependent on time and the instantaneous energy consumption (at the previous time step).
+
+---
 
 \begin{highlight}
 \begin{defn}[Output constraint]\label{def:const}
