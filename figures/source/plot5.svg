@@ -1,69 +1,94 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="369.8" height="445.719" viewBox="0 0 369.80 445.72" enable-background="new 0 0 369.80 445.72" xml:space="preserve">
-	<ellipse fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="206.473" cy="313.189" rx="108.541" ry="108.541"/>
-	<line fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="246.178" y1="17.3729" x2="246.178" y2="429.919"/>
-	<line fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="98.0253" y1="17.6321" x2="98.0253" y2="430.178"/>
-	<line fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="43.6657" y1="17.6321" x2="43.6657" y2="430.178"/>
-	<line fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="28.9815" y1="17.3633" x2="28.9815" y2="429.909"/>
-	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 12.1513,14.2225L 14.4243,12.2176L 16.5077,14.2134L 14.3218,8.44507L 12.1513,14.2225 Z "/>
-	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 355.096,325.732L 357.072,328.03L 355.05,330.088L 360.846,327.975L 355.096,325.732 Z "/>
-	<ellipse fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="152.266" cy="313.189" rx="108.541" ry="108.541"/>
-	<ellipse fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="144.937" cy="125.066" rx="101.245" ry="101.245"/>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 202.00 40.00)" xml:space="preserve">
-		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V4</tspan>
-	</text>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 38.00 444.00)" xml:space="preserve">
-		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V5</tspan>
-	</text>
-	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 4.11042,328.006L 332.131,328.006L 335.918,334.394L 341.038,323.194L 344.558,328.006L 359.31,328.006"/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="14.4248" y1="438.037" x2="14.4254" y2="10.8362"/>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 364.00 341.00)" xml:space="preserve">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" width="261.074" height="596.983" viewBox="0 0 261.07 596.98" enable-background="new 0 0 261.07 596.98" xml:space="preserve">
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="166.525" y1="13.8179" x2="166.525" y2="289.377"/>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="31.258" y1="13.9911" x2="31.258" y2="289.55"/>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="21.4498" y1="13.8115" x2="21.4498" y2="289.37"/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 9.41113,12.2326L 11.6841,10.2276L 13.7675,12.2234L 11.5816,6.45508L 9.41113,12.2326 Z "/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 239.356,219.042L 241.332,221.34L 239.31,223.398L 245.106,221.285L 239.356,219.042 Z "/>
+	<ellipse fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="103.797" cy="211.407" rx="72.4996" ry="72.4996"/>
+	<ellipse fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="98.9017" cy="85.7513" rx="67.6262" ry="67.6262"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 4.83725,221.304L 223.937,221.304L 226.467,225.571L 229.887,218.09L 232.238,221.304L 242.092,221.304"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="11.7269" y1="294.799" x2="11.7273" y2="9.45172"/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 255.00 235.00)" xml:space="preserve">
 		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">x</tspan>
 	</text>
 	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 0.00 6.00)" xml:space="preserve">
 		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">y</tspan>
 	</text>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 48.00 120.00)" xml:space="preserve">
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 41.00 88.00)" xml:space="preserve">
 		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">t4</tspan>
 	</text>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="28.9815" y1="123.803" x2="28.9815" y2="313.648"/>
-	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 246.107,313.189C 246.107,373.134 197.512,421.73 137.566,421.73C 77.6205,421.73 29.025,373.134 29.025,313.189"/>
-	<path fill="none" stroke-width="0.64" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 315.014,313.189C 315.014,373.134 266.419,421.73 206.473,421.73C 146.528,421.73 97.9322,373.134 97.9322,313.189"/>
-	<ellipse fill="none" stroke-width="0.32" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="172.038" cy="123.591" rx="74.1425" ry="74.1425"/>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 67.00 375.00)" xml:space="preserve">
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="21.4498" y1="84.9078" x2="21.4498" y2="211.714"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 166.478,211.407C 166.478,251.447 134.019,283.906 93.9784,283.906C 53.938,283.906 21.4788,251.447 21.4788,211.407"/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 159.00 271.00)" xml:space="preserve">
 		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V6</tspan>
 	</text>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="246.178" y1="123.797" x2="246.178" y2="313.642"/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 35.0576,17.1373L 33.0527,14.8644L 35.0485,12.7809L 29.2801,14.9669L 35.0576,17.1373 Z "/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="43.6657" y1="123.803" x2="43.6657" y2="313.648"/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="97.9252" y1="124.142" x2="97.9253" y2="313.648"/>
-	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 260.807,313.189C 260.807,373.134 212.212,421.73 152.266,421.73C 92.3205,421.73 43.725,373.134 43.725,313.189"/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 91.8885,29.7809L 93.8934,32.0538L 91.8976,34.1373L 97.6659,31.9513L 91.8885,29.7809 Z "/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="31.5633" y1="31.9656" x2="95.4033" y2="31.9656"/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 35.0674,34.0936L 33.0624,31.8207L 35.0582,29.7372L 29.2899,31.9232L 35.0674,34.0936 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 37.5982,12.7372L 39.6031,15.0101L 37.6073,17.0936L 43.3756,14.9076L 37.5982,12.7372 Z "/>
-	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="31.573" y1="14.9223" x2="42.0228" y2="14.9223"/>
-	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 97.8957,123.591C 97.8957,82.6437 131.09,49.449 172.038,49.449C 212.986,49.449 246.181,82.6437 246.181,123.591"/>
-	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 43.6919,125.066C 43.6919,69.1503 89.0209,23.8212 144.937,23.8212C 200.853,23.8212 246.182,69.1503 246.182,125.066"/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 97.9627,122.646C 98.4764,122.646 98.8927,123.063 98.8927,123.576C 98.8927,124.09 98.4764,124.506 97.9627,124.506C 97.4491,124.506 97.0327,124.09 97.0327,123.576C 97.0327,123.063 97.4491,122.646 97.9627,122.646 Z "/>
-	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 43.5894,122.62C 44.103,122.62 44.5194,123.036 44.5194,123.55C 44.5194,124.063 44.103,124.48 43.5894,124.48C 43.0758,124.48 42.6594,124.063 42.6594,123.55C 42.6594,123.036 43.0758,122.62 43.5894,122.62 Z "/>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 189.00 70.00)" xml:space="preserve">
-		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V4&apos;</tspan>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="166.525" y1="84.9038" x2="166.525" y2="211.71"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 25.5084,86.2307L 24.1693,84.7125L 25.5023,83.3209L 21.6494,84.7809L 25.5084,86.2307 Z "/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="31.258" y1="84.9077" x2="31.258" y2="211.714"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 176.297,211.407C 176.297,251.447 143.838,283.906 103.797,283.906C 63.7568,283.906 31.2977,251.447 31.2977,211.407"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 27.2053,83.2917L 28.5445,84.8099L 27.2114,86.2015L 31.0644,84.7414L 27.2053,83.2917 Z "/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="23.1807" y1="84.7511" x2="30.1606" y2="84.7511"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 31.2755,85.7512C 31.2755,48.4024 61.5528,18.1251 98.9017,18.1251C 136.251,18.1251 166.528,48.4024 166.528,85.7512"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 31.207,84.1171C 31.5501,84.1171 31.8282,84.3952 31.8282,84.7383C 31.8282,85.0814 31.5501,85.3595 31.207,85.3595C 30.8639,85.3595 30.5858,85.0814 30.5858,84.7383C 30.5858,84.3952 30.8639,84.1171 31.207,84.1171 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 106.00 14.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V4</tspan>
 	</text>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 102.00 120.00)" xml:space="preserve">
+	<ellipse fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="139.994" cy="513.271" rx="72.4996" ry="72.4996"/>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="166.515" y1="315.682" x2="166.515" y2="591.241"/>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="67.5564" y1="315.855" x2="67.5564" y2="591.414"/>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="21.4389" y1="315.676" x2="21.4389" y2="591.234"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 4.82642,523.168L 223.927,523.168L 226.456,527.435L 229.876,519.954L 232.227,523.168L 242.081,523.168"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="11.7159" y1="596.663" x2="11.7162" y2="311.316"/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 0.00 308.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">y</tspan>
+	</text>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="21.4389" y1="386.772" x2="21.4389" y2="513.578"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 166.467,513.271C 166.467,553.311 134.008,585.771 93.9675,585.771C 53.9271,585.771 21.468,553.311 21.468,513.271"/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 212.493,513.271C 212.493,553.311 180.034,585.771 139.994,585.771C 99.9535,585.771 67.4943,553.311 67.4943,513.271"/>
+	<ellipse fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" cx="116.993" cy="386.63" rx="49.5232" ry="49.5232"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="166.515" y1="386.768" x2="166.515" y2="513.574"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" x1="67.4897" y1="386.998" x2="67.4897" y2="513.578"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 63.4572,385.196L 64.7964,386.714L 63.4633,388.106L 67.3163,386.646L 63.4572,385.196 Z "/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="23.1634" y1="386.655" x2="65.8052" y2="386.655"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 25.504,388.077L 24.1649,386.558L 25.4979,385.167L 21.645,386.627L 25.504,388.077 Z "/>
+	<path fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#000000" stroke-opacity="1" d="M 67.4698,386.63C 67.4698,359.279 89.6422,337.107 116.993,337.107C 144.344,337.107 166.516,359.279 166.516,386.63"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 67.5147,385.999C 67.8578,385.999 68.1359,386.277 68.1359,386.62C 68.1359,386.963 67.8578,387.241 67.5147,387.241C 67.1716,387.241 66.8935,386.963 66.8935,386.62C 66.8935,386.277 67.1716,385.999 67.5147,385.999 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 74.00 389.00)" xml:space="preserve">
 		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">t4&apos;</tspan>
 	</text>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 91.00 444.00)" xml:space="preserve">
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 67.00 312.00)" xml:space="preserve">
 		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V5&apos;</tspan>
 	</text>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 123.00 375.00)" xml:space="preserve">
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 193.00 575.00)" xml:space="preserve">
 		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V6&apos;</tspan>
 	</text>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 34.00 10.00)" xml:space="preserve">
-		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">l</tspan>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 9.43352,314.053L 11.7064,312.048L 13.7899,314.044L 11.6039,308.276L 9.43352,314.053 Z "/>
+	<path fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 238.904,520.87L 240.88,523.168L 238.858,525.226L 244.653,523.113L 238.904,520.87 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 31.00 11.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V5</tspan>
 	</text>
-	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 45.00 29.00)" xml:space="preserve">
-		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">l&apos;</tspan>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 111.00 332.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">V4</tspan>
+	</text>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 255.00 536.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">x</tspan>
+	</text>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="115.01" y1="388.611" x2="119.012" y2="384.61"/>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="114.965" y1="384.613" x2="118.966" y2="388.615"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="93.7878" y1="344.592" x2="101.603" y2="358.742"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="109.477" y1="372.882" x2="117.058" y2="386.55"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 93.8235,347.63L 94.4713,345.712L 96.3424,346.173L 93.1551,343.562L 93.8235,347.63 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 99.00 369.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">r+c&apos;</tspan>
+	</text>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="96.9539" y1="87.7407" x2="100.955" y2="83.7393"/>
+	<line fill="none" stroke-width="0.319997" stroke-linejoin="round" stroke="#989898" stroke-opacity="1" x1="96.9086" y1="83.743" x2="100.91" y2="87.7444"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="73.7468" y1="24.9595" x2="83.4143" y2="48.3037"/>
+	<line fill="none" stroke-width="0.640004" stroke-linejoin="round" stroke="#FFC800" stroke-opacity="1" x1="89.2671" y1="62.4363" x2="98.9467" y2="85.8098"/>
+	<path fill="#FFC800" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round" d="M 73.215,27.7839L 74.0489,25.9391L 75.8654,26.5827L 72.9511,23.6699L 73.215,27.7839 Z "/>
+	<text transform="matrix(1.0000000000000000 0.0000000000000000 0.0000000000000000 1.0000000000000000 77.00 58.00)" xml:space="preserve">
+		<tspan style=" font-family:Segoe UI; font-size:10.000000pt;" letter-spacing="0.00em" fill="#000000" fill-opacity="1" stroke-width="0.2" stroke-linejoin="round">r+c</tspan>
 	</text>
 </svg>

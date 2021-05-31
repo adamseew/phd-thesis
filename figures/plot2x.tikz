@@ -1,0 +1,11 @@
+
+\def \globalscale {1.00000}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-.7*\globalscale, xscale=.7*\globalscale, inner sep=0pt, outer sep=0pt,spy using outlines={circle,white,magnification=12,size=2cm, connect spies}]
+
+\path[cm={{1.0,0.0,0.0,1.0,(0,0)}}] (0.0000,0.0000) node[below right] () {\includegraphics[width=3.122in]{figures/source/out30(1)}};
+
+
+\spy on (201.6,-112) in node [left] at (160,100);
+
+\end{tikzpicture}
+

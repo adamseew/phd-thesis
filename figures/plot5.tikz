@@ -2,67 +2,45 @@
 \definecolor{c989898}{RGB}{152,152,152}
 
 
-
-
-
-
-
-
 \def \globalscale {1.000000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
-\path[draw=c989898,line join=round,line width=0.256pt] (206.4730,313.1890) ellipse (3.0633cm and 3.0633cm);
+\path[draw=c989898,line join=round,line width=0.256pt] (166.5250,13.8179) -- (166.5250,289.3770);
 
 
 
-\path[draw=c989898,line join=round,line width=0.256pt] (246.1780,17.3729) -- (246.1780,429.9190);
+\path[draw=c989898,line join=round,line width=0.256pt] (31.2580,13.9911) -- (31.2580,289.5500);
 
 
 
-\path[draw=c989898,line join=round,line width=0.256pt] (98.0253,17.6321) -- (98.0253,430.1780);
+\path[draw=c989898,line join=round,line width=0.256pt] (21.4498,13.8115) -- (21.4498,289.3700);
 
 
 
-\path[draw=c989898,line join=round,line width=0.256pt] (43.6657,17.6321) -- (43.6657,430.1780);
+\path[fill=black,line join=round,line width=0.160pt] (9.4111,12.2326) -- (11.6841,10.2276) -- (13.7675,12.2234) -- (11.5816,6.4551) -- (9.4111,12.2326) -- cycle;
 
 
 
-\path[draw=c989898,line join=round,line width=0.256pt] (28.9815,17.3633) -- (28.9815,429.9090);
+\path[fill=black,line join=round,line width=0.160pt] (239.3560,219.0420) -- (241.3320,221.3400) -- (239.3100,223.3980) -- (245.1060,221.2850) -- (239.3560,219.0420) -- cycle;
 
 
 
-\path[fill=black,line join=round,line width=0.160pt] (12.1513,14.2225) -- (14.4243,12.2176) -- (16.5077,14.2134) -- (14.3218,8.4451) -- (12.1513,14.2225) -- cycle;
+\path[draw=c989898,line join=round,line width=0.256pt] (103.7970,211.4070) ellipse (2.0461cm and 2.0461cm);
 
 
 
-\path[fill=black,line join=round,line width=0.160pt] (355.0960,325.7320) -- (357.0720,328.0300) -- (355.0500,330.0880) -- (360.8460,327.9750) -- (355.0960,325.7320) -- cycle;
+\path[draw=c989898,line join=round,line width=0.256pt] (98.9017,85.7513) ellipse (1.9086cm and 1.9086cm);
 
 
 
-\path[draw=c989898,line join=round,line width=0.256pt] (152.2660,313.1890) ellipse (3.0633cm and 3.0633cm);
+\path[draw=black,line join=round,line width=0.512pt] (4.8373,221.3040) -- (223.9370,221.3040) -- (226.4670,225.5710) -- (229.8870,218.0900) -- (232.2380,221.3040) -- (242.0920,221.3040);
 
 
 
-\path[draw=c989898,line join=round,line width=0.256pt] (144.9370,125.0660) ellipse (2.8574cm and 2.8574cm);
+\path[draw=black,line join=round,line width=0.512pt] (11.7269,294.7990) -- (11.7273,9.4517);
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(202.0,40.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_4(\overline{c}_{4,1})$};
-
-
-
-\path[cm={{1.0,0.0,0.0,1.0,(38.0,446.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_5(\overline{c}_{4,1})$};
-
-
-
-\path[draw=black,line join=round,line width=0.512pt] (4.1104,328.0060) -- (332.1310,328.0060) -- (335.9180,334.3940) -- (341.0380,323.1940) -- (344.5580,328.0060) -- (359.3100,328.0060);
-
-
-
-\path[draw=black,line join=round,line width=0.512pt] (14.4248,438.0370) -- (14.4254,10.8362);
-
-
-
-\path[cm={{1.0,0.0,0.0,1.0,(364.0,341.0)}}] (0.0000,0.0000) node[above right] () {$x$};
+\path[cm={{1.0,0.0,0.0,1.0,(255.0,235.0)}}] (0.0000,0.0000) node[above right] () {$x$};
 
 
 
@@ -70,112 +48,209 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(48.0,120.0)}}] (0.0000,0.0000) node[above right] () {$\mathbf{p}_{\Gamma_4}(\overline{c}_{4,1})$};
+%\path[cm={{1.0,0.0,0.0,1.0,(41.0,98.0)}}] (0.0000,0.0000) node[above right] () {$\mathbf{p}_{\Gamma_4}(\overline{c}_{4,1})$};
 
 
 
-\path[draw=black,line join=round,line width=0.512pt] (28.9815,123.8030) -- (28.9815,313.6480);
+\path[draw=black,line join=round,line width=0.512pt] (21.4498,84.9078) -- (21.4498,211.7140);
 
 
 
-\path[draw=black,line join=round,line width=0.512pt] (246.1070,313.1890) .. controls (246.1070,373.1340) and (197.5120,421.7300) .. (137.5660,421.7300) .. controls (77.6205,421.7300) and (29.0250,373.1340) .. (29.0250,313.1890);
+\path[draw=black,line join=round,line width=0.512pt] (166.4780,211.4070) .. controls (166.4780,251.4470) and (134.0190,283.9060) .. (93.9784,283.9060) .. controls (53.9380,283.9060) and (21.4788,251.4470) .. (21.4788,211.4070);
 
 
 
-\path[draw=black,line join=round,line width=0.512pt] (315.0140,313.1890) .. controls (315.0140,373.1340) and (266.4190,421.7300) .. (206.4730,421.7300) .. controls (146.5280,421.7300) and (97.9322,373.1340) .. (97.9322,313.1890);
+\path[cm={{1.0,0.0,0.0,1.0,(159.0,271.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_6(\overline{c}_{4,1})$};
 
 
 
-\path[draw=c989898,line join=round,line width=0.256pt] (172.0380,123.5910) ellipse (2.0925cm and 2.0925cm);
+\path[draw=black,line join=round,line width=0.512pt] (166.5250,84.9038) -- (166.5250,211.7100);
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(68.0,376.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_6(\overline{c}_{4,1})$};
+\path[fill=foo,line join=round,line width=0.160pt] (25.5084,86.2307) -- (24.1693,84.7125) -- (25.5023,83.3209) -- (21.6494,84.7809) -- (25.5084,86.2307) -- cycle;
 
 
 
-\path[draw=black,line join=round,line width=0.512pt] (246.1780,123.7970) -- (246.1780,313.6420);
+\path[draw=black,line join=round,line width=0.512pt] (31.2580,84.9077) -- (31.2580,211.7140);
 
 
 
-\path[fill=foo,line join=round,line width=0.160pt] (35.0576,17.1373) -- (33.0527,14.8644) -- (35.0485,12.7809) -- (29.2801,14.9669) -- (35.0576,17.1373) -- cycle;
+\path[draw=black,line join=round,line width=0.512pt] (176.2970,211.4070) .. controls (176.2970,251.4470) and (143.8380,283.9060) .. (103.7970,283.9060) .. controls (63.7568,283.9060) and (31.2977,251.4470) .. (31.2977,211.4070);
 
 
 
+\path[fill=foo,line join=round,line width=0.160pt] (27.2053,83.2917) -- (28.5445,84.8099) -- (27.2114,86.2015) -- (31.0644,84.7414) -- (27.2053,83.2917) -- cycle;
 
-\path[draw=black,line join=round,line width=0.512pt] (43.6657,123.8030) -- (43.6657,313.6480);
 
 
+\path[draw=foo,line join=round,line width=0.512pt] (23.1807,84.7511) -- (30.1606,84.7511);
 
-\path[draw=black,line join=round,line width=0.512pt] (97.9252,124.1420) -- (97.9253,313.6480);
 
 
+\path[draw=black,line join=round,line width=0.512pt] (31.2755,85.7512) .. controls (31.2755,48.4024) and (61.5528,18.1251) .. (98.9017,18.1251) .. controls (136.2510,18.1251) and (166.5280,48.4024) .. (166.5280,85.7512);
 
-\path[draw=black,line join=round,line width=0.512pt] (260.8070,313.1890) .. controls (260.8070,373.1340) and (212.2120,421.7300) .. (152.2660,421.7300) .. controls (92.3205,421.7300) and (43.7250,373.1340) .. (43.7250,313.1890);
 
 
+%\path[fill=red,line join=round,line width=0.160pt] (31.2070,84.1171) .. controls (31.5501,84.1171) and (31.8282,84.3952) .. (31.8282,84.7383) .. controls (31.8282,85.0814) and (31.5501,85.3595) .. (31.2070,85.3595) .. controls (30.8639,85.3595) and (30.5858,85.0814) .. (30.5858,84.7383) .. controls (30.5858,84.3952) and (30.8639,84.1171) .. (31.2070,84.1171) -- cycle;
 
-\path[fill=foo,line join=round,line width=0.160pt] (91.8885,29.7809) -- (93.8934,32.0538) -- (91.8976,34.1373) -- (97.6659,31.9513) -- (91.8885,29.7809) -- cycle;
 
 
+\path[cm={{1.0,0.0,0.0,1.0,(106.0,14.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_4(\overline{c}_{4,1})$};
 
-\path[draw=foo,line join=round,line width=0.512pt] (31.5633,31.9656) -- (95.4033,31.9656);
 
-\path[fill=foo,line join=round,line width=0.160pt] (35.0674,34.0936) -- (33.0624,31.8207) -- (35.0582,29.7372) -- (29.2899,31.9232) -- (35.0674,34.0936) -- cycle;
 
+\path[draw=c989898,line join=round,line width=0.256pt] (139.9940,513.2710) ellipse (2.0461cm and 2.0461cm);
 
 
-\path[fill=foo,line join=round,line width=0.160pt] (37.5982,12.7372) -- (39.6031,15.0101) -- (37.6073,17.0936) -- (43.3756,14.9076) -- (37.5982,12.7372) -- cycle;
 
+\path[draw=c989898,line join=round,line width=0.256pt] (166.5150,315.6820) -- (166.5150,591.2410);
 
 
-\path[draw=foo,line join=round,line width=0.512pt] (31.5730,14.9223) -- (42.0228,14.9223);
 
+\path[draw=c989898,line join=round,line width=0.256pt] (67.5564,315.8550) -- (67.5564,591.4140);
 
 
-\path[draw=black,line join=round,line width=0.512pt] (97.8957,123.5910) .. controls (97.8957,82.6437) and (131.0900,49.4490) .. (172.0380,49.4490) .. controls (212.9860,49.4490) and (246.1810,82.6437) .. (246.1810,123.5910);
 
+\path[draw=c989898,line join=round,line width=0.256pt] (21.4389,315.6760) -- (21.4389,591.2340);
 
 
-\path[draw=black,line join=round,line width=0.512pt] (43.6919,125.0660) .. controls (43.6919,69.1503) and (89.0209,23.8212) .. (144.9370,23.8212) .. controls (200.8530,23.8212) and (246.1820,69.1503) .. (246.1820,125.0660);
 
+\path[draw=black,line join=round,line width=0.512pt] (4.8264,523.1680) -- (223.9270,523.1680) -- (226.4560,527.4350) -- (229.8760,519.9540) -- (232.2270,523.1680) -- (242.0810,523.1680);
 
 
-\path[fill=foo,line join=round,line width=0.160pt] (97.9627,122.6460) .. controls (98.4764,122.6460) and (98.8927,123.0630) .. (98.8927,123.5760) .. controls (98.8927,124.0900) and (98.4764,124.5060) .. (97.9627,124.5060) .. controls (97.4491,124.5060) and (97.0327,124.0900) .. (97.0327,123.5760) .. controls (97.0327,123.0630) and (97.4491,122.6460) .. (97.9627,122.6460) -- cycle;
 
+\path[draw=black,line join=round,line width=0.512pt] (11.7159,596.6630) -- (11.7162,311.3160);
 
 
-\path[fill=foo,line join=round,line width=0.160pt] (43.5894,122.6200) .. controls (44.1030,122.6200) and (44.5194,123.0360) .. (44.5194,123.5500) .. controls (44.5194,124.0630) and (44.1030,124.4800) .. (43.5894,124.4800) .. controls (43.0758,124.4800) and (42.6594,124.0630) .. (42.6594,123.5500) .. controls (42.6594,123.0360) and (43.0758,122.6200) .. (43.5894,122.6200) -- cycle;
 
+\path[cm={{1.0,0.0,0.0,1.0,(0.0,308.0)}}] (0.0000,0.0000) node[above right] () {$y$};
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(176.0,80.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_4(\underline{c}_{4,1})$};
 
+\path[draw=black,line join=round,line width=0.512pt] (21.4389,386.7720) -- (21.4389,513.5780);
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(102.0,121.0)}}] (0.0000,0.0000) node[above right] () {$\mathbf{p}_{\Gamma_4}(\underline{c}_{4,1})$};
 
+\path[draw=black,line join=round,line width=0.512pt] (166.4670,513.2710) .. controls (166.4670,553.3110) and (134.0080,585.7710) .. (93.9675,585.7710) .. controls (53.9271,585.7710) and (21.4680,553.3110) .. (21.4680,513.2710);
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(91.0,447.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_5(\underline{c}_{4,1})$};
 
+\path[draw=black,line join=round,line width=0.512pt] (212.4930,513.2710) .. controls (212.4930,553.3110) and (180.0340,585.7710) .. (139.9940,585.7710) .. controls (99.9535,585.7710) and (67.4943,553.3110) .. (67.4943,513.2710);
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(123.0,376.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_6(\underline{c}_{4,1})$};
+\path[draw=c989898,line join=round,line width=0.256pt] (116.9930,386.6300) ellipse (1.3977cm and 1.3977cm);
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(20.0,11.0)}}] (0.0000,0.0000) node[above right] () {$r_2(\overline{c}_{4,1})$};
+\path[draw=black,line join=round,line width=0.512pt] (166.5150,386.7680) -- (166.5150,513.5740);
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(45.0,30.0)}}] (0.0000,0.0000) node[above right] () {$r_2(\underline{c}_{4,1})$};
+\path[draw=black,line join=round,line width=0.512pt] (67.4897,386.9980) -- (67.4897,513.5780);
 
 
-\path[fill=foo,line join=round,line width=0.160pt] (246.5894,122.6200) .. controls (247.1030,122.6200) and (247.5194,123.0360) .. (247.5194,123.5500) .. controls (247.5194,124.0630) and (247.1030,124.4800) .. (246.5894,124.4800) .. controls (246.0758,124.4800) and (245.6594,124.0630) .. (245.6594,123.5500) .. controls (245.6594,123.0360) and (246.0758,122.6200) .. (246.5894,122.6200) -- cycle;
 
-\path[cm={{1.0,0.0,0.0,1.0,(250.0,121.0)}}] (0.0000,0.0000) node[above right] () {$\mathbf{p}_{\Gamma_3}$};
+\path[fill=foo,line join=round,line width=0.160pt] (63.4572,385.1960) -- (64.7964,386.7140) -- (63.4633,388.1060) -- (67.3163,386.6460) -- (63.4572,385.1960) -- cycle;
+
+
+
+\path[draw=foo,line join=round,line width=0.512pt] (23.1634,386.6550) -- (65.8052,386.6550);
+
+
+
+\path[fill=foo,line join=round,line width=0.160pt] (25.5040,388.0770) -- (24.1649,386.5580) -- (25.4979,385.1670) -- (21.6450,386.6270) -- (25.5040,388.0770) -- cycle;
+
+
+
+\path[draw=black,line join=round,line width=0.512pt] (67.4698,386.6300) .. controls (67.4698,359.2790) and (89.6422,337.1070) .. (116.9930,337.1070) .. controls (144.3440,337.1070) and (166.5160,359.2790) .. (166.5160,386.6300);
+
+
+
+%\path[fill=red,line join=round,line width=0.160pt] (67.5147,385.9990) .. controls (67.8578,385.9990) and (68.1359,386.2770) .. (68.1359,386.6200) .. controls (68.1359,386.9630) and (67.8578,387.2410) .. (67.5147,387.2410) .. controls (67.1716,387.2410) and (66.8935,386.9630) .. (66.8935,386.6200) .. controls (66.8935,386.2770) and (67.1716,385.9990) .. (67.5147,385.9990) -- cycle;
+
+
+
+%\path[cm={{1.0,0.0,0.0,1.0,(70.0,402.0)}}] (0.0000,0.0000) node[above right] () {$\mathbf{p}_{\Gamma_4}(\underline{c}_{4,1})$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(67.0,312.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_5(\underline{c}_{4,1})$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(193.0,575.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_6(\underline{c}_{4,1})$};
+
+
+
+\path[fill=black,line join=round,line width=0.160pt] (9.4335,314.0530) -- (11.7064,312.0480) -- (13.7899,314.0440) -- (11.6039,308.2760) -- (9.4335,314.0530) -- cycle;
+
+
+
+\path[fill=black,line join=round,line width=0.160pt] (238.9040,520.8700) -- (240.8800,523.1680) -- (238.8580,525.2260) -- (244.6530,523.1130) -- (238.9040,520.8700) -- cycle;
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(31.0,11.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_5(\overline{c}_{4,1})$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(111.0,332.0)}}] (0.0000,0.0000) node[above right] () {$\varphi_4(\underline{c}_{4,1})$};
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(255.0,536.0)}}] (0.0000,0.0000) node[above right] () {$x$};
+
+
+
+\path[draw=c989898,line join=round,line width=0.256pt] (115.0100,388.6110) -- (119.0120,384.6100);
+
+
+
+\path[draw=c989898,line join=round,line width=0.256pt] (114.9650,384.6130) -- (118.9660,388.6150);
+
+
+
+\path[draw=foo,line join=round,line width=0.512pt] (93.7878,344.5920) -- (101.6030,358.7420);
+
+
+
+\path[draw=foo,line join=round,line width=0.512pt] (109.4770,372.8820) -- (117.0580,386.5500);
+
+
+
+\path[fill=foo,line join=round,line width=0.160pt] (93.8235,347.6300) -- (94.4713,345.7120) -- (96.3424,346.1730) -- (93.1551,343.5620) -- (93.8235,347.6300) -- cycle;
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(99.0,372.0)}}] (0.0000,0.0000) node[above right] () {$r_2(\underline{c}_{4,1})$};
+
+
+
+\path[draw=c989898,line join=round,line width=0.256pt] (96.9539,87.7407) -- (100.9550,83.7393);
+
+
+
+\path[draw=c989898,line join=round,line width=0.256pt] (96.9086,83.7430) -- (100.9100,87.7444);
+
+
+
+\path[draw=foo,line join=round,line width=0.512pt] (73.7468,24.9595) -- (83.4143,48.3037);
+
+
+
+\path[draw=foo,line join=round,line width=0.512pt] (89.2671,62.4363) -- (98.9467,85.8098);
+
+
+
+\path[fill=foo,line join=round,line width=0.160pt] (73.2150,27.7839) -- (74.0489,25.9391) -- (75.8654,26.5827) -- (72.9511,23.6699) -- (73.2150,27.7839) -- cycle;
+
+
+
+\path[cm={{1.0,0.0,0.0,1.0,(77.0,61.0)}}] (0.0000,0.0000) node[above right] () {$r_2(\overline{c}_{4,1})$};
+
+
 
 
 \end{tikzpicture}
