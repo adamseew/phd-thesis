@@ -3,20 +3,22 @@
 %                    %
 % State of the Art   %
 %                    %
-\chapter{\color{red}State of the Art}
+\chapter{State of the Art}
 \label{cp:soa}
 
-%\begin{highlight}
-%    \begin{st}
-%        Pasted energy modeling in \fref{cp:soa:ene-mod}{Section} from~\citep{seewald2019coarse}, rest dummy text.
-%    \end{st} 
-%\end{highlight}
+In this chapter, we discuss the state of the art in dynamic energy planning for autonomous aerial robots. Generally, planning algorithms in robotics center around robot motion planning and deal with problems such as swarms, dynamics, and uncertainty~\citep{lavalle2006planning}. Although there are several contributions applied to a variety of mobile robots, we primarily focus on the literature with the objective of planning dynamically the path along with the computations. We especially emphasize approaches applied to aerial robots with energy constraints operating in coverage problems. To this end, we split the chapter into multiple sections and replicate our workflow throughout the topic. Initially, we analyzed some contributions that quantify the energy consumption of computing hardware carried by mobile robots. Modeling of the energy of these devices has laid the foundation for our later analysis. In \fref{sec:soa-ene-mod}{Section}, we report our findings. We then briefly discuss some approaches for motion planning and planning with dynamical systems in \fref{sec:soa-motion-pl}{Sections}\fref{sec:soa-dynamics-pl}{--\hspace{-.8ex}}. \fref{sec:soa-aerial-pl}{Section} is entirely dedicated to planning for aerial robots. In particular, we outline our findings on how planning occurs in terms of defining an autonomous flight plan. We then analyze the literature on energy modeling, state estimation, and optimal control for aerial robots. Although simultaneous dynamic planning of computations and motion is underrepresented, some recent contributions have proposed various techniques and motivated our analysis. We report these in detail in \fref{sec:soa-comp-motion-pl}{Section}.
 
-%\lettrine{A}{a}
+This chapter connects to the remainder of this work as follows. In \fref{sec:soa-ene-mod}{Section} we discuss the state of the art on topics that allowed us to derive a dynamic energy planning approach for autonomous aerial robots. Based on these findings, we later propose a computations energy modeling technique to derive future energy consumption of mobile computing elements along with motion in \fref{cp:model}{Chapter}. Motion planning in the context of mobile robots and planning under dynamics are the basis for the derivation of the optimal configuration in \fref{cp:opt}{Chapter} of the plan and the planning problem that we defined in \fref{cp:pb}{Chapter}.       
 
 
 \section{\color{cyan}Energy Modeling}
-\label{cp:soa:ene-mod}
+\label{sec:soa-ene-mod}
+
+%Because of the unpredictable nature of these architectures, our
+%models are built using statistical analysis based on physical energy-consumption
+%measurements and hardware characteristics observed during program execution,
+%including Performance Monitoring Units (PMUs).
+%from teamplay deliv. D4.3
 
 Marowka developed a power-metrics based analytical model, to exploit the possibility of considerably increasing energy efficiency by choosing an optimal chip configuration, which we extended to evaluate the impact of different architectural design choices on energy efficiency~\citep{marowka2017energy}. Marowka's theoretical contribution shows three processing schemes for heterogeneous computing with a comparison of their respective energy efficiency. Variations in chip configurations are done to investigate the impact on energy, power, and performance. Symmetric processor scheme consists of only a multicore CPU. Asymmetric CPU-GPU processor scheme consists of both CPU and GPU on the hardware side, and of a program running on CPU or GPU, but not on both in the same time interval, on the software side. CPU-GPU simultaneous processing scheme consists of a program running on CPU and GPU simultaneously. Our work extends and starts from Marowka's approach by building an experimental method to the CPU-GPU simultaneous processing scheme.
 
@@ -34,14 +36,16 @@ Calore et al. develop an approach for measuring power efficiency for High-Perfor
 
 
 \section{\color{cyan}Motion Planning}
+\label{sec:soa-motion-pl}
 
 Planning algorithms literature for mobile robots includes topics such as trajectory generation and path planning. Generally, the algorithms select an energy-optimized trajectory~\cite{mei2004energy}, e.g., by maximizing the operational time~\cite{wahab2015energy}. However, they apply to a small number of robots~\cite{kim2005energy} and focus exclusively on planning the trajectory~\cite{kim2008minimum}, despite compelling evidence for the energy consumption also being significantly influenced by computations~\cite{mei2005case}. Given the availability of powerful GPU-equipped mobile hardware~\cite{rizvi2017general}, the use of computations is expected to increase in the near future~\cite{abramov2012real,satria2016real,jaramillo2019visual}. More complex planning, which includes a broader concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}. For UAVs specifically, rotorcrafts have also gained interest in terms of algorithms for energy-optimized trajectory generation~\cite{morbidi2016minimum,kreciglowa2017energy}. 
 
 
 \section{\color{red}Planning with Dynamics}
-
+\label{sec:soa-dynamics-pl}
 
 \section{\color{red}Planning for Autonomous Aerial Robots}
+\label{sec:soa-aerial-pl}
 
 \subsection{\color{red}Flight controllers}
 
@@ -53,7 +57,7 @@ Planning algorithms literature for mobile robots includes topics such as traject
 
 
 \section{\color{red}Planning Computations with Motion}
-
+\label{sec:soa-comp-motion-pl}
 
 \section{\color{red}Summary}
 
