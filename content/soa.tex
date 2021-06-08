@@ -23,6 +23,10 @@ Modern computing hardware energy modeling and optimization techniques often deal
 
 A model for heterogeneous elements is derived in~\citep{marowka2017energy}. The model is based on some power metrics: the scaled speedup, scaled performance per watt, and scaled performance per joule. The author increases energy efficiency by choosing the configuration of the heterogeneous components: for instance, by enabling computations only on CPU cores, and hence, investigates the impact of different architectural choices on energy efficiency. In particular, the model is used to analyze the energy of three processing schemes: symmetric, asymmetric, and simultaneous. The former processing scheme utilizes merely a multicore CPU. Asymmetric processing scheme both CPU and GPU. The software benchmark on this scheme consists of running a program on one of the computing elements at a time. The latter processing scheme is similar to the previous one but the software benchmark runs on CPU and GPU simultaneously. Our work extends the model and builds an experimental method to the simultaneous processing scheme.
 
+A more sophisticated statistical model that relies on multivariate linear regression for heterogeneous elements is derived in~\citep{bailey2014adaptive}. The model aims to allow selecting the application's configuration that maximizes performance under given power constraints. It is trained offline with a small set of benchmarks and works across multiple devices. The overall flow of the proposed approach is composed of two stages. The first stage is the offline training stage. It utilizes a small training set of benchmarks split into clusters. The model is built then with a regression per each cluster. After this stage follows the online predicting stage. The latter utilizes the model to predict the power and performance of a large set of applications (opposed to the relatively small number of benchmarks in the offline stage). Our work similarly models a subset of samples and infers properties of the entire search space. However, it focuses on heterogeneous mobile devices that we use for aerial robots.
+
+A resource model for heterogeneous mobile devices developed in~\citep{goraczko2008energy} considers both the time and power of a given run-time mode (the authors of this contribution use the term mode for the concept of configuration in~\citep{marowka2017energy,bailey2014adaptive} and in our work). Energy-wise, the resource model utilizes dynamic voltage scaling (DVS) as the other models in \fref{sec:soa-cpu}{Section} but accounts for heterogeneous systems. The approach models multiple processors with a state machine then used to derive a software partitioning problem--the problem of deriving the optimal mode. The problem is solved with an optimization technique: integer linear programming (ILP)\findex{integer linear programming}. The optimization occurs over an energy cost and with given deadline constraints. The intuition of formally defining the problem of deriving the optimal mode is similar to our work, which we further merge with the path planning for our dynamic energy planning. 
+
 ---
 
 
@@ -31,11 +35,14 @@ A model for heterogeneous elements is derived in~\citep{marowka2017energy}. The 
 An energy model that analyzes GPU features specifically is derived in~\citep{hong2010integrated}. The contribution consists of an integrated power and performance prediction model to derive the optimal number of active processors for a given application. The model predicts performance per watt and the optimal number of cores to achieve energy savings~\citep{hong2010integrated}. The model does not account for mobile computing hardware.
 
 \subsection{CPU features modeling}
+\label{sec:soa-cpu}
 
 Numerous other contributions investigate how to lower the power~\citep{hong1999power, luo2001battery, chowdhury2005static} by some system-level modeling and optimization techniques such as dynamic voltage scaling. They usually include into the scheduler information about configuration parameters~\citep{seewald2019coarse}. They mostly focus on homogeneous systems opposite to heterogeneous systems that we utilize in our work. 
 
 
 ---
+
+
 
 
 
