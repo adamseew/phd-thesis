@@ -308,7 +308,6 @@ In the paths sub-plan, we define the paths that form the plan of the agricultura
   \label{fig:plot4}
 \end{figure}
 
-
 The intuitive plan can be used to solve the covering problem with a rotary-wing aerial robot. However, it is unsuitable for a fixed-wing aerial robot such as the Opterra. Fixed-wing aerial robots have considerably reduced maneuverability compared to rotary-wings. They are generally unable to perform quick turns in flight. An updated version of the intuitive plan for fixed-wing aerial robots is illustrated in \fref{fig:plot4}{Figure}. The paths that correspond to the fixed-wing aerial robot's plan are composed of four primitive paths
 \begin{subequations}\label{eq:basic-plan}\begin{align}
 \varphi_1(\mathbf{p}(t))&:=x-10,\label{eq:line1}\\
@@ -358,12 +357,12 @@ We can bound the alteration with
   c_{i,1}\in[\underline{c}_{4,1},\overline{c}_{4,1}]=:\mathcal{C}_{4,1}=(-r,0],\,\forall i.
 \end{equation} 
 
-\begin{figure}[p!]
+\begin{sidewaysfigure}
   \centering
   \input{figures/plot5.tikz}
   \caption[Alteration of a path parameter of the fixed-wing aerial robot's plan]{Alteration of a path parameter of the fixed-wing aerial robot's plan in \fref{fig:plot4}{Figure}. The black line is the un-altered path up to the triggering point $\mathbf{p}_{\Gamma_3}$, where the path can be altered with the parameter $c_{4,1}$ relative to the radius $r_2$ of $\varphi_4$. The alteration changes the distance between the survey lines hence extending or shortening the flying time. The longest distance is then $2(r_1-r_2(\underline{c}_{4,1}))$, the shortest $2(r_1-r_2(\overline{c}_{4,1}))$. Same principle applies to path parameter $c_{8,1}$ for the next two survey lines, $c_{12,1}$, and so on.}
   \label{fig:plot5}
-\end{figure}
+\end{sidewaysfigure}
 
 The concept is illustrated in \fref{fig:plot5}{Figure}. The black line is the un-altered path until the triggering point $\mathbf{p}_{\Gamma_3}$, where the path splits depending on the value of the path parameter $c_{4,1}$. The alteration of the plan shortens or extends the flying time and thus influence the energy consumption over time. Since the last path $\varphi_4$ is a function of the parameter $c_{4,1}$, the correct expression for \frefeq{eq:second-circ-gene} is 
 \begin{equation}\label{eq:line-gene-param}
