@@ -4,7 +4,7 @@
 % Guidance   %
 %            %
 \chapter{\color{red}Dynamic Planning}
-\label{cp:gd}
+\label{cp:dyn}
 
 %\begin{highlight}
 %    \begin{st}
@@ -164,7 +164,7 @@ The OCP from \frefeq{eq:ocp-output-mpc} is infinite dimensional, being the syste
 \subsection{Optimal control generation with model predictive control}
 \label{sec:opt-cont-gener}
 
-In this section we combine the notions from the previous sections in this chapter and \fref{cp:model}{Chapters}\fref{cp:gd}{--\hspace*{-.8ex}} and provide a solution to the planning problem in \fref{cp:pb}{Chapter}.
+In this section we combine the notions from the previous sections in this chapter and \fref{cp:model}{Chapters}\fref{cp:dyn}{--\hspace*{-.8ex}} and provide a solution to the planning problem in \fref{cp:pb}{Chapter}.
 
 First, we need to transform the OCP in \frefeq{eq:ocp-output-mpc} into an NLP. The optimization problem to be solved numerically in the discrete form is effectively an NLP, due to the nonlinearity in the cost functions $l,l_f,$ and in the constaints
 \begin{subequations}\label{eq:disc-ocp-output-mpc}\begin{align}
