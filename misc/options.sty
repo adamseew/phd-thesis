@@ -172,6 +172,8 @@
 \usepackage{multirow} % tables
 \usepackage{tabularx}
 
+\renewcommand\tabularxcolumn[1]{m{#1}}% for vertical centering text in X column
+
 \usepackage{graphicx} % images
 \graphicspath{ {./pictures/}{./figures/} } 
 \usepackage{caption}
@@ -302,4 +304,8 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 \usepackage{wrapfig}
 \usepackage{lscape}
 \usepackage{rotating}
+
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}% for checkmarks
 
