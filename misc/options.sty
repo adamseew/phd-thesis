@@ -30,14 +30,16 @@
 \usepackage{xcolor} % colors
 \definecolor{foo}{RGB}{0,51,102}
 
-\newcommand*{\formatpagenum}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont#1}}
+\newcommand{\otherfont}{\footnotesize\fontfamily{phv}\selectfont}
+
+\newcommand*{\formatpagenum}[1]{\textcolor{foo}{\otherfont#1}}
 \newcommand*{\findex}[1]{\index{#1|formatpagenum}}
-\newcommand*{\sref}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont\ref{#1}}}
-\newcommand*{\srefscriptsize}[1]{\textcolor{foo}{\scriptsize\fontfamily{phv}\selectfont\ref{#1}}}
-\newcommand*{\fref}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont#2~\ref{#1}}}
-\newcommand*{\frefeq}[1]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equation~(\ref{#1})}}
-\newcommand*{\frefeqM}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equations~(\ref{#1}--\ref{#2})}}
-\newcommand*{\frefeqT}[2]{\textcolor{foo}{\footnotesize\fontfamily{phv}\selectfont Equation~(\ref{#1})~and~(\ref{#2})}}
+\newcommand*{\sref}[1]{\textcolor{foo}{\otherfont\ref{#1}}}
+\newcommand*{\srefsmaller}[1]{\textcolor{foo}{\scriptsize\fontfamily{phv}\selectfont\ref{#1}}}
+\newcommand*{\fref}[2]{\textcolor{foo}{\otherfont#2~\ref{#1}}}
+\newcommand*{\frefeq}[1]{\textcolor{foo}{\otherfont Equation~(\ref{#1})}}
+\newcommand*{\frefeqM}[2]{\textcolor{foo}{\otherfont Equations~(\ref{#1}--\ref{#2})}}
+\newcommand*{\frefeqT}[2]{\textcolor{foo}{\otherfont Equation~(\ref{#1})~and~(\ref{#2})}}
 
 \indexsetup{othercode=\small}
 
@@ -64,8 +66,7 @@
 
 % page size
 \usepackage[
-    paperheight=9in,
-    paperwidth=6in,
+    paper=b5paper,
     top=0.75in,
     bottom=0.75in,
     outer=0.75in,
@@ -97,18 +98,18 @@
 % contents page
 \usepackage[titles]{tocloft}
 \renewcommand{\cftchapfont}{\small\fontfamily{phv}\selectfont\itshape}
-\renewcommand{\cftsecfont}{\footnotesize\fontfamily{phv}\selectfont\itshape}
-\renewcommand{\cftfigfont}{\footnotesize\fontfamily{phv}\selectfont\itshape}
-\renewcommand{\cftsubsecfont}{\footnotesize\fontfamily{phv}\selectfont\itshape}
-\renewcommand{\cftchappagefont}{\color{foo}\footnotesize\fontfamily{phv}\selectfont}
-\renewcommand{\cftsecpagefont}{\color{foo}\footnotesize\fontfamily{phv}\selectfont}
-\renewcommand{\cftsubsecpagefont}{\color{foo}\footnotesize\fontfamily{phv}\selectfont}
-\renewcommand{\cftfigpagefont}{\color{foo}\footnotesize\fontfamily{phv}\selectfont}
+\renewcommand{\cftsecfont}{\otherfont\itshape}
+\renewcommand{\cftfigfont}{\otherfont\itshape}
+\renewcommand{\cftsubsecfont}{\otherfont\itshape}
+\renewcommand{\cftchappagefont}{\color{foo}\otherfont}
+\renewcommand{\cftsecpagefont}{\color{foo}\otherfont}
+\renewcommand{\cftsubsecpagefont}{\color{foo}\otherfont}
+\renewcommand{\cftfigpagefont}{\color{foo}\otherfont}
 
 % page number style
 \usepackage{etoolbox}
 \makeatletter
-   \patchcmd{\ps@myheadings}{\hfil\thepage}{\fontfamily{phv}\selectfont\footnotesize\nouppercase\oldthepage\thepage}{}{}
+   \patchcmd{\ps@myheadings}{\hfil\thepage}{\otherfont\nouppercase\oldthepage\thepage}{}{}
 \makeatother
 
 % headers/footers
@@ -116,14 +117,14 @@
 \setlength{\headheight}{15pt}
 \fancyhf{}
 \renewcommand{\headrulewidth}{0pt}
-\fancyhead[LE]{\fontfamily{phv}\selectfont\footnotesize\thepage}
-\fancyhead[RO]{\fontfamily{phv}\selectfont\footnotesize\thepage}
-\fancyhead[LO]{\fontfamily{phv}\selectfont\footnotesize\nouppercase{\rightmark}} 
-\fancyhead[RE]{\fontfamily{phv}\selectfont\footnotesize\nouppercase{\leftmark}}
+\fancyhead[LE]{\otherfont\thepage}
+\fancyhead[RO]{\otherfont\thepage}
+\fancyhead[LO]{\otherfont\nouppercase{\rightmark}} 
+\fancyhead[RE]{\otherfont\nouppercase{\leftmark}}
 
 \fancypagestyle{plain}{%
   \fancyhf{}%
-  \fancyfoot[C]{\fontfamily{phv}\selectfont\footnotesize\thepage}%
+  \fancyfoot[C]{\otherfont\thepage}%
   \renewcommand{\headrulewidth}{0pt} % line at the header
   \renewcommand{\footrulewidth}{0pt} % line at the footer (both not visible)
 }
@@ -152,12 +153,12 @@
   backref=true,
 }{biblatex}
 \usepackage{biblatex}
-\renewcommand*{\bibfont}{\fontfamily{phv}\selectfont\footnotesize}
+\renewcommand*{\bibfont}{\otherfont}
 \usepackage[hidelinks]{hyperref}
 \hypersetup{allcolors=foo}
 \renewcommand*{\citesetup}{%
   \color{foo}
-  \footnotesize\fontfamily{phv}\selectfont
+  \otherfont
   \biburlsetup
   \frenchspacing
 }
@@ -178,7 +179,7 @@
 \graphicspath{ {./pictures/}{./figures/} } 
 \usepackage{caption}
 \usepackage{subcaption} % for subfigures
-\DeclareCaptionFont{captionff}{\footnotesize\fontfamily{phv}\selectfont}
+\DeclareCaptionFont{captionff}{\otherfont}
 \captionsetup[figure]{labelsep=period,font=captionff}
 \captionsetup[table]{labelsep=period,font=captionff}
 \captionsetup[sub]{font=captionff}
@@ -188,10 +189,10 @@
 \renewcommand{\thetable}{\textcolor{foo}{\fontfamily{phv}\selectfont\arabic{table}}}
 \renewcommand{\tablename}{\textcolor{foo}{\fontfamily{phv}\selectfont Table}}
 
-\renewcommand{\theequation}{\footnotesize\textcolor{foo}{\fontfamily{phv}\selectfont\arabic{chapter}.\arabic{equation}}}
+\renewcommand{\theequation}{\textcolor{foo}{\otherfont\arabic{chapter}.\arabic{equation}}}
 
 \makeatletter % equation parenthesis
-\def\tagform@#1{{\color{foo}\maketag@@@{\fontfamily{phv}\selectfont\footnotesize(\ignorespaces#1\unskip\@@italiccorr)}}}
+\def\tagform@#1{{\color{foo}\maketag@@@{\otherfont(\ignorespaces#1\unskip\@@italiccorr)}}}
 \makeatother
 
 \usepackage{tikz}
@@ -220,7 +221,7 @@
   {\topsep}   % BELOWSPACE
   {}  % BODYFONT
   {0pt}       % INDENT (empty value is the same as 0pt)
-  {\color{foo}\fontfamily{phv}\selectfont\footnotesize\bfseries} % HEADFONT
+  {\color{foo}\otherfont\bfseries} % HEADFONT
   {\newline}         % HEADPUNCT
   {5pt plus 1pt minus 1pt} % HEADSPACE
   {\thmname{#1}\thmnumber{ #2}\thmnote{: #3}}          % CUSTOM-HEAD-SPEC
