@@ -266,8 +266,11 @@ A concept that we use in the remainder of this work, and particularly in energy 
 We assume the initial period is one and measure the period required to fly the paths physically or in simulation. The periods might be different for different $j$s due to atmospheric interferences. For the path functions, one can define the plan using primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ or define all the stages explicitly and find $n$ searching the value which satisfies the \frefeq{eq:primitive}. If there is no such value, (e.g., when the plan is composed of only one stage or the plan is aperiodic), the period $T$ from \fref{def:period}{Definition} can be determined empirically from energy data or assumed as the total flight time. The latter eventuality affects on the energy model. We discuss the period estimation further in \fref{sec:period-est}{Section}.
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Planning problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Problem Statement}
+
+\subsection{Planning problem}
 \label{sec:plan-pb}
 
 The planning problem is then the problem of finding the optimal configurations of the parameters within some criteria. In our approach, we focus on energy criteria, such as the battery constraints. In particular, in the solution to the planning problem in \fref{sec:algo}{Section}, we use a cost function (i.e., the function to maximize) that incorporates the energy model in \fref{sec:periodic-model}{Section}. Solving the planning problem by finding the optimal configurations within different criteria, such as shortest time, highest security, path tracking with the shortest detour, or others is equally possible. In the context of the TeamPlay project that funded a considerable part of this work, we aim to find, for instance, the tradeoffs between time, energy, and security criteria for a variety of use cases. We discuss the eventuality of solving the planning problem with criteria different from energy in \fref{cp:conc}{Chapter}. We now use the concepts that we introduced in the previous sections and provide a formal definition of the planning problem that we are interested in solving in the remainder of this work.
@@ -282,6 +285,12 @@ The planning problem is then the problem of finding the optimal configurations o
 
 In the definition, there is a fixed number of stages in case all the stages are defined explicitly. Otherwise, there is a variable number of stages, in the sense that all the stages are reiterated using the primitive paths in \fref{def:primitive}{Definition} up until the aerial robot reaches the last triggering point $\mathbf{p}_l$.
 
+
+\subsection{Coverage problem}
+
+We formalize the coverage problem as follows. Given a polygon representing the space to be covered, a starting point, and a turn radius, we want to find the route that covers the polygon 
+
+%todo todo todo important!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Precision agriculture example}
