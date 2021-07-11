@@ -272,9 +272,44 @@ Other approaches for the optimality of the coverage focus explicitly on energy c
 \section{\color{cyan}Planning Computations with Motion}
 \label{sec:soa-comp-motion-pl}
 
-% this is all a mega todo
+Sudhakar~et~al. examin the trade-off between motion and computation energy for mobile robots in their recent study~\citep{sudhakar2020balancing}, focusing on robots with a comparable energy consumption for what concerns motion and computations. The robot moves on a path with a given length and velocity and expends some motion energy. Computations-wise, the robot computes a specific number of nodes and expends some computations energy. Sundhakar~et~al. derive first an analytical expression for energy prediction which incorporates the path's length and velocity and the number of computations' nodes. The approch they propose consists an algorithm for anytime planning--a planning approach that identifies an initial feasible plan then refined towards optimal over time~\citep{karaman2011anytime}. The algorithm eventually stops the refinments when it estimates computations energy exceeding the potential savings in terms of motion energy~\citep{sudhakar2020balancing}. To derive a path for the robot's motion, the algorithm uses a Bayes estimation on the edges of a graph in a sampling-based path planning algorithm--probabilistic RoadMaps (PRM*) widely used in practice~\citep{lavalle2006planning,karaman2011sampling}. Notably, Sundhakar~et~al. empahatize the importance of considering both the motion and computations for robots energy-optimal planning; we share similar findings except for the study's primate in analysis of trade-offs between motion and computations energy. By a closer incpection of the scientific literature, there are other studies that have focused in this direction. Apart our contribution in this direction, Mei~et~al. and Sadrpour~et~al. propose studies that deal with motion and computations energy of mobile robots~\citep{mei2005case,mei2006deployment,sadrpour2013experimental,sadrpour2013mission}. % and we have been doing so since 2018; just use google my friend
+% a side personal note is how this study went even through peer-review. "We  can  think  of lc as  length  of  the computation  which  is  analogous  to  length  of  the  path la" xD LOOOOOOOL
+%TODO you forgot to write what sudhakar et al. does not do and you do
+
+Mei~et~al., that we already analyzed for their contribution to motion planning in \fref{sec:soa-motion-pl}{Section}, have proposed a study~\citep{mei2005case} analyzing the both motion and computations energy. The study differentiates the microcontroller and embedded computer the mobile robot carries for a more flexible robot's design. To this end, Mei~at~al. derive an energy model from empirical data and importantly, show that the motion accounts for less than 50\% of the total power consumption. Motivated by this finding that on Pioneer 3DX ActivMedia--different version of Pioneer mobile robots from Adept MobileRobots were a popular at the time of publication within the research comunity~\citep{erickson2003nonlearning,anguelov2004detecting,lemmay2004autonomous}--they propose real time scheduling and dynamic power management to reduce the power consumption. The latter dynamically adjusts power states (by e.g., DVS, DFS, and peripherals selection) of components without compromising overall performance~\citep{mei2005case}, and the former schedule computations energy-wise. 
+The study is of particular interest as they quantify the computations contribution to the overall energy expenditure of mobile robots. We further extend the study; it was indeed one of the starting points of our analysis although it does not implement the proposed techniques practically, nor focus on planning within battery constraints; a research gap we are filling with our dynamic planning. Although Mei~et~al. have extended their analysis in future instances~\citep{mei2006deployment,mei2005reducing,mei2005deployment} to CPP using a multiple robots with both time and energy constraints and to the problem of repeated coverage~\citep{mei2006energy}, they have not implemented computations scheduling nor focus on dynamic replanning of the coveragy with sudden battery discharge; an aspect that is of particular interst for aerial robots.
+\citep{brateman2006energy,zhang2007low}
+
+
+%TODO
+\cite{sadrpour2013mission,sadrpour2013experimental}
+
+
+  
+
+\citep{ondruska2015scheduled}
+\citep{lahijanian2018resource}
+%END TODO
 
 More complex planning that similarly focus on the concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Our approach shares the same principle of differentiating the microcontroller from the companion computer with~\citep{mei2004energy, mei2005case}. The controller acts on the actuators and reads the sensors, while the companion computer (can be found with different names in literature, such as secondary or embedded computer), performs computationally heavy operations. A similar approach for mobile robots is presented by~\citep{dressler2005energy}. However, both contributions neither elaborate further on computational elements of a heterogeneous platform, such as GPU, nor focus on different robots except the one under analysis.
 
