@@ -162,7 +162,7 @@ Arkin~et~al. have focused~\citep{arkin2001optimal,arkin2005optimal} on optimal c
 Shnaps and Rimon propose a solution to this latter problem and focus to robotics scenarios explicitly. In the study~\citep{shnaps2016online}, a robot has to cover an unknown environment with a strict battery constraint. Starting from a given point, the robot equipped with position and obstacles sensors navigates the environment and eventually covers the entire space. In a battery discharge event, the robot returns to the starting point to recharge the battery. Shnaps and Rimon propose battery powered coverage algorithm for the task and model the energy cost with the path length. The proposed algorithm divides the space to cover into equally sized cells in a grid. Although insightful in terms of coverage planning for battery powered robots, the approach does not account for aerial robots. Indeed in this latter class the robots would require to land to recharge or replace the battery. Wei~and~Isler consider also the eventuality of strict energy constraints for mobile robots and revisit Shnaps and Rimon's approach.In the study~\citep{wei2018coverage}, they propose an algorithm for robots restricted to axis-parallel motion generalized to arbitrary polygons. Alike in Shaps and Rimon's approach~\citep{shnaps2016online}, they divide the space into equally sizes cells in a grid. The approach is tested on aerial robots, but is limited to rotrary-wing crafts and generally unsuitable for nonholonomic robot constraints. In both Shnaps and Rimons's and Wei~and~Isler's approaches, the energy optimality is considered within CPP rather than and intergrated dynamic planning and scheduling approach in our work.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\color{orange}Planning for Autonomous Aerial Robots}
+\section{Planning for Autonomous Aerial Robots}
 \label{sec:soa-aerial-pl}
 
 Many other studies for energy efficiency of aerial robots limit to energy optimal motion planning~\citep{wang2017curvature,morbidi2016minimum,kreciglowa2017energy}. They do not consider coverage planning nor considers distrubances. Kreciglowa~et~al. focus on the best trajectory between two howevering configurations in terms of energy efficiency~\citep{kreciglowa2017energy}. Morbidi~et~al. generates energy optimal paths solving optimal control problems (\Gls{acr:ocp}s) to obtaint the angular accelerations of four electrical motors of a quadrotor rotary-wing aerial robot~\citep{morbidi2016minimum}.
@@ -188,9 +188,6 @@ Nam~et~al. propose an approach~\citep{nam2016approach} for CPP for aerial robots
 
 Sadat~et~al. propose and interesting approach~\citep{sadat2014recursive} for non uniformly shaped areas distributed into clusters. The approach performs adaptive coverage depending on the distributions of the regions of interest in the space. Sadat~et~al. use coverage trees for the purpose (a structure where the child nodes cover exactly the same area as the parents but with higher resolution), and propose different strategies to visit the tree (breadth-frst\findex{breadth-first strategy}, depth-first\findex{depth-first strategy}, and shortcut heuristic\findex{shortcut heuristic}). Although interesting in terms of defining the covering area in a sparse way, the approach does not account for the aerial robot's battery nor discuss other aerial robots than the rotary-wings.
 
-
-
-
 \subsection{Optimal aerial coverage}
 \label{sec:opti-cov}
 
@@ -208,8 +205,6 @@ Other approaches for the optimality of the coverage focus explicitly on energy c
 %DONE 2 Optimal line-sweep-based decompositions for coverage algorithms
 %DONE 7 Optimal covering tours with turn costs
 %DONE 3 Coverage Path Planning Under the Energy Constraint
-
-
 
 
 %% planning aerial robots
@@ -231,12 +226,8 @@ Other approaches for the optimality of the coverage focus explicitly on energy c
 %11 Multiple UAV area decomposition and coverage
 
 
-
-
 %% optimal planning aerial
 %DONE 4 Coverage path planning for UAVs based on enhanced exact cellular decomposition method
-
-
 
 
 %DONE 1 Optimal complete terrain coverage using an Unmanned Aerial Vehicle
@@ -246,74 +237,42 @@ Other approaches for the optimality of the coverage focus explicitly on energy c
 %DONE 12 Efficient Aerial Coverage Search in Road Networks
 
 
-
 %DONE 14 Quadrotor-UAV optimal coverage path planning in cluttered environment with a limited onboard energy
 %DONE 16 Aerial coverage optimization in precision agriculture management: A musical harmony inspired approach
 
 
-
-
-
-
-
-
-
-
-
-
-
-\subsection{\color{orange}Flight controllers}
+% okay this section, but we don't really contribute to any flight controller; so why to describe them...
+%\subsection{\color{orange}Flight controllers}
 
 %\subsection{\color{orange}Energy models in aerial robotics}
 
 %\subsection{\color{orange}State estimation in aerial robotics}
 
 
-\section{\color{cyan}Planning Computations with Motion}
+\section{Planning Computations with Motion}
 \label{sec:soa-comp-motion-pl}
 
-Sudhakar~et~al. examin the trade-off between motion and computation energy for mobile robots in their recent study~\citep{sudhakar2020balancing}, focusing on robots with a comparable energy consumption for what concerns motion and computations. The robot moves on a path with a given length and velocity and expends some motion energy. Computations-wise, the robot computes a specific number of nodes and expends some computations energy. Sundhakar~et~al. derive first an analytical expression for energy prediction which incorporates the path's length and velocity and the number of computations' nodes. The approch they propose consists an algorithm for anytime planning--a planning approach that identifies an initial feasible plan then refined towards optimal over time~\citep{karaman2011anytime}. The algorithm eventually stops the refinments when it estimates computations energy exceeding the potential savings in terms of motion energy~\citep{sudhakar2020balancing}. To derive a path for the robot's motion, the algorithm uses a Bayes estimation on the edges of a graph in a sampling-based path planning algorithm--probabilistic RoadMaps (PRM*) widely used in practice~\citep{lavalle2006planning,karaman2011sampling}. Notably, Sundhakar~et~al. empahatize the importance of considering both the motion and computations for robots energy-optimal planning; we share similar findings except for the study's primate in analysis of trade-offs between motion and computations energy. By a closer incpection of the scientific literature, there are other studies that have focused in this direction. Apart our contribution in this direction, Mei~et~al. and Sadrpour~et~al. propose studies that deal with motion and computations energy of mobile robots~\citep{mei2005case,mei2006deployment,sadrpour2013experimental,sadrpour2013mission}. % and we have been doing so since 2018; just use google my friend
+Sudhakar~et~al. examin the trade-off between motion and computation energy for mobile robots in their recent study~\citep{sudhakar2020balancing}, focusing on robots with a comparable motion and computations energy. In the study, the robot moves on a path with a given length and velocity and computations-wise, computes a specific number of nodes. Sundhakar~et~al. derive first an analytical expression for energy prediction which incorporates the path's length and velocity and the number of computations' nodes. The approch they propose consists an algorithm for anytime planning--a planning approach that identifies an initial feasible plan then refined towards optimal over time~\citep{karaman2011anytime}. The algorithm eventually stops the refinments when it estimates computations energy exceeding the potential savings in terms of motion energy~\citep{sudhakar2020balancing}. To derive a path for the robot's motion, the algorithm uses a Bayes estimation on the edges of a graph in a sampling-based path planning algorithm--probabilistic RoadMaps (PRM*) widely used in practice~\citep{lavalle2006planning,karaman2011sampling}. The study is insightful in terms of further motivating our investigation and propose an initial step towards further analysis. Nevertheless, it lacks rigour in deriving an energy model and it does not account for battery SoC in a wider dynamic planning workflow. Notably, Sundhakar~et~al. empahatize the importance of considering both the motion and computations for robots energy-optimal planning; we share similar findings except for the study's claimed primate in analysis of trade-offs between motion and computations energy. By a closer incpection of the scientific literature, there are other studies that have focused in this direction. Apart our recent contributions, Mei~et~al., Sadrpour~et~al., and others propose studies that deal with motion and computations energy of mobile robots~\citep{mei2005case,mei2006deployment,brateman2006energy,zhang2007,lowsadrpour2013experimental,sadrpour2013mission}; and recent contributions include work carried by Ondr\'{u}\v{s}ka~et~al. and Lahijanian~et~al.~\citep{ondruska2015scheduled,lahijanian2018resource}.  % and we have been doing so since 2018; just use google my friend
 % a side personal note is how this study went even through peer-review. "We  can  think  of lc as  length  of  the computation  which  is  analogous  to  length  of  the  path la" xD LOOOOOOOL
 %TODO you forgot to write what sudhakar et al. does not do and you do
 
 Mei~et~al., that we already analyzed for their contribution to motion planning in \fref{sec:soa-motion-pl}{Section}, have proposed a study~\citep{mei2005case} analyzing the both motion and computations energy. The study differentiates the microcontroller and embedded computer the mobile robot carries for a more flexible robot's design. To this end, Mei~at~al. derive an energy model from empirical data and importantly, show that the motion accounts for less than 50\% of the total power consumption. Motivated by this finding that on Pioneer 3DX ActivMedia--different version of Pioneer mobile robots from Adept MobileRobots were a popular at the time of publication within the research comunity~\citep{erickson2003nonlearning,anguelov2004detecting,lemmay2004autonomous}--they propose real time scheduling and dynamic power management to reduce the power consumption. The latter dynamically adjusts power states (by e.g., DVS, DFS, and peripherals selection) of components without compromising overall performance~\citep{mei2005case}, and the former schedule computations energy-wise. 
 The study is of particular interest as they quantify the computations contribution to the overall energy expenditure of mobile robots. We further extend the study; it was indeed one of the starting points of our analysis although it does not implement the proposed techniques practically, nor focus on planning within battery constraints; a research gap we are filling with our dynamic planning. Although Mei~et~al. have extended their analysis in future instances~\citep{mei2006deployment,mei2005reducing,mei2005deployment} to CPP using a multiple robots with both time and energy constraints and to the problem of repeated coverage~\citep{mei2006energy}, they have not implemented computations scheduling nor focus on dynamic replanning of the coveragy with sudden battery discharge; an aspect that is of particular interst for aerial robots.
-\citep{brateman2006energy,zhang2007low}
-
-
 %TODO
-\cite{sadrpour2013mission,sadrpour2013experimental}
 
+% good cite: Even though DVS and energy conservation for mobile robots have been studied, the close interaction between computation and motion remains unexplored
+Brateman~et~al. propose an interesting approach~\citep{brateman2006energy} on the intersection of medeling techniques for CPUs that we discuss in \fref{sec:soa-cpu}{Section} and of planning computations with motion for mobile robots. The methodology varies the computing hardware's frequency and voltage via DFS and DVS respectively and the motor's speed for energy efficiency. To find the best trajectory of frequency, voltage, and speed over time, Brateman~et~al. formulate an non-linear optimization problem (NLP), that they then solve using a  method. The predicted energy is an anlytical expression--derived via probabilitics analysis--that the methodology employs as a cost in the minimization within a time constraint. 
+There are many more approaches that employ optimization techniques for energy-effciency of computations and motion in mobile robotics~\citep{zhang2007low,ondruska2015scheduled,lahijanian2018resource}. Zhang~et~al. varies the robot's speed and the computing hardware's frequency using optimal control on a random horizon. To find the solution to an optimal control problem which has an analytical expression of the frequency and speed as the cost, Zhang~et~al. transform the otpimal control problem (OCP) into a nonlinear optimization problem (NLP) that can be then solved using a standard numerical optimization approach~\citep{}. Interestingly, they also derive an analytical solutions to the OCP for some simplified costs and found up to 30\% energy savings compared to heuristics methods. Similarly to Brateman~et~al. and Zhang~et~al. we derive an OCP for the problem of replanning a coverage in \fref{cp:opt}{Chapter} but vary the coverage path and the schedule on the computing hardware rather than the frequency, voltage, and speed. The intuition behind our more complex planning is that by scheduling appropriately computations and varying path we can ensure the coverage despite external adversities opposed to merely minimizing energy consumption.
 
-  
+Sadrpour~et~al. focus on mission energy prediction for unmanned ground vehicles (\Gls{acr:ugv}s)\findex{unmanned ground vehicle}. In their studies~\citep{sadrpour2013mission,sadrpour2013experimental}, the mission energy is the energy needed to complete a given set of tasks by the robot travelling some paths while interacting with the environment (in form of sensing and actuating)~\citep{sadrpour2013mission}. Sadrpour~et~al. propose two predicition approaches depending on some a priori mission knowledge such as constant power drain of static components, driving style, road rolling resistance, road grade information, and vehicle internal resistance. In case of no prior knowledge, they propose linear regiession, and bayesian estimation otherwise. Sadrpour~et~al. report some finding on the energy predicition using PackBot UGV~\citep{yamaichi2004packbot} with the computations having an order of magnitude lower consumption than motion. Notably, Sadrpour along other researchers shared some finding in later studies~\citep{sadrpour2014real,ersal2014keeping} in the direction of UGVs performing CPP. Although the studies and their later iterations focus on energy modeling, they propose future direction in dynamic mission decision making; in case the energy exceed a resonable threshold, the UGV might, e.g., revise the initial plan or tuning energy expensive components~\citep{sadrpour2013mission}. Our dynamic planning shares a similar principle of tuning the plan to accomodate energy expenditure. We further focus on computational aspects, as in the mobile robots under our study and nevertheless in recent energy-efficient robotics platforms, the motion energy has the same order of magnitude as the computational energy~\citep{sudhakar2020balancing}.   
 
-\citep{ondruska2015scheduled}
-\citep{lahijanian2018resource}
-%END TODO
+% Robots require energy to operate. Yet they only have access to limited energy storage during missions.
+% good references for planetary exploration rovers, indeed ARC Q14 is implemented for this latter purpose
+%  the energy  budget  for  sensing  and  computing  is  commensurate with  that  of  actuation  -  such  as  is  typically  the  case  forplanetary rover missions.
+More recently, Ondr\'{u}\v{s}ka~et~al. propose a study~\citep{ondruska2015scheduled} to reduce energy consumption by scheduling robot's navigation while traveling a path at given times. The study focus on Oxford  Robotics  Institute's (ORI) ARC Q14 mobile ground-based robot--a robotic platform used maily for research in planetary exploration rovers~\citep{yeomans2017murfi}--folowing an predetermined path and accounts directly for computations energy. Ondr\'{u}\v{s}ka~et~al. propose to schedule the navigation so that the robot remains withing the predetermined path within a margin. For the scheduling itself, they derive two algorithms. A greedy algorithm that guarantees feasibility by employing a simple heuristic and a belief planning algorithm which uses optimal to provide the energy efficient schedules over a given planning horizon. The approach is of interest for our dynamic planning in many respects, although the author the problem of planning for path folowing rather than coverage. Firstly, the planning algorithm based on optimal control employes dynamic programming\findex{dynamic programming} and it's simalar to the algorithm that employes output model predictive control (\Gls{acr:mpc}) that we propose in our work in \fref{cp:dyn}{Chapter}. Secondly, the dynamic programming solution is proposed on a finite horizon and the same technique is on the base of the MPC replanning that we employ evaluate the optimal plan. Finally, the approach further motivates our planning. Ondr\'{u}\v{s}ka~et~al. report a saving of 11.5\% by employing power saving scheduler on the robot. We extend the approach by altering directly the schedule and the path and apply such planning to aerial robots.
 
-More complex planning that similarly focus on the concept of the plan being a set of tasks and a path, all focus on the trajectory~\cite{mei2005case,mei2006deployment} and apply to a small number of robots~\cite{sadrpour2013mission,sadrpour2013experimental}.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Our approach shares the same principle of differentiating the microcontroller from the companion computer with~\citep{mei2004energy, mei2005case}. The controller acts on the actuators and reads the sensors, while the companion computer (can be found with different names in literature, such as secondary or embedded computer), performs computationally heavy operations. A similar approach for mobile robots is presented by~\citep{dressler2005energy}. However, both contributions neither elaborate further on computational elements of a heterogeneous platform, such as GPU, nor focus on different robots except the one under analysis.
-
-Our approach towards energy modeling shares a similar principle as the one presented by~\citep{sadrpour2013mission, sadrpour2013experimental} for Unmanned Ground Vehicles or UGVs. They propose a linear regression-based technique in the absence of real measurements and a Bayesian networks-based one in their presence. We used a simplified approximation technique to limit the number of computations needed while focusing rather on an accurate battery prediction.
+% good cite: 
+Lahijanian~et~al. have further extended Ondr\'{u}\v{s}ka~et~al.'s work and proposed a framework~\citep{lahijanian2018resource} for the exploration of reseource-perormance trade-offs. They find schedule for mobile robots under given resource budget using quantitative multi-objective verification and controller synthesis--a technique that from contraints such as time and energy produce Pareto front\findex{Pareto front}, a set of optimal achievable trade-offs~\citep{forejt2012pareto}. Although useful to select the best schedule and for the insights into different tradeoffs implications, the approach does not account for dynamic planning. Whereas in out work an initial plan accounts for the highest performance achievable; these are then replanned both path- and computations-wise over time in an energy-aware fashion. Lahijanian~et~al. similarly to Ondr\'{u}\v{s}ka~et~al. use the ARC Q14 robot.
 
 \section{\color{red}Summary}
 
