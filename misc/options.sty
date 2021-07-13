@@ -304,7 +304,9 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 % for landscape figures
 \usepackage{wrapfig}
 \usepackage{lscape}
-\usepackage{rotating}
+
+
+\usepackage[counterclockwise, figuresright]{rotating}
 
 \usepackage{pifont}
 \newcommand{\cmark}{\ding{51}} 
@@ -314,4 +316,18 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 \makeatletter
 \newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
 \makeatother
+
+\usepackage{pdflscape} % from Ulrike Fisher to rotate a sideways... env (https://tex.stackexchange.com/a/472608)
+\usepackage{eso-pic,zref-user}
+\newcounter{cntsideways}
+\makeatletter
+\AddToShipoutPictureBG{%
+ \ifnum\zref@extractdefault{rotate\number\value{page}}{page}{0}=0  
+  \PLS@RemoveRotate
+ \else 
+  \PLS@AddRotate{90}%
+ \fi}
+
+\newcommand\rotatesidewayslabel{\stepcounter{cntsideways}%
+ \zlabel{tmp\thecntsideways}\zlabel{rotate\zref@extractdefault{tmp\thecntsideways}{page}{0}}}
 
