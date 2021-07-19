@@ -296,7 +296,7 @@ Given a polygon representing the space to be covered, some possible obstacles wi
 
 \begin{highlight}
   \begin{pb}[Coverage problem]\label{pb:cov-pb}\findex{coverage problem}
-    Consider a finite set of vertices of a polygon to be covered $v:=\{v_1,v_2,\dots\}$ and of the obstacles $o:=\{o_1,o_2,\dots\}$ where each vertex $v_i:=(x_{v_i},y_{v_i}),o_j:=(x_{o_j},y_{o_j}),\,\forall i\in|v|,j\in|o|$ is a point w.r.t. $\mathcal{O}_W$ and given minimum turning radius $r\in\mathbb{R}_{>0}$ of the aerial robot flying and a starting point $\mathbf{p(t_0)}$ at initial time $t_0$.
+    Consider a finite set of vertices of a polygon to be covered $v:=\{v_1,v_2,\dots\}$ and of the obstacles $o:=\{o_1:=\{o_{1,1},o_{1,2},\dots\},o_2:=\{o_{2,1},o_{2,2},\dots\},\dots\}$ where each vertex $v_i:=(x_{v_i},y_{v_i}),o_{j,k}:=(x_{o_{j,k}},y_{o_{j,k}}),\,\forall i\in|v|,\,\forall j\in|o|,k\in|o_j|$ is a point w.r.t. $\mathcal{O}_W$ and given minimum turning radius $r\in\mathbb{R}_{>0}$ of the aerial robot flying and a starting point $\mathbf{p(t_0)}$ at initial time $t_0$.
 
     We are interesting in \textit{finding a plan} $\Gamma$ that covers $v$ while avoiding $o$ starting from $\mathbf{p}(t_0)$ with a turn radius greater or equal than $\underline{r}\in\mathbb{R}_{\geq 0}$ and a final triggering point $\mathbf{p}_{\Gamma_l}$.
   \end{pb}    
