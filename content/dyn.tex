@@ -85,9 +85,47 @@ Once the solution algorithms divides the free space into sub-region, it builds a
 \subsection{Cellular decomposition}
 \label{sec:cell-deco}\findex{cellular decomposition}
 
-To define the cellular decomposition algorithms that decomposes the space to be covered into sub-regions, we define robot's free space\findex{free space}; where the robot is free to move as $\mathcal{W}$ for an inertial navigation frame $\mathcal{O}_W$. $\mathcal{W}\subset\mathbb{R}^2$ contains all the points delimited by the vertices of a polygon $v$ except for $i$ obstacles delimited by the vertices of $i$ polygons $o_i$.
+To define the cellular decomposition algorithms that decomposes the space to be covered into non-overlapping sub-regions called cells\findex{cells}, we define robot's free space\findex{free space} as $\mathcal{Q}^v$ for an inertial navigation frame $\mathcal{O}_W$. $\mathcal{Q}^v$ is then the space where the robot is free to move without intersecting an obstacle~\citep{choset2005principles}. $\mathcal{Q}^v\subseteq\mathbb{R}^2$ contains all the points delimited by the vertices of the polygon $v$ except for $i$ obstacles delimited by the vertices of $i$ polygons $o_i$. Let further $\mathcal{Q}^{o_i}\subset\mathbb{R}^2$ be the space delimited by the obstacle $o_i$. The entire space in the polygon $v$ including all the obstacles $o_i$ is then $\mathcal{Q}:=(\bigcup_{i\in|o|}\mathcal{Q}^{o_i})\cup\mathcal{Q}^v$.
 
-The intuition behind the algorithm is to sweep $W$ with a straight line and add a subregions when it encounters critical points~\citep{choset2001coverage,choset2005principles,choset2000coverage}. Since we know the vertices and the polygon, it is enough to verify the critical points by iterating the vertices, and visit the constructed adjacency graph to find the coverage order. This algorithm is in the robotics research literature under the name of boustrophedon decomposition\findex{boustrophedon decomposition}~\citep{choset2000coverage} and it optimizes the neighboring sub-regions that can be aggregated compared to trapezoidal decomposition~\citep{galceran2013survey}--another algorithm that simple add a sub-region when it encounters a vertex opposed to critical points or change in connectivity~\citep{lavalle2006planning}. The intuition of using critical points\findex{critical points} has been widely studied in the literature in the context of roadmaps~\citep{canny1988complexity,canny1988constructing,canny1993opportunistic}\findex{roadmaps} and coverage~\citep{choset2000exact}.
+An important approach in the polygonal environment is the boustrophedon decomposition\findex{boustrophedon decomposition}~\citep{choset2000coverage}. For non-polygonal environments where $v$ and $o_i$ are, e.g.,  elliptical functions, an important result is the decomposition in terms of critical points of Morse functions\findex{Morse functions}~\citep{choset2000exact}. Both the boustrophedon decomposition and decomposition in terms of critical points of Morse sweep $\mathcal{Q}$ and decompose $\mathcal{Q}^v$ adding a cell in case of a change of connectivity or when they encounter a critical point~\citep{choset2000coverage,choset2001coverage,choset2005principles}. This approach optimizes the neighboring cells that can be thus aggregated opposed to trapezoidal decomposition~\citep{galceran2013survey}--another method that simply adds a cell when it encounters a vertex~\citep{lavalle2006planning}. For the decomposition in terms of critical points of Morse functions, the intuition of using critical points\findex{critical points}~\citep{choset2000exact} has been studied in the planning literature also in the context of roadmaps~\citep{canny1988complexity,canny1988constructing,canny1993opportunistic}\findex{roadmaps}. We briefly summarize the main findings of Choset~et~al. for this latter method~\citep{choset2000exact} before providing the boustrophedon decomposition algorithm applied to out.
+
+Let $\mathcal{Q}$ be the entire space delimited by vertices $v$ and $\mathcal{S}_\lambda$ the vertical slice that sweeps $\mathcal{Q}$. A change in the value of $\lambda$ moves the slice in $\mathcal{Q}$. Let further $\overline{x}_v,\underline{x}_v$ be the highest and lowest coordinate $x$ of all the vertices in $v$, i.e., $\lambda\in[\underline{x}_v,\overline{x}_v]$. We can express the entire space as the union of all the slice, i.e., $\mathcal{Q}=\cup_{\lambda}\mathcal{S}_\lambda$. Let us further define the slice contained in the free space $\mathcal{S}^v_\lambda:=\mathcal{S}_\lambda\cap\mathcal{Q}^{v}$.
+At this point, a change in connectivity of $\mathcal{S}^v$ means that a new cell is needed, or that a cell is no longer necessary respectively when the connectivity increases or decreases~\citep{choset2000exact}. There are some other important findings derived from the planning literature of roadmaps~\citep{canny1988complexity,canny1988constructing,canny1993opportunistic} proving that connectivity changes happen at critical points of the boundary of the obstacle. Notably, the topology\findex{topology} (i.e., connectivity) changes only at critical points of the slice function restricted to the boundaries of obstacles.
+
+For polygonal environments we know the vertices and the polygon, it is enough to verify the change in connectivity by iterating the vertices, and visit the constructed adjacency graph to find the coverage order. 
+
+\begin{algorithm}[h!] %this is an example
+  \SetKwInOut{Input}{Input}
+  \SetKwInOut{Output}{Output}
+  \vspace{.8ex}
+  \Input{\otherfont 128 bit secret key}
+  \Output{\otherfont 11 round keys each of 4 words as $w[0], \dots, w[43]$}
+  \While{not at end of this document}{
+   read current\;
+   \eIf{understand}{
+    go to next section\;
+    current section becomes this one\;
+    }{
+    go back to the beginning of current section\;
+   }
+  }
+  \caption{How to write algorithms}
+\end{algorithm}
+ 
+  
+%ALGO: the algo has some events -- vertex of a polygon
+%EVENTS:
+%IN event connectivity of the slice increases, current cell is closed %and two new are opened
+
+%OUT event the two current cells are closed  and one new is opened
+
+%MIDDLE do not open nor close
+% in Choset
+% FLOOR vertices that are on the top of the polygon
+% CEILING vertices that are on the bottom
+
+%INPUT: list of polygon with vertices in counter-clockwise order
+% ASSUMPTION: No two IN nor two OUT events have the same x-coordinate
 
 
 \section{\color{cyan}Model Predictive Control}
