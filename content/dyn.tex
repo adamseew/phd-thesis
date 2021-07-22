@@ -76,41 +76,107 @@ We derive the new position $\mathbf{p}_{k+1}$ computing the vector field
 \section{Coverage Path Planning}
 \label{sec:cov-path-plan}\findex{coverage path planning}
 
-In this section, we provide an algorithm to solve the \fref{pb:cov-pb}{Problem}. Let us recall briefly our objective of providing a set of paths (a tour) in the plan from \fref{def:plan}{Definition} to cover each point in a given space. We summarize such space with a set of vertices $v:=\{v_1,v_2,\dots\}$ that form a polygon. The robot is free to move within the polygon excluding polyugonal obstacles. These are described by another set of vertices per each obstacle $o_1:=\{o_{1,1},o_{1,2},\dots\},o_2:=\{o_{2,1},o_{2,2},\dots\},\dots$. There are a number of different approaches in the literature to solve this problem. We have summarized these approaches in detail in \fref{sec:soa-cov-path-plan}{Sections}\fref{sec:opti-cov}{--\hspace{-.8ex}} for mobile robots and in \fref{sec:cov-plan-aero}{Sections}\fref{sec:opti-aero-cov}{--\hspace{-.8ex}} for aerial robots specifically. In summary, the sub-class of motion planning that find the coverage tour of a given space is coverage path planning (CPP)~\citep{choset1998coverage}. The algorithms that find such tour are NP-hard~\citep{arkin2000approximation} and use either implicitly or explicitly the cellular decomposition in which the robot free space is divided into sub-regions that can be easily covered~\citep{choset2001coverage,galceran2013survey}.
+In this section, we solve \fref{pb:cov-pb}{Problem}. Let us recall briefly our objective of providing a set of paths (a tour) in the plan from \fref{def:plan}{Definition} to cover each point in a given space. We summarize such space with vertices $v:=\{v_1,v_2,\dots\}$ that form a polygon. The robot is free to move within the polygon except for some obstacles described by a set of vertices, one per each obstacle $o_1:=\{o_{1,1},o_{1,2},\dots\},o_2:=\{o_{2,1},o_{2,2},\dots\},\dots$. There are several different approaches in the literature to solve this problem. We have summarized these approaches in detail in \fref{sec:soa-cov-path-plan}{Sections}\fref{sec:opti-cov}{--\hspace{-.8ex}} for mobile robots and in \fref{sec:cov-plan-aero}{Sections}\fref{sec:opti-aero-cov}{--\hspace{-.8ex}} for aerial robots specifically. In summary, the sub-class of motion planning that finds the coverage tour of a given space is called coverage path planning (CPP)~\citep{choset1998coverage}. The algorithms for the coverage tour are NP-hard~\citep{arkin2000approximation} and use either implicitly or explicitly the cellular decomposition that divides the robot's free space into sub-regions that can be easily covered~\citep{choset2001coverage,galceran2013survey}.
 
-There are numerous approach for cellular decomposition itself. Some use the decomposition into equally sized sub-regions that form a grid, and then visits only the sub-regions where the robot is free to move~\citep{galceran2013survey}. Another way is to sweep the polygon and divide it in sub-regions\findex{sub-regions} when the sweep line\findex{sweep line} encounters a change in connectiviy. We implement this latter class in \fref{sec:cell-deco}{Section}.
-Once the solution algorithms divides the free space into sub-region, it builds a graph with vertices the sub-region and edges connecting the adjacent sub-regions\citep{choset2005principles}. A covering tour between the sub-region is then an exhaustive tour through the adjacency graph with, e.g., depth-first search\findex{depth-first search} algorithm\citep{choset2005principles}. This latter techniques result in the order of the coverage. However, there are multiple ways for generating the coverage motion inside the sub-region. We recall a common way is the boustrophedon motion, whereas a generic fixed-wing craft, such as the Opterra that we use for the precision agriculture scenario in \fref{sec:motivation}{Section}, has limited maneuverability~\citep{mannadiar2010optimal,xu2011optimal,xu2014efficient}. For a generic aerial robot tt is then preferred to have large turning radius~\citep{wang2017curvature}; to this end we propose Zamboni-like motion instead. We briefly introduced this motion in \fref{sec:path-wise}{Section}.
-
+There are numerous methodologies for cellular decomposition itself. Some decompose the polygon into equally sized sub-regions that form a grid and then visits only the sub-regions where the robot is free to move~\citep{galceran2013survey}. 
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/gride.tikz}
+  \caption[Grid decomposition]{A polygonal space where we want to find a coverage tour and visit all the points delimited by $v:=\{v_1,\dots,v_4\}$ except for the obstacle $o_1:=\{o_{1,1},\dots,o_{1,6}\}$. A way to cover the space is the grid decomposition that divides the polygon into equally sized cells and visits each cell except the obstacle.}
+  \label{fig:gride}
+\end{figure}
+This methodology is termed grid decomposition\findex{grid decomposition} in~\fref{fig:gride}{Figure}. Another way is to sweep the polygon and divide it into sub-regions\findex{sub-regions} when the sweep line\findex{sweep line} encounters a change in connectivity. We implement this latter class in \fref{sec:cell-deco}{Section}.
+Once the algorithm divides the free space into sub-region, it builds an adjacency graph\findex{adjacency graph}. The vertices contain the sub-regions and edges connect adjacent sub-regions~\citep{choset2005principles}. A covering tour between the sub-region to derive the order of the coverage is then an exhaustive tour through the adjacency graph with, e.g., depth-first search\findex{depth-first search} algorithm~\citep{choset2005principles}. We generate a coverage motion for the sub-regions in \fref{sec:cov-motion}{Section}. We recall that a method is the boustrophedon motion that we discussed in \fref{cp:soa}{Chapter}. However, a generic fixed-wing craft, such as the Opterra that we use for the precision agriculture scenario in \fref{sec:motivation}{Section}, has limited maneuverability~\citep{mannadiar2010optimal,xu2011optimal,xu2014efficient}. For a generic aerial robot, it is preferred to have a large turning radius~\citep{wang2017curvature}, and to this end, we propose Zamboni-like motion instead. We introduced Zamboni and boustrophedon-like motions in \fref{sec:path-wise}{Section}.
 
 \subsection{Cellular decomposition}
 \label{sec:cell-deco}\findex{cellular decomposition}
 
-To define the cellular decomposition algorithms that decomposes the space to be covered into non-overlapping sub-regions called cells\findex{cells}, we define robot's free space\findex{free space} as $\mathcal{Q}^v$ for an inertial navigation frame $\mathcal{O}_W$. $\mathcal{Q}^v$ is then the space where the robot is free to move without intersecting an obstacle~\citep{choset2005principles}. $\mathcal{Q}^v\subseteq\mathbb{R}^2$ contains all the points delimited by the vertices of the polygon $v$ except for $i$ obstacles delimited by the vertices of $i$ polygons $o_i$. Let further $\mathcal{Q}^{o_i}\subset\mathbb{R}^2$ be the space delimited by the obstacle $o_i$. The entire space in the polygon $v$ including all the obstacles $o_i$ is then $\mathcal{Q}:=(\bigcup_{i\in|o|}\mathcal{Q}^{o_i})\cup\mathcal{Q}^v$.
+To describe the cellular decomposition that decompose the coverage space into non-overlapping sub-regions called cell\findex{cells}s, we define the robot's free space\findex{free space} as $\mathcal{Q}^v$ for an inertial navigation frame $\mathcal{O}_W$. Physically, the free space is where the robot is free to move without intersecting an obstacle~\citep{choset2005principles}. Let $\mathcal{Q}^{o_i}\subset\mathbb{R}^2$ be the space delimited by the obstacle $o_i$. $\mathcal{Q}^v\subseteq\mathbb{R}^2$ contains all the points delimited by the vertices of the polygon $v$ except for $i$ obstacles delimited by the vertices of $i$ polygons $o_i$. The entire space in the polygon $v$, including all the obstacles $o_i$, is then $\mathcal{Q}:=(\bigcup_{i\in|o|}\mathcal{Q}^{o_i})\cup\mathcal{Q}^v$. 
+\begin{figure}[h]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/bcd_1.tikz}
+  \caption[Initial step of the boustrophedon decomposition]{The boustrophedon decomposition for coverage path planning sweeps the space and adds cells in case the sweeping line encounters a change in connectivity. Figure shows an initial step with $c_1$ the first cell formed.}
+  \label{fig:bcd2}
+\end{figure}
+In \fref{fig:bcd2}{Figure}, the polygon is delimited by $v:=\{v_1,\dots,v_4\}$ and forms $\mathcal{Q}^v$, whereas the obstacle by $o_1:=\{o_{1,1},\dots,o_{1,6}\}$ and forms $\mathcal{Q}^{o_1}$. The union of these two is then $\mathcal{Q}$.
 
-An important approach in the polygonal environment is the boustrophedon decomposition\findex{boustrophedon decomposition}~\citep{choset2000coverage}. For non-polygonal environments where $v$ and $o_i$ are, e.g.,  elliptical functions, an important result is the decomposition in terms of critical points of Morse functions\findex{Morse functions}~\citep{choset2000exact}. Both the boustrophedon decomposition and decomposition in terms of critical points of Morse sweep $\mathcal{Q}$ and decompose $\mathcal{Q}^v$ adding a cell in case of a change of connectivity or when they encounter a critical point~\citep{choset2000coverage,choset2001coverage,choset2005principles}. This approach optimizes the neighboring cells that can be thus aggregated opposed to trapezoidal decomposition~\citep{galceran2013survey}--another method that simply adds a cell when it encounters a vertex~\citep{lavalle2006planning}. For the decomposition in terms of critical points of Morse functions, the intuition of using critical points\findex{critical points}~\citep{choset2000exact} has been studied in the planning literature also in the context of roadmaps~\citep{canny1988complexity,canny1988constructing,canny1993opportunistic}\findex{roadmaps}. We briefly summarize the main findings of Choset~et~al. for this latter method~\citep{choset2000exact} before providing the boustrophedon decomposition algorithm applied to out.
-
-Let $\mathcal{Q}$ be the entire space delimited by vertices $v$ and $\mathcal{S}_\lambda$ the vertical slice that sweeps $\mathcal{Q}$. A change in the value of $\lambda$ moves the slice in $\mathcal{Q}$. Let further $\overline{x}_v,\underline{x}_v$ be the highest and lowest coordinate $x$ of all the vertices in $v$, i.e., $\lambda\in[\underline{x}_v,\overline{x}_v]$. We can express the entire space as the union of all the slice, i.e., $\mathcal{Q}=\cup_{\lambda}\mathcal{S}_\lambda$. Let us further define the slice contained in the free space $\mathcal{S}^v_\lambda:=\mathcal{S}_\lambda\cap\mathcal{Q}^{v}$.
-At this point, a change in connectivity of $\mathcal{S}^v$ means that a new cell is needed, or that a cell is no longer necessary respectively when the connectivity increases or decreases~\citep{choset2000exact}. There are some other important findings derived from the planning literature of roadmaps~\citep{canny1988complexity,canny1988constructing,canny1993opportunistic} proving that connectivity changes happen at critical points of the boundary of the obstacle. Notably, the topology\findex{topology} (i.e., connectivity) changes only at critical points of the slice function restricted to the boundaries of obstacles.
-
-For polygonal environments we know the vertices and the polygon, it is enough to verify the change in connectivity by iterating the vertices, and visit the constructed adjacency graph to find the coverage order. 
-
-\begin{algorithm}[h!] %this is an example
-  \SetKwInOut{Input}{Input}
-  \SetKwInOut{Output}{Output}
-  \vspace{.8ex}
-  \Input{\otherfont 128 bit secret key}
-  \Output{\otherfont 11 round keys each of 4 words as $w[0], \dots, w[43]$}
-  \While{not at end of this document}{
-   read current\;
-   \eIf{understand}{
-    go to next section\;
-    current section becomes this one\;
-    }{
-    go back to the beginning of current section\;
-   }
+An important approach in the polygonal environment is the boustrophedon decomposition\findex{boustrophedon decomposition}~\citep{choset2000coverage}. For non-polygonal environments where $v$ and $o_i$ are, e.g., elliptical functions, a significant result is the decomposition in terms of critical points of Morse functions\findex{Morse functions}~\citep{choset2000exact}. Both the boustrophedon decomposition and decomposition in terms of critical points of Morse functions sweep $\mathcal{Q}$ and decompose $\mathcal{Q}^v$ adding a cell in case of a change in connectivity or when they encounter a critical point~\citep{choset2000coverage,choset2001coverage,choset2005principles}. 
+\begin{figure}[h]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/bcd_2.tikz}
+  \caption[Intermediate step of the boustrophedon decomposition]{An intermediate step of the boustrophedon decomposition, with $c_2,c_3$ formed at the first encounter of the obstacle $o_1$. The black points indicate the critical points or changes in connectivity.
   }
-  \caption{How to write algorithms}
-\end{algorithm}
+  \label{fig:bcd3}
+\end{figure}
+In \fref{fig:bcd3}{Figure}, the change in connectivity happens when the sweeping line encounters the obstacle $o_1$. This approach optimizes the neighboring cells that can be thus aggregated as opposed to, e.g., trapezoidal decomposition\findex{trapezoidal decomposition}~\citep{galceran2013survey} in \fref{fig:trap}{Figure}, which adds a cell when it encounters a vertex~\citep{lavalle2006planning}.
+\begin{figure}[h]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/trap.tikz}
+  \caption[Trapezoidal decomposition]{In the trapezoidal decomposition a lot of small cells are created (i.e., the cells $c_2,c_3,c_7$) that can be otherwise merged resulting in disconnected coverage. Boustrophedon decomposition solves the problem by splitting/merging the cells at critical points rather than at vertices. The resulting tour has eight cells as opposed to four cells with boustrophedon decomposition in \fref{fig:bcd4}{Figure}.}
+  \label{fig:trap}
+\end{figure}
+For the decomposition in terms of critical points of Morse functions, the intuition of using critical points\findex{critical points}~\citep{choset2000exact} comes from some early studies on roadmaps\findex{roadmaps}~\citep{canny1988complexity,canny1988constructing,canny1993opportunistic}. Notably, these studies show that topology\findex{topology} (i.e., connectivity) changes only at critical points of a slice function restricted to the boundaries of obstacles. We briefly summarize the main findings of Choset~et~al. for this latter method~\citep{choset2000exact} before discussing the coverage motion for the cells.
+
+Let us define $\mathcal{S}_\lambda$ as the vertical slice function that sweeps $\mathcal{Q}$. A change in the value of $\lambda$ moves the slice in $\mathcal{Q}$. Let further $\overline{x}_v,\underline{x}_v$ be the highest and lowest coordinate $x$ of all the vertices in $v$, i.e., $\lambda\in[\underline{x}_v,\overline{x}_v]$. We can express the entire space as the union of all the slices, i.e., $\mathcal{Q}=\cup_{\lambda}\mathcal{S}_\lambda$. Let us further define the slice contained in the free space $\mathcal{S}^v_\lambda:=\mathcal{S}_\lambda\cap\mathcal{Q}^{v}$.
+At this point, a change in connectivity of $\mathcal{S}^v$ means that a new cell is needed, or that a cell is no longer necessary respectively when the connectivity increases or decreases~\citep{choset2000exact}. 
+\begin{figure}[h]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/bcd_3.tikz}
+  \caption[Result of the boustrophedon decomposition]{The final step of the boustrophedon decomposition, where the sweeping line $\mathcal{S}_{\lambda}$ encounters the final point of its domain $\overline{x}_v$. The decomposition results in four cells. To determine the order of the coverage tour, the methodology is to  visit the adjacency graph.}
+  \label{fig:bcd4}
+\end{figure}
+In \fref{fig:bcd3}{Figure}, $\mathcal{S}_\lambda$ sweeps the space from $\lambda=\underline{x}_v$ in \fref{fig:bcd2}{Figure} up to $\lambda=o_{1,1}$. At this latter lambda, $\mathcal{S}_{o_{1,1}}$ encounters a change in connectivity ($\mathcal{S}^v_{o_{1,1}}$ forms two disconnected slices). It forms two new cells $c_2,c_3$ and adds these cells to the adjacency graph. Finally, when $\mathcal{S}_\lambda$ in encounters another change in connectivity ($\mathcal{S}^v_{o_{1,4}}$ is again one connected slice). This latter is different from the previous change in connectivity with the $\mathcal{S}^v$: the cells are merged with forming a new cell $c_4$. The coverage tour is then a visit through the adjacency graph, resulting in the coverage order $c_1,c_2,c_4$ and finally $c_3$. 
+
+In summary, the methodology iterates through the environment with $\mathcal{S}^v_{\lambda}$ in \fref{fig:bcd2}{Figure}. When the connectivity of $\mathcal{S}^v_{\lambda}$ increases in \fref{fig:bcd3}{Figure}, it closes a cell and opens two new cells--one ceiling and one floor cell. When the connectivity decreases back in \fref{fig:bcd4}{Figure}, the two opened cells are closed and a new one is opened. The overall complexity is $O(n\log{n})$ with $n:=|v|+\sum_{i=1}^{|o|}|o_i|$ the total number of vertices~\citep{choset2000exact}. Indeed, for polygonal environments it is enough to verify the change in connectivity by iterating the vertices, and visit the constructed adjacency graph to find the coverage order. 
+
+%\begin{algorithm}[h!] %this is an example
+%  \SetKwInOut{Input}{Input}
+%  \SetKwInOut{Output}{Output}
+%  \SetKwFunction{FMain}{\small\tt build\_cells}
+%  \SetKwProg{Fn}{Function}{:}{}
+%  \SetKwProg{Pn}{Function}{:}{\KwRet}
+
+%  \DontPrintSemicolon
+%  \Input{$v\,${\otherfont the list of vertices},\newline
+%         $o\,${\otherfont the list of vertices of obstacles}
+%  }
+%  \Output{$c\,${\otherfont the list of vertices of cells}}
+
+%  {\normalsize $c\gets\, ${\small\tt build\_cells(}$v,o${\small\tt )}}\;
+
+%  \Pn{\FMain{\normalsize $v,o,\mathcal{S}^v_\lambda$}}{  
+%  {\normalsize $l_s\gets l(v_1,v_{|v|})$}\;% builds coverage motion parallel to the edge of the polygon
+    
+%    \eIf{\normalsize $o\neq\emptyset,\,o_1\in v$}{ % split in 2 cells in proximity of obstacle
+    
+%      {\normalsize $c_{c}\gets (x_{\underline{o}_1},\mathcal{S}_{x_{\underline{o}_1}}^c)\cup\{w\mid w\in v, \underline{o}_1< w< \overline{o}_1\}\cup(x_{\overline{o}_1},\mathcal{S}_{x_{\overline{o}_1}}^c)$}\;
+%      {\normalsize $c_{c}\gets c_{c}\curvearrowright \{w\mid w\in o_1, w\geq \underline{o}_1\}$}\; % ceiling
+
+%      {\normalsize $c_{f}\gets (x_{\underline{o}_1},\mathcal{S}_{x_{\underline{o}_1}}^c)\cup\{w\mid w\in v, \underline{o}_1< w< \overline{o}_1\}\cup(x_{\overline{o}_1},\mathcal{S}_{x_{\overline{o}_1}}^c)$}\;
+%      {\normalsize $c_{c}\gets c_{c}\curvearrowright \{w\mid w\in o_1, w\geq \underline{o}_1\}$}\; % floor
+
+%      {\normalsize $c_{f}\gets c_{c}$}\;
+%      {\normalsize $c_{f}\curvearrowright   \{w\mid w\in o_1, w\leq \underline{o}_1\}\cup (\overline{x}_{o_{1}},l_f(\overline{x}_{o_{1}}))$}\; % floor
+
+%      {\normalsize $c_{2}\curvearrowright \{w\mid w\in c_{1}, w\geq \underline{x}_{o_{1}}\}\cup (\underline{x}_{o_{1}},l_c(\underline{x}_{o_{1}}))\cup(\underline{x}_{o_{1}},l_f(\underline{x}_{o_{1}}))$}\;
+
+%      {\normalsize $c_{1}\curvearrowright \{w\mid w\in c_{1}, w\leq \underline{x}_{o_{1}}\}\cup (\underline{x}_{o_{1}},l_c(\underline{x}_{o_{1}}))\cup(\underline{x}_{o_{1}},l_f(\underline{x}_{o_{1}}))$}\;
+
+%      {\normalsize $o\gets o\setminus\{o_1\}$}\;
+%      \Return{\normalsize $c_{1}\,\,\cup\,\,${\small\tt build\_cells(}$c_{c},o${\small\tt )}$\,\,\cup\,\,${\small\tt build\_cells(}$c_{2},o${\small\tt )}$\,\,\cup\,\,${\small\tt build\_cells(}$c_{f},o${\small\tt )}}\;
+%    }{
+%      \Return{\normalsize $c_{1}$}\;
+%    }
+%  }
+%  \vspace{.8ex}
+
+%  \caption{A simplified algorithm for cellular decomposition}
+%\end{algorithm}
  
   
 %ALGO: the algo has some events -- vertex of a polygon
@@ -126,6 +192,17 @@ For polygonal environments we know the vertices and the polygon, it is enough to
 
 %INPUT: list of polygon with vertices in counter-clockwise order
 % ASSUMPTION: No two IN nor two OUT events have the same x-coordinate
+
+\subsection{Coverage motion}
+\label{sec:cov-motion}
+
+Once we delimited the coverage area and obstacles areas into appropriate cells, we need to define the path that covers the coverage area. A classical approach in the literature is to sweep the polygon enclosed by the vertices $v$ while avoiding the obstacles using back and forth motion. We saw in \fref{cp:soa}{Chapter} and discussed briefly in the previous section that this is often termed boustrophedon motion. We propose an analogous version of the boustrophedon motion. We recall briefly the intuitive path in \fref{sec:path-wise}{Section} in \fref{fig:plot3}{Figure}: there we proposed what we call boustrophedon like-motion. We have proposed this latter variation as an optimization for the aerial robot flying that to increase the efficiency during turns already broadly discussed in the coverage literature for both mobile~\citep{huang2001optimal} and aerial robots~\citep{artemenko2016energy,li2011coverage}. Indeed the original boustrophedon motion has edges parallel to the polygon where the mobile robot has to slow whereas an aerial robot has to rely on external turning structures such as curlicue orbits~\citep{xu2011optimal,xu2014efficient}. A way of covering the area in \fref{fig:bcd4}{Figure} is in \fref{}{Figure} that shows the boustrophedon-like motion for cell $c_1$.
+% add figure
+The remaining cells are covered in the same manner and the overall coverage is obtained by visiting the cells in the appropriate order derived in the previous section ($c_1,c_2,c_4,$ and $c_3$). Let us assume for an instant that the turning radius in \fref{pb:cov-pb}{Problem} is not given. Let us further assume that the aerial robot can overfly the boundaries of the polygons $v$ and $o_i$ for the turns. The methodology is to lay the line $\varphi_1$ from \fref{eq:plot3}{Figure} parallel to the edge formed by vertices $v_1$ and $v_4$ and the center of the circle $\varphi_2$ laying on the edge formed by vertices $v_4$ and $v_3$. 
+
+% todo here 
+
+Although the turns are considerably smoothed with the boustrophedon-like motion, they are still impractical for fixed-wing drones where the turning radius often exceeds the radius of these turns~\citep{xu2011optimal,xu2014efficient}. Fixed-wing aerial robots have indeed further nonholonomic constraints
 
 
 \section{\color{cyan}Model Predictive Control}

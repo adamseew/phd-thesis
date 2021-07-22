@@ -331,7 +331,7 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 \newcommand\rotatesidewayslabel{\stepcounter{cntsideways}%
  \zlabel{tmp\thecntsideways}\zlabel{rotate\zref@extractdefault{tmp\thecntsideways}{page}{0}}}
 
-\usepackage[linesnumbered,vlined]{algorithm2e} % for pseudocode
+\usepackage[noend,linesnumbered,vlined]{algorithm2e} % for pseudocode
 \SetAlgoCaptionSeparator{.}
 \SetAlgoLined
 \renewcommand\AlCapFnt{\normalfont\otherfont\color{foo}}
@@ -340,3 +340,6 @@ boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
 \usepackage{etoolbox}
 \AtBeginEnvironment{algorithm}{\let\textnormal\otherfont}
 \renewcommand{\thealgocf}{\arabic{chapter}.\arabic{algocf}}
+\newcommand{\kwsty}[1]{\textcolor{foo}{#1}}
+\SetKwSty{kwsty}
+
