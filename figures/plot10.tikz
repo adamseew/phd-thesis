@@ -5,7 +5,7 @@
 \definecolor{cFFFFFF}{RGB}{255,255,255}
 
 
-\def \globalscale {.900000}
+\def \globalscale {1.100000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
 \path[fill=cCCD3DA,line join=round,line width=0.160pt] (66.7805,413.4660) .. controls (66.7805,413.4660) and (78.2497,419.4630) .. (79.6039,419.5840) .. controls (89.0833,420.4270) and (120.7060,425.6230) .. (132.8490,418.9240) .. controls (132.8490,418.9240) and (147.1650,416.0520) .. (162.4250,406.6130) .. controls (177.6850,397.1740) and (154.6790,353.8840) .. (154.6790,353.8840) .. controls (154.6790,353.8840) and (150.3670,348.0420) .. (140.6380,337.6960) .. controls (120.8650,316.6680) and (96.0032,313.8320) .. (96.0032,313.8320) .. controls (96.0032,313.8320) and (34.4821,288.0000) .. (25.3585,301.5340) .. controls (25.3585,301.5340) and (-20.7738,319.8260) .. (41.4462,396.1850) -- (66.7805,413.4660) -- cycle;
 
@@ -15,7 +15,7 @@
 
 \path[fill=foo,line join=round,line width=0.160pt] (126.1400,97.1736) .. controls (126.1400,97.1736) and (153.8360,27.5329) .. (70.0033,24.4741) .. controls (-15.4922,21.3547) and (64.0333,197.2630) .. (126.1400,97.1736) -- cycle;
 
-\path[cm={{1.0,0.0,0.0,1.0,(0,0)}}] (0.0000,0.0000) node[below right] () {\includegraphics[width=4.05in]{figures/source/plot10}};
+\path[cm={{1.0,0.0,0.0,1.0,(0,0)}}] (0.0000,0.0000) node[below right] () {\includegraphics[width=4.95in]{figures/source/plot10}};
 
 
 \path[fill=foo,line join=round,line width=0.160pt] (376.1380,338.2660) .. controls (377.3320,338.2660) and (378.3000,339.2340) .. (378.3000,340.4280) .. controls (378.3000,341.6220) and (377.3320,342.5900) .. (376.1380,342.5900) .. controls (374.9440,342.5900) and (373.9750,341.6220) .. (373.9750,340.4280) .. controls (373.9750,339.2340) and (374.9440,338.2660) .. (376.1380,338.2660) -- cycle;
@@ -155,47 +155,47 @@
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(117.0,274.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Mavic Mini  \textlabel{(h)}{lab:mavic}};
+  \path[cm={{1.0,0.0,0.0,1.0,(124.0,274.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Mavic Mini  \textlabel{(h)}{lab:mavic}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(305.0,328.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Agras T16  \textlabel{(g)}{lab:agras}};
+  \path[cm={{1.0,0.0,0.0,1.0,(310.0,328.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Agras T16  \textlabel{(g)}{lab:agras}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(266.0,266.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Matrice 600  \textlabel{(f)}{lab:matrice}};
+  \path[cm={{1.0,0.0,0.0,1.0,(273.0,266.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Matrice 600  \textlabel{(f)}{lab:matrice}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(176.0,362.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Phantom 4  \textlabel{(j)}{lab:phantom}};
+  \path[cm={{1.0,0.0,0.0,1.0,(183.0,362.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DJI Phantom 4  \textlabel{(j)}{lab:phantom}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(157.0,162.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize\color{white} Cumulus \textlabel{(b)}{lab:cumulus}};
+  \path[cm={{1.0,0.0,0.0,1.0,(159.0,162.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize\color{white} Cumulus \textlabel{(b)}{lab:cumulus}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(127.0,203.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Opterr{\color{white}a \textlabel{(e)}{lab:opterra}}};
+  \path[cm={{1.0,0.0,0.0,1.0,(128.0,203.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Opterra {\color{white}\textlabel{(e)}{lab:opterra}}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(207.0,230.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize\color{white} Ebee \textlabel{(d)}{lab:ebee}};
+  \path[cm={{1.0,0.0,0.0,1.0,(209.0,230.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize\color{white} Ebee \textlabel{(d)}{lab:ebee}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(250.0,169.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize{\color{white} Penguin B}E  \textlabel{(c)}{lab:penguin}};
+  \path[cm={{1.0,0.0,0.0,1.0,(252.0,169.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize{\color{white} Penguin BE}  \textlabel{(c)}{lab:penguin}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(63.0,422.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Nano-Hummingbird  \textlabel{(l)}{lab:nano}};
+  \path[cm={{1.0,0.0,0.0,1.0,(71.0,422.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Nano-Hummingbird  \textlabel{(l)}{lab:nano}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(43.0,292.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Delfly II  \textlabel{(k)}{lab:delfly}};
+  \path[cm={{1.0,0.0,0.0,1.0,(47.0,292.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Delfly II  \textlabel{(k)}{lab:delfly}};
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(64.0,104.0)}}] (0.0000,0.0000) node[above right] () {\color{white}\scriptsize Skye \textlabel{(a)}{lab:skye}};
+  \path[cm={{1.0,0.0,0.0,1.0,(68.0,104.0)}}] (0.0000,0.0000) node[above right] () {\color{white}\scriptsize Skye \textlabel{(a)}{lab:skye}};
 
 
 

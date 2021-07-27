@@ -34,7 +34,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(41.2563,214.331)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(33.2563,214.331)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {0};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 0};
 
 
 
@@ -68,7 +68,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(41.2563,135.844)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(33.2563,135.844)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {2};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 2};
 
 
 
@@ -102,7 +102,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(41.7594,58.3625)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(33.7594,58.3625)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {4};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 4};
 
 
 
@@ -136,7 +136,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(89.5563,221.375)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(89.5563,229.375)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {-2};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize -2};
 
 
 
@@ -170,7 +170,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(174.081,221.375)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(174.081,229.375)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {0};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 0};
 
 
 
@@ -204,7 +204,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(255.588,221.375)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(255.588,229.375)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {2};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 2};
 
 
 
@@ -231,7 +231,7 @@
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(23.1438,150.938)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(7.1438,180.938)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(0.1438,180.938)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{Spectrum (10${}^{\text{2}}$dB)}};
 
 
@@ -249,7 +249,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(139.366,235.463)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(100.366,251.463)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(100.366,261.463)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {Frequency (10${}^{-\text{2}}$Hz)};
 
 

@@ -412,17 +412,22 @@ Equation~(\ref{eq:mechanical-model-7}) can be used to derive all the constants f
 \subsection{\color{cyan}Fourier series of empirical data}
 \label{sec:fourier}
 
-\begin{figure}[t]
-  \footnotesize
-  \centering
-  \begin{subfigure}[b]{0.48\textwidth}
+Some collected energy data from the Opterra (in \fref{fig:opterra}{Figure}) adapted for precision agriculture scenario along its power spectrum back the choice of the periodic energy model. A periodic energy evolution of a fixed-wing aerial robot flying a plan and covering the polygon in \fref{fig:plot2}{Figure} (we describe the fixed-wing aerial robot plan in detail in \fref{sec:flight-plan}{Section}) is shown in \fref{fig:energy-1}{Figure}. \fref{fig:spectrum-1}{Figure} shows its frequency spectrum (the data are uniformly sampled). The spectrum is centered at zero frequency, which peaks at 4$\cdot$10${}^{\text{5}}$ and indicates the shift on the power-axis in \fref{fig:energy-1}{Figure}. The power spectrum shows that the energy evolution from \fref{fig:energy-1}{Figure} needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
+
+
+\section{Periodic Energy Model}
+\label{sec:periodic-model}
+
+Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often expected to iterate a set of tasks and paths periodically (see \fref{sec:outline}{Section}). For instance, the aerial robot might be covering a polygon such as the one proposed in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
+\begin{figure}[h!]
+  \begin{subfigure}[b]{0.52\textwidth}
     \centering
     \footnotesize\fontfamily{phv}
     \input{figures/energy_1.tikz}
     \caption{Energy evolution}
     \label{fig:energy-1}
   \end{subfigure}\hspace{2mm}
-  \begin{subfigure}[b]{0.48\textwidth}
+  \begin{subfigure}[b]{0.46\textwidth}
     \centering
     \footnotesize\fontfamily{phv}
     \input{figures/spectrum_1.tikz}
@@ -431,15 +436,6 @@ Equation~(\ref{eq:mechanical-model-7}) can be used to derive all the constants f
   \end{subfigure}
   \caption[Energy data of a fixed-wing aerial robot]{Empirical energy data collected flying a fixed-wing aerial robot's plan and covering the polygon in \fref{fig:plot2}{Figure}. The data shows that the energy signal is periodic over time as the fixed-wing aerial robot reiterates a set of paths.}
 \end{figure}
-
-Some collected energy data from the Opterra (in \fref{fig:opterra}{Figure}) adapted for precision agriculture scenario along its power spectrum back the choice of the periodic energy model. A periodic energy evolution of a fixed-wing aerial robot flying a plan and covering the polygon in \fref{fig:plot2}{Figure} (we describe the fixed-wing aerial robot plan in detail in \fref{sec:flight-plan}{Section}) is shown in \fref{fig:energy-1}{Figure}. \fref{fig:spectrum-1}{Figure} shows its frequency spectrum (the data are uniformly sampled). The spectrum is centered at zero frequency, which peaks at 4$\cdot$10${}^{\text{5}}$ and indicates the shift on the power-axis in \fref{fig:energy-1}{Figure}. The power spectrum shows that the energy evolution from \fref{fig:energy-1}{Figure} needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
-
-
-\section{Periodic Energy Model}
-\label{sec:periodic-model}
-
-Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often expected to iterate a set of tasks and paths periodically (see \fref{sec:outline}{Section}). For instance, the aerial robot might be covering a polygon such as the one proposed in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
-
 We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot flying the agricultural scenario in \fref{fig:energy-1}{Figure} and \fref{fig:spectrum-1}{Figure}.
 
 In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:deriv}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
@@ -776,6 +772,7 @@ The scaling factors add the computational energy component to the model in \fref
 \end{align}\end{subequations}
 $\forall j\in[\rho+1,n]$. Moreover, let the factors be zero when the parameters set $c_i^\sigma=\{\emptyset\}$.
 
+The concept of a path and a computation parameter scale transformation is illustrated in \fref{fig:plot-6}{Figure}. 
 \begin{figure}[h]
   \centering
   \fontfamily{phv}\selectfont
@@ -783,8 +780,15 @@ $\forall j\in[\rho+1,n]$. Moreover, let the factors be zero when the parameters 
   \caption[Concept of a path and computation parameter scale transformation]{The concept of a path and computation parameter scale transformation. Without any battery constraints, the dynamic energy planning selects the highest configuration which respects the control constraint (inner rectangle) from \frefeq{eq:constraint-set}.}
   \label{fig:plot-6}
 \end{figure}
-
-The concept of a path and a computation parameter scale transformation is illustrated in \fref{fig:plot-6}{Figure}. The energy domain is bounded by the output of \powprof{}, while the flight time domain by the empirical data. The dynamic energy planning selects the highest possible configuration under the constraints. Currently, the highest configuration of parameters corresponds to the highest configuration of parameters $(\overline{c}_{i,1},\overline{c}_{i,2})$ (blue point in the figure). We will show in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints. 
+The energy domain is bounded by the output of \powprof{}, while the flight time domain by the empirical data. The dynamic energy planning selects the highest possible configuration under the constraints. Currently, the highest configuration of parameters corresponds to the highest configuration of parameters $(\overline{c}_{i,1},\overline{c}_{i,2})$ (blue point in the figure). We will show in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints.
+\begin{figure}[h]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/plot7.tikz}
+  \caption[.]{.}
+  \label{fig:plot-7}
+\end{figure}
+%todo explain a bit plot7 
 
 \subsection{\color{red}Aperiodic energy evolution}
 \label{sec:non-perio}
