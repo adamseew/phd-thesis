@@ -239,8 +239,6 @@ If the polygon is not regular and composed of four edges, we still build the rem
 
 The complexity of the coverage motion generation algorithm for a cell that returns $\Gamma$ with the primitive paths is simply the complexity of building then the four primitive paths $\varphi_1,\dots,\varphi_4$. We saw that this is enough to cover both a complex polygon or a regular one with four edges in \fref{fig:zambo1}{Figure}, and thus the running time is constant $O(1)$. The overall complexity of cellular decomposition of a polygon and the plan generation is thus $O(n\log{n})$, where $n$ is the number of vertices v and the vertices of $i$ obstacles $o_i$~\citep{choset2000exact}.
 
----
-
 %\begin{algorithm}[h!] %this is an example
 %  \SetKwInOut{Input}{Input}
 %  \SetKwInOut{Output}{Output}
@@ -264,10 +262,14 @@ The complexity of the coverage motion generation algorithm for a cell that retur
 %\end{algorithm}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model Predictive Control}\findex{model predictive control}
 
-\section{\color{cyan}Model Predictive Control}
+We have discussed various techniques for controlling a system optimally in \fref{cp:opt}{Chapter}. In this section, we use these techniques on the aerial robot; we derive the optimal control on a finite horizon rather than the entire time frame. To this end, we use model predictive control (\Gls{acr:mpc}), also called receding horizon predictive control (RHPC)\findex{receding horizon predictive control}, an optimal control technique on a finite horizon~\citep{camacho2007model}. MPC forecasts the system behavior and optimizes the forecast\findex{forecast} to derive a control action~\citep{rawlings2017model}. A problem of the generic optimal control is its difficulty and computational complexity. MPC overcomes this difficulty by optimizing for a bit of the time frame at each optimization step~\citep{camacho2007model}. There have been many MPC developments in optimal control literature~\citep{rawlings2017model}. These range from robust\findex{robust model predictive control} (where the model is subject to uncertainty), output\findex{output model predictive control} (where noisy sensors' data estimates a model state), to distributed MPC\findex{distributed model predictive control} (that splits the original MPC into sub-problems)~\citep{camacho2007model,rawlings2017model,kwon2006receding,rossiter2004model,wang2009model}.
 
+We recall briefly the models that we proposed in \fref{sec:periodic-model}{Section} model the energy of computations and the overall energy evolution as a differential equation controlled with a given plan $\Gamma$'s configuration. This configuration is relative to the coverage (we built the paths for a coverage tour in \fref{sec:cov-path-plan}) and the computations (we discussed the computations running on the robot in \fref{sec:computation-wise}{Section}). MPC is thus a convenient technique to derive an optimal configuration: we only have an empirical approximation of the time needed to cover a given space; instead of considering this approximation, with MPC, we optimize a given horizon. As further motivation, numerous recent studies apply MPC to aerial robots, including path following path following~\citep{gavilan2015iterative}, trajectory tracking~\citep{torrente2021data}, and involving fixed~\citep{kang2009linear,stastny2018nonlinear,chao2011collision,cavanini2021model} and rotary-wings~\citep{kostadinov2020online,song2020learning,bicego2020nonlinear}. More closely related to ours, some literature use optimization techniques on a finite horizon to plan the motion and schedule the computations energy-wise~\citep{zhang2007low,ondruska2015scheduled}, and others use different optimization techniques in this regard~\citep{lahijanian2018resource,brateman2006energy}.  Our contribution extends some of these studies deriving further an energy-aware coverage path along with a power-saving schedule. In \fref{sec:soa-comp-motion-pl}{Section}, we broadly discuss the available literature for simultaneous planning and scheduling of mobile robots. Here, in \fref{sec:output-mpc}{Section}, we discuss output MPC that we use for replanning of $\Gamma$: a technique that uses estimates to refine the state of a model and thus to derive a control action robust to noise~\citep{rawlings2017model}. We then provide a further construct to include the battery model from \fref{cp:model}{Chapter}. In Section \fref{sec:opt-cont-gener}{Section}, we dig further into the implementation of output MPC, and finally, in \fref{sec:algo}{Section}, we discuss an algorithm for the coverage replanning and scheduling. This algorithm is central to our approach: it uses the model from \fref{cp:model}{Chapter} for energy-aware coverage planning and scheduling of the aerial robot flying under tight battery constraints and uncertainty.
 
+---
 
 \subsection{Output model predictive control}
 \label{sec:output-mpc}
@@ -395,7 +397,7 @@ using the interval boundary time points as a decision variable in the multiple s
 
 ---
 
-\section{\color{cyan}Dynamic Planning Algorithm}
+\subsection{Coverage planning and scheduling algorithm}
 \label{sec:algo}
 
 
