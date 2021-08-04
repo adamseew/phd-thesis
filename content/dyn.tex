@@ -351,12 +351,12 @@ The dynamics constraint satisfaction requires to evolve the perfect model $f$ in
 
 The OCP from \frefeq{eq:ocp-output-mpc} is infinite-dimensional, being the system dynamics in \frefeq{eq:dyn-evol} and the battery dynamics in \frefeq{eq:bat} given in continuous- and not discrete-time. Such an infinite dimensional OCP has an infinite-dimension of constraints and decision variables since there are infinitely many time instants between $t_0$ and $t_0+N$. We discretize the OCP to finite dimensions in \fref{sec:opt-cont-gener}{Section}.
 
----
-
-\subsection{Optimal control generation with model predictive control}
+\subsection{Replanning with output model predictive control}
 \label{sec:opt-cont-gener}
 
-In this section we combine the notions from the previous sections in this chapter and \fref{cp:model}{Chapters}\fref{cp:dyn}{--\hspace*{-.8ex}} and provide a solution to the planning problem in \fref{cp:pb}{Chapter}.
+---
+
+In this section we combine the notions from the previous sections and \fref{cp:model}{Chapters}\fref{cp:dyn}{--\hspace*{-.8ex}} and provide a solution to \fref{pb}{Problem}. We recall that the solution to \fref{pb:cov-pb}{Problem} is the derivation of the coverage motion in \fref{sec:cov-motion}{Section}, that together with the formal definition of path function in \fref{sec:path-wise}{Section} and of computations in \fref{sec:computation-wise}{Section} form the plan $\Gamma$.
 
 First, we need to transform the OCP in \frefeq{eq:ocp-output-mpc} into an NLP. The optimization problem to be solved numerically in the discrete form is effectively an NLP, due to the nonlinearity in the cost functions $l,l_f,$ and in the constraints
 \begin{subequations}\label{eq:disc-ocp-output-mpc}\begin{align}
