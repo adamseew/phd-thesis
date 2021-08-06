@@ -286,7 +286,7 @@ For the sole purpose of exemplification, we provide a detailed visual example of
 \end{figure}
 \fref{fig:zambo1}{Figure} showed the coverage of the cell $c_1$ with the highest configuration of parameter $c_{4,1}$. If we assume that the time needed to perform the circle $\varphi_4(\overline{c}_{4,1})$ is $t_3$, the vertical lines $\varphi_1,\varphi_3$ is $2t_1$, and the circle $\varphi_2$ is $t_2$, then the overall time to cover $c_1$ with configuration ${c}_{4,1}=\overline{c}_{4,1}$ is $t_{\overline{c}_{4,1}}=7(2t_1+t_2+t_3)+t_1$. Conversely, in \fref{fig:zambo2}{Figure} we assume that the time needed to perform $\varphi_4(\underline{c}_{4,1})$ is $t_4$; then the time needed to cover $c_1$ with configuration ${c}_{4,1}=\underline{c}_{4,1}$ is $t_{\underline{c}_{4,1}}=3(2t_1+t_2+t_4)+t_1$. It is clear that $t_4<t_3$ (for how the parameter $c_{4,1}$ is constructed in \fref{sec:path-wise}{Section}) and thus $t_{\underline{c}_{4,1}}<t_{\overline{c}_{4,1}}$. If we further assume that traveling all the paths take a similar time $t_1\approx t_2\approx t_3\approx t_4$, then we can observe a 45\% time reduction in flying \fref{fig:zambo2}{Figure} compared to flying \fref{fig:zambo1}{Figure}. Analogously, in the energy domain, we can expect a considerable reduction in the battery drain with ${c}_{4,1}=\underline{c}_{4,1}$ compared to ${c}_{4,1}=\overline{c}_{4,1}$. Our purpose in the remaining of this section is to find the configuration of the path (in the latter case of $c_{4,1}$) along with the computations parameters to maximize the coverage with SoC higher than zero--to find the optimal control on $N$ w.r.t. a given energy cost.
 
-The derivation of such optimal control involves the definition of an optimal control problem (\Gls{acr:ocp}) and its transformation into a nonlinear program (\Gls{acr:nlp}). Before, however, we re-evaluate the output constraints to include the battery model in \fref{sec:battery-model}{Section}. 
+The derivation of such optimal control involves the definition of an optimal control problem (\Gls{acr:ocp})\findex{optimal control problem} and its transformation into a nonlinear program (\Gls{acr:nlp})\findex{nonlinear program}~\citep{rawlings2017model,grune2017nonlinear}. Before, however, we re-evaluate the output constraints to include the battery model in \fref{sec:battery-model}{Section}. 
 %\subsubsubsection{Output constraint set}
 The output of the model in \frefeq{eq:state-perf} is the instantaneous energy consumption $y$ that we stated earlier evolves in $\mathbb{R}$. Nevertheless, there is a limit to the instantaneous energy consumption drainable from a battery at a given time instant. Moreover, aerial robots are bounded by strict energy budgets due to battery limitations, as we motivated in \fref{sec:motivation}{Section}. Hence, we redefine the original output constraint ($\mathbb{R}$) to include the battery model in \fref{sec:battery-model}{Section}. We consider SoC $b$ of the mobile robot's battery with the simplistic differential model in \frefeqM{eq:battery-model-1}{eq:battery-model-2}
 \begin{equation}\label{eq:bat}
@@ -315,7 +315,7 @@ We assume the mobile robot carries a battery energy sensor and obtain the initia
 
 %\subsubsubsection{Optimal control problem for coverage (re)planning and scheduling}
 
-To state the OCP on a finite horizon, we use a similar expression to  \fref{sec:opt-constrained}{Section}
+To state the OCP on a finite horizon, we use a similar expression to \fref{sec:opt-constrained}{Section} with
 \begin{subequations}\label{eq:ocp-output-mpc}\begin{align}
   \max_{\mathbf{q}(t),c_i(t)}&{l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),c_i(t),t)\,dt}},\\
   \text{s.t. }\dot{\mathbf{q}}&=f(\mathbf{q}(t),c_i(t),t),\label{eq:dyn-evol}\\
@@ -327,12 +327,11 @@ To state the OCP on a finite horizon, we use a similar expression to  \fref{sec:
 \end{align}\end{subequations}
 where constraints in \frefeqM{eq:dyn-evol}{eq:polyg-const} are evaluated on $t\in[t_0,T]$. $\mathbf{q}(t)$ and $c_i(t)$ are the state and control trajectories and $\mathbf{p}(t)$ is the aerial robot's position w.r.t. an inertial navigation frame $\mathcal{O}_W$. The sizes of the state and control ($m$ and $n$) are defined in \fref{sec:periodic-model}{Section} and \fref{sec:nom-cont}{Section}. By solving the OCP in \frefeq{eq:ocp-output-mpc}, we want to derive the trajectory $c_i^*(t)=\{c^*_{i,1},\dots,c^*_{i,\rho},c^*_{i,\rho+1},\dots,c^*_{i,\rho+\sigma}\}$ in \fref{sec:defs-stages-triggs}{Section} for a given stage $i$ in \fref{def:stage}{Definition}. In the $\max$ term in \frefeq{eq:ocp-output-mpc}, we further derive the trajectory of the ideal state $\mathbf{q}(t)$, which we can use to evaluate the model's fidelity against future measured data. Indeed the solution to the OCP has to  evolve the model from trained data using state estimation up to the initial time instant $t_0$. At the very beginning of the optimization (when $t_0=0$), we will see that the perfect model evolution in \frefeq{eq:dyn-evol} does not correspond to the data despite converging later on: for successive horizons, there $\exists k\text{ s.t. }t_0=kN$ and the model in \frefeq{eq:dyn-evol} converges for $\mathbf{q}(kN)=\hat{\mathbf{q}}_{kN}$. Our constraints contain the control and state constraint in \frefeq{eq:constraint-set}, the output constraint in \fref{def:const}{Definition}, and the dynamics with the ideal state evolution in \frefeq{eq:state-perf} in \frefeqM{eq:dyn-evol}{eq:batt-const-mpc}. The OCP further contains the coverage constraint from \fref{sec:path-wise}{Section} and \fref{sec:cov-motion}{Section} in \frefeq{eq:polyg-const}. Although the aerial robot can overfly the obstacles and the edges of the polygon, it cannot compute any computation. Formally, we inhibit the computations setting their constraint to $\{0\}$ when the aerial robot is flying over the $i$th obstacle $o_i$ and out of the polygon $v$ (it is thus out of the space $\mathcal{Q}^v$). We have similarly inhibited the computations out of the polygon $v$ in \fref{sec:path-wise}{Section}.
 
-
 The dynamic evolution in \frefeq{eq:dyn-evol} is then the periodic model in \frefeq{eq:state-perf} together with the scale transformation from \fref{sec:merging}{Section}
 \begin{equation}\label{eq:perf-model-in-mpc}
   f(\mathbf{q}(t),c_i(t),t)=A\mathbf{q}(t)+B\mathrm{diag}(\nu_i)(c_i(t)-c_i(t-\Delta t)),
 \end{equation}
-where $c_i(t-\Delta t)$ is the control at the time instant preceding $t$.
+where $c_i(t-\Delta t)$ is the control at the time instant preceding $t$, $A$ is the state transition matrix in \frefeq{eq:mat_A}, $B$ the input matrix in \frefeq{eq:mat_B}, and $\nu_i$ is the scale transformation in \frefeq{eq:scaling} with the scaling factors that for the first $\rho$ path parameters are given in \frefeq{eq:scale-traj} and for the remaining computations parameters in \frefeq{eq:scale-comp}.
 
 The instantaneous cost function is the quadratic expression
 \begin{equation}\label{eq:insta-cost-mpc}
@@ -354,22 +353,23 @@ The OCP from \frefeq{eq:ocp-output-mpc} is infinite-dimensional, being the syste
 \subsection{Replanning with output model predictive control}
 \label{sec:opt-cont-gener}
 
----
+In this section, we solve the OCP in \frefeq{eq:ocp-output-mpc}, providing a solution to \fref{pb}{Problem} that we introduced along with \fref{pb:cov-pb}{Problem} in \fref{cp:soa}{Chapter}. We use the notions from the previous sections and \fref{cp:model}{Chapters}\fref{cp:opt}{--\hspace*{-.8ex}}: with the solution, we derive the configuration of paths and computations $c_i^*$ for each stage $i$ in an energy-aware fashion to replan the plan $\Gamma$. The solution to \fref{pb:cov-pb}{Problem} is the plan $\Gamma$, which contains the primitive paths for the coverage motion in \fref{sec:cov-motion}{Section} and \fref{sec:path-wise}{Section}, along with the computations in \fref{sec:computation-wise}{Section}. 
 
-In this section we combine the notions from the previous sections and \fref{cp:model}{Chapters}\fref{cp:dyn}{--\hspace*{-.8ex}} and provide a solution to \fref{pb}{Problem}. We recall that the solution to \fref{pb:cov-pb}{Problem} is the derivation of the coverage motion in \fref{sec:cov-motion}{Section}, that together with the formal definition of path function in \fref{sec:path-wise}{Section} and of computations in \fref{sec:computation-wise}{Section} form the plan $\Gamma$.
+We are interested in providing this solution online, with a procedure running onboard the aerial robot subject to various atmospheric interferences. There are different techniques for this purpose~\citep{grune2017nonlinear,rawlings2017model}. In \fref{cp:opt}{Chapter}, we saw some relevant to our approach, which are the direct methods already employed in many MPC-related applications~\citep{rawlings2017model}. In particular, we saw single and multiple shooting methods\findex{single shooting method}\findex{multiple shooting method} in \fref{sec:single-shoot}{Sections}\fref{sec:multi-shoot}{--\hspace*{-.8ex}}. They parametrize the control and state trajectories with a finite-dimensional vector and derive an NLP~\citep{rawlings2017model}. Both the methods perform this latter discretization, but the resulting NLP differs. The multiple shooting method keeps the states as decision variables at the boundary time points, allowing further optimizations~\citep{rawlings2017model}. It combines some of the advantages of the other methods, such as the direct collocation method\findex{collocation method} that we discussed in \fref{sec:colloc}{Section}, together with the direct single shooting method~\citep{diehl2006fast,grune2017nonlinear}. Once we obtain the finite-dimensional NLP, we can solve it numerically, with the numerical solvers available in the literature~\citep{diehl2006fast,grune2017nonlinear,nocedal2006numerical}. 
 
-First, we need to transform the OCP in \frefeq{eq:ocp-output-mpc} into an NLP. The optimization problem to be solved numerically in the discrete form is effectively an NLP, due to the nonlinearity in the cost functions $l,l_f,$ and in the constraints
+The NLP derived from the OCP in \frefeq{eq:ocp-output-mpc} is
 \begin{subequations}\label{eq:disc-ocp-output-mpc}\begin{align}
   \max_{\mathbf{q}(k),c_i(k)}{l_f(\mathbf{q}(T}&{),T)+\sum_{k\in\mathcal{K}}{l_d(\mathbf{q}(k),c_i(k),k)}},\\
   \text{s.t. }\mathbf{q}(k+h)&=f_d(\mathbf{q}(k),c_i(k),k),\label{eq:disc-dyn-evol}\\
   c_i(k)&\in\mathcal{U}_i,\mathbf{q}(k)\in\mathbb{R}^m,\label{eq:disc-state-cont-const-mpc}\\
   y(k)&\in\mathcal{Y}(k),\label{eq:disc-batt-const-mpc}\\
+  \mathcal{S}_{i,j}&:=\{0\},\,\forall j \in [\sigma]\text{ when }\mathbf{p}(k)\notin\mathcal{Q}^v,\label{eq:disc-polyg-const}\\
   \mathbf{q}(t_0)&=\hat{\mathbf{q}}_0\,\,\,\text{given (last estimated state)},\text{ and}\\
   b(y(t_0),t_0)&=b_0\,\,\,\text{given},
 \end{align}\end{subequations}
-where the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} are now evaluated on a finite interval $k\in\mathcal{K}=\{t_0,t_0+h,t_0+2h,\dots,T\}$, and $h$ is a given distance between two time instants; the smaller the distance the more precise the simulation. The other expressions are analogous to \frefeq{eq:ocp-output-mpc}.
+where the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-polyg-const} are evaluated now on a finite interval $k\in\mathcal{K}=\{t_0,t_0+h,t_0+2h,\dots,T\}$, and $h$ is a given distance between two  consecutive time instants; the smaller the distance, the more precise the simulation. The other expressions are analogous to \frefeq{eq:ocp-output-mpc}.
 
-We use numerical simulation to transform \frefeq{eq:ocp-output-mpc} into \frefeq{eq:disc-ocp-output-mpc}. We can use either the Runge-Kutta methods in \fref{sec:rk4}{Section}, or the Euler method in \fref{sec:euler}{Section}. For simplicity, we show the transformation with the Euler method. The instantaneous cost function $l_d$
+We use numerical simulation\findex{numerical simulation} to transform \frefeq{eq:ocp-output-mpc} into \frefeq{eq:disc-ocp-output-mpc}. We can use either the Runge-Kutta methods\findex{Runge-Kutta methods} in \fref{sec:rk4}{Section} or the Euler method\findex{Euler method} in \fref{sec:euler}{Section}. For simplicity, we show the transformation with the Euler method. The instantaneous cost function
 \begin{equation}
   l_d(\mathbf{q}(k),c_i(k),k)=hl(\mathbf{q}(k),c_i(k),k),
 \end{equation}
@@ -379,20 +379,24 @@ The discrete dynamic evolution in \frefeq{eq:disc-dyn-evol}
 \begin{equation}
   f_d(\mathbf{q}(k),c_i(k),k)=A_d\mathbf{q}(k)+B\mathrm{diag}(\nu_i)(c_i(k)-c_i(k-h)),
 \end{equation}
-where $A_d$ is the discretized version of the state transition matrix $A$ and for small enough interval of $h$
+where $A_d$ is the discretized version of the state transition matrix $A$ in \frefeq{eq:mat_A} and for a small enough interval of $h$
 \begin{equation}
 A_d=(hA+\mathrm{diag}(1,1,\dots,1)),
 \end{equation}
-where $\mathrm{diag}(1,1,\dots,1)\in\mathbb{R}^{m\times m}$ is a diagonal matrix of ones. We discretize the battery dynamics in \frefeq{eq:bat} 
-\begin{equation}
-  b_d(y(k+h),k+h)=b(y(k),k)+hb(y(k+h),k+h).
-\end{equation}
+where $\mathrm{diag}(1,1,\dots,1)\in\mathbb{R}^{m\times m}$ is a diagonal matrix of ones. $B$ is then the input matrix in \frefeq{eq:mat_B}, and $\nu_i$ is the scale transformation in \frefeq{eq:scaling} with the scaling factors that for the first $\rho$ path parameters are given in \frefeq{eq:scale-traj} and for the remaining $\sigma$ computations parameters in \frefeq{eq:scale-comp}, similarly to \frefeq{eq:perf-model-in-mpc}.
 
-We transformed the OCP in \frefeq{eq:ocp-output-mpc} into an NLP in \frefeq{eq:disc-ocp-output-mpc} by first discretizing and thus effectively implementing the direct multiple shooting method in \fref{sec:multi-shoot}{Section}. We note that we can implement the single shooting method by keeping only the initial state as the decision variable $\hat{\mathbf{q}}_0$ opposed to 
-using the interval boundary time points as a decision variable in the multiple shooting method~\citep{rawlings2017model}.
+To discretize the battery dynamics in \frefeq{eq:bat}, we use
+\begin{equation}
+  b_d(y(k+h),k+h)=b(y(k),k)+hb(y(k+h),k+h),
+\end{equation}
+where $b$ is given in \frefeq{eq:bat} and $y(k)$ is the output of the model in \frefeq{eq:state-perf-output}. The matrix $C$ is to be found in \frefeq{eq:mat_C}.
+
+In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-output-mpc} into an NLP by first discretizing and thus effectively implementing the direct multiple shooting method in \fref{sec:multi-shoot}{Section}. We note that we can implement the single shooting method by keeping only the initial state as the decision variable $\hat{\mathbf{q}}_0$, conversely to using the interval boundary time points as a decision variable in the multiple shooting method~\citep{rawlings2017model}.
+
 
 %For convenience, we replace the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} using equality and inequeality constraints such that the problem can be then solved by a numerical optimization algorithm. The \frefeq{eq:disc-dyn-evol} becames
 
+---
 
 \subsection{Coverage planning and scheduling algorithm}
 \label{sec:algo}
