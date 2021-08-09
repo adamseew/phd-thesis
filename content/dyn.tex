@@ -401,6 +401,11 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
 \subsection{Coverage planning and scheduling algorithm}
 \label{sec:algo}
 
+\fref{algo:repla}{Algorithm} derives the optimal configuration of path and computations parameters, and thus performs the coverage (re)planning and scheduling. It inputs the initial plan $\Gamma$ along with the initial time step and a guess for the energy model that we proposed in \fref{sec:period-est}{Section} and outputs the revised plan $\Gamma$ when the aerial robot reaches the final point $\mathbf{p}_{\Gamma_l}$. It optionally inputs then the initial stage that is within $[n]_{>0}$ when $\Gamma$ compromise primitive stages, $[l]_{>0}$ otherwise. In the remaining of this chapter, we discuss in detail the algorithm.
+
+The algorithm iterates at a each time step $h\in\mathbb{R}_{>0}$ on \fref{algo:repla:foreach}{Line}.
+
+
 \begin{algorithm}[h!] %this is an example
   \SetKwInOut{Input}{Input}
   \SetKwInOut{Output}{Output}
@@ -409,32 +414,44 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
   \SetKwProg{Pn}{Function}{:}{\KwRet}
 
   \DontPrintSemicolon
-  \Input{%$v\subset\mathbb{R}${ \otherfont the list of vertices}\newline
-         %$x_\mathbf{d}\in\mathbb{R}${ \otherfont shift on the %$x$-axis (distance between the coverage lines)}
+  \Input{$\Gamma${ \otherfont initial plan}\newline
+         $t_0${ \otherfont initial time step}\newline
+         $\mathbf{q}(t_0)${ \otherfont initial guess for the energy model}\newline
+         $j${ \otherfont starting stage within the primitive stages }$\in[n]_{>0}${ \otherfont otherwise }$j=1$
   }
-  \Output{%$\Gamma${\otherfont plan that covers the polygon }$v$
+  \Output{$\Gamma${ \otherfont revised plan}
   }
+  \vspace{.8ex}
 
-  {\normalsize $i\gets 0$, $j\gets 1$}\;
-
-  \While{\normalsize $\mathbf{p}(i)\neq\mathbf{p}_{\Gamma_l}$}{
+  %{\normalsize $j\gets 1$}\;
+  
+  \ForEach{\normalsize $i\in\{t_0,t_0+h,t_0+2h,\dots\}$}{\label{algo:repla:foreach}
+    \If{\normalsize $\mathbf{p}(i)\neq\mathbf{p}_{\Gamma_l}$}{
+      \Return{}\;
+    }
     \If{\normalsize $\mathbf{p}(i)=\mathbf{p}_{\Gamma_j}$}{
       {\normalsize $j\gets j+1$}\;
       \If{\normalsize $j\notin[n]_{>0}$}{
         {\normalsize $j\gets 1$}\;
-        {\normalsize $\varphi_1,\varphi_2,\dots,\varphi_n\gets\varphi_1,\varphi_2,\dots,\varphi_n${ \otherfont shifted of }$\mathbf{d}$}\;
-        {\normalsize $\mathbf{p}_{\Gamma_1},\mathbf{p}_{\Gamma_2},\dots,\mathbf{p}_{\Gamma_n}\gets\mathbf{p}_{\Gamma_1},\mathbf{p}_{\Gamma_2},\dots,\mathbf{p}_{\Gamma_n}${ \otherfont also shifted of }$\mathbf{d}$}\;
+        {\normalsize $\varphi_1,\varphi_2,\dots,\varphi_n\gets${ \otherfont shift }$\varphi_1,\varphi_2,\dots,\varphi_n${ \otherfont of }$\mathbf{d}$}\;
+        {\normalsize $\mathbf{p}_{\Gamma_1},\mathbf{p}_{\Gamma_2},\dots,\mathbf{p}_{\Gamma_n}\gets${ \otherfont shift also }$\mathbf{p}_{\Gamma_1},\mathbf{p}_{\Gamma_2},\dots,\mathbf{p}_{\Gamma_n}${ \otherfont of }$\mathbf{d}$}\;
 
       }
     }
-    {\normalsize $\mathbf{q}(\mathcal{K}\setminus\{i+N\}),c_j(\mathcal{K})\gets\argmax_{\mathbf{q}(k),c_j(k)}{l_f(\mathbf{q}(i+N),i+N)+\sum_{k\in\mathcal{K}}{l_d(\mathbf{q}(k),c_j(k),k)}}$%{ \otherfont with }$k\in\mathcal{K}=\{i,i+h,\dots,i+N\}${ \otherfont for }$\mathbf{q},\,k\in\mathcal{K}\setminus \{i+N\}${ \otherfont for }$c_j$
-    }\;\vspace{-2.8ex}
+    \vspace{.8ex}
+    
+    {\normalsize $\mathbf{q}(\mathcal{K}\setminus\{i+N\}),c_j(\mathcal{K})\gets${ \otherfont solve NLP }$\argmax_{\mathbf{q}(k),c_j(k)}{l_f(\mathbf{q}(i+N),i+N)}+$ \hspace*{1em}${\sum_{k\in\mathcal{K}}{l_d(\mathbf{q}(k),c_j(k),k)}}${ \otherfont from \frefeq{eq:disc-ocp-output-mpc} on }$\mathcal{K}=\{i,i+h,\dots,i+N\}$
+    }\;
+    \vspace{.8ex}
+
     {\normalsize $\mathbf{q}(i+h)\gets A_d\mathbf{q}(i)+B\mathrm{diag}{(\nu_j)}(c_j(i)-c_j(i-h))$}\;
     {\normalsize $P(i+h)^-\gets A_d P(i)A_d'+S$}\;
     {\normalsize $K(i+h)\gets (I+K(i+h)C)P(i+h)^-$}\;
-    {\normalsize $\hat{\mathbf{q}}(i+h)\gets\mathbf{q}(i+h)+K(i+h)(y(i)-C\mathbf{q}(i+h))${ \otherfont returns the estimated state}}\;
-    {\normalsize $\hat{y}(i+h)+C\hat{\mathbf{q}}(i+h)${ \otherfont returns the estimated energy from energy sensor }$y(i)$}\;
+    {\normalsize $\hat{\mathbf{q}}(i+h)\gets${ \otherfont compute }$\mathbf{q}(i+h)+K(i+h)(y(i)-C\mathbf{q}(i+h))${ \otherfont from energy sensor }$y(i)$}\;
+    {\normalsize $\hat{y}(i+h)+C\hat{\mathbf{q}}(i+h)$}\;
     {\normalsize $P(i+h)\gets (I+K(i+h)C)P(i+h)^-$}\;
+    \vspace{.8ex}
+    
     {\normalsize $k\gets i$}\;
     \While{\normalsize $b_d(k)>0$}{
       \If{\normalsize $k\notin\mathcal{K}$}{
@@ -443,18 +460,20 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
       {\normalsize $b_d(k+h)\gets b_d(k)-k_b\left(V-\sqrt{V^2-4R_rC\mathbf{q}(k+h)}\right)/(2R_rQ_c)$}\;
       {\normalsize $k\gets k+h$}\;
     }
-    {\normalsize $t_b\gets k-i$}{ \otherfont the maximum estimated battery time}\;
-    {\normalsize $t_s\gets(\mathrm{diag}(\nu_j^\rho)c_j^\rho(i)+\tau_j^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]$}{ \otherfont time needed to do the configuration {\normalsize $c_j(i)$}}\;
-    {\normalsize $t_r\gets(t_s/\overline{t})(\overline{t}-ih)$}{ \otherfont remaining time}\;
+    {\normalsize $t_b\gets k-i$}\;%the maximum estimated battery time
+    {\normalsize $t_s\gets(\mathrm{diag}(\nu_j^\rho)c_j^\rho(i)+\tau_j^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]$}\;%time needed to do the configuration $c_j(i)$
+    {\normalsize $t_r\gets(t_s/\overline{t})(\overline{t}-ih)$}\;%remaining time
     \If{\normalsize $t_r<t_b$}{
-      {\normalsize $c_j^{\rho}(i+h)\gets c_j^{\rho}$}{ \otherfont with {\normalsize $t_c\in[0,t_b]$}}\;
+      {\normalsize $c_j^{\rho}(i)\gets${ \otherfont find }$c_j^{\rho}${ \otherfont with }$t_c\in[0,t_b]${\otherfont , otherwise take }$\underline{c}_j^\rho$}\;
     }
-    {\normalsize $\mathbf{p}(i+h)\gets\mathbf{p}(i)\dot{\mathbf{p}}_d(\mathbf{p}(i))/v(i)$}{ \otherfont vector field for guidance from current position and velocity {\normalfont $v(i)$}}\;
-    {\normalsize $i\gets i+h$}\;
+    \vspace{.8ex}
+    
+    {\normalsize $\mathbf{p}(i+h)\gets${ \otherfont compute }$\mathbf{p}(i)\left(E_j\nabla\varphi_j(\mathbf{p}(i),c_j^\rho(i))-k_e\varphi_j(\mathbf{p}(i),c_j^\rho(i))\nabla\varphi_j(\mathbf{p}(i),c_j^\rho(i))\right)/v(i)${ \otherfont from \hspace*{1em}current position }$\mathbf{p}(i)${ \otherfont and velocity }\normalfont $v(i)$}\;
   }
   \vspace{.8ex}
 
-  \caption{.}
+  \caption{Coverage (re)planning and scheduling algorithm}
+  \label{algo:repla}
 \end{algorithm}
 
 
