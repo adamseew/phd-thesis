@@ -71,13 +71,13 @@ We use this notion to guide the aerial robot using vector field in \fref{cp:dyn}
   \varphi(x,y):=ax+by+c,
 \end{equation}
 where $a,b,c\in\mathbb{R}$ are given constants. The generic point $\mathbf{p}(t)$ intersects $\varphi(x,y)$ on a specific value $d$ of the $z$-axis $(\mathbf{p}(t),d)$. We illustrate the concept in \fref{fig:plot1}{Figure} for $c$ zero and $a,b$ minus one and two. The point intersects the plane formed by the path function
-\begin{equation}
+\begin{equation}\label{eq:pathf-line}
   \varphi(x,y):=2y-x,
 \end{equation}
 at $d=\varphi(\mathbf{p})$. The path that the aerial robot follows is then $\varphi(x,y)=h$. $\varphi(\mathbf{p})-h$ is the distance on the $z$-axis.
 
 Likewise with the line, one can define a circle as a path function with
-\begin{equation}
+\begin{equation}\label{eq:pathf-circle}
   \varphi(x,y):=(x-x_c)^2+(y-y_c)^2-r^2,
 \end{equation}
 where $x_c,y_c$ are given coordinates of the center and $r\in\mathbb{R}_{>0}$ the radius. We illustrate the circle path function in \fref{fig:plot11}{Figure} for $x_c,y_c$ both three and $\sqrt{r}$ two. 
