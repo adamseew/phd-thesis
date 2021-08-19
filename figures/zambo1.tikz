@@ -1,6 +1,6 @@
 
 \definecolor{cD9D9D9}{RGB}{217,217,217}
-\footnotesize
+\small
 
 \def \globalscale {1.000000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]

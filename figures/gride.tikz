@@ -1,6 +1,6 @@
 
 \definecolor{cD9D9D9}{RGB}{217,217,217}
-\footnotesize
+\small
 \def \globalscale {1.000000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
 \path[draw=black,line join=round,line width=0.512pt] (18.6584,24.2061) -- (183.9870,7.5586) -- (183.9870,107.9380) -- (18.6584,124.5850) -- (18.6584,24.2061) -- cycle;
