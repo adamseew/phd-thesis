@@ -80,7 +80,7 @@
 
 
 
-\path[cm={{1.0,0.0,0.0,1.0,(166.0,82.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize $h$};
+\path[cm={{1.0,0.0,0.0,1.0,(166.0,82.0)}}] (0.0000,0.0000) node[above right] () {\footnotesize $h$};
 
 
 

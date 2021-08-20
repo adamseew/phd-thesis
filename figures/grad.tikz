@@ -163,7 +163,7 @@
 
 
 
-\path[draw=foo,line join=round,line width=1.080pt] (86.6208,143.8110) -- (98.0827,185.5040);
+\path[draw=foo,line join=round,line width=1.080pt] (86.8208,143.8110) -- (98.2827,185.5040);
 
 
 
