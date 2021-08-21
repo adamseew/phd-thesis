@@ -66,11 +66,11 @@
 
 % page size
 \usepackage[
-    paper=b5paper,
-    top=0.75in,
-    bottom=0.75in,
-    outer=0.75in,
-    inner=0.875in
+    paper=b5paper, %  176x250mm or 6.93x9.84in or 7x10in approx
+    top=1in,
+    bottom=.875in,
+    outer=.75in,
+    inner=1in % margins source: http://www.bestbookprinting.com/app/webroot/blog/?p=1459
 ]{geometry}
 
 % reduce overfull \hbox{} warnings
@@ -242,8 +242,8 @@
 
 \usepackage{tcolorbox}
 
-\newtcolorbox{highlight}{colback=gray!10,
-boxrule=0pt,arc=0pt,boxsep=2pt,left=2pt,right=2pt,leftrule=1pt}
+\newtcolorbox{highlight}{colback=gray!10,colframe=gray!10,boxrule=0pt,arc=0pt,boxsep=4pt,left=8pt,right=8pt,leftrule=0pt,grow to left by=12pt,% 12pt is 1em
+grow to right by=12pt,}
 
 \makeatletter
 \newcommand*{\textlabel}[2]{%
