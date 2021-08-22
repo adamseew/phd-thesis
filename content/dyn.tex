@@ -15,15 +15,13 @@ This chapter connects to the remainder of this work as follows. Here we provide 
 
 \section{Guidance on the coverage}\findex{guidance}\label{sec:gvf}
 
-In this section, we describe how we guide the aerial robot in space $\mathcal{Q}_v\subseteq\mathbb{R}^2$ for an inertial navigation frame $\mathcal{O}_W$ (we will see what we mean by $v$ in \fref{sec:cell-deco}{Section}). For this purpose, we briefly recall some concepts we introduced in \fref{cp:soa}{Chapter}. We describe the path the aerial robot flies in \fref{sec:path-functions}{Section} with a mathematical function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ that maps a point in 2D space and the path parameters to a given value on the $z$-axis in \fref{def:paths}{Definition}. We saw two examples of such functions. In the first example, we proposed a line at an altitude $h\in\mathbb{R}$ in \fref{fig:plot1}{Figure}. The value on the $z$-axis given a point $\mathbf{p}(t)$ at the time $t$ is then the length, let's call it $d$, of a vertical segment parallel to the $z$-axis that goes from the plane $\varphi(x,y)=h$ and intersects the plane in \frefeq{eq:pathf-line}. In the second example, we proposed a circle (at the same altitude $h$) in \fref{fig:plot11}{Figure}. The value on the $z$-axis is the length $d$ of a similar segment, going from the plane $\varphi(x,y)=h$ to the intersection of the paraboloid in \frefeq{eq:pathf-circle}. We further recall from \fref{cp:soa}{Chapter} that we store path functions in stages in \fref{def:stage}{Definition}. The set of stages form the plan $\Gamma$ in \fref{def:plan}{Definition}. The aerial robot flies the $i$th a stage $\Gamma_i$ traveling the $i$th path function $\varphi_i$ up until it encounters the triggering point $\mathbf{p}_{\Gamma_i}$ in \fref{def:trigs}{Definition}; at the occurrence, the action depends on how we defined $\Gamma$. We can define $\Gamma$ with all the stages explicitly so that the aerial robot switches to $\Gamma_{i+1}$ up to reaching the final point $\mathbf{p}_{\Gamma_l}$ in $\Gamma_l$, the final stage. Alternatively, we can define $\Gamma$ with $n$ stages and a shift $\mathbf{d}$. When the aerial robot reaches the $kn$th triggering point $\mathbf{p}_{\Gamma_{kn}}$ for some $k\in\mathbb{Z}_{>0}$, it advances the $n$ stages of $\mathbf{d}$. It iterates the process up to reaching the final point $\mathbf{p}_{\Gamma_l}$.
+In this section, we describe how we guide the aerial robot in space $\mathcal{Q}_v\subseteq\mathbb{R}^2$ for an inertial navigation frame $\mathcal{O}_W$ (we will see what we mean by $v$ in \fref{sec:cell-deco}{Section}). For this purpose, we briefly recall some concepts we introduced in \fref{cp:soa}{Chapter}. We describe the path the aerial robot flies in \fref{sec:path-functions}{Section} with a mathematical function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ that maps a point in 2D space and the path parameters to a given value on the $z$-axis in \fref{def:paths}{Definition}. We saw two examples of such functions. In the first example, we proposed a line at an altitude $h\in\mathbb{R}$ in \fref{fig:plot1}{Figure}. The value on the $z$-axis given a point $\mathbf{p}(t)$ at the time $t$ is then the length, let's call it $d$, of a vertical segment parallel to the $z$-axis that goes from the plane $\varphi(x,y)=h$ and intersects the plane in \frefeq{eq:pathf-line}. In the second example, we proposed a circle (at the same altitude $h$) in \fref{fig:plot11}{Figure}. The value on the $z$-axis is the length $d_2$ of a similar segment, going from the plane $\varphi(x,y)=h$ to the intersection of the paraboloid in \frefeq{eq:pathf-circle}. We further recall from \fref{cp:soa}{Chapter} that we store path functions in stages in \fref{def:stage}{Definition}. The set of stages form the plan $\Gamma$ in \fref{def:plan}{Definition}. The aerial robot flies the $i$th a stage $\Gamma_i$ traveling the $i$th path function $\varphi_i$ up until it encounters the triggering point $\mathbf{p}_{\Gamma_i}$ in \fref{def:trigs}{Definition}; at the occurrence, the action depends on how we defined $\Gamma$. We can define $\Gamma$ with all the stages explicitly so that the aerial robot switches to $\Gamma_{i+1}$ up to reaching the final point $\mathbf{p}_{\Gamma_l}$ in $\Gamma_l$, the final stage. Alternatively, we can define $\Gamma$ with $n$ stages and a shift $\mathbf{d}$. When the aerial robot reaches the $kn$th triggering point $\mathbf{p}_{\Gamma_{kn}}$ for some $k\in\mathbb{Z}_{>0}$, it advances the $n$ stages of $\mathbf{d}$. It iterates the process up to reaching the final point $\mathbf{p}_{\Gamma_l}$.
 
 In the remainder of this section, we detail how we guide the aerial robot on a path function $\varphi_i$ from the stage $\Gamma_i,\,\forall i\in[l]_{>0}$ (or $\forall i\in[n]_{>0}$ with a consequent shift of $\mathbf{d}$ when we reach $\mathbf{p}_{\Gamma_{kn}}$ for a $k$) up to reaching $\mathbf{p}_{\Gamma_l}$. The path function can be, e.g., the circle and line in \fref{fig:plot1}{Figures}\fref{fig:plot11}{--\hspace*{-.8ex}}. By guidance, we mean where to fly next with the aerial robot starting from an initial point in space $\mathbf{p}(t_0)$ at the first time instant $t_0$ up to the final triggering point $\mathbf{p}_{\Gamma_l}$ at $t_l>t_0$.
 
----
-
 \subsection{Vector fields for guidance}\findex{vector field}
 
-Let us briefly discuss the intuition behind vector fields for guidance with the concept of potential functions\findex{potential functions}. These are differentiable real-valued functions $\varphi:\mathbb{R}^d\rightarrow\mathbb{R}$, of which the value we can consider as energy\findex{energy}, and hence their gradient as force\findex{force}~\citep{choset2005principles}. There are several pseudonyms for potential functions for different fields; e.g., the electrostatic potential\findex{electrostatic potential} for electrostatics\findex{electrostatics}, velocity potential\findex{velocity potential} for hydrodynamics\findex{hydrodynamics}, and temperature\findex{temperature} for flowing heat\findex{flowing heat}~\citep{needham1998visual}. We use the concept for exemplification; we don't deal with aerial robots' dynamics directly in our model, and we see gradients as velocity and not force vectors, being $\mathbf{p}$ the position. We note that the gradient of the potential function points where it maximally (locally) increases~\citep{choset2005principles}. We define the gradient\findex{gradient} of $\varphi$
+Let us briefly discuss the intuition behind vector fields for guidance with the concept of potential functions\findex{potential functions}. These are differentiable real-valued functions $\varphi:\mathbb{R}^d\rightarrow\mathbb{R}$, of which the value we can consider as energy\findex{energy}, and hence their gradient as force\findex{force}~\citep{choset2005principles}. There are several pseudonyms for potential functions for different fields: e.g., the electrostatic potential\findex{electrostatic potential} for electrostatics\findex{electrostatics}, velocity potential\findex{velocity potential} for hydrodynamics\findex{hydrodynamics}, and temperature\findex{temperature} for flowing heat\findex{flowing heat}~\citep{needham1998visual}. We use the concept for exemplification; we don't deal with aerial robots' dynamics directly in our model and see gradients as velocity and not force vectors, being $\mathbf{p}$ the position. We note that the gradient of the potential function points where it maximally (locally) increases~\citep{choset2005principles}. We define the gradient\findex{gradient} of $\varphi$
 \begin{equation}\label{eq:grady}
   \nabla\varphi_i(\mathbf{p}(t),c^\rho_i):=\begin{bmatrix}\partial\varphi_i(\mathbf{p}(t),c^\rho_i)/\partial\mathbf{p}_1(t)\\\partial\varphi_i(\mathbf{p}(t),c^\rho_i)/\partial\mathbf{p}_2(t)\\\vdots\\\partial\varphi_i(\mathbf{p}(t),c^\rho_i)/\partial\mathbf{p}_d(t)\end{bmatrix},
 \end{equation}
@@ -33,29 +31,29 @@ where $\partial\varphi/\partial\mathbf{p}_k$ for $k\in[d]_{>0}$ indicates the di
     \mathbf{p}_1(t) & \mathbf{p}_2(t) & \cdots & \mathbf{p}_d(t)
   \end{bmatrix}',
 \end{equation}
-simply the components of the vector $\mathbf{p}$ (i.e., when we are dealing with 2D space, $d$ is two, and the components $x$ and $y$). 
+simply the components of the vector $\mathbf{p}$ (i.e., when we are dealing with 2D space, $d$ is two, and the components are $x$ and $y$). 
+
+
 
 We can then use the gradient in \frefeq{eq:grady} to define a vector field--a function that assigns a vector at each $\mathbf{p}$ in $\mathcal{Q}^v$~\citep{lavalle2006planning}, which will then point in the direction of the gradient
 \begin{equation}\label{eq:vec-field-def}
   \varPhi(t,\varphi_i,c_i^\rho):=\bigcup\limits_{\mathbf{p}(t)\in\mathcal{Q}^v}{\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)}.
 \end{equation}
 
-We note some analogies in the physical theory of potential functions with our path functions; indeed vector field is a well known concept in physics, with applications such as electrostatic\findex{electrostatic field}, gravitational\findex{gravitational field} and magnetic fields\findex{magnetic field}~\citep{feynman2015feynman}. Imagine the aerial robot is a positively charged particle in an electrostatics analysis for an instant. The particle is attracted by the a negative goal; via the gradient we can then direct the particle (the aerial robot) to the goal (where the function maximally locally increases)~\citep{choset2005principles}. In the setting of \frefeq{eq:pathf-line} and \frefeq{eq:pathf-circle}, i.e., 
-\begin{equation}\label{eq:two-paths}
-  2y-x=h,\,\,\,\ (x-3)^2+(y-3)^2-2=h,
-\end{equation}
-their gradient then points away from the base of the plane in \frefeq{eq:pathf-line}, and from the center of the circle in \frefeq{eq:pathf-circle} in \fref{fig:grad}{Figure}. 
-\begin{figure}[h!]
+\begin{figure}[ht!]
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad.tikz}
-  \caption[.]{.}
+  \caption[The direction of the gradient on a circle path function]{The direction of the gradient $\nabla\varphi_i$ in the point $(x_\mathbf{p},y_{\mathbf{p}})$ at an altitude $h$ w.r.t. $\mathcal{O}_W$ for the circle path function in \frefeq{eq:pathf-circle} and \fref{fig:plot11}{Figure}. The gradient directs where the function locally maximally increases; the opposite thus to the center of the circle in \frefeq{eq:two-paths} (or the base of the paraboloid $\varphi_i$).}
   \label{fig:grad}
 \end{figure}
-Immagine for an instant that our goal is not to fly over the circle in \fref{fig:plot11}{Figure}, but to its center $(x_c,y_c)$ in \frefeq{eq:pathf-circle}. The vector field $\varPhi$ in \frefeq{eq:vec-field-def} direct us in the opposite direction; we can then use $-\nabla\varphi_i$ to direct to robot to the goal.
+We note some analogies in the physical theory of potential functions with our path functions; indeed vector fields are a well-known concept in physics, with applications such as electrostatic\findex{electrostatic field}, gravitational\findex{gravitational field}, and magnetic fields\findex{magnetic field}~\citep{feynman2015feynman}. Imagine that the aerial robot is a positively charged particle in an electrostatics analysis, attracted by a negatively charged goal. Via the gradient, we can then direct the particle (the aerial robot) to the goal (where the function maximally locally decreases)~\citep{choset2005principles}. In the setting of \frefeq{eq:pathf-line} and \frefeq{eq:pathf-circle}, i.e., 
+\begin{equation}\label{eq:two-paths}
+  2y-x=h,\,\,\,\ (x-3)^2+(y-3)^2-2=h,
+\end{equation}
+their gradient then points away from the base of the plane in \frefeq{eq:pathf-line} and the center of the circle in \frefeq{eq:pathf-circle} in \fref{fig:grad}{Figure}. If the goal is not to fly over the circle in \fref{fig:plot11}{Figure}, but to its center $(x_c,y_c)$ in \frefeq{eq:pathf-circle}, the vector field $\varPhi$ in \frefeq{eq:vec-field-def} direct us in the opposite direction; we can then use $-\nabla\varphi_i$ to direct the robot to the goal.
 
-Vector fields are common used in the motion planning literature for navigation of different mobile robots~\citep{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance}, and are also threated in some robots planning textbooks~\citep{choset2005principles,lavalle2006planning}. A well-known intuitive method brought from optimization is the gradient descent algorithm\findex{gradient descent algorithm}~\citep{choset2005principles,bryson1975applied}, where an intuitive choice of the search direction is the negative gradient $\Delta \varphi_i:=-\nabla\varphi_i$~\citep{boyd2004convex}. We illustrate the gradient descent algorithm in \fref{algo:grad-desc}{Algorithm} where we iterate at discrete time steps (i.e., at instant $n$, $\mathcal{K}$ contains $t_0,t_0+h,\dots,t_0+nh$; we discuss further the time step $h$ ($h$ is not to be confused with the altitude when used in the path functions) later in this chapter in \fref{sec:algo}{Section}), $\mathbf{p}(t_0)$ is given (e.g., from sensors data), $\theta(i)$ is a scalar step size at time instant $i$~\citep{choset2005principles}--there can be indeed different step sizes at different instants--and $\varepsilon\in\mathbb{R}_{>0}$ is chosen based on the task requirements (it is unrealistic to assume we will reach $\nabla\varphi_i=0$).
-
+Vector fields are common in the motion planning literature~\citep{choset2005principles,lavalle2006planning} and in studies~\citep{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance} for navigation and guidance of different mobile robots. A well-known intuitive method based on vector fields brought from optimization is the gradient descent algorithm\findex{gradient descent algorithm}~\citep{choset2005principles,bryson1975applied}, where an intuitive choice of the search direction is the negative gradient $\Delta \varphi_i:=-\nabla\varphi_i$~\citep{boyd2004convex}.
 \begin{algorithm}[h!] %this is an example
   \SetKwInOut{Input}{Input}
   \SetKwInOut{Output}{Output}
@@ -79,23 +77,28 @@ Vector fields are common used in the motion planning literature for navigation o
     }
     {\normalsize $\mathbf{p}(i+h)\gets \mathbf{p}(i)+\theta(i)\Delta\varphi_j(\mathbf{p}(t),c^\rho_i)$}\;
   }
-  \vspace{.8ex}
+  \vspace{1.6ex}
 
   \caption{Gradient descent}\findex{gradient descent}
   \label{algo:grad-desc}
 \end{algorithm}
+We detail the gradient descent algorithm in \fref{algo:grad-desc}{Algorithm}, where we iterate at discrete time steps, meaning that at instant $n$, $\mathcal{K}$ contains $t_0,t_0+h,\dots,t_0+nh$. We discuss further the time step $h$ ($h$is not to be confused with the altitude when used in the path functions) later in this chapter in \fref{sec:algo}{Section}. In the algorithm, $\mathbf{p}(t_0)$ is given (e.g., from sensors data), $\theta(i)$ is a scalar step size at time instant $i$~\citep{choset2005principles}--there can be indeed different step sizes at different instants--and $\varepsilon\in\mathbb{R}_{>0}$ is chosen based on the task requirements (it is unrealistic to assume we will reach $\nabla\varphi_i=0$).
 
-\fref{algo:grad-desc}{Algorithm} that we illustrate in \fref{fig:grad_desc}{Figure} directs us to the center of the circle in case we have a circle as a path function.
+We discuss in the next section how to fix $\varPhi$ so that it directs us to follow \frefeq{eq:two-paths} rather than, e.g., to $\nabla\varphi_i=0$.
+
+\subsection{Derivation of a path following vector field}
+
+\fref{algo:grad-desc}{Algorithm} that we illustrate in \fref{fig:grad_desc}{Figure} directs to the center of the circle when we have a circle as a path function in \frefeq{eq:two-paths}.
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_desc.tikz}
-  \caption[.]{.}
+  \caption[The gradient descent algorithm illustrated on a circle path function]{The gradient descent algorithm after the first two steps, with the following step being dashed and directing the aerial robot to the center of the circle where the gradient is zero $\nabla\varphi_i=0$. The paraboloid $\varphi_i$ representing the path function circle at altitude $h$ is illustrated in the contour plot.}
   \label{fig:grad_desc}
 \end{figure}
-However, we are interested into following these paths at an assigned altitude, i.e., we want to track the functions in \frefeq{eq:two-paths}. Concretely, in the path sub-plan that we proposed in \frefeqM{eq:line-gene}{eq:circ-gene} in \fref{sec:path-wise}{Section}, we want to track, e.g., the path function $\varphi_{i+1}$ by flying over the function rather that heading the center of the circle it describes; we started tracking the function after reaching $\mathbf{p}_{\Gamma_i}$ while tracking $\varphi_i$ and so on. To this end, we use a vector field-based approach proposed in the literature specifically for aerial robots~\citep{de2017guidance}, which points to the contours of the functions in \fref{fig:plot1}{Figures}\fref{fig:plot11}{--\hspace{-.8ex}} and thus to \frefeq{eq:two-paths}.
+However, we want to track (or follow) these functions. Concretely, in the path sub-plan in \frefeqM{eq:line-gene}{eq:circ-gene} in \fref{sec:path-wise}{Section}, we want to follow the path function $\varphi_{i+1}$ by flying over rather than heading the center when we follow a circle path function. In the example, we started following the circle described by $\varphi_{i+1}$ after reaching $\mathbf{p}_{\Gamma_i}$ while tracking $\varphi_i$ (for all the previous and following path functions). To this end, we use a vector field-based approach proposed in the literature specifically for aerial robots~\citep{de2017guidance}, which points to the contours of the functions in \fref{fig:plot1}{Figures}\fref{fig:plot11}{--\hspace{-.8ex}} and thus to \frefeq{eq:two-paths}.
 
-The expression for the search direction $\Delta\varphi_i$ in~\citep{de2017guidance} becomes
+The expression for the search direction $\Delta\varphi_i$ in \fref{algo:grad-desc}{Algorithm} using the vector field in~\citep{de2017guidance} becomes
 \begin{equation}\label{eq:pd}
   \Delta_d\varphi_i(\mathbf{p}(t),c_i^\rho):=E_i\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)-k_e\varphi_i(\mathbf{p}(t),c_i^\rho)\nabla\varphi_i(\mathbf{p}(t),c_i^\rho),
 \end{equation}
@@ -105,26 +108,26 @@ where $E_i\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)$ is a vector pointing perpendi
     0&1\\-1&0
   \end{bmatrix},
 \end{equation}
-with $E_i$ being the counter clockwise, $-E_i$ the clockwise direction. 
-The contribution of the component $-k_e\varphi_i(\mathbf{p}(t),c_i^\rho)\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)$ in \frefeq{eq:pd} points then in the direction of the path function. It depends on the coefficient $k_e\in\mathbb{R}_{>0}$--indicating the speed of convergence~\citep{de2017guidance}--and on the value of $\varphi_i$ at the current point (of course also on the path parameters and the value of the gradient). 
+with $E_i$ being the counterclockwise, $-E_i$ the clockwise direction. 
+The contribution of the component $-k_e\varphi_i(\mathbf{p}(t),c_i^\rho)\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)$ in \frefeq{eq:pd} points in the direction of the path function. It depends on the coefficient $k_e\in\mathbb{R}_{>0}$--indicating the speed of convergence~\citep{de2017guidance}--and on the value of $\varphi_i$ at the current point (of course also on the path parameters and the value of the gradient). 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_gvf1.tikz}
-  \caption[.]{.}
+  \caption[The direction of the vector field inside the path function]{The direction of the vector field for guidance in~\citep{de2017guidance} with a point $\mathbf{p}_{-}$ inside the circle: $\Delta_d$ points to the path function opposite to the center of the circle.}
   \label{fig:grad_gvf1}
 \end{figure}
-We illustrate $\Delta_d\varphi_i$ in \fref{fig:grad_gvf1}{Figure}. When we take a point within the circle, let's call it $\mathbf{p}_{-}$, the value of $\varphi_i$ is negative; $-k_e\varphi_i(\mathbf{p}_{-},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points outwards of the circle center, in the direction of the path function. $E_i\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points perpendicularly to the gradient $\nabla\varphi_i$ and to the path function itself. The resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ then points the direction of the path function.
+We illustrate $\Delta_d\varphi_i$ in \fref{fig:grad_gvf1}{Figure}. When we take a point within the circle, let's call it $\mathbf{p}_{-}$, the value of $\varphi_i$ is negative; $-k_e\varphi_i(\mathbf{p}_{-},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points outwards of the circle center, in the direction of the path function. $E_i\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points perpendicularly to the gradient $\nabla\varphi_i$ and to the path function itself. The resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ then points to the direction of the path function.
 
 Now we take a point $\mathbf{p}_{+}$ out of the circle, and not exactly over the path function. 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_gvf2.tikz}
-  \caption[.]{.}
+  \caption[The direction of the vector field outside and on the path function]{The direction of the vector field with $\mathbf{p}_{+}$ outside the circle: $\Delta_d$ points to the path function in the direction of the center of the circle. With $\mathbf{p}_{0}$, $\Delta_d$ points perpendicularly to the path function.}
   \label{fig:grad_gvf2}
 \end{figure}
-The value of $\varphi_i$ is positive; $-k_e\varphi_i(\mathbf{p}_{+},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{+},c_i^\rho)$ points inwards of the circle center and the resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ in the direction of the path function. If we finally take a point $\mathbf{p}_{0}$ exactly over the path function, $\varphi_i$ is zero; $-k_e\varphi_i(\mathbf{p}_{0},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{0},c_i^\rho)$ is thus also zero and $\Delta_d\varphi_i(\mathbf{p}_{0},c_i^\rho)$ points perpendicularly to the path functions. We illustrate these two cases in \fref{fig:grad_gvf2}{Figure}. Let us thus define the vector fields
+The value of $\varphi_i$ is positive; $-k_e\varphi_i(\mathbf{p}_{+},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{+},c_i^\rho)$ points inwards of the circle center and the resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ in the direction of the path function. If we finally take a point $\mathbf{p}_{0}$ exactly over the path function, $\varphi_i$ is zero; $-k_e\varphi_i(\mathbf{p}_{0},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{0},c_i^\rho)$ is thus also zero, and $\Delta_d\varphi_i(\mathbf{p}_{0},c_i^\rho)$ points perpendicularly to the path functions. We illustrate these two cases in \fref{fig:grad_gvf2}{Figure}. Let us thus define the vector fields
 \begin{equation}
   \varPhi_d(t,\varphi_i,c_i^\rho):=\bigcup\limits_{\mathbf{p}(t)\in\mathcal{Q}^v}{\Delta_d\varphi_i{\mathbf{p}(t),c_i^\rho}}.
 \end{equation}
@@ -133,10 +136,10 @@ The value of $\varphi_i$ is positive; $-k_e\varphi_i(\mathbf{p}_{+},c_i^\rho)\na
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/vecfs.tikz}
-  \caption[.]{.}
+  \caption[Path-following vector field of a circle path function.]{Path-following vector field $\varPhi_d$ of a circle path function with the aerial robot starting inside $\mathbf{p}_{-}(t_0)$ and outside $\mathbf{p}_{+}(t_0)$ the circle.}
   \label{fig:vecfs}
 \end{figure}
-This vector fields points to the path function such as the line and the circle in \frefeq{eq:two-paths} for every point in space $\mathcal{Q}^v$ as we illustrate in \fref{}{Figure} for the line $2y-x=h$ and in \fref{}{Figure} for the circle $(x-3)^2+(y-3)^2-2=h$.
+This vector fields points to the path function such as the line and the circle in \frefeq{eq:two-paths} for every point in space $\mathcal{Q}^v$ as we illustrate in \fref{fig:vecfs}{Figure} for the circle $(x-3)^2+(y-3)^2-2=h$.
 
 \begin{algorithm}[h!] %this is an example
   \SetKwInOut{Input}{Input}
@@ -161,14 +164,14 @@ This vector fields points to the path function such as the line and the circle i
     }
     {\normalsize $\mathbf{p}(i+h)\gets \mathbf{p}(i)+\theta(i)\Delta_d\varphi_j(\mathbf{p}(i),c_j^\rho)$}\;\label{algo:track:gvf}
   }
-  \vspace{.8ex}
+  \vspace{1.6ex}
 
   \caption{Path function tracking}\findex{tracking}
   \label{algo:track}
 \end{algorithm}
 
 
-Finally, let's reconsider \fref{algo:grad-desc}{Algorith} with the vector field $\varPhi_d$ and guide the aerial robot in space to track a specific path function $\varphi_i$ in \fref{algo:track}{Algorithm}. The algorithm iterates at discrete time steps on \fref{algo:track:foreach}{Line} as \fref{algo:grad-desc}{Algorith}. It stops tracking the $j$th path function at occurrence of the triggering point $\mathbf{p}_{\Gamma_j}$ on \fref{algo:track:eucly}{Line} using the Euclidean distance with a small enough $\varepsilon\in\mathbb{R}_{>0}$ rather than evaluating if the function reached a local minimum with $\nabla\varphi_j=0$ in \fref{algo:grad-desc}{Algorithm}. The algorithm then computes a simplified version of the next position  on \fref{algo:track:gvf}{Line} using the current position $\mathbf{p}(i)$ and the gradient $\Delta_d\varphi_i$ without considering vehicles' velocity $v(i)$ and other parameters (such as external interferences, e.g., wind speed and direction). For simplicity, we can use the same value for the time step $h$ that we used for the step size $\theta$ for all the time instants in $\mathcal{K}$.
+Finally, let's reconsider \fref{algo:grad-desc}{Algorithm} with the vector field $\varPhi_d$ and guide the aerial robot in space to track a specific path function $\varphi_i$ in \fref{algo:track}{Algorithm}. The algorithm iterates at discrete time steps on \fref{algo:track:foreach}{Line} as \fref{algo:grad-desc}{Algorithm}. It stops tracking the $j$th path function at the occurrence of the triggering point $\mathbf{p}_{\Gamma_j}$ on \fref{algo:track:eucly}{Line} using the Euclidean distance with a small enough $\varepsilon\in\mathbb{R}_{>0}$ rather than evaluating if the function reached a local minimum with $\nabla\varphi_j=0$ in \fref{algo:grad-desc}{Algorithm}. The algorithm then computes a simplified version of the next position  on \fref{algo:track:gvf}{Line} using the current position $\mathbf{p}(i)$ and the gradient $\Delta_d\varphi_i$ without considering vehicles' velocity $v(i)$ and other parameters (such as external interferences, e.g., wind speed and direction). For simplicity, we can use the same value for the time step $h$ that we used for the step size $\theta$ for all the time instants in $\mathcal{K}$.
 
 
 
@@ -568,7 +571,7 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
     
     {\normalsize $\mathbf{p}(i+h)\gets${ \otherfont compute from position }$\mathbf{p}(i)${\otherfont , velocity }\normalfont $v(i)${ \otherfont with }\normalfont $\Delta_d\varphi_j${ \otherfont in \fref{algo:track}{Algorith}}}\;\label{algo:repla:gvf}
   }
-  \vspace{.8ex}
+  \vspace{1.6ex}
 
   \caption{Coverage (re)planning and scheduling algorithm}
   \label{algo:repla}
