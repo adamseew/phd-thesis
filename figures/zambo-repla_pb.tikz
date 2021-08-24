@@ -1,8 +1,8 @@
 
 \definecolor{c989898}{RGB}{152,152,152}
+\small
 
-
-\def \globalscale {1.000000}
+\def \globalscale {.900000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]
 \path[draw=c989898,line join=round,line width=0.256pt] (176.1140,19.3167) -- (176.1140,294.8750);
 

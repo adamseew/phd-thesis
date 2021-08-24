@@ -1,7 +1,7 @@
 
 \definecolor{c989898}{RGB}{152,152,152}
 \definecolor{cFFFFFF}{RGB}{255,255,255}
-
+\small
 
 \def \globalscale {1.000000}
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-\globalscale, xscale=\globalscale, inner sep=0pt, outer sep=0pt]

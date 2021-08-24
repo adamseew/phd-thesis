@@ -1,10 +1,13 @@
 
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                             %
 % Seewald PhD thesis Latex source main file   %
 % use: latexmk -pdf seewald2021.tex           %
 % to generate the source                      %
 %                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
 \documentclass[10pt]{book}
 
 \newcommand{\authorname}{Adam Seewald}
@@ -36,21 +39,14 @@
 \input{frontmatter/titlepage}
 \input{frontmatter/copyrightpage}
 % dedication
-\pagestyle{empty}\begin{center} 
-    \thispagestyle{empty}
-    \vspace*{\fill}\raggedleft\large
-    \dots it was not possible to run it more than a minute or two at a time. In these short tests the motor developed about nine horse power. We were then satisfied that, with proper lubrication and better adjustments, a little more power could be expected.
-    \normalsize
-
-    ~
-
-    Orville Wright\\
-    How We Made The First Flight\\
-    December,  1913
-
-    
-    \vspace*{\fill}
-\end{center}\cleardoublepage
+\pagestyle{empty} 
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{chapquote}{\cite{wright1913how}}
+    \noindent ``[I]t was not possible to run it more than a minute or two at a time. In these short tests the motor developed about nine horse power. We were then satisfied that, with proper lubrication and better adjustments, a little more power could be expected.''
+\end{chapquote}
+\vspace*{\fill}
+\cleardoublepage
 \pagestyle{fancy}
 \input{frontmatter/ack}\thispagestyle{empty} 
 \pagestyle{fancy}\tableofcontents\cleardoublepage\thispagestyle{empty} % toc

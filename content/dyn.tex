@@ -1,23 +1,37 @@
 
-%%%%%%%%%%%%%%
-%            %
-% Guidance   %
-%            %
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                    %
+% Coverage Planning and Scheduling   %
+%                                    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Brief abstract: contains the core scientific work of the thesis
+%
+% Completion (1-10): 9
+% Missing: the equations for the craft's dynamics, eventually a section on ROS scheduling, summary, results
+%
 \chapter{Coverage Planning and Scheduling}
 \label{cp:dyn}
 
-\lettrine{I}{n the previous chapter}, we introduced progressively the research questions we are interested in addressing. We then provided some preliminaries with basic terminology, formulated the problem formally, detailed the available literature, and derived various energy models. Once we detailed all these basic constructs, we are ready to describe their interaction to solve \fref{pb:cov-pb}{Problem} and \fref{pb}{Problem} and thus provide an energy-aware coverage planning and scheduling for autonomous aerial robots.
+\begin{chapquote}{\cite{lahijanian2018resource}}
+  ``[I]t may be possible to trade off reduced resource consumption for a slightly lower but still acceptable level of performance.''
+\end{chapquote}
+
+\vspace*{1em}
+
+\lettrine{I}{n the previous chapters}, we introduced progressively the research questions we are interested in addressing. We then provided some preliminaries with basic terminology, formulated the problem formally, detailed the available literature, and derived various energy models. Once we detailed all these basic constructs, we are ready to describe their interaction to solve \fref{pb:cov-pb}{Problem} and \fref{pb}{Problem} and thus provide an energy-aware coverage planning and scheduling for autonomous aerial robots.
 
 This chapter describes the main contribution of our work. Here we generate the coverage plan $\Gamma$ that we defined in \fref{def:plan}{Definition} solving \fref{pb:cov-pb}{Problem}, replan $\Gamma$ energy-wise with the models from \fref{cp:model}{Chapter} solving \fref{pb}{Problem} in case of, e.g., sudden battery drops, and guide the aerial robot on $\Gamma$. In particular, we first detail how we guide the aerial robot on the plan in \fref{sec:gvf}{Section}, recalling some constructs in \fref{cp:pb}{Chapter}. These include path functions\findex{path functions}, stages\findex{stage}, triggering points\findex{triggering points}, and primitive paths\findex{primitive paths}. In \fref{sec:cov-path-plan}{Section}, we discuss the generation of the coverage plan with a union of path functions and triggering points in \fref{sec:path-functions}{Sections}\fref{sec:defs-stages-triggs}{--\hspace*{-.8ex}} (it is on this coverage that we are interested in guiding the aerial robot). In \fref{sec:mpc}{Section}, we then discuss how to replan the coverage energy-wise. Although we already described most of the concepts in preliminaries in \fref{cp:opt}{Chapter} and literature in \fref{cp:soa}{Chapter}, we still need some additional notions. To guide the aerial robot, we use the theory of vector fields that point to the path functions. To generate the coverage path, a class of methods under the name of cellular decomposition, generating a coverage motion that respects the nonholonomic\findex{nonholonomic constraints} and other constraints of a fixed-wing aerial robot (such as the Opterra craft\findex{Opterra fixed-wing aerial robot} in \fref{fig:opterra}{Figure} that we have discussed extensively in this work), including requirements on the turning radius\findex{turning radius}. To replan the coverage path, we use an optimal control\findex{optimal control} approach termed model predictive control (\Gls{acr:mpc})\findex{model predictive control} along with the periodic model in \fref{cp:model}{Chapter} (which we proved formally and motivated empirically in \fref{sec:periodic-model}{Section}). We describe all these concepts and contextualize them in the solution to the problems in this chapter. 
 
 This chapter connects to the remainder of this work as follows. Here we provide the solution to the problems in \fref{cp:pb}{Chapter}. To this end, we use the available literature on planning in \fref{cp:soa}{Chapter} and the energy models in \fref{cp:model}{Chapter}. We provided the motivation and discussed why it is important to solve these problems in \fref{cp:intro}{Chapter}. We use the model in the cost and constraints of an optimal control problem (\Gls{acr:ocp})\findex{optimal control problem} using the preliminaries in \fref{cp:opt}{Chapter}. Although we provide an algorithm for energy-aware coverage planning and scheduling for autonomous aerial robots, some research questions remain open. We discuss these questions in \fref{cp:conc}{Chapter}.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Guidance on the coverage}\findex{guidance}\label{sec:gvf}
 
-In this section, we describe how we guide the aerial robot in space $\mathcal{Q}_v\subseteq\mathbb{R}^2$ for an inertial navigation frame $\mathcal{O}_W$ (we will see what we mean by $v$ in \fref{sec:cell-deco}{Section}). For this purpose, we briefly recall some concepts we introduced in \fref{cp:soa}{Chapter}. We describe the path the aerial robot flies in \fref{sec:path-functions}{Section} with a mathematical function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ that maps a point in 2D space and the path parameters to a given value on the $z$-axis in \fref{def:paths}{Definition}. We saw two examples of such functions. In the first example, we proposed a line at an altitude $h\in\mathbb{R}$ in \fref{fig:plot1}{Figure}. The value on the $z$-axis given a point $\mathbf{p}(t)$ at the time $t$ is then the length, let's call it $d$, of a vertical segment parallel to the $z$-axis that goes from the plane $\varphi(x,y)=h$ and intersects the plane in \frefeq{eq:pathf-line}. In the second example, we proposed a circle (at the same altitude $h$) in \fref{fig:plot11}{Figure}. The value on the $z$-axis is the length $d_2$ of a similar segment, going from the plane $\varphi(x,y)=h$ to the intersection of the paraboloid in \frefeq{eq:pathf-circle}. We further recall from \fref{cp:soa}{Chapter} that we store path functions in stages in \fref{def:stage}{Definition}. The set of stages form the plan $\Gamma$ in \fref{def:plan}{Definition}. The aerial robot flies the $i$th a stage $\Gamma_i$ traveling the $i$th path function $\varphi_i$ up until it encounters the triggering point $\mathbf{p}_{\Gamma_i}$ in \fref{def:trigs}{Definition}; at the occurrence, the action depends on how we defined $\Gamma$. We can define $\Gamma$ with all the stages explicitly so that the aerial robot switches to $\Gamma_{i+1}$ up to reaching the final point $\mathbf{p}_{\Gamma_l}$ in $\Gamma_l$, the final stage. Alternatively, we can define $\Gamma$ with $n$ stages and a shift $\mathbf{d}$. When the aerial robot reaches the $kn$th triggering point $\mathbf{p}_{\Gamma_{kn}}$ for some $k\in\mathbb{Z}_{>0}$, it advances the $n$ stages of $\mathbf{d}$. It iterates the process up to reaching the final point $\mathbf{p}_{\Gamma_l}$.
+In this section, we describe how we guide the aerial robot in space $\mathcal{Q}_v\subseteq\mathbb{R}^2$ for an inertial navigation frame $\mathcal{O}_W$ (we will see what we mean by $v$ in \fref{sec:cell-deco}{Section}). For this purpose, we briefly recall some concepts we introduced in \fref{cp:soa}{Chapter}. We describe the path the aerial robot flies in \fref{sec:path-functions}{Section} with a mathematical function $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ that maps a point in 2D space and the path parameters to a given value on the $z$-axis in \fref{def:paths}{Definition}. We saw two examples of such functions. In the first example, we proposed a line at an altitude $h\in\mathbb{R}$ in \fref{fig:line-pf}{Figure}. The value on the $z$-axis given a point $\mathbf{p}(t)$ at the time $t$ is then the length, let's call it $d$, of a vertical segment parallel to the $z$-axis that goes from the plane $\varphi(x,y)=h$ and intersects the plane in \frefeq{eq:pathf-line}. In the second example, we proposed a circle (at the same altitude $h$) in \fref{fig:circle-pf}{Figure}. The value on the $z$-axis is the length $d_2$ of a similar segment, going from the plane $\varphi(x,y)=h$ to the intersection of the paraboloid in \frefeq{eq:pathf-circle}. We further recall from \fref{cp:soa}{Chapter} that we store path functions in stages in \fref{def:stage}{Definition}. The set of stages form the plan $\Gamma$ in \fref{def:plan}{Definition}. The aerial robot flies the $i$th a stage $\Gamma_i$ traveling the $i$th path function $\varphi_i$ up until it encounters the triggering point $\mathbf{p}_{\Gamma_i}$ in \fref{def:trigs}{Definition}; at the occurrence, the action depends on how we defined $\Gamma$. We can define $\Gamma$ with all the stages explicitly so that the aerial robot switches to $\Gamma_{i+1}$ up to reaching the final point $\mathbf{p}_{\Gamma_l}$ in $\Gamma_l$, the final stage. Alternatively, we can define $\Gamma$ with $n$ stages and a shift $\mathbf{d}$. When the aerial robot reaches the $kn$th triggering point $\mathbf{p}_{\Gamma_{kn}}$ for some $k\in\mathbb{Z}_{>0}$, it advances the $n$ stages of $\mathbf{d}$. It iterates the process up to reaching the final point $\mathbf{p}_{\Gamma_l}$.
 
-In the remainder of this section, we detail how we guide the aerial robot on a path function $\varphi_i$ from the stage $\Gamma_i,\,\forall i\in[l]_{>0}$ (or $\forall i\in[n]_{>0}$ with a consequent shift of $\mathbf{d}$ when we reach $\mathbf{p}_{\Gamma_{kn}}$ for a $k$) up to reaching $\mathbf{p}_{\Gamma_l}$. The path function can be, e.g., the circle and line in \fref{fig:plot1}{Figures}\fref{fig:plot11}{--\hspace*{-.8ex}}. By guidance, we mean where to fly next with the aerial robot starting from an initial point in space $\mathbf{p}(t_0)$ at the first time instant $t_0$ up to the final triggering point $\mathbf{p}_{\Gamma_l}$ at $t_l>t_0$.
+In the remainder of this section, we detail how we guide the aerial robot on a path function $\varphi_i$ from the stage $\Gamma_i,\,\forall i\in[l]_{>0}$ (or $\forall i\in[n]_{>0}$ with a consequent shift of $\mathbf{d}$ when we reach $\mathbf{p}_{\Gamma_{kn}}$ for a $k$) up to reaching $\mathbf{p}_{\Gamma_l}$. The path function can be, e.g., the circle and line in \fref{fig:line-pf}{Figures}\fref{fig:circle-pf}{--\hspace*{-.8ex}}. By guidance, we mean where to fly next with the aerial robot starting from an initial point in space $\mathbf{p}(t_0)$ at the first time instant $t_0$ up to the final triggering point $\mathbf{p}_{\Gamma_l}$ at $t_l>t_0$.
 
 \subsection{Vector fields for guidance}\findex{vector field}
 
@@ -33,8 +47,6 @@ where $\partial\varphi/\partial\mathbf{p}_k$ for $k\in[d]_{>0}$ indicates the di
 \end{equation}
 simply the components of the vector $\mathbf{p}$ (i.e., when we are dealing with 2D space, $d$ is two, and the components are $x$ and $y$). 
 
-
-
 We can then use the gradient in \frefeq{eq:grady} to define a vector field--a function that assigns a vector at each $\mathbf{p}$ in $\mathcal{Q}^v$~\citep{lavalle2006planning}, which will then point in the direction of the gradient
 \begin{equation}\label{eq:vec-field-def}
   \varPhi(t,\varphi_i,c_i^\rho):=\bigcup\limits_{\mathbf{p}(t)\in\mathcal{Q}^v}{\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)}.
@@ -44,14 +56,14 @@ We can then use the gradient in \frefeq{eq:grady} to define a vector field--a fu
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad.tikz}
-  \caption[The direction of the gradient on a circle path function]{The direction of the gradient $\nabla\varphi_i$ in the point $(x_\mathbf{p},y_{\mathbf{p}})$ at an altitude $h$ w.r.t. $\mathcal{O}_W$ for the circle path function in \frefeq{eq:pathf-circle} and \fref{fig:plot11}{Figure}. The gradient directs where the function locally maximally increases; the opposite thus to the center of the circle in \frefeq{eq:two-paths} (or the base of the paraboloid $\varphi_i$).}
+  \caption[The direction of the gradient on a circle path function]{The direction of the gradient $\nabla\varphi_i$ in the point $(x_\mathbf{p},y_{\mathbf{p}})$ at an altitude $h$ w.r.t. $\mathcal{O}_W$ for the circle path function in \frefeq{eq:pathf-circle} and \fref{fig:circle-pf}{Figure}. The gradient directs where the function locally maximally increases; the opposite thus to the center of the circle in \frefeq{eq:two-paths} (or the base of the paraboloid $\varphi_i$).}
   \label{fig:grad}
 \end{figure}
 We note some analogies in the physical theory of potential functions with our path functions; indeed vector fields are a well-known concept in physics, with applications such as electrostatic\findex{electrostatic field}, gravitational\findex{gravitational field}, and magnetic fields\findex{magnetic field}~\citep{feynman2015feynman}. Imagine that the aerial robot is a positively charged particle in an electrostatics analysis, attracted by a negatively charged goal. Via the gradient, we can then direct the particle (the aerial robot) to the goal (where the function maximally locally decreases)~\citep{choset2005principles}. In the setting of \frefeq{eq:pathf-line} and \frefeq{eq:pathf-circle}, i.e., 
 \begin{equation}\label{eq:two-paths}
   2y-x=h,\,\,\,\ (x-3)^2+(y-3)^2-2=h,
 \end{equation}
-their gradient then points away from the base of the plane in \frefeq{eq:pathf-line} and the center of the circle in \frefeq{eq:pathf-circle} in \fref{fig:grad}{Figure}. If the goal is not to fly over the circle in \fref{fig:plot11}{Figure}, but to its center $(x_c,y_c)$ in \frefeq{eq:pathf-circle}, the vector field $\varPhi$ in \frefeq{eq:vec-field-def} direct us in the opposite direction; we can then use $-\nabla\varphi_i$ to direct the robot to the goal.
+their gradient then points away from the base of the plane in \frefeq{eq:pathf-line} and the center of the circle in \frefeq{eq:pathf-circle} in \fref{fig:grad}{Figure}. If the goal is not to fly over the circle in \fref{fig:circle-pf}{Figure}, but to its center $(x_c,y_c)$ in \frefeq{eq:pathf-circle}, the vector field $\varPhi$ in \frefeq{eq:vec-field-def} direct us in the opposite direction; we can then use $-\nabla\varphi_i$ to direct the robot to the goal.
 
 Vector fields are common in the motion planning literature~\citep{choset2005principles,lavalle2006planning} and in studies~\citep{lindemann2005smoothly,gonccalves2010vector,panagou2014motion,zhou2014vector,kapitanyuk2017guiding,de2017guidance} for navigation and guidance of different mobile robots. A well-known intuitive method based on vector fields brought from optimization is the gradient descent algorithm\findex{gradient descent algorithm}~\citep{choset2005principles,bryson1975applied}, where an intuitive choice of the search direction is the negative gradient $\Delta \varphi_i:=-\nabla\varphi_i$~\citep{boyd2004convex}.
 \begin{algorithm}[h!] %this is an example
@@ -96,7 +108,7 @@ We discuss in the next section how to fix $\varPhi$ so that it directs us to fol
   \caption[The gradient descent algorithm illustrated on a circle path function]{The gradient descent algorithm after the first two steps, with the following step being dashed and directing the aerial robot to the center of the circle where the gradient is zero $\nabla\varphi_i=0$. The paraboloid $\varphi_i$ representing the path function circle at altitude $h$ is illustrated in the contour plot.}
   \label{fig:grad_desc}
 \end{figure}
-However, we want to track (or follow) these functions. Concretely, in the path sub-plan in \frefeqM{eq:line-gene}{eq:circ-gene} in \fref{sec:path-wise}{Section}, we want to follow the path function $\varphi_{i+1}$ by flying over rather than heading the center when we follow a circle path function. In the example, we started following the circle described by $\varphi_{i+1}$ after reaching $\mathbf{p}_{\Gamma_i}$ while tracking $\varphi_i$ (for all the previous and following path functions). To this end, we use a vector field-based approach proposed in the literature specifically for aerial robots~\citep{de2017guidance}, which points to the contours of the functions in \fref{fig:plot1}{Figures}\fref{fig:plot11}{--\hspace{-.8ex}} and thus to \frefeq{eq:two-paths}.
+However, we want to track (or follow) these functions. Concretely, in the path sub-plan in \frefeqM{eq:line-gene}{eq:circ-gene} in \fref{sec:path-wise}{Section}, we want to follow the path function $\varphi_{i+1}$ by flying over rather than heading the center when we follow a circle path function. In the example, we started following the circle described by $\varphi_{i+1}$ after reaching $\mathbf{p}_{\Gamma_i}$ while tracking $\varphi_i$ (for all the previous and following path functions). To this end, we use a vector field-based approach proposed in the literature specifically for aerial robots~\citep{de2017guidance}, which points to the contours of the functions in \fref{fig:line-pf}{Figures}\fref{fig:circle-pf}{--\hspace{-.8ex}} and thus to \frefeq{eq:two-paths}.
 
 The expression for the search direction $\Delta\varphi_i$ in \fref{algo:grad-desc}{Algorithm} using the vector field in~\citep{de2017guidance} becomes
 \begin{equation}\label{eq:pd}
@@ -170,12 +182,10 @@ This vector fields points to the path function such as the line and the circle i
   \label{algo:track}
 \end{algorithm}
 
-
 Finally, let's reconsider \fref{algo:grad-desc}{Algorithm} with the vector field $\varPhi_d$ and guide the aerial robot in space to track a specific path function $\varphi_i$ in \fref{algo:track}{Algorithm}. The algorithm iterates at discrete time steps on \fref{algo:track:foreach}{Line} as \fref{algo:grad-desc}{Algorithm}. It stops tracking the $j$th path function at the occurrence of the triggering point $\mathbf{p}_{\Gamma_j}$ on \fref{algo:track:eucly}{Line} using the Euclidean distance with a small enough $\varepsilon\in\mathbb{R}_{>0}$ rather than evaluating if the function reached a local minimum with $\nabla\varphi_j=0$ in \fref{algo:grad-desc}{Algorithm}. The algorithm then computes a simplified version of the next position  on \fref{algo:track:gvf}{Line} using the current position $\mathbf{p}(i)$ and the gradient $\Delta_d\varphi_i$ without considering vehicles' velocity $v(i)$ and other parameters (such as external interferences, e.g., wind speed and direction). For simplicity, we can use the same value for the time step $h$ that we used for the step size $\theta$ for all the time instants in $\mathcal{K}$.
 
-
-
 \subsection{\color{red}Derivation of the guidance action}
+% Missing: the equations for the craft's dynamics
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -240,70 +250,10 @@ In \fref{fig:bcd3}{Figure}, $\mathcal{S}_\lambda$ sweeps the space from $\lambda
 
 In summary, the methodology iterates through the environment with $\mathcal{S}^v_{\lambda}$ in \fref{fig:bcd2}{Figure}. When the connectivity of $\mathcal{S}^v_{\lambda}$ increases in \fref{fig:bcd3}{Figure}, it closes a cell and opens two new cells--the literature~\citep{choset2000exact,choset2005principles} refers to these cells as ceiling and floor cells (for $c_2$ and $c_3$ in~\fref{fig:bcd4}{Figure} respectively). When the connectivity decreases back in \fref{fig:bcd4}{Figure}, the two opened cells are closed, and a new one is opened. The overall complexity is $O(n\log{n})$ with $n:=|v|+\sum_{i=1}^{|o|}|o_i|$ the total number of vertices~\citep{choset2000exact}. Indeed, for polygonal environments, it is enough to verify the change in connectivity by iterating the vertices and visit the constructed adjacency graph to find the coverage order.
 
-%\begin{algorithm}[h!] %this is an example
-%  \SetKwInOut{Input}{Input}
-%  \SetKwInOut{Output}{Output}
-%  \SetKwFunction{FMain}{\small\tt build\_cells}
-%  \SetKwProg{Fn}{Function}{:}{}
-%  \SetKwProg{Pn}{Function}{:}{\KwRet}
-
-%  \DontPrintSemicolon
-%  \Input{$v\,${\otherfont the list of vertices},\newline
-%         $o\,${\otherfont the list of vertices of obstacles}
-%  }
-%  \Output{$c\,${\otherfont the list of vertices of cells}}
-
-%  {\normalsize $c\gets\, ${\small\tt build\_cells(}$v,o${\small\tt )}}\;
-
-%  \Pn{\FMain{\normalsize $v,o,\mathcal{S}^v_\lambda$}}{  
-%  {\normalsize $l_s\gets l(v_1,v_{|v|})$}\;% builds coverage motion parallel to the edge of the polygon
-    
-%    \eIf{\normalsize $o\neq\emptyset,\,o_1\in v$}{ % split in 2 cells in proximity of obstacle
-    
-%      {\normalsize $c_{c}\gets (x_{\underline{o}_1},\mathcal{S}_{x_{\underline{o}_1}}^c)\cup\{w\mid w\in v, \underline{o}_1< w< \overline{o}_1\}\cup(x_{\overline{o}_1},\mathcal{S}_{x_{\overline{o}_1}}^c)$}\;
-%      {\normalsize $c_{c}\gets c_{c}\curvearrowright \{w\mid w\in o_1, w\geq \underline{o}_1\}$}\; % ceiling
-
-%      {\normalsize $c_{f}\gets (x_{\underline{o}_1},\mathcal{S}_{x_{\underline{o}_1}}^c)\cup\{w\mid w\in v, \underline{o}_1< w< \overline{o}_1\}\cup(x_{\overline{o}_1},\mathcal{S}_{x_{\overline{o}_1}}^c)$}\;
-%      {\normalsize $c_{c}\gets c_{c}\curvearrowright \{w\mid w\in o_1, w\geq \underline{o}_1\}$}\; % floor
-
-%      {\normalsize $c_{f}\gets c_{c}$}\;
-%      {\normalsize $c_{f}\curvearrowright   \{w\mid w\in o_1, w\leq \underline{o}_1\}\cup (\overline{x}_{o_{1}},l_f(\overline{x}_{o_{1}}))$}\; % floor
-
-%      {\normalsize $c_{2}\curvearrowright \{w\mid w\in c_{1}, w\geq \underline{x}_{o_{1}}\}\cup (\underline{x}_{o_{1}},l_c(\underline{x}_{o_{1}}))\cup(\underline{x}_{o_{1}},l_f(\underline{x}_{o_{1}}))$}\;
-
-%      {\normalsize $c_{1}\curvearrowright \{w\mid w\in c_{1}, w\leq \underline{x}_{o_{1}}\}\cup (\underline{x}_{o_{1}},l_c(\underline{x}_{o_{1}}))\cup(\underline{x}_{o_{1}},l_f(\underline{x}_{o_{1}}))$}\;
-
-%      {\normalsize $o\gets o\setminus\{o_1\}$}\;
-%      \Return{\normalsize $c_{1}\,\,\cup\,\,${\small\tt build\_cells(}$c_{c},o${\small\tt )}$\,\,\cup\,\,${\small\tt build\_cells(}$c_{2},o${\small\tt )}$\,\,\cup\,\,${\small\tt build\_cells(}$c_{f},o${\small\tt )}}\;
-%    }{
-%      \Return{\normalsize $c_{1}$}\;
-%    }
-%  }
-%  \vspace{.8ex}
-
-%  \caption{A simplified algorithm for cellular decomposition}
-%\end{algorithm}
- 
-  
-%ALGO: the algo has some events -- vertex of a polygon
-%EVENTS:
-%IN event connectivity of the slice increases, current cell is closed %and two new are opened
-
-%OUT event the two current cells are closed  and one new is opened
-
-%MIDDLE do not open nor close
-% in Choset
-% FLOOR vertices that are on the top of the polygon
-% CEILING vertices that are on the bottom
-
-%INPUT: list of polygon with vertices in counter-clockwise order
-% ASSUMPTION: No two IN nor two OUT events have the same x-coordinate
-
-
 \subsection{Coverage motion generation}\findex{coverage motion}
 \label{sec:cov-motion}
 
-Once we delimited the coverage and obstacles spaces into appropriate cells, we need to define the tour that travels through all the points in the cells--the coverage motion. A classical approach for the coverage motion in the literature is to travel back and forth. We saw in~\fref{cp:soa}{Chapter} and discussed briefly at the beginning of~\fref{sec:cov-path-plan}{Section} that this is termed the boustrophedon motion. We propose a slight variation of this motion for our problem, which we introduced with the intuitive path in~\fref{sec:path-wise}{Section} in~\fref{fig:plot3}{Figure}. The variation called the boustrophedon-like motion optimizes the turns of the aerial robot flying. The past literature analyzes broadly turns optimizations in the coverage for both mobile~\citep{huang2001optimal} and aerial robots~\citep{artemenko2016energy,li2011coverage}. The problem is that mobile robots are often subject to various constraints, including the turning radius. The original boustrophedon motion has edges parallel to the polygon where a mobile robot might have to slow to perform the turn. For instance, a lawnmower mobile robot would have to drive outside the path to turn efficiently~\citep{huang2001optimal}. An aerial robot traveling the boustrophedon motion might have to follow a greedy path planning algorithm instead or travel an additional turning maneuver such as a curlicue orbit~\citep{xu2011optimal,xu2014efficient}. To this end, the boustrophedon-like motion in~\fref{sec:path-wise}{Section} considerably smooths the turns. Given two following back and forth parallel lines in the original version, ours connects these lines using a semi-circle of a given radius rather than connecting them with additional lines. We illustrate how we cover the cell $c_1$ in~\fref{fig:bcd4}{Figure} using the boustrophedon-like motion in~\fref{fig:bm}{Figure}. 
+Once we delimited the coverage and obstacles spaces into appropriate cells, we need to define the tour that travels through all the points in the cells--the coverage motion. A classical approach for the coverage motion in the literature is to travel back and forth. We saw in~\fref{cp:soa}{Chapter} and discussed briefly at the beginning of~\fref{sec:cov-path-plan}{Section} that this is termed the boustrophedon motion. We propose a slight variation of this motion for our problem, which we introduced with the intuitive path in~\fref{sec:path-wise}{Section} in~\fref{fig:bm-like_pb}{Figure}. The variation called the boustrophedon-like motion optimizes the turns of the aerial robot flying. The past literature analyzes broadly turns optimizations in the coverage for both mobile~\citep{huang2001optimal} and aerial robots~\citep{artemenko2016energy,li2011coverage}. The problem is that mobile robots are often subject to various constraints, including the turning radius. The original boustrophedon motion has edges parallel to the polygon where a mobile robot might have to slow to perform the turn. For instance, a lawnmower mobile robot would have to drive outside the path to turn efficiently~\citep{huang2001optimal}. An aerial robot traveling the boustrophedon motion might have to follow a greedy path planning algorithm instead or travel an additional turning maneuver such as a curlicue orbit~\citep{xu2011optimal,xu2014efficient}. To this end, the boustrophedon-like motion in~\fref{sec:path-wise}{Section} considerably smooths the turns. Given two following back and forth parallel lines in the original version, ours connects these lines using a semi-circle of a given radius rather than connecting them with additional lines. We illustrate how we cover the cell $c_1$ in~\fref{fig:bcd4}{Figure} using the boustrophedon-like motion in~\fref{fig:bm}{Figure}. 
 \begin{figure}[h]
   \centering
   \fontfamily{phv}\selectfont
@@ -315,7 +265,7 @@ The remaining cells are covered in the same manner. The overall coverage is achi
 
 Let us assume for an instant that the turning radius in~\fref{pb:cov-pb}{Problem} is not given. Let us further assume that the aerial robot can overfly the boundaries of the polygons $v$ and $o_i$ for the turns. The methodology that outputs the plan $\Gamma$ that covers $\mathcal{Q}^v$ with boustrophedon-like motion is to build four paths:
 \begin{enumerate*}[label={(\alph*)},font={\textit}]
-  \item the line $\varphi_1$ from \fref{fig:plot3}{Figure} parallel to the edge formed by vertices $v_1$ and $v_4$,
+  \item the line $\varphi_1$ from \fref{fig:bm-like_pb}{Figure} parallel to the edge formed by vertices $v_1$ and $v_4$,
   \item the circle $\varphi_2$ with the center laying on the edge formed by vertices $v_4$ and $v_3$,
   \item the line $\varphi_3$ parallel to $\varphi_1$ that connects the right side of $\varphi_2$ and extends up to the left side of $\varphi_4$, and
   \item the circle $\varphi_4$ whose center is on the edge formed by vertices $v_1$ and $v_2$.
@@ -335,7 +285,7 @@ The Zamboni-like motion is similar to the original Zamboni motion in the literat
 Let us assume that the aerial robot can completely overfly the obstacles; we discuss this assumption in \fref{sec:output-mpc}{Section}. The intuition is that although the robot moves over the obstacle, it has a further computations constraint specifying that it cannot perform any computation (similarly to the turns which we constrained in \fref{sec:computation-wise}{Section}). Let us further adopt the notation ${}^{v_1}|_{v_{|v|}}$ for an edge connecting vertices $v_1$ and $v_{|v|}$ (in this latter case, the first and last vertex). To generate the plan $\Gamma$ that covers $\mathcal{Q}^v$ with the Zamboni-like motion we build four paths:
 \begin{enumerate*}[label={(\alph*)},font={\textit}]
   \item the line $\varphi_1$ parallel to ${}^{v_1}|_{v_{|v|}}$ that extends from ${}^{v_{|v|}}|_{v_{|v-1|}}$ to ${}^{v_{1}}|_{v_{2}}$ (similarly to the boustrophedon-like motion),
-  \item the circle $\varphi_2$ of which the left side intersects the line that we just created and the right ${}^{v_x}|_{v_y}$ with $v_x,v_y\in v$ being two vertices of the polygon $v$ at a point $x_{\Gamma_2}$ (the name of the point is relative to the nomenclature in \fref{fig:plot4}{Figure}). This latter point depends on the radius of the circle $r_1$. For the following path, let us call ${}^{v_x}|_{v_y}$ the floor edge\findex{floor edge} and ${}^{v_w}|_{v_z}$ the corresponding ceiling edge\findex{ceiling edge} constructed with the sweeping function $\mathcal{S}_{\lambda}$ intersecting  ${}^{v_w}|_{v_z}$ at $\lambda=x_{\Gamma_2}$. 
+  \item the circle $\varphi_2$ of which the left side intersects the line that we just created and the right ${}^{v_x}|_{v_y}$ with $v_x,v_y\in v$ being two vertices of the polygon $v$ at a point $x_{\Gamma_2}$ (the name of the point is relative to the nomenclature in \fref{fig:zambo-like_pb}{Figure}). This latter point depends on the radius of the circle $r_1$. For the following path, let us call ${}^{v_x}|_{v_y}$ the floor edge\findex{floor edge} and ${}^{v_w}|_{v_z}$ the corresponding ceiling edge\findex{ceiling edge} constructed with the sweeping function $\mathcal{S}_{\lambda}$ intersecting  ${}^{v_w}|_{v_z}$ at $\lambda=x_{\Gamma_2}$. 
   \item the line $\varphi_3$ parallel to $\varphi_1$ that intersects the right side of $\varphi_2$ and extends from the ceiling to the floor edge at $x_{\Gamma_2}$, and
   \item the circle $\varphi_4$ of a given radius and a parameter introduced in \fref{sec:path-wise}{Section}. The left edge of the circle lays on $\varphi_3$, whereas the right intersects another edge of the polygon. 
 \end{enumerate*}
@@ -368,7 +318,7 @@ The complexity of the coverage motion generation algorithm for a cell that retur
 %\end{algorithm}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Energy-Aware Coverage Replanning}
 \label{sec:mpc}
 
@@ -420,8 +370,6 @@ is the \emph{output constraint}\findex{output constraint}, where $b(y(t),t)Q_cV$
 \end{highlight}
 We assume the mobile robot carries a battery energy sensor and obtain the initial SoC $b(y(t_0),t_0)$ in the output constraint using the output of such sensor. This is a realistic assumption: aerial robots are often equipped with a flight controller, which returns various metrics, including the battery SoC. Evaluating the constraint requires numerical simulation: the battery model in \frefeq{eq:bat} is differential, similarly to the energy dynamics of the periodic model in \frefeq{eq:state-perf}. We can compute the numerical simulation using the Euler method in \fref{sec:euler}{Section} or the Runge-Kutta method in \fref{sec:rk4}{Section}. 
 
-%\subsubsubsection{Optimal control problem for coverage (re)planning and scheduling}
-
 To state the OCP on a finite horizon, we use a similar expression to \fref{sec:opt-constrained}{Section} with
 \begin{subequations}\label{eq:ocp-output-mpc}\begin{align}
   \max_{\mathbf{q}(t),c_i(t)}&{l_f(\mathbf{q}(T),T)+\int_{t_0}^T{l(\mathbf{q}(t),c_i(t),t)\,dt}},\\
@@ -450,7 +398,7 @@ The final cost function is alike a quadratic expression but with no control
 \begin{equation}\label{eq:final-cost-mpc}
   l_f(\mathbf{q}(T),T)=\mathbf{q}'(T)Q_f\mathbf{q}(T),
 \end{equation}
-where $Q_f\in\mathbb{R}^{m\times m}$ is a given positive semidefinite matrix. %We discuss in \fref{sec:opt-cont-gener}{Section} the items of the matrices $Q,R,$ and $Q_f$ in a concrete implementation of the output model predictive controller. 
+where $Q_f\in\mathbb{R}^{m\times m}$ is a given positive semidefinite matrix.
 
 The horizon $N$ is in seconds, and the controller selects the optimal control trajectory $c_i^*(t)$ over $[t_0,T]$, with $T=t_0+N$. At each instant, the controller refines the control trajectory (replans the coverage and schedule) that respects the constraints. To evaluate the state trajectory--needed for the instantaneous cost function $l$ and the final cost function $l_f$--the controller evaluates the battery trajectory $b(y(t),t)$ (it has to verify that the output is in $\mathcal{Y}(t)$). It then maximizes the instantaneous cost function $l$ for all the time instants but $T$ ($t_0\leq t < t_0+N$), and the final cost function $l_f$ in \frefeq{eq:final-cost-mpc} for the time instant $T$ ($t=t_0+N$).
 The dynamics constraint satisfaction requires to evolve the perfect model $f$ in \frefeq{eq:perf-model-in-mpc} over horizon $[t_0,t_0+N]$ beginning from the last estimated state $\mathbf{q}_0=\hat{\mathbf{q}}(t_0)$ at time instant $t_0$. Similarly, the output constraint satisfaction requires then to evolve the battery constraint on $[t_0,t_0+N]$, from the last battery measurement $b_0$ from the battery energy sensor at instant $t_0$.
@@ -499,9 +447,6 @@ To discretize the battery dynamics in \frefeq{eq:bat}, we use
 where $b$ is given in \frefeq{eq:bat} and $y(k)$ is the output of the model in \frefeq{eq:state-perf-output}. The matrix $C$ is to be found in \frefeq{eq:mat_C}.
 
 In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-output-mpc} into an NLP by first discretizing and thus effectively implementing the direct multiple shooting method in \fref{sec:multi-shoot}{Section}. We note that we can implement the single shooting method by keeping only the initial state as the decision variable $\hat{\mathbf{q}}_0$, conversely to using the interval boundary time points as a decision variable in the multiple shooting method~\citep{rawlings2017model}.
-
-
-%For convenience, we replace the constraints in \frefeqM{eq:disc-dyn-evol}{eq:disc-batt-const-mpc} using equality and inequeality constraints such that the problem can be then solved by a numerical optimization algorithm. The \frefeq{eq:disc-dyn-evol} becames
 
 \subsection{Coverage planning and scheduling algorithm}
 \label{sec:algo}
@@ -586,11 +531,11 @@ On \fref{algo:repla:sysevo}{Lines}\fref{algo:repla:endkalmy}{--\hspace*{-.8ex}},
 
 On \fref{algo:repla:initbat}{Lines}\fref{algo:repla:endbat}{--\hspace*{-.8ex}}, the algorithm estimates the time needed to completely drain the battery with the differential model in \fref{sec:battery-model}{Section}, in \frefeq{eq:bat}, and \frefeq{eq:batt-euler}, using the Euler method for numerical simulation (as on \fref{algo:repla:sysevo}{Line}). A possible optimization in this set of lines is to utilize the state already from MPC on \fref{algo:repla:mpc}{Line} for future energy prediction on the horizon $N$; at further time horizons, we don't have any trajectory for the control available, and thus we keep $c_j(k)=c_j(i+N-h),\,\forall k>i+N-h$. The variable $t_b$ on \fref{algo:repla:endbat}{Line} contains the estimated available battery time. The algorithm then computes the scale transformation from the path parameters domain to the time domain in \fref{sec:merging}{Section} on \fref{algo:repla:configtime}{Line} and the estimated remaining time of the path parameters $c_j^\rho(i)$ on \fref{algo:repla:loosingmyreligiontime}{Line}. It selects a different configuration of path parameters when the battery time is lower than the remaining time on \fref{algo:repla:newpathparam}{Line}. We can further assume that the battery information is incomplete or that the model does not account for all the eventualities and select the best configuration for the current total battery time. Finally, on \fref{algo:repla:gvf}{Line}, the algorithm computes the next position in space using the vector field for guidance in \fref{sec:gvf}{Section}, where $v(i)\in\mathbb{R}_{\geq 0}$ is the velocity and $\mathbf{p}(i)$ the position at the current time step $i$. 
 
-%Furthermore, the periodic model that we provided in \fref{cp:model}{Chapter} requires an amount of time for
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\color{red}Results}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{\color{red}Summary}
 

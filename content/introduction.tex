@@ -1,16 +1,24 @@
 
+%
 %%%%%%%%%%%%%%%%%%
 %                %
 % Introduction   %
 %                %
+%%%%%%%%%%%%%%%%%%
+%
+% Brief abstract: introduction to the rest of the work
+%
+% Completion (1-10): 8
+% Missing: some further motivation would be nice, along some more plots. Methodology is missing, structure is to rewrite with the final structure, the contribution is to be redone as well. Overall consistency check with the final structure is needed
+%
 \chapter{Introduction}
 \label{cp:intro}
 
-%\begin{highlight}
-%    \begin{st}
-%        General structure with just some dummy text.
-%    \end{st} 
-%\end{highlight}
+\begin{chapquote}{\cite{wang2017curvature}}
+  ``Fixed-wing[s] [...] tend to be more stable in the air in the face of both piloting and technical errors as they have natural gliding capabilities even without power, and they are able to travel longer distances on less power.''
+\end{chapquote}
+
+\vspace*{1em}
 
 \lettrine{M}{obile robots} are a class of robots with the ability to move through the environment~\citep{corke2017robotics}. Most of these robots are power-demanding devices constrained by battery limitations. Although such limitations are a common challenge in many areas, they are critical in mobile robots' design and development. They influence the level of autonomy~\citep{seewald2020mechanical}, which in turn is expected to increase in the foreseeable future~\citep{fisher2013verifying}.
 
@@ -70,9 +78,9 @@ Finally, we conclude this section with a quote from~\citep{anderson2005introduct
 
 Numerous different types of aerial robots have emerged ever since their first introduction. We briefly investigate the most studied classes in the robotics literature and relate them to the dynamic energy planning that we focus on in this work. The two most generic classes are heavier-than-air and lighter-than-air aerial robots. Heavier-than-air aerial robots\findex{heavier-than-air aerial robots} are divided into fixed- and rotary-wings~\citep{siciliano2016springer}, and some recent developments in bio-inspired robotics study flapping-wings~\citep{floreano2015science}\findex{flapping-wings}. 
 
-Rotary-wing aerial robots\findex{rotary-wings} are highly maneuverable and can perform stationary vertical flight (commonly referred to as hovering\findex{hovering})~\citep{siciliano2016springer}. These systems can be classified into further categories, which include multirotors\findex{multirotors} (such as quadrotors\findex{quadrotors} or quadcopters\findex{quadcopters}, hexacopters\findex{hexacopters}, and octocopters\findex{octocopters}), conventional helicopters\findex{helicopters} (these have one main and one tail rotor), and a coax\findex{coax} (these have counter-rotating coaxial rotors)~\citep{corke2017robotics}. Some examples of quadrotors are DJI Mavic Mini in \sref{lab:mavic}, and DJI Phantom 4 in \sref{lab:phantom} in \fref{fig:plot10}{Figure}. In the same figure, DJI Agras T16 in \sref{lab:agras}, and DJI Matrice 600 in \sref{lab:matrice} are hexacopters.
+Rotary-wing aerial robots\findex{rotary-wings} are highly maneuverable and can perform stationary vertical flight (commonly referred to as hovering\findex{hovering})~\citep{siciliano2016springer}. These systems can be classified into further categories, which include multirotors\findex{multirotors} (such as quadrotors\findex{quadrotors} or quadcopters\findex{quadcopters}, hexacopters\findex{hexacopters}, and octocopters\findex{octocopters}), conventional helicopters\findex{helicopters} (these have one main and one tail rotor), and a coax\findex{coax} (these have counter-rotating coaxial rotors)~\citep{corke2017robotics}. Some examples of quadrotors are DJI Mavic Mini in \sref{lab:mavic}, and DJI Phantom 4 in \sref{lab:phantom} in \fref{fig:robots-vs-power}{Figure}. In the same figure, DJI Agras T16 in \sref{lab:agras}, and DJI Matrice 600 in \sref{lab:matrice} are hexacopters.
 
-Fixed-wing aerial robots\findex{fixed-wings} have wings to provide the lift, some control surfaces for maneuvering, and a propeller for forward thrust; a shared principle with a common passenger aircraft~\citep{corke2017robotics}. An example constitutes the Opterra adapted for precision agriculture in \fref{fig:opterra}{Figure}, Cumulus in \sref{lab:cumulus}, Ebee in \sref{lab:ebee}, and Penguin BE in \sref{lab:penguin}~\citep{haugen2016monitoring} in \fref{fig:plot10}{Figure}. Examples of flapping-wings are Delfly II in \sref{lab:delfly}~\citep{percin2012flow}, and Nano-Hummingbird in \sref{lab:nano} in \fref{fig:plot10}{Figure}. We discuss in detail heavier-than-air aerial robots in this work, as they are a common platform for robotics research. We focus on the dynamic forces which govern the flight of rotary- and fixed-wings aerial robots in \fref{cp:dyn}{Chapter}.
+Fixed-wing aerial robots\findex{fixed-wings} have wings to provide the lift, some control surfaces for maneuvering, and a propeller for forward thrust; a shared principle with a common passenger aircraft~\citep{corke2017robotics}. An example constitutes the Opterra adapted for precision agriculture in \fref{fig:opterra}{Figure}, Cumulus in \sref{lab:cumulus}, Ebee in \sref{lab:ebee}, and Penguin BE in \sref{lab:penguin}~\citep{haugen2016monitoring} in \fref{fig:robots-vs-power}{Figure}. Examples of flapping-wings are Delfly II in \sref{lab:delfly}~\citep{percin2012flow}, and Nano-Hummingbird in \sref{lab:nano} in \fref{fig:robots-vs-power}{Figure}. We discuss in detail heavier-than-air aerial robots in this work, as they are a common platform for robotics research. We focus on the dynamic forces which govern the flight of rotary- and fixed-wings aerial robots in \fref{cp:dyn}{Chapter}.
 
 Common instances of lighter-than-air aerial robots\findex{lighter-than-air aerial robots} are blimps\findex{blimps} (or non-rigid airships). They usually rely on a gas--such as helium enclosed in a protected envelope~\citep{burri2013design}--to generate the lifting force~\citep{fui2017recent}. An omnidirectional spherical blimp is shown in \fref{fig:skye-blimp}{Figure}. Blimps are similar to balloons but provide basic maneuverability, whereas, in a balloon, only the altitude can be controlled~\citep{colombatti2011lighter}.
 
@@ -85,7 +93,7 @@ Common instances of lighter-than-air aerial robots\findex{lighter-than-air aeria
 
 Some other classifications found in aerial robotics literature trade size and maneuverability and include classes as micro aerial vehicles (MAVs)\findex{micro aerial vehicles} or vertical take-off and landing (VTOLs)\findex{vertical take-off and landing} aerial robots. The former are aerial robots with all dimensions lower than 15 cm. The latter are aerial robots flying in a fixed-wing configuration except if taking-off and landing where they use thrust from rotors rather than lift from wings. 
 
-Among the classes in this section, rotary-wings are the most maneuverable and lighter-than-air aerial robots are the least. These, however, have the highest flight time followed by fixed-wing aerial robots. Mixed configurations, such as VTOLs, fall into the intersection of rotary and fixed-wings for what concerns maneuverability and flight time~\citep{siciliano2016springer}. The energy requirements are critical for all aerial robots, but the difference of motion and computations energy (\Gls{acr:mace}) varies greatly. The energy--inversely proportional to flight time--is highest in rotary-wings and lowest in lighten-than-air aerial robots as shown later in \fref{fig:plot10}{Figure}. The dynamic energy planning approach thus relies on both power-saving task scheduling and energy-efficient path planning for the fixed-wings robots while relying almost exclusively on energy-efficient path planning for rotary-wing aerial robots. In the former \Gls{acr:mace} is close to zero, in the latter is usually high except in energy optimized designs such as some rotary-wing MAVs. Hypothetically, in lighter-than-air aerial robots, \Gls{acr:mace} might be negative; the energy planning approach would rely heavily on power-saving task scheduling.
+Among the classes in this section, rotary-wings are the most maneuverable and lighter-than-air aerial robots are the least. These, however, have the highest flight time followed by fixed-wing aerial robots. Mixed configurations, such as VTOLs, fall into the intersection of rotary and fixed-wings for what concerns maneuverability and flight time~\citep{siciliano2016springer}. The energy requirements are critical for all aerial robots, but the difference of motion and computations energy (\Gls{acr:mace}) varies greatly. The energy--inversely proportional to flight time--is highest in rotary-wings and lowest in lighten-than-air aerial robots as shown later in \fref{fig:robots-vs-power}{Figure}. The dynamic energy planning approach thus relies on both power-saving task scheduling and energy-efficient path planning for the fixed-wings robots while relying almost exclusively on energy-efficient path planning for rotary-wing aerial robots. In the former \Gls{acr:mace} is close to zero, in the latter is usually high except in energy optimized designs such as some rotary-wing MAVs. Hypothetically, in lighter-than-air aerial robots, \Gls{acr:mace} might be negative; the energy planning approach would rely heavily on power-saving task scheduling.
 
 The classification that we proposed in this section serves the scopes of our work. There are similar effort for classification by size and propulsion technology~\citep{hoffer2014survey,cabreira2019survey} but of course other classifications are possible. For instance categorizing aerial robots by the altitude they usually operate at~\citep{watts2012unmanned}.
 
@@ -93,16 +101,23 @@ The classification that we proposed in this section serves the scopes of our wor
 \section{Motivation}
 \label{sec:motivation}
 
-\begin{figure}[t!]
+\begin{figure}[p!]
   \centering
   \footnotesize\fontfamily{phv}\selectfont
-  \input{figures/plot10.tikz}
+  \input{figures/robots-vs-power.tikz}
   \caption[Different aerial robots in relation to the power, flight time, and M\&CE]{Different aerial robots in relation to the power, flight time, and M\&CE with a hypothetical fixed costs for computations energy. The power is expressed using a logarithmic scale. Heavier-than-air aerial robots \sref{lab:cumulus}{}--\sref{lab:nano}{} include flapping-wings \sref{lab:delfly}{},~\sref{lab:nano}{} and have a negative M\&CE (computations scheduling is to be accounted for most in planning), whereas rotary-wings have a positive M\&CE \sref{lab:matrice}{},~\sref{lab:agras}{} (path planning is to be accounted for most in dynamic planning). Some smaller rotary-wings have a M\&CE closer to zero \sref{lab:mavic}{},~\sref{lab:phantom}{}. In general, rotary-wings have a short flight time. Fixed-wings \sref{lab:cumulus}{}--\sref{lab:opterra}{} have a considerably longer flight time and M\&CE close to zero (computations scheduling and path planning have both to be accounted for in dynamic planning). Lighter-than-air aerial robots \sref{lab:skye}{} have hypothetically a relatively long flight time and lower than zero M\&CE {\scriptsize(photos credit: \srefsmaller{lab:cumulus} to Sky-Watch, \srefsmaller{lab:matrice} to Rise Above, \srefsmaller{lab:agras} to Aeromotus, \srefsmaller{lab:mavic} to Digital Photography Review, \srefsmaller{lab:phantom} to ePHOTOzine, and \srefsmaller{lab:nano} to DARPA)}.}
-  \label{fig:plot10}
+  \label{fig:robots-vs-power}
 \end{figure}
 
 In this section, we provide a brief motivation for dynamic energy planning of these systems.
 Many applications that involve aerial robots have strict battery constraints. Although this is a common problem to most mobile robots, aerial robots are of particular concern. The autonomy of these systems is affected by the availability of the power source. A typical example of an aerial robotics scenario is a robot following a path and performing some onboard computations. For instance, the robot might detect ground patterns and notify other ground-based actors with little human interaction in precision agriculture or another application. Aerial robots in this situation often carry some heterogeneous computing hardware\findex{heterogeneous computing hardware} and a microcontroller. Energy requirements of such computing hardware are a further complication. Computing hardware is involved in autonomous capabilities and planning itself--both often require computer vision or other complex algorithms--whereas microcontroller\findex{microcontroller} runs motion primitives by directly interfacing actuators (such as servos\findex{servo} for the control surfaces\findex{control surface}) and motors\findex{motor}. Energy-wise, it is advantageous to schedule the computations on the computing hardware and simultaneously to plan the path.
+
+\begin{figure}[t!]
+  \centering
+  \input{figures/plot2.tikz}
+  \caption[The coverage problem in a precision agriculture scenario]{The coverage problem in a precision agriculture scenario. The aerial robot has to cover an agricultural field that forms a polygon (blue/transparent area in the frame) and run some autonomous tasks {\scriptsize(photo credit: Amit Ferencz Appel)}.}
+  \label{fig:plot2}
+\end{figure} % <-- figure moved for formatting
 
 \subsection{Path planning and computations scheduling}
 
@@ -110,17 +125,10 @@ It is uncommon to find a ready-to-use solution for both planning the path and sc
 
 For certain classes of aerial robots with \Gls{acr:mace} close or lower than zero, the autonomy can directly influence the battery state. For these classes, it is desirable to reschedule the computations energy-wise in-flight during a motion energy-demanding phase. For instance, a fixed-wing aerial robot might be flying headwinds (with the wind vector parallel and opposite to the direction of motion) and utilizing more energy than planned. It would be of advantage to reschedule the tasks accordingly to save energy needed for motion. During the same flight, the wind direction might suddenly change. The fixed-wing craft, now flying tailwinds, requires less motion energy. It could then potentially increase the level of computations by rescheduling the tasks. Later in the flight, the battery might be subject to sudden drops (due to e.g., temperature changes) requiring replanning again by, e.g., shortening the path. It is clear that planning the path and scheduling the computations simultaneously in all these cases is the most desirable course of action.
 
-In \fref{fig:plot10}{Figure} we show the \Gls{acr:mace} against the flight time of different aerial robots. We observe that fixed-wings are the aerial robots that would advantage most from simultaneous path planning and computations scheduling. They have a \Gls{acr:mace} close to zero and a relatively long flight time. Although some rotary-wings have \Gls{acr:mace} also close to zero, their flight time is generally relatively short. Flapping-wing and lighter-than-air aerial robots require considerably less energy for the motion, and have a negative \Gls{acr:mace}.
+In \fref{fig:robots-vs-power}{Figure} we show the \Gls{acr:mace} against the flight time of different aerial robots. We observe that fixed-wings are the aerial robots that would advantage most from simultaneous path planning and computations scheduling. They have a \Gls{acr:mace} close to zero and a relatively long flight time. Although some rotary-wings have \Gls{acr:mace} also close to zero, their flight time is generally relatively short. Flapping-wing and lighter-than-air aerial robots require considerably less energy for the motion, and have a negative \Gls{acr:mace}.
 
 \subsection{Objective}
 \label{sec:objective}
-
-\begin{figure}[t!]
-  \centering
-  \input{figures/plot2.tikz}
-  \caption[The covering problem in a precision agriculture scenario]{The covering problem in a precision agriculture scenario. The aerial robot has to cover an agricultural field that forms a polygon (blue/transparent area in the frame) and run some autonomous tasks {\scriptsize(photo credit: Amit Ferencz Appel)}.}
-  \label{fig:plot2}
-\end{figure}
 
 In the remainder of this work, we refer to computational tasks that can be scheduled in an energy-aware fashion as computations, opposed to the other tasks with no significant effect on energy consumption. We assume the aerial robot runs the computations on the heterogeneous computing hardware. As an example, we refer to an aerial robot in a precision agriculture scenario in \fref{fig:opterra}{Figure}, which covers an agricultural field. 
 \begin{figure}[h]

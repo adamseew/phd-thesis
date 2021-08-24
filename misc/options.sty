@@ -243,7 +243,7 @@
 \usepackage{tcolorbox}
 
 \newtcolorbox{highlight}{colback=gray!10,colframe=gray!10,boxrule=0pt,arc=0pt,boxsep=4pt,left=8pt,right=8pt,leftrule=0pt,grow to left by=12pt,% 12pt is 1em
-grow to right by=12pt,}
+grow to right by=12pt}
 
 \makeatletter
 \newcommand*{\textlabel}[2]{%
@@ -344,4 +344,13 @@ grow to right by=12pt,}
 \SetKwSty{kwsty}
 
 \newcommand\subsubsubsection{\@startsection{paragraph}{4}{\z@}{-2.5ex\@plus -1ex \@minus -.25ex}{1.25ex \@plus .25ex}{\normalsize\otherfont\color{foo}\bfseries}} % for subsubsubsection
+
+\makeatletter % inspirational quotes from https://tex.stackexchange.com/questions/53377/inspirational-quote-at-start-of-chapter
+\newenvironment{chapquote}[2][2em]
+  {\setlength{\@tempdima}{#1}%
+   \def\chapquote@author{#2}%
+   \parshape 1 \@tempdima \dimexpr\textwidth-2\@tempdima\relax%
+   \itshape}
+  {\par\normalfont\hfill---\ \chapquote@author\hspace*{\@tempdima}\par\bigskip}
+\makeatother
 
