@@ -463,7 +463,7 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
   \DontPrintSemicolon
   \Input{$\Gamma${ \otherfont initial plan}\newline
          $t_0${ \otherfont initial time step}\newline
-         $\mathbf{q}(t_0)${ \otherfont initial guess for the energy model}\newline
+         $\hat{\mathbf{q}}(t_0)${ \otherfont initial guess for the energy model}\newline
          $j${ \otherfont starting stage within the primitive stages }$\in[n]_{>0}${ \otherfont otherwise }$j=1$
   }
   \Output{$\Gamma${ \otherfont revised plan}
@@ -489,15 +489,7 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
     {\normalsize $\mathbf{q}(\mathcal{K}\setminus\{i+N\}),c_j(\mathcal{K})\gets${ \otherfont solve NLP }$\argmax_{\mathbf{q}(k),c_j(k)}{l_f(\mathbf{q}(i+N),i+N)}+$ \hspace*{1em}${\sum_{k\in\mathcal{K}}{l_d(\mathbf{q}(k),c_j(k),k)}}${ \otherfont from \frefeq{eq:disc-ocp-output-mpc} on }$\mathcal{K}=\{i,i+h,\dots,i+N\}$
     }\;\label{algo:repla:mpc}
     \vspace{.8ex}
-
-    {\normalsize $\mathbf{q}(i+h)\gets A_d\mathbf{q}(i)+B\mathrm{diag}{(\nu_j)}(c_j(i)-c_j(i-h))$}\;\label{algo:repla:sysevo}
-    {\normalsize $P(i+h)^-\gets A_d P(i)A_d'+S(i)$}\;\label{algo:repla:covesterrorpri}
-    {\normalsize $K(i+h)\gets (P(i+h)^-C')/(CP(i+h)^-C'+V(i))$}\;\label{algo:repla:goodoldkalmygains}
-    {\normalsize $\hat{\mathbf{q}}(i+h)\gets${ \otherfont compute }$\mathbf{q}(i+h)+K(i+h)(y(i)-C\mathbf{q}(i+h))${ \otherfont from energy sensor }$y(i)$}\;\label{algo:repla:apoststate}
-    {\normalsize $\hat{y}(i+h)+C\hat{\mathbf{q}}(i+h)$}\;
-    {\normalsize $P(i+h)\gets (I+K(i+h)C)P(i+h)^-$}\;\label{algo:repla:endkalmy}
-    \vspace{.8ex}
-    
+ 
     {\normalsize $k\gets i$}\;\label{algo:repla:initbat}
     \While{\normalsize $b_d(k)>0$}{
       \If{\normalsize $k\notin\mathcal{K}$}{
@@ -512,6 +504,14 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
     \If{\normalsize $t_r<t_b$}{
       {\normalsize $c_j^{\rho}(i)\gets${ \otherfont find }$c_j^{\rho}${ \otherfont with }$t_c\in[0,t_b]${\otherfont , otherwise take }$\underline{c}_j^\rho$}\;\label{algo:repla:newpathparam}
     }
+    \vspace{1.6ex}
+
+    {\normalsize $\hat{\mathbf{q}}(i+h)\gets A_d\hat{\mathbf{q}}(i)+B\mathrm{diag}{(\nu_j)}(c_j(i)-c_j(i-h))$}\;\label{algo:repla:sysevo}
+    {\normalsize $P(i+h)^-\gets A_d P(i)A_d'+S(i)$}\;\label{algo:repla:covesterrorpri}
+    {\normalsize $K(i+h)\gets (P(i+h)^-C')/(CP(i+h)^-C'+V(i))$}\;\label{algo:repla:goodoldkalmygains}
+    {\normalsize $\hat{\mathbf{q}}(i+h)\gets${ \otherfont compute }$\hat{\mathbf{q}}(i+h)+K(i+h)(y(i)-C\hat{\mathbf{q}}(i+h))${ \otherfont from energy sensor }$y(i)$}\;\label{algo:repla:apoststate}
+    {\normalsize $\hat{y}(i+h)+C\hat{\mathbf{q}}(i+h)$}\;
+    {\normalsize $P(i+h)\gets (I+K(i+h)C)P(i+h)^-$}\;\label{algo:repla:endkalmy}
     \vspace{.8ex}
     
     {\normalsize $\mathbf{p}(i+h)\gets${ \otherfont compute from position }$\mathbf{p}(i)${\otherfont , velocity }\normalfont $v(i)${ \otherfont with }\normalfont $\Delta_d\varphi_j${ \otherfont in \fref{algo:track}{Algorith}}}\;\label{algo:repla:gvf}

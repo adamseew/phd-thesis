@@ -331,7 +331,7 @@ In this section, we discuss an example of a plan for the Opterra autonomous aeri
 \subsection{Paths sub-plan}
 \label{sec:path-wise}
 
-In the paths sub-plan, we define the paths that form the plan of the agricultural scenario. We recall that in the scenario, the aerial robot covers the polygon in \fref{fig:plot2}{Figure}. For simplicity, we assume the polygon has four sides with four vertices $v:=\{v_1,\dots,v_4\}$ (it is a rectangle) and has no obstacles $o:=\emptyset$. We will later propose in \fref{cp:dyn}{Chapter} an approach that can deal with an arbitrary number of polygon and obstacles vertices. An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage.
+In the paths sub-plan, we define the paths that form the plan of the agricultural scenario. We recall that in the scenario, the aerial robot covers the polygon in \fref{fig:plot2}{Figure}. For simplicity, we assume the polygon has four sides with four vertices $v:=\{v_1,\dots,v_4\}$ (it is a rectangle) and has no obstacles $o:=\{\emptyset\}$. We will later propose in \fref{cp:dyn}{Chapter} an approach that can deal with an arbitrary number of polygon and obstacles vertices. An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage.
 \begin{figure}[h!]
   \centering
   \input{figures/bm-like_pb.tikz}
@@ -349,8 +349,10 @@ We can use the intuitive plan to solve the coverage problem with a rotary-wing a
   \label{fig:zambo-like_pb}
 \end{figure}
 We illustrate an updated version of the intuitive plan for fixed-wing aerial robots in \fref{fig:zambo-like_pb}{Figure}. This latter variation of the coverage is similar to Zamboni motion in the literature~\citep{araujo2013multiple}. 
-We term the plans in \fref{fig:bm-like_pb}{Figure} and \fref{fig:zambo-like_pb}{Figure} boustrophedon-like and Zamboni-like motions\findex{boustrophedon-like motion}\findex{Zamboni-like motion} because they are similar to the robotics literature but optimized to our use-case and potentially a broad class of aerial robots with turning constraints. Indeed these constraints are common in the literature~\citep{huang2001optimal,artemenko2016energy,li2011coverage,xu2011optimal,xu2014efficient}. 
-We discuss further the boustrophedon, Zamboni, and other motions for the coverage in \fref{cp:soa}{Chapter} and include them in our coverage planning in \fref{cp:dyn}{Chapter}. The Zamboni-like motion in \fref{fig:zambo-like_pb}{Figure} is composed of four primitive paths
+We term the plans in \fref{fig:bm-like_pb}{Figure} and \fref{fig:zambo-like_pb}{Figure} boustrophedon-like and Zamboni-like motions\findex{boustrophedon-like motion}\findex{Zamboni-like motion} because they are similar to the robotics literature but optimized to our use-case and potentially a broad class of aerial robots with turning constraints. Indeed these constraints are commonly treated in the aerial robotics literature~\citep{artemenko2016energy,li2011coverage,xu2011optimal,xu2014efficient}. % maybe cite also huang2001optimal
+We discuss further the boustrophedon, Zamboni, and other motions for the coverage in \fref{cp:soa}{Chapter} and include them in our coverage planning in \fref{cp:dyn}{Chapter}. 
+
+The Zamboni-like motion in \fref{fig:zambo-like_pb}{Figure} is composed of four primitive paths
 \begin{subequations}\label{eq:basic-plan}\begin{align}
 \varphi_1(\mathbf{p}(t))&:=x-10,\label{eq:line1}\\
 \varphi_2(\mathbf{p}(t))&:=(x-85)^2+(y-10)^2-5625,\label{eq:circ1}\\
@@ -404,7 +406,7 @@ where for simplicity, we assume that we can change the parameter in advance at a
   \rotatesidewayslabel
   \centering
   \input{figures/zambo-repla_pb.tikz}
-  \caption[Alteration of a path parameter of the fixed-wing aerial robot's plan]{Alteration of a path parameter of the fixed-wing aerial robot's plan in \fref{fig:zambo-like_pb}{Figure}. The black line is the un-altered path up to the triggering point $\mathbf{p}_{\Gamma_3}$, where the path can be altered with the parameter $c_{4,1}$ relative to the radius $r_2$ of $\varphi_4$. The alteration changes the distance between the survey lines hence extending or shortening the flying time. The longest distance is then $2(r_1-r_2(\underline{c}_{4,1}))$, the shortest $2(r_1-r_2(\overline{c}_{4,1}))$. Same principle applies to path parameter $c_{8,1}$ for the next two survey lines, $c_{12,1}$, and so on.}
+  \caption[Alteration of a path parameter of the fixed-wing aerial robot's plan]{Alteration of a path parameter of the fixed-wing aerial robot's plan in \fref{fig:zambo-like_pb}{Figure}. The black line is the un-altered path up to the triggering point $\mathbf{p}_{\Gamma_3}$, where the path can be altered with the parameter $c_{4,1}$ relative to the radius $r_2$ of $\varphi_4$. The alteration changes the distance between the survey lines hence extending or shortening the flying time. The longest distance is then $2(r_1-r_2(\overline{c}_{4,1}))$, the shortest $2(r_1-r_2(\underline{c}_{4,1}))$. Same principle applies to path parameter $c_{8,1}$ for the next two survey lines, $c_{12,1}$, and so on.}
   \label{fig:zambo-repla_pb}
 \end{sidewaysfigure}
 
