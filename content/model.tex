@@ -32,9 +32,32 @@ In \fref{sec:model-hete-elem}{Section}, we summarize the heterogeneous elements 
 \subsection{Model for the heterogeneous elements}
 \label{sec:model-hete-elem}
 
-We saw in \fref{cp:pb}{Chapter} that traditionally, models for computing hardware focus on a specific computing element, such as CPUs or GPUs, or model the elements heterogeneously. The models provide a regression function (measuring the power consumption over time), analytical (using some architectural parameters), or other expressions to infer future energy consumption. Such an expression might depend on low-level architectural parameters and be employed in an energy-efficient selection of such parameters, including voltage and frequency. Alternatively, it might depend on high-level parameters (such as the computations parameters $c_{i}^\sigma$ in this work) and be employed in an energy-aware configuration of software (and hardware), e.g., the tasks allocation on the CPU cores. An expression depending on a configuration is more common for heterogeneous models, as we summarized in \fref{tab:energy-models}{Table}. We focus on these models: in \fref{cp:intro}{Chapter} and formally in \fref{def:comps}{Definition}, we assumed the aerial robot caries heterogeneous computing hardware for energy-demanding computations. We refer to \fref{sec:comp-ener-model}{Section} for an extensive discussion on some energy modeling approaches in the literature for CPUs and GPUs powered and heterogeneous computing hardware. 
+We saw in \fref{cp:pb}{Chapter} that traditionally, models for computing hardware focus on a specific computing element, such as CPU or GPU, or model the elements heterogeneously. The models provide a regression function (measuring the power consumption over time), analytical (using some architectural parameters), or other expressions to infer future energy consumption. The regression functions, analytical or other expressions might depend on low-level architectural parameters and be employed in an energy-efficient selection of such parameters, including voltage and frequency. Alternatively, they might depend on high-level parameters (such as the computations parameters $c_{i}^\sigma$ in this work) and be employed in an energy-aware configuration of software (and hardware), e.g., the tasks allocation on the CPU cores. An expression depending on a configuration is more common for heterogeneous models, as we summarized in \fref{tab:energy-models}{Table}. We focus on these models; in \fref{cp:intro}{Chapter} and formally in \fref{def:comps}{Definition}, we assumed the aerial robot caries heterogeneous computing hardware for energy-demanding computations. We refer to \fref{sec:comp-ener-model}{Section} for an extensive discussion of some energy modeling approaches in the literature for CPUs and GPUs powered and heterogeneous computing hardware. 
 
-Our approach is generic, modeling virtually a wide range of heterogeneous computing hardware energy consumption in real use-case with little users effort. It is based on our work~\citep{seewald2019coarse} on heterogeneous computing devices' energy modeling. We use statistical methods to derive a regression-based model segmented into two layers. In the first, the measurement layer\findex{measurement layer}, we map the time to the energy consumption, and in the second, the predictive layer\findex{predictive layer}, we map the computations configuration $c_{i}^\sigma(t)$ to the energy consumption. To generate a model, our approach inputs a user-defined configuration file. This file simply specifies the computations along with the computation parameter constraint sets $\mathcal{S}_{i,k}$ in \fref{def:stage}{Definition}, per each computation $k\in[\sigma]_{>0}$ and stage $i\in[l]_{>0}$ (or $[n]_{>0}$ if the computations are specified along the primitive paths and reiterated when the aerial robot reaches $\mathbf{p}_{\Gamma_n}$ with a shift $\mathbf{d}$ in \fref{fig:state-machine}{Figure}). From the configuration, an automated modeling tool termed \powprof{} measures the energy consumption of a discrete set of configurations $c_{i,\rho+j}\in\mathcal{S}_{i,j}$, per each computation parameter $j\in[\sigma]_{>0}$ and derives the measurement layer. It allows merging then the measurement layers into a predictive layer via linear regression.
+Our approach is based on our work~\citep{seewald2019coarse} on heterogeneous computing devices' energy modeling and generic, modeling virtually a wide range of heterogeneous computing hardware energy consumption in real use-cases with little users effort. We use statistical methods to derive a regression-based model segmented into two layers. In the first, the measurement layer\findex{measurement layer}, we map the time to the power, and in the second, the predictive layer\findex{predictive layer}, we map the computations configuration $c_{i}^\sigma(t)$ to the power. To generate a model, our approach inputs a user-defined configuration file, which simply specifies the computations along with the computation parameter constraint sets $\mathcal{S}_{i,k}$ in \fref{def:stage}{Definition}, per each computation $k\in[\sigma]_{>0}$ and stage $i\in[l]_{>0}$ (or $[n]_{>0}$ if the computations are specified along the primitive paths and reiterated when the aerial robot reaches $\mathbf{p}_{\Gamma_n}$ with a shift $\mathbf{d}$ in \fref{fig:state-machine}{Figure}). From the configuration, an automated modeling tool termed \powprof{} measures the energy consumption of a discrete set of configurations $c_{i,\rho+j}\in\mathcal{S}_{i,j}$, per each computation parameter $j\in[\sigma]_{>0}$ and derives the measurement layer. The tool allows merging then a set of measurement layers into a predictive layer via linear regression.
+\begin{figure}[h!]
+  \centering 
+  \includegraphics[width=.7\textwidth]{pictures/_DSC6224}
+  \caption[NVIDIA Jetson Nano heterogeneous computing hardware]{NVIDIA Jetson Nano heterogeneous computing hardware that we model the computations energy on. The hardware in the image includes the Jetson Developer Kit board that the Nano heterogeneous board is mounted on and has a total size of 100x80 millimeters and a weight of approx. 140 grams.}  
+  \label{fig:nano}
+\end{figure}
+\begin{figure}[h!]   
+  \centering 
+  \includegraphics[width=.7\textwidth]{pictures/_DSC6220}
+  \caption[NVIDIA Jetson TX2 heterogeneous computing hardware]{NVIDIA Jetson TX2 heterogeneous computing hardware mounted on a Jetson Developer Kit board as Nano in \fref{fig:nano}{Figure} with a total size of 170x170 millimeters and a weight of approx. 512 grams.}   
+  \label{fig:tx2}
+\end{figure}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=.7\textwidth]{pictures/_DSC6222}
+  \caption[ODROID XU3 heterogeneous computing hardware]{ODROID XU3 heterogeneous computing hardware with a total size of 94x70 millimeters and a weight of 70 grams.}
+  \label{fig:odroid}
+\end{figure}
+As heterogeneous computing hardware, we use different devices, such as NVIDIA Jetson Nano\findex{NVIDIA Jetson Nano}, TX2\findex{NVIDIA Jetson TX2}, and TK1\findex{NVIDIA Jetson TK1} in \fref{fig:nano}{Figures}\fref{fig:tx2}{--\hspace*{-.8ex}} and \fref{fig:tk1}{} and ODROID XU3\findex{ODROID XU3} in \fref{fig:odroid}{Figure}. These devices are commonly employed in robotics literature to power complex computations. For instance, Jetson TX2 has been employed in path planning\findex{path planning}~\citep{dharmadhikari2020motion,ryou2018applying}, simultaneous localization and mapping\findex{simultaneous localization and mapping} (\Gls{acr:slam})~\citep{aldegheri2019data}, and object detection\findex{object detection} via convolutional neural networks\findex{convolutional neural networks} (\Gls{acr:cnn}s)~\citep{william2019aerial}. Jetson Nano in SLAM and CNNs~\citep{peng2019evaluating,wang2020yolo,alexey2021autonomous}, and ODROID XU3~\citep{bhat2019power,papachristos2015aerial,giusti2016machine} and Jetson TK1~\citep{gong2016low,holper2017cyber} in similar applications. Although we report some in this paragraph, heterogeneous embedded boards power computations in many other mobile robots use-cases, thus possibly broadening the applicability of our work, which we further in \fref{cp:conc}{Chapter}. In the remainder of this section, we detail our energy model for the heterogeneous computing hardware.
+
+\subsection{\color{cyan}Measurement layer}
+\label{sec:measurement-layer}
+
 
 ---
 
@@ -106,8 +129,18 @@ In this paper, we aim to provide a tool for automatic generation of hardware-spe
 
 The modeling approach is tested across four different platforms, ODROID XU3, NVIDIA TK1, TX2, and Nano (see \fref{sec:experimental-setup}{Section} for details), and a selection of benchmark components is used. Each component has a set of configuration parameters varied inside defined boundaries, that represent the acceptable rate of quality of service or QoS. We use the following benchmark components: a random matrix of a predefined size that is multiplied by another or exponentiated by a given exponent on CPU (\stt{matrix-cpu}) or GPU (\stt{matrix-gpu}). A computer vision component built upon the darknet~\citep{RA17,Red13a} implementation of the YOLO library~\citep{redmon2016you}, that uses a deep neural network to detect an object from a video stream on CPU (\stt{darknet-cpu}) or GPU (\stt{darknet-gpu}), and NVIDIA custom-made benchmarks, modified so they can be iterated several times over a time interval, that perform matrix multiplication (\stt{nvidia-matrix}) and quicksort (\stt{nvidia-quicks}) of a given size on GPU.
 
-\subsection{\color{cyan}Measurement layer}
-\label{sec:measurement-layer}
+
+
+
+
+
+
+
+
+
+
+%\subsection{\color{cyan}Measurement layer}
+%\label{sec:measurement-layer}
 
 The measurement layer describes an energy sample for a given configuration and scheduling of a component executed on specific hardware as a function of time. It provides average power or overall energy over a time interval for every computational unit that allows power measurement.
 
@@ -192,12 +225,7 @@ The basic application specification is defined as follows. The choice between co
 
 In the following section, we present hardware platforms under study, the two measuring technique to obtain power metrics, and a summary of the profiling tool. Finally, Experimental Methodology outlines our experimental approach before introducing results in the next Section.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=.7\textwidth]{pictures/_DSC6222}
-  \caption{ODROID XU3}
-  \label{fig:odroid}
-\end{figure}
+  
 
 \begin{figure}[t]
   \centering 
@@ -206,19 +234,7 @@ In the following section, we present hardware platforms under study, the two mea
   \label{fig:tk1}
 \end{figure}
 
-\begin{figure}[t]   
-  \centering 
-  \includegraphics[width=.7\textwidth]{pictures/_DSC6220}
-  \caption{NVIDIA Jetson TX2}   
-  \label{fig:tx2}
-\end{figure}
 
-\begin{figure}[t]
-  \centering 
-  \includegraphics[width=.7\textwidth]{pictures/_DSC6224}
-  \caption{NVIDIA Jetson Nano}  
-  \label{fig:nano}
-\end{figure}
 
 We studied four different hardware platforms, ODROID XU3, NVIDIA Jetson TK1, TX2, and Nano that are shown in \fref{fig:hw-platforms}{Figure}%, and summarized in Table~\ref{tab:hw-summary}:
 \begin{description}
