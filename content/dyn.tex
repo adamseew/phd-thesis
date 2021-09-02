@@ -500,7 +500,7 @@ In \frefeq{eq:disc-ocp-output-mpc}, we transformed the OCP in \frefeq{eq:ocp-out
     }
     {\normalsize $t_b\gets k-i$}\;\label{algo:repla:endbat}%the maximum estimated battery time
     {\normalsize $t_s\gets(\mathrm{diag}(\nu_j^\rho)c_j^\rho(i)+\tau_j^\rho)[\overbrace{\begin{matrix}1&1&\cdots&1\end{matrix}}^{\rho}]$}\;\label{algo:repla:configtime}%time needed to do the configuration $c_j(i)$
-    {\normalsize $t_r\gets(t_s/\overline{t})(\overline{t}-ih)$}\label{algo:repla:loosingmyreligiontime}\;%remaining time
+    {\normalsize $t_r\gets(t_s/\overline{t})(\overline{t}-i)$}\label{algo:repla:loosingmyreligiontime}\;%remaining time
     \If{\normalsize $t_r<t_b$}{
       {\normalsize $c_j^{\rho}(i)\gets${ \otherfont find }$c_j^{\rho}${ \otherfont with }$t_c\in[0,t_b]${\otherfont , otherwise take }$\underline{c}_j^\rho$}\;\label{algo:repla:newpathparam}
     }
