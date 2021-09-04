@@ -55,14 +55,22 @@ Our approach is based on our work~\citep{seewald2019coarse} on heterogeneous com
 \end{figure}
 As heterogeneous computing hardware, we use different devices, such as NVIDIA Jetson Nano\findex{NVIDIA Jetson Nano}, TX2\findex{NVIDIA Jetson TX2}, and TK1\findex{NVIDIA Jetson TK1} in \fref{fig:nano}{Figures}\fref{fig:tx2}{--\hspace*{-.8ex}} and \fref{fig:tk1}{} and ODROID XU3\findex{ODROID XU3} in \fref{fig:odroid}{Figure}. These devices are commonly employed in robotics literature to power complex computations. For instance, Jetson TX2 has been employed in path planning\findex{path planning}~\citep{dharmadhikari2020motion,ryou2018applying}, simultaneous localization and mapping\findex{simultaneous localization and mapping} (\Gls{acr:slam})~\citep{aldegheri2019data}, and object detection\findex{object detection} via convolutional neural networks\findex{convolutional neural networks} (\Gls{acr:cnn}s)~\citep{william2019aerial}. Jetson Nano in SLAM and CNNs~\citep{peng2019evaluating,wang2020yolo,alexey2021autonomous}, and ODROID XU3~\citep{bhat2019power,papachristos2015aerial,giusti2016machine} and Jetson TK1~\citep{gong2016low,holper2017cyber} in similar applications. Although we report some in this paragraph, heterogeneous embedded boards power computations in many other mobile robots use-cases, thus possibly broadening the applicability of our work, which we further in \fref{cp:conc}{Chapter}. In the remainder of this section, we detail our energy model for the heterogeneous computing hardware.
 
-\subsection{\color{cyan}Measurement layer}
+\subsection{Measurement layer}\findex{measurement layer}
 \label{sec:measurement-layer}
 
+The measurement layer is the basic building block of our computations energy model: one or more measurement layers form the predictive layer--the computations energy model output--which we describe in \fref{sec:predictive-layer}{Section}. For a specific computations parameters configuration $c_i^\sigma(t)$, the measurement layer maps the time $t\in[t_0,t_f]:=\mathcal{T}\subset\mathbb{R}_{>0}$ (the final and initial time instants $t_0,t_f$ are given) to the power measured in watts\findex{watts}, the energy measured in joules\findex{joules} (watts per unit of time), and the battery state of charge (\Gls{acr:soc})\findex{state of charge} measured in percents. The measurement layer thus provides a primitive model for $c_i^\sigma$ of power, energy, and SoC over a given time interval. The derivation of the layer is automated with \powprof{}, the modeling tool that we describe in detail in \fref{sec:powprof}{Section}, which outputs the layer after executing $c_i^\sigma$ on $\mathcal{T}$. Additionally, the model (and the \powprof{} tool) can output the triplet of metrics from the measurement layer per each energy sensor: some computing hardware that we analyze provide different sensors for different computing elements in heterogeneous computing hardware, i.e., NVIDIA Jetson TX2, Nano, and ODROID XU3 boards all provide energy-sensing capabilities for CPU, GPU, overall, and/or memory.
+
+Let us define the measurement layer formally, assuming there are one or more energy sensors or other energy measuring devices (these include, e.g., internal power resistors or shunt resistors, amperometers, and multimeters) in \fref{def:measur-layer}{Definition}.
+
+\begin{highlight}
+  \begin{defn}[Measurement layer]\label{def:measur-layer}
+    Given a specific energy measuring device, computations parameters configuration $c_i^\sigma(t)$, and an initial and final time instant $t_0,t_f$ such that $t\in\mathcal{T}:=[t_0,t_f]$, we define the \textit{measurement layer} with the function
+    $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}\times\mathcal{T}\rightarrow\mathbb{R}^3$.
+    It returns the power in watt, energy in joules, and SoC in percents of an energy measuring device, a configuration of computations parameters, and time interval.
+  \end{defn}
+\end{highlight}
 
 ---
-
-
-
 
 
 
@@ -139,7 +147,7 @@ The modeling approach is tested across four different platforms, ODROID XU3, NVI
 
 
 
-%\subsection{\color{cyan}Measurement layer}
+\subsection{\color{cyan}Measurement layer}
 %\label{sec:measurement-layer}
 
 The measurement layer describes an energy sample for a given configuration and scheduling of a component executed on specific hardware as a function of time. It provides average power or overall energy over a time interval for every computational unit that allows power measurement.
