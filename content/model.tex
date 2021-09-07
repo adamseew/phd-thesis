@@ -58,17 +58,59 @@ As heterogeneous computing hardware, we use different devices, such as NVIDIA Je
 \subsection{Measurement layer}\findex{measurement layer}
 \label{sec:measurement-layer}
 
-The measurement layer is the basic building block of our computations energy model: one or more measurement layers form the predictive layer--the computations energy model output--which we describe in \fref{sec:predictive-layer}{Section}. For a specific computations parameters configuration $c_i^\sigma(t)$, the measurement layer maps the time $t\in[t_0,t_f]:=\mathcal{T}\subset\mathbb{R}_{>0}$ (the final and initial time instants $t_0,t_f$ are given) to the power measured in watts\findex{watts}, the energy measured in joules\findex{joules} (watts per unit of time), and the battery state of charge (\Gls{acr:soc})\findex{state of charge} measured in percents. The measurement layer thus provides a primitive model for $c_i^\sigma$ of power, energy, and SoC over a given time interval. The derivation of the layer is automated with \powprof{}, the modeling tool that we describe in detail in \fref{sec:powprof}{Section}, which outputs the layer after executing $c_i^\sigma$ on $\mathcal{T}$. Additionally, the model (and the \powprof{} tool) can output the triplet of metrics from the measurement layer per each energy sensor: some computing hardware that we analyze provide different sensors for different computing elements in heterogeneous computing hardware, i.e., NVIDIA Jetson TX2, Nano, and ODROID XU3 boards all provide energy-sensing capabilities for CPU, GPU, overall, and/or memory.
+The measurement layer is the basic building block of the computations energy model: one or more measurement layers form the predictive layer--the model output--which we describe in \fref{sec:predictive-layer}{Section}. For a specific computations parameters configuration $c_i^\sigma(t)$, the measurement layer maps the time $t\in[t_0,t_f]:=\mathcal{T}\subset\mathbb{R}_{>0}$ (the final and initial time instants $t_0,t_f$ are given) to the power measured in watts\findex{watts}, the energy measured in joules\findex{joules} (watts per unit of time), and the battery state of charge (\Gls{acr:soc})\findex{state of charge} expressed in percentages. The measurement layer thus provides a primitive model for $c_i^\sigma$ of power, energy, and SoC over a given time interval. The derivation of the layer is automated with \powprof{}, the modeling tool that we describe in detail in \fref{sec:powprof}{Section}, which outputs the layer after executing $c_i^\sigma$ on $\mathcal{T}$. Additionally, the model (and the \powprof{} tool) can output the triplet of metrics from the measurement layer per each energy sensor: some computing hardware that we analyze indeed provide different sensors for different computing elements, i.e., NVIDIA Jetson TX2, Nano, and ODROID XU3 boards all provide energy-sensing capabilities for CPU, GPU, overall, and/or memory.
 
 Let us define the measurement layer formally, assuming there are one or more energy sensors or other energy measuring devices (these include, e.g., internal power resistors or shunt resistors, amperometers, and multimeters) in \fref{def:measur-layer}{Definition}.
 
 \begin{highlight}
   \begin{defn}[Measurement layer]\label{def:measur-layer}
-    Given a specific energy measuring device, computations parameters configuration $c_i^\sigma(t)$, and an initial and final time instant $t_0,t_f$ such that $t\in\mathcal{T}:=[t_0,t_f]$, we define the \textit{measurement layer} with the function
-    $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}\times\mathcal{T}\rightarrow\mathbb{R}^3$.
-    It returns the power in watt, energy in joules, and SoC in percents of an energy measuring device, a configuration of computations parameters, and time interval.
+    Given a specific energy measuring device, computations parameters configuration $c_i^\sigma(t)$, and an initial and final time instant $t_0,t_f$ such that $t\in\mathcal{T}:=[t_0,t_f]$, the \textit{measurement layer} is the function
+    $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\times\mathcal{T}\rightarrow\mathbb{R}^3$.
+    It returns the power in watts, energy in joules, and SoC in percentages of an energy measuring device, a configuration of computations parameters, and time interval.
   \end{defn}
 \end{highlight}
+
+The measurement layer physically samples the computing hardware for $\mathcal{T}$ and returns the metrics, but sampling-to-completion is also possible, where a configuration runs up until it terminates rather than for a given interval. In the latter eventuality, $\mathcal{T}$ is ${\emptyset}$.
+
+As an instance of the measurement layer, let us return briefly to the precision agriculture example in \fref{sec:flight-plan}{Section}, which describes the agricultural use-case (the aerial robot detects ground hazards and communicates the detections to a ground station). The computations parameters in \fref{sec:computation-wise}{Section} are $c_{i,2}$, the frames per second (\Gls{acr:fps})\findex{frames per second} rate, and $c_{i,3}$, encryption or no encryption of the robot---ground station data link. The configurations $c_{i,2}(t)\in\mathcal{S}_{i,2}$, $c_{i,3}(t)\in\mathcal{S}_{i,3}$ have any value within the constraint sets in \frefeqM{eq:encr-comp-const}{eq:cnn-comp-const}. The constraint sets are the same in each stage  $i$ in the plan $\Gamma$ except for the circles where the aerial robot travels the turns out of the boundaries, and the detections are inhibited. To build the measurement layer, we can discretize the configurations with a given $\delta_1,\delta_2$ for parameters $c_{i,2}$ and $c_{i,3}$. The measurement layer is then built by sampling the power for $\mathcal{T}$, one for all the possible configurations
+\begin{equation}\label{eq:meas-layer-lin-sampl}
+  c_i^\sigma:=\{c_{i,2},c_{i,3}\mid\forall j,k\in\mathbb{Z},\, \underline{c}_{i,2}+j\delta_1\in\mathcal{S}_{i,2},\underline{c}_{i,3}+k\delta_2\in\mathcal{S}_{i,3}\}.
+\end{equation}
+
+A value can be, e.g, $\delta_1=\delta_2=2$, so that there are ten configurations and consequently ten measurement layers. The \powprof{} tool automatically builds the layers, storing the results in comma-separated values (\Gls{acr:csv})\findex{comma-separated values} files (we see further the tool in \fref{sec:powprof}{Section}).
+\frefeq{eq:meas-layer-lin-sampl} provides a way to sample the search space linearly, but other sampling strategies are equally possible, such as exponential sampling
+\begin{equation}
+  c_{i}^\sigma:=\{c_{i,2},c_{i,3}\mid\forall j,k\in\mathbb{Z},\, {\delta_1}^j\in\mathcal{S}_{i,2},{\delta_2}^k\in\mathcal{S}_{i,3}\},
+\end{equation}
+where $\delta_1,\delta_2$ are now bases, or random sampling with the condition merely $c_{i,j}\in\mathbb{Z}_{>0}$. Currently, the \powprof{} tool supports automated linear and exponential sampling and complex sampling formed by different sampling strategies~\citep{seewald2019coarse}, e.g.,
+\begin{equation}
+  c_{i}^\sigma:=\{\{c_{i,2}\mid\forall k\in\mathbb{Z},\, \underline{c}_{i,2}+k\delta_1\in\mathcal{S}_{i,2}\},\{c_{i,3}\mid\forall k\in\mathbb{Z},{\delta_2}^k\in\mathcal{S}_{i,3}\}\}.
+\end{equation}
+Parameter ranges ($\mathcal{S}_{i,2},\mathcal{S}_{i,3}$) choice is dictated by the range at which the computations run at runtime, whereas $\delta$s choice is made so that the modeling terminates in a reasonable amount of time~\citep{seewald2019coarse}.
+
+With the measurement layer described in this section, we know the power and other energy metrics of the (measured) configurations. However, we want to predict the energy consumption for any configuration of parameters in the constraint sets (and not only the sampled ones). We address this latter requirement in the next section, merging the measurement layers with linear regression.
+
+\subsection{Predictive layer}\findex{predictive layer}
+
+The predictive layer describes coarse-grained metrics, such as the power over FPS rate, mapping them to the metrics from the measurement layer, thus providing energy data for each configuration of parameters (or for each scheduling policy). To this end, it uses the set of measurement layers, building a two-by-two linear regression between consecutive layers. In the precision agriculture example with ten measurement layers, the predictive layer consists of regression between data points $\{c_{i,2},c_{i,3}\}$ for all the possible computations parameters (recall that a measurement later corresponds to a sampled computations configuration), opposed to the sampled ones in \fref{sec:measurement-layer}{Section}. \fref{def:comp-ener}{Definition} details the resulting model.
+
+\begin{highlight}
+  \begin{defn}[Predictive layer]\label{def:comp-ener}
+    Given a specific energy measuring device and computations parameters configuration $c_i^\sigma(t)$ \textit{predictive layer} is the function $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}^\sigma\rightarrow\mathbb{R}^3$. It returns the power in watts, energy in joules, and SoC in percentages of any configuration of parameters within the constraint sets.
+  \end{defn}
+\end{highlight}
+
+Analogously to the measurement layer, there can be various energy measuring devices, resulting in multiple triples of energy, power, and SoC, one per device. The predictive layer returns the same metrics of the measurement layer in \fref{def:measur-layer}{Definition}, without physically sampling the computing hardware but using the stored measurement layers. Indeed due to a potentially large search space in computational energy modeling, it is critical to infer the energy properties of the entire search space from a subset of all the possible samples~\citep{lee2006statistically,lee2006accurate,bailey2014adaptive}. The linear regression to infer such properties utilizes a method that we term the approximation method\findex{approximation method}~\citep{seewald2019coarse}. It builds a linear regression between two adjacent data points rather than merely for all the data points. Indeed we do not assume an apriori knowledge of the computations energy evolution with explicit models for all the data points such as linear or exponential, but rather model the energy linearly on tuples of data points~\citep{seewald2019coarse}.
+
+Given an (unsampled) configuration $c_i^\sigma$, the predictive layer is approximated with
+\begin{equation}
+  g(c_i^\sigma)=(\mathbf{g}(\lceil c_i^\sigma\rceil,\mathcal{T}_1)-\mathbf{g}(\lfloor c_i^\sigma\rfloor),\mathcal{T}_2)(c_i^\sigma-\lfloor c_i^\sigma\rfloor)/(\lceil c_i^\sigma\rceil-\lfloor c_i^\sigma\rfloor)+\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2),
+\end{equation}
+where $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ are the two adjacent measurement layers of the computations configuration $c_i^\sigma$ (e.g., if we use $\delta_1=2$ in \frefeq{eq:meas-layer-lin-sampl}, $c_i^\sigma$ with just the parameter $c_{i,2}$ has $\lfloor c_i^\sigma\rfloor$ equal to two and $\lceil c_i^\sigma\rceil$ to four), and $\mathcal{T}_1,\mathcal{T}_2$ are the two time intervals in the measurement layer for configurations $\lfloor c_i^\sigma\rfloor,\lceil c_i^\sigma\rceil$ respectively.
+We illustrate the principle in \fref{}{Figure}. % todo the figure
+
+\subsection{The {\tt powprofiler} tool}
+
 
 ---
 

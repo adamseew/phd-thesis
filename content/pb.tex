@@ -431,17 +431,17 @@ In the computations sub-plan, we define the computations that form the plan of t
 There are thus two computations parameters. A computation parameter is the FPS rate, and another computation parameter the encryption binary value. The CNN ROS node's computation parameter is $c_{i,2}$, and the encryption ROS node's computation parameter is $c_{i,3}$.
 
 The upper and lower bounds of $c_{i,3}$ are 
-\begin{equation}
+\begin{equation}\label{eq:encr-comp-const}
   c_{i,3}\in\mathcal{S}_{i,3}:=\{0,1\},\,\forall i,
 \end{equation}
 the parameter value thus indicates if the encryption is active (one) or data are sent unencrypted (zero).
 
 For the upper and lower bound of $c_{i,2}$, we first note from the path plan in \fref{sec:path-wise}{Section} that during the turns the aerial robot is not surveying the polygon. We thus place different constraints for different paths. For the circles in \frefeq{eq:circ-plan} and \frefeq{eq:circ2-plan} the computation parameters constraint sets are 
-\begin{equation}\label{eq:cnn-comp-const}
+\begin{equation}
   c_{i+1,2},c_{i+3,2}\in\mathcal{S}_{i+1,2}=\mathcal{S}_{i+3,2}:=\{0\},\,\forall i\in\{1,5,9,\dots\},
 \end{equation}
 and thus the CNN ROS node is not detecting any hazard when it flies out of the polygon. On the contrary, for the lines in \frefeq{eq:line-plan} and \frefeq{eq:line2-plan} 
-\begin{equation}\label{eq:encr-comp-const}
+\begin{equation}\label{eq:cnn-comp-const}
 c_{i,2},c_{i+2,2}\in\mathcal{S}_{i,2}=\mathcal{S}_{i+2,2}:=[2,10],\,\forall i\in\{1,5,9,\dots\},
 \end{equation} 
 the the CNN ROS node is detecting hazard on the ground with a FPS rate between two and ten.

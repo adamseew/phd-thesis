@@ -223,7 +223,13 @@
 \newglossaryentry{not:intdivision}{
     type=notation,
     name={$\lfloor x\rfloor$},
-    description={integer division of $x\in\mathbb{R}$}
+    description={the floor function or integer division of $x\in\mathbb{R}$, if $x$ is a set, the closest item in the set s.t. $x-\lfloor x\rfloor$ is positive}
+}
+
+\newglossaryentry{not:ceilfun}{
+    type=notation,
+    name={$\lceil x\rceil$},
+    description={the ceiling function of $x\in\mathbb{R}$, if $x$ is a set, the closest item in the set s.t. $x-\lceil x\rceil$ is negative}
 }
 
 \newglossaryentry{not:edge}{
@@ -386,5 +392,11 @@
     type=acronym,
     name={SLAM},
     description={simultaneous localization and mapping}
+}
+
+\newglossaryentry{acr:csv}{
+    type=acronym,
+    name={CSV},
+    description={comma-separated values}
 }
 
