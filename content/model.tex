@@ -155,25 +155,25 @@ The configuration specification is simply a way to communicate the plan $\Gamma$
 The following set of lines specifies the configuration $c_i^\sigma$ for each computation parameter $c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}$, starting with the line {\small\tt [components]}, followed by {\small\tt [component.computation]} where {\small\tt computation} is a string uniquely identifying each computation (there cannot be two computations with the same string, but the name is arbitrary). Per each computation, the configuration file then contains a set of key-values properties. The property {\small\tt src} indicates the executable source of the computation. If \powprof{} runs with a configuration specification rather than a library, we assume the source accepts as arguments the configurations, e.g., $c_{i,\rho+1},\dots$ along with other eventual arguments. The following properties then specify these arguments, ordered as they appear in the configuration specification. The property {\small\tt range} indicates that the argument is a computation parameter. Let us assume the parameter is $c_{i,\rho+1}$. If it is sampled linearly as in \frefeq{eq:meas-layer-lin-sampl}, the value contains $\underline{c}_{i,\rho+1}$, $\overline{c}_{i,\rho+1}$, and $\delta$ delimited by commas, where $\delta$ is the step to sample $c_{i,\rho+1}$ in a reasonable amount of time in \frefeq{eq:meas-layer-lin-sampl}. If it is sampled exponentially as in \frefeq{eq:meas-layer-exp-sampl}, the value contains the same data as before, but for $\delta$ that is expressed {\small\tt pow(}$\delta${\small\tt )} and $\delta$ is the base.
 Additional properties are then: {\small\tt fixed} that indicates another eventual argument the computation might have (that is not a computation parameter), and {\small\tt runtime} the value $t_f-t_0$. If {\small\tt runtime} is not specified, the tool assumes $\mathcal{T}=\emptyset$.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%
+\section{Battery Model}
+\label{sec:battery-model}
+
+The battery model is an abstraction that predicts how the draining power at future time instants--due to varying computations and motion load--affects the SoC of an aerial robot's battery. There are numerous approaches to formulate the model, and we discuss in detail the most common ones in the literature in \fref{sec:soa-ene-bat}{Section}, including physical, hybrid, empirical, mixed, and abstract models~\citep{rao2003battery}. In this section, we then use the past literature to derive a battery model of an aerial robot's battery. The model that we derive is an abstract model. Such models do not require detailed information about, e.g., battery chemistry, yet predict accurately future SoC at a relatively low computational complexity compared with complex and exhaustive models, such as physical models~\citep{rao2003battery}.
+
+We detail the equivalent electrical circuit in \fref{sec:batmod-circuit}{Section}; it is the building block of our battery model. We then derive a differential expression to predict future battery SoC in \fref{sec:diff-model}{Section}.
+
+
 ---
 
 
+\subsection{Equivalent electrical circuit}
+\label{sec:batmod-circuit}
 
 
-
-
-
-
-
-
-\section{\color{red}Battery Model}
-\label{sec:battery-model}
-
-%AdS: you are right but this is purely copy/paste from ijpp so the idea here is to have indeed a short text on battery model and then the 'Equations' in the 'Derivation of differential battery model'
-
-\subsection{\color{orange}Batteries for aerial robots}
-
-\subsection{\color{cyan}Derivation of differential battery model}
+\subsection{Abstract differential model}
+\label{sec:diff-model}
 
 The battery model is a mathematical abstraction that models draining energy from a battery used to power the mobile robot. It was derived from the state-space problem representation of the empirical battery model through an equivalent electrical circuit, presented by Hasan et al.~\cite{hasan2018exogenous}. The battery evolution model can be represented in this way using an ordinary differential equation that is a function of the power drained from the system, and represents the SoC of the battery at a given instant
 \begin{equation}\label{eq:battery-model-1}
