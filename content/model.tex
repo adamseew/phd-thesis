@@ -176,161 +176,65 @@ Equivalent electrical circuits use different constructs to model the battery SoC
 
 For what concern the specific battery chemistries to be modeled, we focus on Li-ion batteries. These batteries are broadly employed in many applications involving electric vehicles, mobile, and aerial robots~\citep{shi2006application,xia2015state,hasan2018exogenous,zhang2014battery}, due to their characteristics including low self-discharge rate, absence of memory effect, and high power and energy density~\citep{zhang2014battery}.
 Here, we propose a simplistic battery model for the purpose of modeling a Li-ion battery of an aerial robot in flight, focusing on lesser complexity rather than accuracy. The battery SoC changes--when computations and motion generate a current to be drawn from the battery--according to the equation~\citep{zhang2018online,hasan2018exogenous}
-\begin{equation}
+\begin{equation}\label{eq:socevol}
   \dot{b}(y(t))=-I(y(t))/Q_c,
 \end{equation}
 where $Q_c\in\mathbb{R}$ is the battery constant nominal capacity measured in amperes per hour, $I(y(t))\in\mathbb{R}$ is the internal current that we derive later in this section, and $y(t)\in\mathbb{R}_{\geq 0}$ is a power drawn, i.e., the power needed for the computations and the motion. 
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/circuit-rint.tikz}
+  \caption[Equivalent electrical circuit for battery modeling with an internal resistance]{Equivalent electrical circuit for battery modeling with one resistor, representing the internal battery resistance.}
+  \label{fig:rint}
+\end{figure}
+If we use the computations energy model in \fref{sec:comp-ener-model}{Section}, it is the the power metric in \fref{def:comp-ener}{Definition} or the value of the measurement layer in \fref{def:measur-layer}{Definition} for each time step.
 
-The battery is modlede as a perfect voltage source connected with a resistor (the internal resistance of the battery)... %todo
-%gonzalez longatt circuit based battery models: a review
+We propose a simplistic equivalent electrical circuit with an internal resistance from the literature~\citep{mousavi2014various,hinz2019comparison,he2011evaluation} in \fref{fig:rint}{Figure}. The model is sometimes termed ``Rint'' model in the literature~\citep{hinz2019comparison,he2011evaluation}. The circuit models the battery simply as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohms, representing the internal battery resistance. The voltage $V\in\mathbb{R}$ measured in volts in the internal battery voltage, which depends on SoC~\citep{hasan2018exogenous} and can be retrieved from a battery data sheet~\citep{hinz2019comparison}, $I$ depends on the power requirements of the load.
+
+The voltage on the extremes of the equivalent electrical circuit respects then 
+\begin{equation}\label{eq:tocomb1}
+  V_e=V-R_rI,
+\end{equation}
+where $V_e\in\mathbb{R}$ is the external battery voltage at the extremes of the circuit in \fref{fig:rint}{Figure}.
+If we assume that the voltage needed by the computations and motion is stable, let's call it $V_s\in\mathbb{R}$ measured in volts, and that the current required by the load (computations and motion) is $I_l$, we can write
+\begin{equation}\label{eq:tocomb2}
+  V_sI_l=V_eI,
+\end{equation}
+using simply Kirchhoff's circuit laws (the power into the load should exactly match the power out). Combining the \frefeqM{eq:tocomb1}{eq:tocomb2}, we obtain the quadratic expression $R_rI^2-VI+V_sI_l=0$, which leads to
+\begin{equation}\label{eq:internal_curr}
+  I(y(t))=\left(V-\sqrt{V^2-4R_ry(t)}\right)/(2R_r),
+\end{equation}
+where $I_l:=y(t)/V_s$ the current of the load depends on the computations and motion power $y(t)$ at a given time instant $t$ in \frefeq{eq:socevol}. Furthermore we take the negative solution of the quadratic expression, because when $I_l$ is zero, $I$ should also be zero. 
+With the internal current in \frefeq{eq:internal_curr} combined with the battery SoC in \frefeq{eq:socevol} we can model how an computations and motion power trajectory $y(t)$ on a $t\in\mathcal{T}:=[t_0,t_f]$ for given initial and final time instants ($t_0,t_f$ respectively) affects the battery. In one of ours earlier intuitions~\citep{seewald2019coarse}, we expected a constant energy load to result in a better overall SoC compared to, e.g., a spiked load, even if the two loads had the same overall energy. The model above confirms this intuition. In \fref{fig:}{Figure} we show the evolution of $I$ in \frefeq{eq:internal_curr} for a given linear load $I_l$ from zero to approximately one third, and assuming $V=V_s=R_r$ all one. The curve in the plot bend upwards for the plotted range: a line between two points will then always be above the curve, which implies that a constant load is to be preferred compared to a load that repeatedly changes from high to low. 
+
+There are also more complex model in the literature~\citep{hinz2019comparison,hasan2018exogenous} add further elements to e.g., account for the changes in the load current. 
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/circuit-thevenin.tikz}
+  \caption[Thevenin-based equivalent electrical circuit for battery modeling]{Thevenin-based equivalent electrical circuit for battery modeling with one resistor and two RC internal elements. The two elements add some complexity, making the model able to account for changes in the load current.}
+  \label{fig:thevenin}
+\end{figure}
+One of such model that can be often encountered in the literature is the Thevenin model and the Thevenin-based model~\citep{chen2006accurate,hasan2018exogenous,hinz2019comparison,mousavi2014various,zhang2018online,salameh1992mathematical}, sometimes termed dual polarization model~\citep{he2011evaluation}, which we illustrate with the equivalent electrical circuit in \fref{fig:thevenin}{Figure}. This latter allows to model further details, by e.g., modeling the short-term transient behavior with the first RC element, and the long-term transient behavior with the second~\citep{hinz2019comparison}. It is particularly suitable to model the polarization characteristic of Li-ion battery cells~\citep{he2011evaluation}.
 
 
 \subsection{Battery model in the {\tt powprofiler} tool}
 \label{sec:batmod-circuit}
 
-\subsection{Abstract differential model}
-\label{sec:diff-model}
+The \powprof{} tool allows automated battery modeling and directly derives battery SoC for each measurement layer that we described in \fref{sec:measurement-layer}{Section}. 
+Indeed in \fref{def:measur-layer}{Definition}, the function $\mathbf{g}$ returns a triplet of values including the SoC. 
+Similarly, the tool returns the SoC for a given configuration of parameters and energy sensor or other energy measuring device for the predictive layer in \fref{def:comp-ener}{Definition} in \fref{sec:predictive-layer}{Section}. 
+To this end, it implements the simplistic equivalent electrical circuit in \fref{fig:rint}{Figure} from the literature~\citep{mousavi2014various,hinz2019comparison,he2011evaluation}. The tool thus implements the class {\small\tt soc\_1resistor}, which constructor accepts in input the parameters $I_l,V,R_r,V_s$ and $Q_c$ that we discussed in \fref{sec:batmod-circuit}{Section}. 
+The current load $I_l$ is expressed via the data type {\small\tt pathn}, which we discussed in \fref{sec:powprof}{Section}. One can easily implement a similar battery model, e.g., the Thevenin-based equivalent electrical circuit in \fref{fig:thevenin}{Figure}, by simply inhereting from class {\small\tt first\_derivative} the function {\small\tt get\_value}. 
+The function returns the value of the model from an independent variable, i.e., time, and dependent variable represented via the data type {\small\tt vectorn} in \fref{sec:powprof}{Section}. In {\small\tt soc\_1resistor} it is described in \frefeq{eq:socevol}.
 
-The battery model is a mathematical abstraction that models draining energy from a battery used to power the mobile robot. It was derived from the state-space problem representation of the empirical battery model through an equivalent electrical circuit, presented by Hasan et al.~\cite{hasan2018exogenous}. The battery evolution model can be represented in this way using an ordinary differential equation that is a function of the power drained from the system, and represents the SoC of the battery at a given instant
-\begin{equation}\label{eq:battery-model-1}
-  \frac{d}{dt}\mathrm{SoC}(t)=-\frac{I_\mathrm{int}(t)}{Q_c},
-\end{equation}
-\begin{equation}\label{eq:battery-model-2}
-  I_\mathrm{int}(t)=
-    \frac{U_\mathrm{int}-
-    \sqrt{
-      U_\mathrm{int}^2-
-      4\cdot R_{\mathrm{int}}\cdot U_\mathrm{sta}\cdot I_{\mathrm{load}}(t)}
-    }{2\cdot R_\mathrm{int}},
-\end{equation}
-where $Q_c$ is the constant nominal capacity, $U_\mathrm{int}$ is the internal battery voltage, $I_\mathrm{int}$ is the current load that depends on the power requirements, $R_\mathrm{int}$ is the internal resistance of the battery, $U_\mathrm{ext}$ is the external battery voltage, $U_{\mathrm{sta}}$ is the stabilized voltage (a fixed value determined by the load of the system), and $I_\mathrm{load}$ is the current required by the load. The constants are chosen to describe a small drone battery. The external battery voltage $U_{\mathrm{ext}}$ can be also expressed as follows:
-\begin{equation}
-U_{\mathrm{ext}}(t)=U_{\mathrm{int}}-R_{\mathrm{int}}\cdot I_{\mathrm{int}}(t)
-\end{equation}
-
-The approach allows modeling the computational system not only in terms of the overall power consumption but also in terms of the actual amount of power drained from the battery. This is especially important with a mobile robot dependent on a limited and time-dependent energy supply, running computationally heavy parallel algorithms. Critically, although this mathematical model is a simple abstraction, it models how a stable power consumption over time can induce less drain from the battery compared to using the same amount of energy distributed in a number of spikes. The battery model allows this information to be determined for specific usage scenarios and thus provides a useful way to determine what configuration corresponds to the best power usage combination for a mobile use case.
+Internally, the tool implements numerical simulator based on the Runge-Kutta methods for numerical integration in \fref{sec:rk4}{Section}. One can then personalize the size of the integration step $h\in\mathbb{R}_{>0}$ via the property {\small\tt h} in the configuration specification in \fref{sec:conf-spec}{Section} (a typical practical value of of such property is, e.g., one hundreth). The tool first derive a model for the power and energy and later numerically simulate the battery model via the equivalent electrical circuit in \fref{fig:rint}{Figure} adjoining the battery SoC.
 
 
-\section{\color{cyan}Energy Model of the Motion}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Energy Model of the Motion}
 
-% This is just IRC paper one (the one with hector). The current model is the Periodic energy model
-
-\subsection{\color{cyan}Mechanical energy of the aerial robot}
-
-In this subsection, a regression technique to build a mechanical energy model is described. The model is specific for an Opterra drone, but an equivalent technique can be applied to any fixed-wing drone. Key to the technique is the distinction between three phases of the flight: take-off, cruise, and landing. The distinction between these three phases follows from experimental data, as we observed that different flights present similar behavior and almost identical tendencies. This means that each phase has a different altitude and overall time evolution concerning motor torque and power drain. In particular, less variability in energy evolution is observed during the cruise and take-off. This applies when we analyze a single test flight, and when we analyze a set of flights regarding their phases. In the latter, we observed little variability in the cruise phase of different flights, as this is performed mostly by the autopilot with variability often due to wind conditions, while take-off of a fixed-wing drone usually presents a similar set of controls with little variability. Landing is observed to be the phase that presents the largest variability in the collected data, as the procedure requires specific and conditions-dependent maneuvers. Furthermore, glide slope and ground effect, specific to landing site conditions, also affect the controls sequence.
-
-A weighted average time derived from collected data of 28 seconds, 10 minutes, and 1 minute, for respectively take-off, cruise, and landing, is assumed to model a test mission that we use in this paper. The information is used in the regression technique to map time to the current energy consumption. Regression itself consists of a phase-specific third-order Fourier series, as the data often presents a periodic behavior and tends to diverge for higher orders while not mapping precisely to the power evolution in time for lower ones. The following equation represents the power as a function of time $t$ for each of the three phases:
-\begin{equation}\label{eq:mechanical-model-1}
-  f(t)=\sum_{n=0}^{3}{a_n\cos{\left(\frac{nt}{\xi}\right)} + b_n\sin{\left(\frac{nt}{\xi}\right)}},
-\end{equation}
-where $a_n$, $b_n$ are the Fourier series coefficients,  $\xi$ is a characteristic time, and:
-\begin{equation}\label{eq:mechanical-model-2}
-  \begin{split}
-    f(t),t,a_n,b_n,\xi&\in\mathbb{R},
-  \end{split}
-\end{equation}
-The Mechanical energy evolution in time can be expressed through a three-dimensional vector $\mathbf{f}$:
-\begin{equation}\label{eq:mechanical-model-3}
-  \mathbf{f}(t)=
-  \begin{bmatrix}
-    f_1(t)& f_2(t)& f_3(t)
-  \end{bmatrix}^T,
-\end{equation}
-where $f_1(t)$, $f_2(t)$, $f_3(t)$ are the energy evolutions in time for take-off, cruise, and landing respectively.
-
-The mechanical energy model from Equations~(\ref{eq:mechanical-model-1}--\ref{eq:mechanical-model-3}), can also be expressed in a matrix form:
-\begin{equation}\label{eq:mechanical-model-4}
-    \begin{split}
-    \mathbf{f}(t)=&
-    \begin{bmatrix}
-      {}^1a_0 & {}^1b_0 & \cdots & {}^1a_3 & {}^1b_3 \\
-      {}^2a_0 & {}^2b_0 & \cdots & {}^2a_3 & {}^2b_3 \\
-      {}^3a_0 & {}^3b_0 & \cdots & {}^3a_3 & {}^3b_3
-    \end{bmatrix}
-    \begin{bmatrix}
-      \cos\frac{0t}{\xi} \\ \sin\frac{0t}{\xi} \\ \vdots \\ \cos\frac{3t}{\xi} \\  \sin\frac{3t}{\xi}
-    \end{bmatrix}.
-  \end{split}
-\end{equation}
-
-The constants $a_n$, $b_n$, and $\xi$, for the regressions $f_i(t)$ with $i\in{1,2,3}$ (and thus for $\mathbf{f}(t)$) were found using the Levenberg-Marquardt algorithm implemented in Matlab. The above procedure, however, just accounts for one flight. A further analysis concerns the generation of power trajectories through the technique for each test flight. An interpolating curve is then built using a probabilistic approach, that simply indicates a weight for a given flight $k$. This can be particularly useful as some flights can be affected by other conditions such as wind, temperature, or battery state at the beginning of the mission, thus affecting the model behavior unexpectedly. Given $k$ flights and a vector of weights $\mathbf{w}$, the mechanical model can be in this fashion expressed using an equivalent expression to Equation~(\ref{eq:mechanical-model-2}):
-\begin{equation}\label{eq:mechanical-model-5}
-  \widetilde{\mathbf{f}}(t)=
-  \begin{bmatrix}
-    f_{1,1}(t)& f_{1,2}(t)& f_{1,3}(t)\\
-    \vdots& \vdots& \vdots\\
-    f_{k,1}(t)& f_{k,2}(t)& f_{k,3}(t)
-  \end{bmatrix}^T
-  \begin{bmatrix}
-    w_1\\
-    \vdots\\
-    w_k
-  \end{bmatrix},
-\end{equation}
-where $w_i$ is the associated weight for a specific flight $i$, that expresses its accuracy according to the set of all the collected flights, and: 
-\begin{equation}\label{eq:mechanical-model-6}
-  \begin{split}
-    \mathbf{w}&\in\mathbb{R}^k,\\
-    w_i&\in[0,1],\\
-    w_1+w_2+\cdots+w_k&=1.
-  \end{split}
-\end{equation}
-Based on a simple reordering, Equations~(\ref{eq:mechanical-model-4}--\ref{eq:mechanical-model-6}) can be also expressed:
-\begin{equation}\label{eq:mechanical-model-7}
-  \begin{split}
-  \widetilde{\mathbf{f}}(t)=&
-  \begin{bmatrix}
-    {}^{1,1}a_0 & {}^{1,2}a_0 & {}^{1,3}a_0 \\
-    {}^{1,1}b_0 & {}^{1,2}b_0 & {}^{1,3}b_0 \\
-    \vdots & \vdots &\vdots \\
-    {}^{1,1}a_3 & {}^{1,2}a_3 & {}^{1,3}a_3 \\
-    {}^{1,1}b_3 & {}^{1,2}b_3 & {}^{1,3}b_3 \\
-    {}^{2,1}a_0 & {}^{2,2}a_0 & {}^{2,3}a_0 \\
-    {}^{2,1}b_0 & {}^{2,2}b_0 & {}^{2,3}b_0 \\
-    \vdots & \vdots &\vdots \\
-    {}^{k,1}a_3 & {}^{k,2}a_3 & {}^{k,3}a_3 \\
-    {}^{k,1}b_3 & {}^{k,2}b_3 & {}^{k,3}b_3
-  \end{bmatrix}^T
-  \begin{bmatrix}
-    w_1\cos\frac{0t}{\xi} \\ w_1\sin\frac{0t}{\xi} \\ \vdots \\ 
-    w_1\cos\frac{3t}{\xi} \\  w_1\sin\frac{3t}{\xi} \\ 
-    w_2\cos\frac{0t}{\xi} \\  w_2\sin\frac{0t}{\xi} \\ \vdots \\ 
-    w_k\cos\frac{3t}{\xi} \\ w_k\sin\frac{3t}{\xi}
-  \end{bmatrix}.
-\end{split}
-\end{equation}
-
-Equation~(\ref{eq:mechanical-model-7}) can be used to derive all the constants for the three phases of the flight, and thus to describe the power consumption in the function of time for take-off, cruise, and landing. Table~\ref{tab:constants} outlines the constants that we obtained on the Opterra fixed-wing drone test flights of the agricultural use-case.
-
-\begin{table}[h]
-  \centering
-  \caption{Constants for the mechanical energy model}
-  \begin{tabular}{l|lll}
-    \hline
-     & take-off & cruise & landing \\\hline
-    $a_0$ & 29.97   & 27.22   & 27.21\\
-    $a_1$ & 1.57    & 0.3737  & -0.9512\\
-    $b_1$ & -1.963  & 1.194   & 1.276\\
-    $a_2$ & 0.3876  & 0.6513  & 0.9357\\
-    $b_2$ & -1.552  & 0.2954  & 0.965\\
-    $a_3$ & -0.2869 & 0.5039  & 0.4913\\
-    $b_3$ & -0.547  & -0.2864 & -0.1192\\
-    $\xi$ & 0.1525  & 0.1799  & 0.1296\\
-    \hline
-  \end{tabular}
-  \label{tab:constants}
-\end{table}
-
-\subsection{\color{cyan}Fourier series of empirical data}
-\label{sec:fourier}
-
-Some collected energy data from the Opterra (in \fref{fig:opterra}{Figure}) adapted for precision agriculture scenario along its power spectrum back the choice of the periodic energy model. A periodic energy evolution of a fixed-wing aerial robot flying a plan and covering the polygon in \fref{fig:plot2}{Figure} (we describe the fixed-wing aerial robot plan in detail in \fref{sec:flight-plan}{Section}) is shown in \fref{fig:energy-1}{Figure}. \fref{fig:spectrum-1}{Figure} shows its frequency spectrum (the data are uniformly sampled). The spectrum is centered at zero frequency, which peaks at 4$\cdot$10${}^{\text{5}}$ and indicates the shift on the power-axis in \fref{fig:energy-1}{Figure}. The power spectrum shows that the energy evolution from \fref{fig:energy-1}{Figure} needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
-
-
-\section{Periodic Energy Model}
-\label{sec:periodic-model}
-
-Let us suppose the aerial robot is operating in an autonomous scenario. Such a robot is often expected to iterate a set of tasks and paths periodically (see \fref{sec:outline}{Section}). For instance, the aerial robot might be covering a polygon such as the one proposed in \fref{sec:flight-plan}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
+Let us suppose the aerial robot is operating in an autonomous scenario, planning a coverage and scheduling some computations for detections and enctyption in \fref{sec:flight-plan}{Section}. Such a robot expectedly iterates the paths (the primitive paths over time) and schedules the computations periodically, as we outlined in \fref{sec:outline}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. This assumption is further backed by out earlier contributions on the topic~\citep{seewald2020mechanical}, showing that the aerial robot energy can be modeled with a Fourier series of a given order (in our earlier contribution, we used the order three).  We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
 \begin{figure}[h!]
   \begin{subfigure}[b]{0.52\textwidth}
     \centering
@@ -349,8 +253,9 @@ Let us suppose the aerial robot is operating in an autonomous scenario. Such a r
   \caption[Energy data of a fixed-wing aerial robot]{Empirical energy data collected flying a fixed-wing aerial robot's plan and covering the polygon in \fref{fig:plot2}{Figure}. The data shows that the energy signal is periodic over time as the fixed-wing aerial robot reiterates a set of paths.}
 \end{figure}
 We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot flying the agricultural scenario in \fref{fig:energy-1}{Figure} and \fref{fig:spectrum-1}{Figure}.
+The data shows the power over time of the motion for the coverage, along its power spectrum. The frequency spectrum in \fref{fig:spectrum-1}{Figure} is centered at zero frequency, and peaks at four hundred kilo decibels. The peak depicts visually the shift on the power-axis in \fref{fig:energy-1}{Figure}. It further backs the choice of the Fourier series of third order in our earlier work~\citep{seewald2020mechanical}, illustrating that the power evolution needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
 
-In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:deriv}{Section}. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
+In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:deriv}{Section}. This model server to model the motion. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
 
 \subsection{Derivation of the differential periodic model}
 \label{sec:deriv}
@@ -705,96 +610,11 @@ The energy domain is bounded by the output of \powprof{}, while the flight time 
 \subsection{\color{red}Aperiodic energy evolution}
 \label{sec:non-perio}
 
-\section{\color{red}Contribution}
+
+%%%%%%%%%%%%%%%%%
+\section{\color{red}Results}
 
 
-\section{\color{cyan}Results}
-
-This Section shows and assesses experimental results for the benchmarks, and validates the presented approach.
-
-We now describe the experimental results of the benchmarks previously introduced. A summary of these results is outlined in \fref{tab:benchmark-components}{Table}.
-
-\begin{table}[h]
-  \centering
-  \begin{tabular}{l|*{3}{c|}c}
-    \hline
-    \multirow{2}{*}{Component} & ODROID & \multicolumn{3}{c}{NVIDIA} \\
-    & XU3 & TK1 & TX2 & Nano \\
-    \hline
-    \stt{matrix-cpu}    & 5284 J & 4067 J & 2413 J & 2736 J \\
-    \stt{matrix-gpu}    & - & 81 J & 45 J & 39 J \\
-    \stt{darknet-cpu}   & (-) & (-) & 2400 J & (-) \\
-    \stt{darknet-gpu}   & - & - & 5255 J & (-) \\
-    \stt{nvidia-matrix} & - & (-) & 4054 J & (-) \\
-    \stt{nvidia-quicks} & - & (-) & 1995 J & (-) \\
-    \hline
-  \end{tabular}
-  \caption{The overall energy consumption for each benchmark. Unsupported platforms are indicated by `-' and `(-)' indicates supported but not included in this paper.}
-  \label{tab:benchmark-components}
-\end{table}
-
-\subsubsection*{\color{cyan}Matrix Exponentiation}
-\label{sec:experimental-results:matrix}
-
-Execution of GPU matrix exponentiation, while varying size and exponent parameters, was previously shown in \fref{fig:matrix-exponent}{Figure}. The figure shows the average power as well as overall energy consumption along with the battery depletion as a function of size and exponent parameters. Average power consumption is reported independently of the running time of the component and thus does not reflect the total power consumption. For small problem sizes, the computation terminates before reaching the maximal power level. This effect is visible in \fref{fig:darknet-layer1}{Figure} (also previously shown), where power consumption is low at the beginning and then reaches the maximum, for which reason the average power consumption is low for small problem sizes. Battery depletion is reported in terms of the total amount of energy consumed by the computation for the duration of the execution. The effect of introducing ``scheduling'' in the form of sleep of various durations in between iterations of the matrix computations can be seen in \fref{fig:matrix-sleep}{Figure}. Here, the duration of the sleep affects the total power consumption: the higher the sleep value in between the iterations, the greater the battery depletion.
-
-CPU vs GPU comparison shows, expectedly, that \stt{matrix-gpu} is very performant compared to \stt{matrix-cpu}. While the \stt{matrix-cpu} requires 2~413~J, \stt{matrix-gpu} requires only 45~J for the same operation on the TX2 board. Therefore, running the benchmark on GPU results in 16\% more SoC against the same trial on CPU. Such a high speed-up is observed due to the highly parallelizable nature of the matrix exponentiation and hence cannot be used as a general rule. From our experiments, we additionally observe the power-related effect of running components sequentially versus in parallel on different computational units. Although the CPU and GPU are different computational units, the energy consumed by running components independently (i.e., sequentially in some order) on CPU and GPU is 20\% larger compared to running them in parallel, even when subtracting the base power consumed by the board. Thus %the energy cost of components executing independently on different computational units cannot simply be summed to obtain the energy cost of running them in parallel.
-energy can be conserved by running computations in parallel on the CPU and GPU, compared to scheduling them sequentially.
-
-
-\subsubsection*{\color{cyan}Darknet}
-\label{sec:experimental-results:darknet}
-
-We modified the \stt{darknet} component to simulate different scheduling options and evaluated the outcome on a video stream: \stt{darknet} now %. A first modification of the source 
-accepts an argument that indicates the amount of sleep between two invocations of the image recognition algorithm. In this way, we were able to simulate different frames-per-second options and assess the power evolution using the model. %Furthermore, the source was extended to support different batching options. Several frames are collected in a queue of defined size so that the image recognition phase process them in batch. In this fashion, a soft-realtime approach can be investigated, for example simulating a requirement that 10 images should be processed every 10 seconds. Evaluating the impact of such scheduling variations is however considered future work. %UPS: having it implemented by having no experiments with this makes no sense, if powprofiler works and the option works, it shouldn't take more than half a day to do this - so let's not mention it for now.
-
-\begin{figure}[t]
-  \centering
-  %\input{\figpath/darknet-layer2.tikz}
-  \caption[Layer 2 model of \stt{darknet-gpu} component]{Layer 2 model of \stt{darknet-gpu} component running under four configurations, respectively 5.8, 10, 25 and 32 frames-per-second. The figure shows the per-minute energy consumption in terms of CPU, GPU, and overall. On the right side, energy consumption for any possible frame per second rate is shown along with SoC (the y2-axis, the y-axis is shared with the left side).}
-  \label{fig:darknet-layer2}
-\end{figure}
-
-%Data obtained from the first modification (see Figure~\ref{fig:darknet-layer2}), 
-Our experimental data depicted in Figure~\ref{fig:darknet-layer2} shows that an increment in frames-per-second corresponds to an increased power consumption along with a higher battery depletion. The resulting model can be used to define an appropriate trade-off that represents an acceptable rate of QoS, by i.e., correlating the FPS rate to the battery depletion and hence highlighting the dynamic behavior of a mobile scenario.
-%A later trial seems to highlight  %UPS: confusing wording
-Moreover, we observe that \stt{darknet-cpu} consumes less energy per minute compared to the \stt{darknet-gpu} component, but is considerably slower: while running \stt{darknet-cpu} for one minute on TX2 board requires 2~400~J, \stt{darknet-gpu} requires 5~255~J. When considering the energy cost per frame the computation is however considerably more efficient on GPU, where it requires just 1.3~J per frame, against the 175~J on GPU. %UPS: missing how many fps was it running on GPU and CPU?
-
-\subsubsection*{\color{cyan}NVIDIA}
-
-%Matrix multiplication (\stt{nvidia-matrix}) and quicksort (\stt{nvidia-quick}) benchmarks from NVIDIA were included in this paper for reproducibility. %UPS: there's no reproducibility since we don't provide any concrete numbers.
-The \stt{nvidia-matrix} benchmark differs from \stt{matrix-gpu}, even if both perform matrix multiplication on GPU, since \stt{nvidia-matrix} includes a significant CPU computation after GPU matrix multiplication to check whether the two match. The \stt{matrix-gpu} benchmark was similarly tested during development, but does not perform this test at runtime. We observe that the \stt{nvidia-matrix} benchmark has a similar energy behavior to \stt{matrix-gpu}, with the problem size affecting the overall energy and henceforth battery depletion. Average power consumption on GPU is however higher for \stt{matrix-gpu} while it is approximately the same on CPU for both benchmarks (presumably none of the two benchmarks focus on energy efficiency on CPU). For the quicksort benchmark, as expected energy consumption increases with the problem size, as more operations are performed. Nevertheless quicksort differs from matrix multiplication: %its evolution includes some
-there is more noise due to a higher dependence on the random data that is being sorted. %The noise is almost unvisible in matrix multiplication, as the benchmark emphasizes the validity of the multiplication on GPU (multiplication operation itself is rather fast even rising considerably problem size that in the current implementation is limited), thus the fact that the two matrixes are generated randomly affects only marginally the model. 
-
-\subsection{\color{cyan}Validation}
-\label{sec:experimental-results:validation}
-
-We validate our approach by: 
-\begin{enumerate*}[label={\alph*)},font={\bfseries}]
-  \item demonstrating that \powprof{} can be used on a number of heterogeneous platforms,
-  \item comparing model generated with internal metrics to external physical measurements on the TX2, and
-  \item comparing the model to a fine-grained one.
-\end{enumerate*}
-
-A cross-platform comparison shows energy-related behavior of running the same benchmark on different boards. We observed, for instance, that the most energy-efficient board for \stt{matrix-cpu} benchmark is TX2, which consumes 2~413~J to perform the operation, followed by Nano with 2~736~J, TK1 with 4~067~J, and ODROID with 5~284~J.
-
-A %detailed %UPS: I don't think we're "detailed" here...
-measurement analysis is used to compare internal against external power metrics on the TX2 board. We observe that both externally and internally measured power models are close one to each other, with an error of less than 3\% measured over one minute. The externally measured power exceeds the internally measured power --- this is natural as the externally measured power also includes the carrier board, which requires additional energy to operate. Moreover, the measurements performed using \powprof{} include the power consumed by \powprof{} itself, while the multimeter setup excludes \powprof{}'s energy from the evaluation. We therefore assume that the tool has a marginal effect on power consumption and that the model is showing realistic behavior.
-
-In a last validation step, we compared our approach to fine-grained energy model of Nunez et al.~\citep{nunez2013enabling} and Nikov et al.~\citep{nikov2015evaluation} for the ODROID-XU3 embedded board. To relate the two approaches for energy-modeling, we used the \stt{matrix-cpu} benchmark component as follows. First, we evaluated the matrix exponentiation benchmark by raising a 512 by 512 matrix to the 30th power ($512^{30}$) to train the fine-grained model. We obtained a value of expected energy per operation that we compared to the measured one and measured a relative error of 3.42\%. Second, we applied an equivalent approach to our model. We sampled some configurations that were distant from the expected one, concretely we ran configurations $512^{x}$ with $x\in \{5,15,25,35,\dots\}$, and we used the approximation method described in \fref{sec:predictive-model:approximation-methos}{Section} to evaluate the energy of the configuration $512^{30}$. This value was then compared to the measured one and we obtained a relative error of 2.25\%. We can conclude that both models produce similar results on this benchmark, and have a similar relative error even if they adopt a different approach towards energy-modeling.
-
-\subsection{\color{cyan}Assessment}
-\label{sec:experimental-results:assessment}
-
-We performed a number of experiments on different boards. Most of the data in this paper were obtained from NVIDIA TX2 due to the similarity with TK1 and Nano and the easy accessibility of the internal power measurement units. These data allowed us to validate our model, and to show that different scheduling options can correspond to different energy models. The model can describe energy consumption and instantaneous power, together with the battery depletion.
-
-Coarse-grained whole-system energy modeling can take into account some behaviors that cannot otherwise easily be observed. % by other models.% UPS: begs the question what models, safer to leave that out
-As an example, consider the effect of simple scheduling previously shown in \fref{fig:matrix-sleep}{Figure}. Here, we expected that introducing a higher sleep period between executions would result in an energy cost. We used the model to investigate this assumption, and we found that it is not always happening. For instance, a period of 2.5s between two consecutive schedules of $512^{12}$ matrix exponentiation iterated for 12 times is more energy-efficient than executing the whole $512^{144}$ operation. The model can relate these observations, provide information about the battery depletion, and predict the total time the system can operate on a given energy source. It can also highlight battery-specific behaviors since different scheduling options drain battery differently. In particular, Using the \powprof{} tool on the NVIDIA~TX2, we experimentally observe that:
-\begin{itemize}
-  \item Running a set of components separately, and simply adding their energy consumption (while excluding base energy), leads to a different model versus running them in parallel (\fref{sec:experimental-results:matrix}{Section}). This behavior was observed for matrix exponentiation components running on separate computational units (CPU, GPU).
-  \item Scheduling of computations directly impacts the battery drain: processing a computation in its entirety with a steady power load drains the battery less than scheduling that same computation into smaller steps with resulting spikes in the power load (\fref{sec:experimental-results:assessment}{Section}). This behavior was observed for a matrix exponentiation component running on CPU.
-\end{itemize}
-
-
+%%%%%%%%%%%%%%%%%
 \section{\color{red}Summary}
 
