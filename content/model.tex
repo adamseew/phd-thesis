@@ -160,26 +160,16 @@ Additional properties are then: {\small\tt fixed} that indicates another eventua
 \section{Battery Model}
 \label{sec:battery-model}
 
-The battery model is an abstraction that predicts how the draining power at future time instants--due to varying computations and motion load--affects the SoC of an aerial robot's battery. Generally, battery SoC is the most important measure for  battery management, yet, it cannot be directly measured~\citep{xia2015state}. There are numerous approaches to formulate its model, and we discuss the most common ones in the literature in \fref{sec:soa-ene-bat}{Section}, including physical, hybrid, empirical, mixed, and abstract models~\citep{rao2003battery}. In this section, we then use the past literature to derive a battery model of an aerial robot's battery. The model that we derive is an abstract model. Such models do not require detailed information about, e.g., battery chemistry; nonetheless, predict accurately future SoC at a relatively low computational complexity compared with complex and exhaustive models, such as physical models~\citep{rao2003battery}.
+The battery model is an abstraction that predicts how the draining power at future time instants--due to varying computations and motion load--affects the SoC of an aerial robot's battery. Generally, battery SoC is the most important measure for  battery management, yet, it cannot be directly measured~\citep{xia2015state}. There are numerous approaches to formulate its model, and we discuss the most common ones in the literature in \fref{sec:soa-ene-bat}{Section}, including physical, hybrid, empirical, mixed, and abstract models~\citep{rao2003battery}. In this section, we then use the past literature to derive a battery model of an aerial robot's battery. The model that we derive is an abstract model. Such models do not require detailed information about, e.g., battery chemistry; nonetheless, they accurately predict future SoC at a relatively low computational complexity compared with complex and exhaustive models, such as physical models~\citep{rao2003battery}.
 
-We detail the equivalent electrical circuit in \fref{sec:batmod-circuit}{Section}; it is the building block of our battery model. We then derive a differential expression to predict future battery SoC in \fref{sec:diff-model}{Section}.
-
-
----
-
+We detail the equivalent electrical circuit in \fref{sec:batmod-circuit}{Section}; it is the building block of our battery model. We then provide some further information on the implementation of the equivalent electrical circuit in the \powprof{} tool in \fref{sec:batmod-circuit}{Section}. We will use the battery model in \fref{sec:output-mpc}{Section} to define the output constraint in \fref{def:const}{Definition}
 
 \subsection{Equivalent electrical circuit}
 \label{sec:batmod-circuit}
 
-Equivalent electrical circuits are abstract models, often referred to as battery equivalent circuit models (\Gls{acr:ecm}s)\findex{equivalent circuit models}. They are common in the literature for battery SoC estimation~\citep{zhang2018online}, and involved in studies relative to Li-ion\findex{Lithium ion batteries} rechargeable battery cells~\citep{hinz2019comparison,hasan2018exogenous}. Although there are very accurate models to predict SoC for these batteries from a given power and time trajectories--namely physical or electrochemical models~\citep{rao2003battery}--for mobile robots and more in general for resource constrained systems it is usually required to balance the models' complexity and the accuracy~\citep{rao2003battery,hasan2018exogenous}. In these constrained systems, ECMs have been widely used in numerous application due to a relatively good modelling accuracy and an easy implementation~\citep{zhang2018online,zhang2012estimation,zhang2009battery,saeed2019electrical,hasan2018exogenous}.
-Equivalent electrical circuits use different constructs to model the battery SoC from a number of parameters. These constructs includes RC (resistor-capacitor)\findex{resistor}\findex{capacitor} circuits for dynamic loads\findex{dynamic loads}, resistors for internal resistances\findex{resistance}, and other components~\citep{hamza2017forecasting}. Their complexity depends on the level of detail required and the parameters involved in modeling. The parameters are then usually estimated with empirical data~\citep{zhang2014battery}. 
+Equivalent electrical circuits are abstract models, frequently referred to as battery equivalent circuit models (\Gls{acr:ecm}s)\findex{equivalent circuit models}. They are common in the literature for battery SoC estimation~\citep{zhang2018online} and treated in numerous studies relative to Li-ion\findex{Lithium ion batteries} rechargeable battery cells~\citep{hinz2019comparison,hasan2018exogenous}. Although there are more accurate models to predict SoC for these batteries from a given power and time trajectories--namely physical or electrochemical models~\citep{rao2003battery}--for mobile robots and more in general for resource-constrained systems it is usually required to balance the models' complexity and the accuracy~\citep{rao2003battery,hasan2018exogenous}. In these constrained systems, ECMs have relatively good modeling accuracy and easy implementation~\citep{zhang2018online,zhang2012estimation,zhang2009battery,saeed2019electrical,hasan2018exogenous}. ECMs use different constructs to model the battery SoC from several parameters. These constructs include RC (resistor-capacitor)\findex{resistor}\findex{capacitor} circuits for dynamic loads\findex{dynamic loads}, resistors for internal resistances\findex{resistance}, and other components~\citep{hamza2017forecasting}. Their complexity depends on the level of detail required and the parameters involved in modeling. The parameters are usually estimated with empirical data~\citep{zhang2014battery}.
+For what concerns the specific battery chemistries to be modeled, we focus on Li-ion batteries. These batteries have broad applications involving electric vehicles, mobile, and aerial robots~\citep{shi2006application,xia2015state,hasan2018exogenous,zhang2014battery}, due to their characteristics such as low self-discharge rate\findex{self-discharge rate}, absence of memory effect\findex{memory effect}, and high power and energy density\findex{power density}\findex{energy density}~\citep{zhang2014battery}.
 
-For what concern the specific battery chemistries to be modeled, we focus on Li-ion batteries. These batteries are broadly employed in many applications involving electric vehicles, mobile, and aerial robots~\citep{shi2006application,xia2015state,hasan2018exogenous,zhang2014battery}, due to their characteristics including low self-discharge rate, absence of memory effect, and high power and energy density~\citep{zhang2014battery}.
-Here, we propose a simplistic battery model for the purpose of modeling a Li-ion battery of an aerial robot in flight, focusing on lesser complexity rather than accuracy. The battery SoC changes--when computations and motion generate a current to be drawn from the battery--according to the equation~\citep{zhang2018online,hasan2018exogenous}
-\begin{equation}\label{eq:socevol}
-  \dot{b}(y(t))=-I(y(t))/Q_c,
-\end{equation}
-where $Q_c\in\mathbb{R}$ is the battery constant nominal capacity measured in amperes per hour, $I(y(t))\in\mathbb{R}$ is the internal current that we derive later in this section, and $y(t)\in\mathbb{R}_{\geq 0}$ is a power drawn, i.e., the power needed for the computations and the motion. 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
@@ -187,16 +177,20 @@ where $Q_c\in\mathbb{R}$ is the battery constant nominal capacity measured in am
   \caption[Equivalent electrical circuit for battery modeling with an internal resistance]{Equivalent electrical circuit for battery modeling with one resistor, representing the internal battery resistance.}
   \label{fig:rint}
 \end{figure}
-If we use the computations energy model in \fref{sec:comp-ener-model}{Section}, it is the the power metric in \fref{def:comp-ener}{Definition} or the value of the measurement layer in \fref{def:measur-layer}{Definition} for each time step.
+Here, we propose a simplistic battery model to model a Li-ion battery of an aerial robot in flight, focusing on lesser complexity rather than accuracy. The battery SoC changes--when computations and motion generate a current to be drawn from the battery--according to the equation~\citep{zhang2018online,hasan2018exogenous}
+\begin{equation}\label{eq:socevol}
+  \dot{b}(y(t))=-I(y(t))/Q_c,
+\end{equation}
+where $Q_c\in\mathbb{R}$ is the battery constant nominal capacity measured in amperes per hour, $I(y(t))\in\mathbb{R}$ is the internal current that we derive later in this section, and $y(t)\in\mathbb{R}_{\geq 0}$ is a power drawn, i.e., the power needed for the computations and the motion. 
+If we use the computations energy model in \fref{sec:comp-ener-model}{Section}, it is the power metric in \fref{def:comp-ener}{Definition} or the value of the measurement layer in \fref{def:measur-layer}{Definition} for each time step.
 
-We propose a simplistic equivalent electrical circuit with an internal resistance from the literature~\citep{mousavi2014various,hinz2019comparison,he2011evaluation} in \fref{fig:rint}{Figure}. The model is sometimes termed ``Rint'' model in the literature~\citep{hinz2019comparison,he2011evaluation}. The circuit models the battery simply as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohms, representing the internal battery resistance. The voltage $V\in\mathbb{R}$ measured in volts in the internal battery voltage, which depends on SoC~\citep{hasan2018exogenous} and can be retrieved from a battery data sheet~\citep{hinz2019comparison}, $I$ depends on the power requirements of the load.
+We propose a simplistic ECM with an internal resistance from the literature~\citep{mousavi2014various,hinz2019comparison,he2011evaluation} in \fref{fig:rint}{Figure}, sometimes termed the ``Rint'' model~\citep{hinz2019comparison,he2011evaluation}. The circuit models the battery simply as a perfect voltage source connected with a resistor $R_r\in\mathbb{R}$ measured in ohms, representing the internal battery resistance. The voltage $V\in\mathbb{R}$ measured in volts is the internal battery voltage, which depends on SoC~\citep{hasan2018exogenous} and can be retrieved from a battery data sheet~\citep{hinz2019comparison}, and $I$ is the current running through the circuit that depends on the power requirements of the load.
 
-The voltage on the extremes of the equivalent electrical circuit respects then 
+The voltage on the extremes of the ECM then respects 
 \begin{equation}\label{eq:tocomb1}
   V_e=V-R_rI,
 \end{equation}
-where $V_e\in\mathbb{R}$ is the external battery voltage at the extremes of the circuit in \fref{fig:rint}{Figure}.
-If we assume that the voltage needed by the computations and motion is stable, let's call it $V_s\in\mathbb{R}$ measured in volts, and that the current required by the load (computations and motion) is $I_l$, we can write
+where $V_e\in\mathbb{R}$ is the external battery voltage at the extremes of the circuit in \fref{fig:rint}{Figure}. If we assume that the voltage needed by the computations and motion is stable, let's call it $V_s\in\mathbb{R}$ and is measured in volts, and that the current required by the load (computations and motion) is $I_l$, we can write
 \begin{equation}\label{eq:tocomb2}
   V_sI_l=V_eI,
 \end{equation}
@@ -204,10 +198,9 @@ using simply Kirchhoff's circuit laws (the power into the load should exactly ma
 \begin{equation}\label{eq:internal_curr}
   I(y(t))=\left(V-\sqrt{V^2-4R_ry(t)}\right)/(2R_r),
 \end{equation}
-where $I_l:=y(t)/V_s$ the current of the load depends on the computations and motion power $y(t)$ at a given time instant $t$ in \frefeq{eq:socevol}. Furthermore we take the negative solution of the quadratic expression, because when $I_l$ is zero, $I$ should also be zero. 
-With the internal current in \frefeq{eq:internal_curr} combined with the battery SoC in \frefeq{eq:socevol} we can model how an computations and motion power trajectory $y(t)$ on a $t\in\mathcal{T}:=[t_0,t_f]$ for given initial and final time instants ($t_0,t_f$ respectively) affects the battery. In one of ours earlier intuitions~\citep{seewald2019coarse}, we expected a constant energy load to result in a better overall SoC compared to, e.g., a spiked load, even if the two loads had the same overall energy. The model above confirms this intuition. In \fref{fig:}{Figure} we show the evolution of $I$ in \frefeq{eq:internal_curr} for a given linear load $I_l$ from zero to approximately one third, and assuming $V=V_s=R_r$ all one. The curve in the plot bend upwards for the plotted range: a line between two points will then always be above the curve, which implies that a constant load is to be preferred compared to a load that repeatedly changes from high to low. 
+where $I_l:=y(t)/V_s$ is the current of the load depending on the computations and motion power $y(t)$ at a given time instant $t$ in \frefeq{eq:socevol}. Furthermore, we take the negative solution of the quadratic expression: when $I_l$ is zero, $I$ should also be zero. With the internal current in \frefeq{eq:internal_curr} combined with the battery SoC in \frefeq{eq:socevol}, we can model how the computations and motion power trajectory $y(t)$ on $t\in\mathcal{T}:=[t_0,t_f]$ for given initial and final time instants ($t_0,t_f$ respectively) affects the battery. In one of our earlier intuitions~\citep{seewald2019coarse}, we expected a constant energy load to result in a better overall SoC compared to, e.g., a spiked one, even if the two have the same overall energy. The model above confirms this intuition. In \fref{fig:}{Figure}, we show the evolution of $I$ in \frefeq{eq:internal_curr} for a given linear load $I_l$ from zero to approximately one-third, assuming $V=V_s=R_r$ all one. The curve in the plot bends upwards for the plotted range: a line between two points will always be above the curve; it implies that a constant load is to be preferred compared to a load that repeatedly changes from high to low.
 
-There are also more complex model in the literature~\citep{hinz2019comparison,hasan2018exogenous} add further elements to e.g., account for the changes in the load current. 
+There are also more complex ECMs in the literature~\citep{hinz2019comparison,hasan2018exogenous}, which add additional elements to, e.g., account for the changes in the load current. One such ECM is the Thevenin model and the Thevenin-based model~\citep{chen2006accurate,hasan2018exogenous,hinz2019comparison,mousavi2014various,zhang2018online,salameh1992mathematical}\findex{Thevenin model}. 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
@@ -215,52 +208,47 @@ There are also more complex model in the literature~\citep{hinz2019comparison,ha
   \caption[Thevenin-based equivalent electrical circuit for battery modeling]{Thevenin-based equivalent electrical circuit for battery modeling with one resistor and two RC internal elements. The two elements add some complexity, making the model able to account for changes in the load current.}
   \label{fig:thevenin}
 \end{figure}
-One of such model that can be often encountered in the literature is the Thevenin model and the Thevenin-based model~\citep{chen2006accurate,hasan2018exogenous,hinz2019comparison,mousavi2014various,zhang2018online,salameh1992mathematical}, sometimes termed dual polarization model~\citep{he2011evaluation}, which we illustrate with the equivalent electrical circuit in \fref{fig:thevenin}{Figure}. This latter allows to model further details, by e.g., modeling the short-term transient behavior with the first RC element, and the long-term transient behavior with the second~\citep{hinz2019comparison}. It is particularly suitable to model the polarization characteristic of Li-ion battery cells~\citep{he2011evaluation}.
-
+Sometimes termed the dual-polarization model~\citep{he2011evaluation}, we illustrate the ECM in \fref{fig:thevenin}{Figure}. It models further details, such as the short-term transient behavior with the first RC element ($R_1,C_1$) and the long-term transient behavior with the second RC element ($R_2,C_2$)~\citep{hinz2019comparison}. It is particularly suitable to model the polarization characteristic of Li-ion battery cells~\citep{he2011evaluation}.
 
 \subsection{Battery model in the {\tt powprofiler} tool}
 \label{sec:batmod-circuit}
 
-The \powprof{} tool allows automated battery modeling and directly derives battery SoC for each measurement layer that we described in \fref{sec:measurement-layer}{Section}. 
-Indeed in \fref{def:measur-layer}{Definition}, the function $\mathbf{g}$ returns a triplet of values including the SoC. 
-Similarly, the tool returns the SoC for a given configuration of parameters and energy sensor or other energy measuring device for the predictive layer in \fref{def:comp-ener}{Definition} in \fref{sec:predictive-layer}{Section}. 
-To this end, it implements the simplistic equivalent electrical circuit in \fref{fig:rint}{Figure} from the literature~\citep{mousavi2014various,hinz2019comparison,he2011evaluation}. The tool thus implements the class {\small\tt soc\_1resistor}, which constructor accepts in input the parameters $I_l,V,R_r,V_s$ and $Q_c$ that we discussed in \fref{sec:batmod-circuit}{Section}. 
-The current load $I_l$ is expressed via the data type {\small\tt pathn}, which we discussed in \fref{sec:powprof}{Section}. One can easily implement a similar battery model, e.g., the Thevenin-based equivalent electrical circuit in \fref{fig:thevenin}{Figure}, by simply inhereting from class {\small\tt first\_derivative} the function {\small\tt get\_value}. 
-The function returns the value of the model from an independent variable, i.e., time, and dependent variable represented via the data type {\small\tt vectorn} in \fref{sec:powprof}{Section}. In {\small\tt soc\_1resistor} it is described in \frefeq{eq:socevol}.
+The \powprof{} tool allows automated battery modeling and directly derives battery SoC for each measurement layer in \fref{sec:measurement-layer}{Section}. Indeed in \fref{def:measur-layer}{Definition}, the function $\mathbf{g}$ returns a triplet of values, including the SoC. For the predictive layer in \fref{def:comp-ener}{Definition} in \fref{sec:predictive-layer}{Section}, the tool similarly outputs the SoC for a given configuration of parameters and energy sensor or other energy measuring device. To this end, it implements the simplistic equivalent electrical circuit in \fref{fig:rint}{Figure} from the literature~\citep{mousavi2014various,hinz2019comparison,he2011evaluation}, with the class {\small\tt soc\_1resistor}, where the constructor accepts in input the parameters $I_l,V,R_r,V_s$ and $Q_c$ that we discussed in \fref{sec:batmod-circuit}{Section}. The current load $I_l$ is expressed via the data type {\small\tt pathn} in \fref{sec:powprof}{Section}. One can implement a similar battery model, e.g., the Thevenin-based ECM in \fref{fig:thevenin}{Figure}, by simply inheriting from class {\small\tt first\_derivative} the function {\small\tt get\_value}. It returns the modeled battery SoC at the next time instant from an independent variable, i.e., time, and a dependent variable represented via the data type {\small\tt soc\_1resistor} in \fref{sec:powprof}{Section}.
 
-Internally, the tool implements numerical simulator based on the Runge-Kutta methods for numerical integration in \fref{sec:rk4}{Section}. One can then personalize the size of the integration step $h\in\mathbb{R}_{>0}$ via the property {\small\tt h} in the configuration specification in \fref{sec:conf-spec}{Section} (a typical practical value of of such property is, e.g., one hundreth). The tool first derive a model for the power and energy and later numerically simulate the battery model via the equivalent electrical circuit in \fref{fig:rint}{Figure} adjoining the battery SoC.
+Internally, the tool implements a numerical simulator based on the Runge-Kutta methods\findex{Runge-Kutta methods} for numerical integration\findex{numerical integration} in \fref{sec:rk4}{Section}. One can then personalize the size of the integration step $h\in\mathbb{R}_{>0}$ via the property {\small\tt h} in the configuration specification in \fref{sec:conf-spec}{Section} (a typical practical value of such property is, e.g., one hundredth). The tool first derives a model for the power and energy and later numerically simulates the battery model via the equivalent electrical circuit in \fref{fig:rint}{Figure} adjoining the battery SoC.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Energy Model of the Motion}
 
-Let us suppose the aerial robot is operating in an autonomous scenario, planning a coverage and scheduling some computations for detections and enctyption in \fref{sec:flight-plan}{Section}. Such a robot expectedly iterates the paths (the primitive paths over time) and schedules the computations periodically, as we outlined in \fref{sec:outline}{Section}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. This assumption is further backed by out earlier contributions on the topic~\citep{seewald2020mechanical}, showing that the aerial robot energy can be modeled with a Fourier series of a given order (in our earlier contribution, we used the order three).  We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
-\begin{figure}[h!]
-  \begin{subfigure}[b]{0.52\textwidth}
-    \centering
-    \footnotesize\fontfamily{phv}
-    \input{figures/energy_1.tikz}
-    \caption{Energy evolution}
-    \label{fig:energy-1}
-  \end{subfigure}\hspace{2mm}
-  \begin{subfigure}[b]{0.46\textwidth}
-    \centering
-    \footnotesize\fontfamily{phv}
-    \input{figures/spectrum_1.tikz}
-    \caption{Power spectrum}
-    \label{fig:spectrum-1}
-  \end{subfigure}
-  \caption[Energy data of a fixed-wing aerial robot]{Empirical energy data collected flying a fixed-wing aerial robot's plan and covering the polygon in \fref{fig:plot2}{Figure}. The data shows that the energy signal is periodic over time as the fixed-wing aerial robot reiterates a set of paths.}
-\end{figure}
-We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot flying the agricultural scenario in \fref{fig:energy-1}{Figure} and \fref{fig:spectrum-1}{Figure}.
-The data shows the power over time of the motion for the coverage, along its power spectrum. The frequency spectrum in \fref{fig:spectrum-1}{Figure} is centered at zero frequency, and peaks at four hundred kilo decibels. The peak depicts visually the shift on the power-axis in \fref{fig:energy-1}{Figure}. It further backs the choice of the Fourier series of third order in our earlier work~\citep{seewald2020mechanical}, illustrating that the power evolution needs approximately three frequencies to be modeled. To obtain the spectrum in frequency space, we computed the Fourier transform.
+In this section, we implement a model for the motion of aerial robots in coverage path planning (\Gls{acr:cpp})\findex{coverage path planning}. We first derive a differential periodic energy model and provide a formal proof in \fref{sec:deriv}{Section}. This model server to model the motion. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic power evolutions in \fref{sec:non-perio}{Section}.
 
-In the remainder of this section, we first derive a differential periodic energy model and provide a formal proof in \fref{sec:deriv}{Section}. This model server to model the motion. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic energy evolutions in \fref{sec:non-perio}{Section}.
+Let us suppose the aerial robot is operating in an autonomous scenario, planning the coverage and scheduling some computations for detections and encryption in \fref{sec:flight-plan}{Section}. 
+\begin{figure}[h!]
+  \centering
+  \footnotesize
+  \fontfamily{phv}\selectfont
+  \input{figures/energy_1.tikz}
+  \caption[Power evolution data of an aerial robot in coverage planning]{Empirical energy data of the aerial robot in \fref{fig:plot2}{Figure} in coverage planning. The data shows that the energy signal is periodic over time as the fixed-wing aerial robot reiterates a set of paths.}
+  \label{fig:energy-1}
+\end{figure}
+It expectedly iterates some paths (the primitive paths) for CPP and schedules the computations periodically, as we outlined in \fref{sec:outline}{Section}, and further backed with the concept of primitive paths in \fref{def:primitive}{Definition}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. This assumption is further supported by our previous contribution on the topic~\citep{seewald2020mechanical}, showing that a Fourier series of a given order can model the energy of the aerial robot (in the contribution, we used the order three). We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
+\begin{figure}[h!]
+  \centering
+  \footnotesize
+  \fontfamily{phv}\selectfont
+  \input{figures/spectrum_1.tikz}
+  \caption[Power evolution frequency spectrum of an aerial robot in coverage planning]{Frequency spectrum of the empirical energy data in \fref{fig:energy-1}{Figure} where the aerial robot does the coverage planning.}
+  \label{fig:spectrum-1}
+\end{figure}
+We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot\findex{Opterra fixed-wing aerial robot} flying the agricultural scenario in \fref{fig:energy-1}{Figures}\fref{}{--\hspace*{-.8ex}}. The data shows the robot's energy along its frequency spectrum. The latter is centered at zero frequency, and peaks at four hundred kilo decibels. The peak visually depicts the shift on the power axis in  \fref{fig:energy-1}{Figure} (and further backs the choice of the Fourier series of third order in our earlier work, illustrating that the power evolution needs approximately three frequencies to be modeled). To obtain the spectrum in frequency space, we computed the Fourier transform.
 
 \subsection{Derivation of the differential periodic model}
 \label{sec:deriv}
 
-In the remainder of this section, we refer to the instantaneous energy consumption evolution simply as the energy signal. We model the energy using energy coefficients $\mathbf{q}\in\mathbb{R}^m$ that characterize such energy signal. The coefficients are derived from Fourier analysis (the size of the energy coefficients vector $m$ is related to the order of the Fourier series in \fref{sec:fourier}{Section}) and estimated using a state estimator in \fref{cp:est}{Chapter}. We prove a relation between the energy signal and the energy coefficients in \fref{lem:eqv}{Lemma}. %Later, we show how this approach allows us variability in terms of different evolutions, including aperiodic signals in \fref{sec:non-perio}{Section}. After illustrating the energy model, we enhance it with the energy contribution of the path and computations in \fref{sec:merging}{Section}. 
+In the remainder of this section, we refer to the power (or instantaneous energy consumption) evolution simply as the energy signal. We model the signal using energy coefficients vector $\mathbf{q}\in\mathbb{R}^m$ that characterize the energy signal. We derive the coefficients from Fourier analysis: the size of the energy coefficients vector $m$ is then related to the order of the series. There is a relation between the energy signal and the energy coefficients, which we discuss further in \fref{lem:eqv}{Lemma}.
+  
+---
 
 Let us consider a periodic energy signal of period $T$, and a Fourier series of an arbitrary order $r\in\mathbb{Z}_{\geq 0}$ for the purpose of modeling of the energy signal
 \begin{equation}\label{eq:fourier}
@@ -281,7 +269,9 @@ The state $\mathbf{q}(t)$ contains the energy coefficients
     \alpha_0(t) & \alpha_1(t) & \beta_1(t) & \cdots & \alpha_r(t) & \beta_r(t)
   \end{array}\right]',\\
 \end{equation}
-where $\mathbf{q}(t)\in\mathbb{R}^m$ with $m=2r+1$. The state transition matrix
+where $\mathbf{q}(t)\in\mathbb{R}^m$ with $m=2r+1$. We will estimate the value of $\mathbf{q}$ with a state estimator in \fref{cp:est}{Chapter}.
+
+The state transition matrix
 \begin{equation}\label{eq:mat_A}
   A=\left[\begin{array}{ccccc}
     0            & 0^{1\times 2}& 0^{1\times 2}& \dots& 0^{1\times 2} \\
