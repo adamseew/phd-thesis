@@ -1,0 +1,169 @@
+
+%
+%%%%%%%%%%%%%
+%           %
+% Results   %
+%           %
+%%%%%%%%%%%%%
+%
+% Brief abstract: wraps up the results from the previous chapters
+%
+% Completion (1-10): 1
+% Missing: -
+%
+\chapter{Results}
+\label{cp:res}
+
+%\begin{chapquote}{\cite{lahijanian2018resource}}
+%  ``[I]t may be possible to trade off reduced resource consumption for a slightly lower but still acceptable level of performance.''
+%\end{chapquote}
+
+\vspace*{1em}
+
+%\lettrine{I}{n the previous chapters}, we introduced progressively the research questions we are interested in addressing. We then provided some preliminaries with basic terminology, formulated the problem formally, detailed the available literature, and derived various energy models. Once we detailed all these basic constructs, we are ready to describe their interaction to solve \fref{pb:cov-pb}{Problem} and \fref{pb}{Problem} and thus provide an energy-aware coverage planning and scheduling for autonomous aerial robots.
+
+%This chapter describes the main contribution of our work. Here we generate the coverage plan $\Gamma$ that we defined in \fref{def:plan}{Definition} solving \fref{pb:cov-pb}{Problem}, replan $\Gamma$ energy-wise with the models from \fref{cp:model}{Chapter} solving \fref{pb}{Problem} in case of, e.g., sudden battery drops, and guide the aerial robot on $\Gamma$. In particular, we first detail how we guide the aerial robot on the plan in \fref{sec:gvf}{Section}, recalling some constructs in \fref{cp:pb}{Chapter}. These include path functions\findex{path functions}, stages\findex{stage}, triggering points\findex{triggering points}, and primitive paths\findex{primitive paths}. In \fref{sec:cov-path-plan}{Section}, we discuss the generation of the coverage plan with a union of path functions and triggering points in \fref{sec:path-functions}{Sections}\fref{sec:defs-stages-triggs}{--\hspace*{-.8ex}} (it is on this coverage that we are interested in guiding the aerial robot). In \fref{sec:mpc}{Section}, we then discuss how to replan the coverage energy-wise. Although we already described most of the concepts in preliminaries in \fref{cp:opt}{Chapter} and literature in \fref{cp:soa}{Chapter}, we still need some additional notions. To guide the aerial robot, we use the theory of vector fields that point to the path functions. To generate the coverage path, a class of methods under the name of cellular decomposition, generating a coverage motion that respects the nonholonomic\findex{nonholonomic constraints} and other constraints of a fixed-wing aerial robot (such as the Opterra craft\findex{Opterra fixed-wing aerial robot} in \fref{fig:opterra}{Figure} that we have discussed extensively in this work), including requirements on the turning radius\findex{turning radius}. To replan the coverage path, we use an optimal control\findex{optimal control} approach termed model predictive control (\Gls{acr:mpc})\findex{model predictive control} along with the periodic model in \fref{cp:model}{Chapter} (which we proved formally and motivated empirically in \fref{sec:periodic-model}{Section}). We describe all these concepts and contextualize them in the solution to the problems in this chapter. 
+
+%This chapter connects to the remainder of this work as follows. Here we provide the solution to the problems in \fref{cp:pb}{Chapter}. To this end, we use the available literature on planning in \fref{cp:soa}{Chapter} and the energy models in \fref{cp:model}{Chapter}. We provided the motivation and discussed why it is important to solve these problems in \fref{cp:intro}{Chapter}. We use the model in the cost and constraints of an optimal control problem (\Gls{acr:ocp})\findex{optimal control problem} using the preliminaries in \fref{cp:opt}{Chapter}. Although we provide an algorithm for energy-aware coverage planning and scheduling for autonomous aerial robots, some research questions remain open. We discuss these questions in \fref{cp:conc}{Chapter}.
+
+\section{Energy Models}
+
+\subsection{Measurement Layer}
+
+\begin{figure}[p]
+    \begin{minipage}{.93\textwidth}
+    \centering
+    \fontfamily{phv}\selectfont
+    \hspace*{20ex}
+    \input{figures/darknet-layer1.tikz}
+    \caption{Four different layer 1 models of the \stt{darknet-gpu} component executing object detection on a video stream. The first model on top left shows the power consumption over time while the frames-per-second rate is constrained to 5.8. Rate is constrained then to 10 on right, to 25 on the bottom left and to 32 on the bottom right. With regards to the desired QoS, the frames-per-second rate can be adjusted and a specific energy target can thus be met.} 
+    \label{fig:darknet-layer1}
+    \end{minipage}
+\end{figure}
+
+
+\subsection{Predictive Layer}
+
+
+\begin{figure}[p]
+    \centering
+    \fontfamily{phv}\selectfont
+    \input{figures/darknet-layer2.tikz}
+    \caption{Layer 2 model of \stt{darknet-gpu} component running under four configurations, respectively 5.8, 10, 25 and 32 frames-per-second. The figure shows the per-minute energy consumption in terms of CPU, GPU, and overall. On the right side, energy consumption for any possible frame per second rate is shown along with SoC (the y2-axis, the y-axis is shared with the left side).}
+    \label{fig:darknet-layer2}
+  \end{figure}
+
+\begin{figure}[p]
+    \centering
+    \begin{subfigure}[t]{0.475\textwidth}
+        \centering
+        \fontfamily{phv}\selectfont
+        \input{figures/matrix-gpu-exponent-power.tikz}
+        \caption{Average power}
+        \label{fig:matrix-exponent:power}
+        \vskip\baselineskip
+        \input{figures/matrix-gpu-exponent-energy.tikz}
+        \caption{Overall energy}
+        \label{fig:matrix-exponent:energy}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[c]{0.475\textwidth}   
+        \centering 
+        \fontfamily{phv}\selectfont
+        \vspace{14.8ex}
+        \input{figures/matrix-gpu-exponent-battery.tikz}
+        \caption{Remaining battery capacity}  
+        \label{fig:matrix-exponent:battery}
+    \end{subfigure}
+    \caption{Execution of GPU exponentiation, average total power~\ref{fig:matrix-exponent:power}, overall energy consumption~\ref{fig:matrix-exponent:energy}, and battery depletion~\ref{fig:matrix-exponent:battery} as a function of size and exponent parameters. The plot shows how the choice between specific configurations impacts the energy performance of the system under analysis.}
+    \label{fig:matrix-exponent}
+  \end{figure}
+  
+  \begin{figure}[p]
+    \centering
+    \begin{subfigure}[t]{0.475\textwidth}
+        \centering
+        \fontfamily{phv}\selectfont
+        \input{figures/matrix-gpu-sleep-power.tikz}
+        \caption{Average power}
+        \label{fig:matrix-sleep:power}
+        \vskip\baselineskip
+        \input{figures/matrix-gpu-sleep-energy.tikz}
+        \caption{Overall energy}
+        \label{fig:matrix-sleep:energy}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[c]{0.475\textwidth}   
+        \centering 
+        \fontfamily{phv}\selectfont
+        \vspace{14.8ex}
+        \input{figures/matrix-gpu-sleep-battery.tikz}
+        \caption{Remaining battery capacity}  
+        \label{fig:matrix-sleep:battery}
+    \end{subfigure}
+    \caption{Execution of GPU matrix exponentiation, average total power~\ref{fig:matrix-sleep:power}, overall energy consumption~\ref{fig:matrix-sleep:energy} and battery depletion~\ref{fig:matrix-sleep:battery} as a function of the matrix size and simulated scheduling in the form of sleep between iterations.} 
+    \label{fig:matrix-sleep}
+  \end{figure}
+
+  \begin{figure}[p]
+    \centering
+    \fontfamily{phv}\selectfont
+    \footnotesize
+    \begin{subfigure}[c]{0.475\textwidth}
+      \centering
+      \input{figures/path-plot-take-off.tikz}
+      \caption{Take-off phase path}
+      \label{fig:takeoff-path}
+      \vspace{3ex}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.475\textwidth}
+      \centering
+      \input{figures/path-plot-landing.tikz}
+      \vspace*{3ex}
+      \caption{Landing phase path}
+      \label{fig:landing-path}
+      \vspace{3ex}
+    \end{subfigure}
+    \quad
+    \begin{subfigure}[c]{0.34\textwidth}
+      \centering
+      \input{figures/takeoff.tikz}
+      \caption{Take-off energy evolution}
+      \label{fig:takeoff-energy}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.32\textwidth}
+      \centering
+      \input{figures/cruise.tikz}
+      \caption{Cruise energy evolution}
+      \label{fig:cruise-energy}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.30\textwidth}
+      \centering
+      \input{figures/landing.tikz}
+      \caption{Landing energy evolution}
+      \label{fig:landing-energy}
+    \end{subfigure}
+    \caption{The evolution in time of energy and paths for three different flight phases. take-off, cruise, and landing}
+    \label{fig:path-energy}
+  \end{figure}
+
+  \begin{figure}[p]
+    \centering
+    \fontfamily{phv}\selectfont
+    \footnotesize
+    \begin{subfigure}[c]{0.4\textwidth}
+      \centering
+      \input{figures/soc-configuration.tikz}
+      \caption{SoC as a function of time for different configurations}
+      \label{fig:soc-configuration}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.4\textwidth}
+      \centering
+      \input{figures/soc-schedule.tikz}
+      \caption{Two examples of the evolution of SoC-aware schedules}
+      \label{fig:soc-schedule}
+    \end{subfigure}
+    \caption{Different SoC evolutions in time}
+    \label{fig:soc-evolution}
+  \end{figure}
+

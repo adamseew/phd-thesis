@@ -1,5 +1,5 @@
-\begin{footnotesize}
 \definecolor{ca0a0a4}{RGB}{160,160,164}
+\scriptsize
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.570000, xscale=0.570000, inner sep=0pt, outer sep=0pt]
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
@@ -385,8 +385,8 @@
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00465,1.00465,0.0,(24.614,166.27)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.00465,1.00465,0.0,(22.614,165.177)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{Energy (kJ)}};
+  \begin{scope}[cm={{0.0,-1.00465,1.00465,0.0,(22.614,170.177)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{\footnotesize Energy (kJ)}};
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00465,1.00465,0.0,(24.614,166.27)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
@@ -1220,7 +1220,7 @@
   \begin{scope}[cm={{0.98619,-0.1917,0.1917,0.98619,(261.499,300.27)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.98619,-0.1917,0.1917,0.98619,(261.499,300.27)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{12}{Size}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{-8}{\footnotesize Size}};
   \end{scope}
   \begin{scope}[cm={{0.98619,-0.1917,0.1917,0.98619,(261.499,300.27)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
@@ -1235,7 +1235,7 @@
   \begin{scope}[cm={{0.72269,0.69789,-0.69789,0.72269,(46.4546,232.847)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.72269,0.69789,-0.69789,0.72269,(42.4546,284.847)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{-50}{Exponent}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{48}{\footnotesize Exponent}};
   \end{scope}
   \begin{scope}[cm={{0.72269,0.69789,-0.69789,0.72269,(46.4546,232.847)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
@@ -1255,4 +1255,3 @@
   \end{scope}
 \end{scope}
 \end{tikzpicture}
-\end{footnotesize}

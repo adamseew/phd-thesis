@@ -1,4 +1,4 @@
-\begin{footnotesize}
+
 \definecolor{cffffff}{RGB}{255,255,255}
 \definecolor{cf8f8f8}{RGB}{248,248,248}
 \definecolor{cf1f1f1}{RGB}{241,241,241}
@@ -24,6 +24,7 @@
 \definecolor{c303030}{RGB}{48,48,48}
 \definecolor{c1e1e1e}{RGB}{30,30,30}
 \definecolor{ca0a0a4}{RGB}{160,160,164}
+\scriptsize
 \begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.600000, xscale=0.570000, inner sep=0pt, outer sep=0pt]
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
@@ -1298,7 +1299,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(147.919,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(147.919,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {Size};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\footnotesize Size};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(147.919,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
@@ -1442,8 +1443,8 @@
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(18.6156,191.691)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
-  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(9.6156,191.691)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{Exponent}};
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(1.6156,191.691)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{\footnotesize Exponent}};
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(18.6156,191.691)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
@@ -1841,7 +1842,7 @@
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(316.466,187.666)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(316.466,187.666)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{SoC (\%)}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{\footnotesize SoC (\%)}};
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(316.466,187.666)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
   \end{scope}
@@ -1849,4 +1850,4 @@
   \end{scope}
 \end{scope}
 \end{tikzpicture}
-\end{footnotesize}
+
