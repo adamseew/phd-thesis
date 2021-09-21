@@ -20,38 +20,54 @@
 
 \vspace*{1em}
 
+\lettrine{I}{n this chapter}, we provide some results published in some of our early studies~\citep{seewald2019hlpgpu,seewald2019coarse,seewald2019component,seewald2020mechanical,zamanakos2020energy} and to appear in a forthcoming study~\citep{seewald202Xenergy} that summarizes our overall approach towards energy-aware dynamic planning and scheduling for autonomous aerial robots. This chapter connects to the remainder of this work by describing our experimental setup and results. We provide in particular the results for \fref{cp:model}{Chapter} and \fref{cp:dyn}{}, which contains our most notable contribution: namely, the energy models for both the computation and motion of an aerial robot, and their applicability in a coverage planning and scheduling technique. To a limited extent, \fref{cp:pb}{Chapter} is involved as well, since we extensively use the agricultural scenario we introduces in \fref{sec:flight-plan}{Section} to showcase our approach.
+
+The remainder of this chapter is structured as follows. In \fref{sec:res-ene-comps}{Section}, we describe our experimental setup and results for the computations energy model with the \powprof{} tool that we described in \fref{sec:powprof}{Section}. We then describe analogously the motions energy of an aerial robot flying a path similar to \fref{sec:flight-plan}{Section} separately and along the computing hardware in \fref{sec:res-ene-mot}{Section}. In both \fref{sec:res-ene-comps}{Section}\fref{sec:res-ene-mot}{--\hspace*{-.8ex}}, we describe our experimental setup for a battery power the computing hardware, the aerial robot, and the computing hardware with the aerial robot along the results. In \fref{sec:res-dyn}{Section} we then describe the coverage planning and scheduling in \matlab and Paparazzi autopilots.
+
+\section{Computations Energy Modeling}
+\label{sec:res-ene-comps}
+
+In this section, we describe the experimental setup to obtain computations energy models with the \powprof tool. We describe how we obtain both the measurement and predictive layers from \fref{sec:measurement-layer}{Sections}\fref{sec:predictive-layer}{--\hspace*{-.8ex}}, and the battery models from \fref{sec:battery-model}{Section} to integrate the two layers with the energy contribution of a battery for the computing hardware.
+
+\begin{figure}[h!]
+  \begin{minipage}{.93\textwidth}
+  \centering
+  \fontfamily{phv}\selectfont
+  \hspace*{20ex}
+  \input{figures/darknet-layer1.tikz}
+  \caption{Four different layer 1 models of the \stt{darknet-gpu} component executing object detection on a video stream. The first model on top left shows the power consumption over time while the frames-per-second rate is constrained to 5.8. Rate is constrained then to 10 on right, to 25 on the bottom left and to 32 on the bottom right. With regards to the desired QoS, the frames-per-second rate can be adjusted and a specific energy target can thus be met.} 
+  \label{fig:darknet-layer1}
+  \end{minipage}
+\end{figure}
+In \fref{fig:darknet-layer1}{Figure}, we illustrate a concrete example of four different measurement layers from our early contribution~\citep{seewald2019coarse}: the power evolution in function of time for three measuring devices: CPU, GPU, and overall of the NVIDIA Jetson TX2 board\findex{NVIDIA Jetson!TX2}. The model is relative to one computation with four different schedules where we observed notable difference in instantaneous and overall energies. The computation consist of a object detection algorithm that we term {\small\tt darknet-gpu}\findex{\texttt{darknet-gpu}}, a neural network based pattern recognition utility. It is a standard computer vision computation, built upon the darknet~\citep{redmond2017yolo,redomnd2013darknet} implementation of a library deep neutral network library termed YOLO~\citep{redmon2016you}. The library allows to detect the object on some pre-trained, networks, as well as to train a network to detect a personalized set of objects.
+
+In an initial iteration of our work~\citep{teamplayd43}, we developed a preliminary implementation of an object detector for a search and rescue aerial robot that detects boats on sea. To this end, we trained the neural networks using images of boats, and benchmarked the corresponding computation running the neural network in \fref{fig:darknet-layer1}{Figure} on a video stream of boats in an offshore area, simulating a aerial robot flying the scenario with a camera. We further modified the {\small\tt darknet-gpu} to simulate different scheduling options, so that the computation can be scheduled with a given parameter that indicates the delay between two invocations of the detection. 
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/darknet-layer2.tikz}
+  \caption{Layer 2 model of \stt{darknet-gpu} component running under four configurations, respectively 5.8, 10, 25 and 32 frames-per-second. The figure shows the per-minute energy consumption in terms of CPU, GPU, and overall. On the right side, energy consumption for any possible frame per second rate is shown along with SoC (the y2-axis, the y-axis is shared with the left side).}
+  \label{fig:darknet-layer2}
+\end{figure}
+With such mechanism, we simulate different FPS rates schedules and asses the energy evolution via the predictive layer in \fref{fig:darknet-layer2}{Figure}.
+
+\section{Motion Energy Modeling}
+\label{sec:res-ene-mot}
+
+\section{Coverage Planning and Scheduling}
+\label{sec:res-dyn}
+
+
+
 %\lettrine{I}{n the previous chapters}, we introduced progressively the research questions we are interested in addressing. We then provided some preliminaries with basic terminology, formulated the problem formally, detailed the available literature, and derived various energy models. Once we detailed all these basic constructs, we are ready to describe their interaction to solve \fref{pb:cov-pb}{Problem} and \fref{pb}{Problem} and thus provide an energy-aware coverage planning and scheduling for autonomous aerial robots.
 
 %This chapter describes the main contribution of our work. Here we generate the coverage plan $\Gamma$ that we defined in \fref{def:plan}{Definition} solving \fref{pb:cov-pb}{Problem}, replan $\Gamma$ energy-wise with the models from \fref{cp:model}{Chapter} solving \fref{pb}{Problem} in case of, e.g., sudden battery drops, and guide the aerial robot on $\Gamma$. In particular, we first detail how we guide the aerial robot on the plan in \fref{sec:gvf}{Section}, recalling some constructs in \fref{cp:pb}{Chapter}. These include path functions\findex{path functions}, stages\findex{stage}, triggering points\findex{triggering points}, and primitive paths\findex{primitive paths}. In \fref{sec:cov-path-plan}{Section}, we discuss the generation of the coverage plan with a union of path functions and triggering points in \fref{sec:path-functions}{Sections}\fref{sec:defs-stages-triggs}{--\hspace*{-.8ex}} (it is on this coverage that we are interested in guiding the aerial robot). In \fref{sec:mpc}{Section}, we then discuss how to replan the coverage energy-wise. Although we already described most of the concepts in preliminaries in \fref{cp:opt}{Chapter} and literature in \fref{cp:soa}{Chapter}, we still need some additional notions. To guide the aerial robot, we use the theory of vector fields that point to the path functions. To generate the coverage path, a class of methods under the name of cellular decomposition, generating a coverage motion that respects the nonholonomic\findex{nonholonomic constraints} and other constraints of a fixed-wing aerial robot (such as the Opterra craft\findex{Opterra fixed-wing aerial robot} in \fref{fig:opterra}{Figure} that we have discussed extensively in this work), including requirements on the turning radius\findex{turning radius}. To replan the coverage path, we use an optimal control\findex{optimal control} approach termed model predictive control (\Gls{acr:mpc})\findex{model predictive control} along with the periodic model in \fref{cp:model}{Chapter} (which we proved formally and motivated empirically in \fref{sec:periodic-model}{Section}). We describe all these concepts and contextualize them in the solution to the problems in this chapter. 
 
 %This chapter connects to the remainder of this work as follows. Here we provide the solution to the problems in \fref{cp:pb}{Chapter}. To this end, we use the available literature on planning in \fref{cp:soa}{Chapter} and the energy models in \fref{cp:model}{Chapter}. We provided the motivation and discussed why it is important to solve these problems in \fref{cp:intro}{Chapter}. We use the model in the cost and constraints of an optimal control problem (\Gls{acr:ocp})\findex{optimal control problem} using the preliminaries in \fref{cp:opt}{Chapter}. Although we provide an algorithm for energy-aware coverage planning and scheduling for autonomous aerial robots, some research questions remain open. We discuss these questions in \fref{cp:conc}{Chapter}.
 
-\section{Energy Models}
-
-\subsection{Measurement Layer}
-
-\begin{figure}[p]
-    \begin{minipage}{.93\textwidth}
-    \centering
-    \fontfamily{phv}\selectfont
-    \hspace*{20ex}
-    \input{figures/darknet-layer1.tikz}
-    \caption{Four different layer 1 models of the \stt{darknet-gpu} component executing object detection on a video stream. The first model on top left shows the power consumption over time while the frames-per-second rate is constrained to 5.8. Rate is constrained then to 10 on right, to 25 on the bottom left and to 32 on the bottom right. With regards to the desired QoS, the frames-per-second rate can be adjusted and a specific energy target can thus be met.} 
-    \label{fig:darknet-layer1}
-    \end{minipage}
-\end{figure}
 
 
-\subsection{Predictive Layer}
 
-
-\begin{figure}[p]
-    \centering
-    \fontfamily{phv}\selectfont
-    \input{figures/darknet-layer2.tikz}
-    \caption{Layer 2 model of \stt{darknet-gpu} component running under four configurations, respectively 5.8, 10, 25 and 32 frames-per-second. The figure shows the per-minute energy consumption in terms of CPU, GPU, and overall. On the right side, energy consumption for any possible frame per second rate is shown along with SoC (the y2-axis, the y-axis is shared with the left side).}
-    \label{fig:darknet-layer2}
-  \end{figure}
 
 \begin{figure}[p]
     \centering
@@ -125,19 +141,19 @@
       \vspace{3ex}
     \end{subfigure}
     \quad
-    \begin{subfigure}[c]{0.34\textwidth}
+    \begin{subfigure}[t]{0.34\textwidth}
       \centering
       \input{figures/takeoff.tikz}
       \caption{Take-off energy evolution}
       \label{fig:takeoff-energy}
     \end{subfigure}
-    \begin{subfigure}[c]{0.32\textwidth}
+    \begin{subfigure}[t]{0.32\textwidth}
       \centering
       \input{figures/cruise.tikz}
       \caption{Cruise energy evolution}
       \label{fig:cruise-energy}
     \end{subfigure}
-    \begin{subfigure}[c]{0.30\textwidth}
+    \begin{subfigure}[t]{0.30\textwidth}
       \centering
       \input{figures/landing.tikz}
       \caption{Landing energy evolution}
@@ -151,19 +167,55 @@
     \centering
     \fontfamily{phv}\selectfont
     \footnotesize
-    \begin{subfigure}[c]{0.4\textwidth}
+    \begin{subfigure}[t]{0.31\textwidth}
       \centering
       \input{figures/soc-configuration.tikz}
+      \vspace*{-2.5ex}
       \caption{SoC as a function of time for different configurations}
       \label{fig:soc-configuration}
     \end{subfigure}
-    \begin{subfigure}[c]{0.4\textwidth}
+    \begin{subfigure}[t]{0.29\textwidth}
       \centering
       \input{figures/soc-schedule.tikz}
       \caption{Two examples of the evolution of SoC-aware schedules}
       \label{fig:soc-schedule}
     \end{subfigure}
+    \begin{subfigure}[t]{0.36\textwidth}
+      \centering
+      \input{figures/soc-plot.tikz}
+      \vspace*{-2.6ex}
+      \caption{SoC in the function of FPS rate and key-size}
+      \label{fig:soc-plot}
+    \end{subfigure}
     \caption{Different SoC evolutions in time}
-    \label{fig:soc-evolution}
+    \label{fig:soc-evolution1}
   \end{figure}
 
+  \begin{figure}[p]
+    \centering
+    \fontfamily{phv}\selectfont
+    \footnotesize    
+    \begin{subfigure}[c]{0.32\textwidth}
+      \centering
+      \input{figures/max-qos.tikz}
+      \vspace*{-1.25ex}
+      \caption{Max QoS for mission of length {\footnotesize $t$} QoS for mission of length {\footnotesize $t$}}
+      \label{fig:max-qos}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.32\textwidth}
+      \centering
+      \input{figures/computational-mobilenet.tikz}
+      \caption{Estimated SoC as a function of frames-per-second rate and key%-size QoS ranges% after completing a missio
+      }
+      \label{fig:pednet}
+    \end{subfigure}
+    \begin{subfigure}[c]{0.32\textwidth}
+      \centering
+      \input{figures/computational-pednet.tikz}
+      \caption{Max QoS for mission of length {\footnotesize $t$} QoS for mission of length {\footnotesize $t$}}
+      \label{fig:mobilenet}
+    \end{subfigure}
+    \caption{Different SoC evolutions in time}
+    \label{fig:computational}
+  \end{figure}
+  

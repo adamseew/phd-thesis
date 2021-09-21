@@ -1,6 +1,6 @@
 
 \definecolor{ca0a0a4}{RGB}{160,160,164}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.560000, xscale=0.550000, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.500000, xscale=0.490000, inner sep=0pt, outer sep=0pt]
 \scriptsize
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
   \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
