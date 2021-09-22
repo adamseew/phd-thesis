@@ -14,42 +14,112 @@
 \chapter{Results}
 \label{cp:res}
 
-%\begin{chapquote}{\cite{lahijanian2018resource}}
-%  ``[I]t may be possible to trade off reduced resource consumption for a slightly lower but still acceptable level of performance.''
-%\end{chapquote}
+\begin{chapquote}{\cite{sudhakar2020balancing}}
+  ``[Computing energy included motion planning] shows improved performance over the baseline and looks to be promising solution to the low-power motion planning problem.''
+\end{chapquote}
 
 \vspace*{1em}
 
-\lettrine{I}{n this chapter}, we provide some results published in some of our early studies~\citep{seewald2019hlpgpu,seewald2019coarse,seewald2019component,seewald2020mechanical,zamanakos2020energy} and to appear in a forthcoming study~\citep{seewald202Xenergy} that summarizes our overall approach towards energy-aware dynamic planning and scheduling for autonomous aerial robots. This chapter connects to the remainder of this work by describing our experimental setup and results. We provide in particular the results for \fref{cp:model}{Chapter} and \fref{cp:dyn}{}, which contains our most notable contribution: namely, the energy models for both the computation and motion of an aerial robot, and their applicability in a coverage planning and scheduling technique. To a limited extent, \fref{cp:pb}{Chapter} is involved as well, since we extensively use the agricultural scenario we introduces in \fref{sec:flight-plan}{Section} to showcase our approach.
+\lettrine{I}{n this chapter}, we report some results both published in our early studies~\citep{seewald2019hlpgpu,seewald2019coarse,seewald2019component,seewald2020mechanical,zamanakos2020energy} and to appear in a forthcoming study~\citep{seewald202Xenergy}, validating our overall approach towards energy-aware dynamic planning and scheduling for autonomous aerial robots. The chapter thus connects to the remainder of the work by describing our experimental setup and results. We describe the latter for \fref{cp:model}{Chapters} and \fref{cp:dyn}{}, which contains our most notable contribution: the energy models for both the computation and motion of an aerial robot and a coverage planning and scheduling technique that uses the models. \fref{cp:pb}{Chapter} is limitedly involved as well: we extensively use the agricultural scenario we introduced in \fref{sec:flight-plan}{Section} to showcase our approach, along with other formalities we proposed in the chapter.
 
-The remainder of this chapter is structured as follows. In \fref{sec:res-ene-comps}{Section}, we describe our experimental setup and results for the computations energy model with the \powprof{} tool that we described in \fref{sec:powprof}{Section}. We then describe analogously the motions energy of an aerial robot flying a path similar to \fref{sec:flight-plan}{Section} separately and along the computing hardware in \fref{sec:res-ene-mot}{Section}. In both \fref{sec:res-ene-comps}{Section}\fref{sec:res-ene-mot}{--\hspace*{-.8ex}}, we describe our experimental setup for a battery power the computing hardware, the aerial robot, and the computing hardware with the aerial robot along the results. In \fref{sec:res-dyn}{Section} we then describe the coverage planning and scheduling in \matlab and Paparazzi autopilots.
+The remainder of this chapter is structured as follows. In \fref{sec:res-ene-comps}{Section}, we describe our experimental setup and results for the computations energy model obtained with the \powprof{} tool from \fref{sec:powprof}{Section}. We then detail similarly the energy of the motion of an aerial robot flying a path similar to \fref{sec:flight-plan}{Section} independently and along with the computing hardware in \fref{sec:res-ene-mot}{Section}. In both \fref{sec:res-ene-comps}{Sections}\fref{sec:res-ene-mot}{--\hspace*{-.8ex}}, we describe our experimental setup for a batter of the computing hardware, aerial robot, and computing hardware with the aerial robot, detailing for each the results. In \fref{sec:res-dyn}{Section}, we then describe the coverage planning and scheduling in \matlab and Paparazzi autopilots and thus, validate our work experimentally.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Computations Energy Modeling}
 \label{sec:res-ene-comps}
 
-In this section, we describe the experimental setup to obtain computations energy models with the \powprof tool. We describe how we obtain both the measurement and predictive layers from \fref{sec:measurement-layer}{Sections}\fref{sec:predictive-layer}{--\hspace*{-.8ex}}, and the battery models from \fref{sec:battery-model}{Section} to integrate the two layers with the energy contribution of a battery for the computing hardware.
+In this section, we describe the experimental setup to obtain computations energy models with the \powprof{} tool. We report how we derive both the measurement and predictive layers from \fref{sec:measurement-layer}{Sections}\fref{sec:predictive-layer}{--\hspace*{-.8ex}} and the battery models from \fref{sec:battery-model}{Section} to integrate the two layers with the energy contribution of a battery for the computing hardware.
 
+\subsection*{The \texttt{darknet-gpu} computation}\findex{computations!darknet-gpu@\texttt{darknet-gpu}}
+
+In \fref{fig:darknet-layer1}{Figure}, we illustrate a concrete example of four different measurement layers from our early contribution~\citep{seewald2019coarse}: the power evolution in the function of time for three measuring devices, CPU, GPU, and overall of the NVIDIA Jetson TX2 board\findex{NVIDIA Jetson!TX2}. 
 \begin{figure}[h!]
   \begin{minipage}{.93\textwidth}
   \centering
   \fontfamily{phv}\selectfont
   \hspace*{20ex}
   \input{figures/darknet-layer1.tikz}
-  \caption{Four different layer 1 models of the \stt{darknet-gpu} component executing object detection on a video stream. The first model on top left shows the power consumption over time while the frames-per-second rate is constrained to 5.8. Rate is constrained then to 10 on right, to 25 on the bottom left and to 32 on the bottom right. With regards to the desired QoS, the frames-per-second rate can be adjusted and a specific energy target can thus be met.} 
-  \label{fig:darknet-layer1}
   \end{minipage}
+  \caption[The \stt{darknet-gpu} computation measurement layer models]{The \stt{darknet-gpu} computation measurement layer models, featuring the GPU implementation of the YOLO~\citep{redmon2016you} deep neural network library modified to introduce delays between detections. From top left in horizontal order to bottom right, the figure shows the schedules from approximately six up to thirty-two FPS.
+  }
+  \label{fig:darknet-layer1}
 \end{figure}
-In \fref{fig:darknet-layer1}{Figure}, we illustrate a concrete example of four different measurement layers from our early contribution~\citep{seewald2019coarse}: the power evolution in function of time for three measuring devices: CPU, GPU, and overall of the NVIDIA Jetson TX2 board\findex{NVIDIA Jetson!TX2}. The model is relative to one computation with four different schedules where we observed notable difference in instantaneous and overall energies. The computation consist of a object detection algorithm that we term {\small\tt darknet-gpu}\findex{\texttt{darknet-gpu}}, a neural network based pattern recognition utility. It is a standard computer vision computation, built upon the darknet~\citep{redmond2017yolo,redomnd2013darknet} implementation of a library deep neutral network library termed YOLO~\citep{redmon2016you}. The library allows to detect the object on some pre-trained, networks, as well as to train a network to detect a personalized set of objects.
+The model is relative to one computation with four different schedules where we observed notable differences in instantaneous and overall energies. The computation consists of an object detection algorithm that we term darknet-gpu, a neural network-based pattern recognition utility. It is a standard computer vision computation, built upon the darknet~\citep{redmond2017yolo,redomnd2013darknet}\findex{darknet} GPU implementation of a deep neural network library termed YOLO~\citep{redmon2016you}\findex{YOLO}. The library detects the objects on some pre-trained networks, as well as with a  trained network to detect a personalized set of objects.
 
-In an initial iteration of our work~\citep{teamplayd43}, we developed a preliminary implementation of an object detector for a search and rescue aerial robot that detects boats on sea. To this end, we trained the neural networks using images of boats, and benchmarked the corresponding computation running the neural network in \fref{fig:darknet-layer1}{Figure} on a video stream of boats in an offshore area, simulating a aerial robot flying the scenario with a camera. We further modified the {\small\tt darknet-gpu} to simulate different scheduling options, so that the computation can be scheduled with a given parameter that indicates the delay between two invocations of the detection. 
+In an initial iteration of our work~\citep{teamplayd43}, we trained the network for a search and rescue aerial robot that detects vessels on the sea, using images of different shapes and colors. We benchmarked the corresponding computation on a video stream of vessels in an offshore area, simulating an aerial robot flying the scenario with a camera. We further modified the {\small\tt darknet-gpu} computation to simulate different scheduling options, such that the computation can be altered with a given parameter, which we call $c_{i,1}$ in accordance to \fref{def:stage}{Definition} $\forall\,i\in[l]$  (with the plan lasting assigned $l$ stages). The parameter indicates the delay between two invocations of the detection, simulating different frames per second (\Gls{acr:fps}) rates. 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/darknet-layer2.tikz}
-  \caption{Layer 2 model of \stt{darknet-gpu} component running under four configurations, respectively 5.8, 10, 25 and 32 frames-per-second. The figure shows the per-minute energy consumption in terms of CPU, GPU, and overall. On the right side, energy consumption for any possible frame per second rate is shown along with SoC (the y2-axis, the y-axis is shared with the left side).}
+  \caption[Per-minute energy consumption and SoC of the \stt{darknet-gpu} computation]{Per-minute energy consumption and SoC of the \stt{darknet-gpu} computation in terms of CPU, GPU, and overall energies. On the right is the resulting predictive layer that shows the energy and battery SoC in the function of any possible configuration.}
   \label{fig:darknet-layer2}
 \end{figure}
-With such mechanism, we simulate different FPS rates schedules and asses the energy evolution via the predictive layer in \fref{fig:darknet-layer2}{Figure}.
+We schedule the computation via $c_{i,1}$ to assess the energy evolution in the predictive layer in \fref{fig:darknet-layer2}{Figure}. On the right of the figure, we further illustrate the battery state of charge (\Gls{acr:soc}) in the function of varying FPS for the overall power measuring device of the TX2 board (dashed line). Similarly, the predictive layer provides the evolution of the energy also in the function of varying FPS (continuous line).
+
+We used a frequency of ten hertz and a running time of one minute to derive all the measurement layers. The energy measure in \fref{fig:darknet-layer2}{Figure} is then relative to the energy needed to run the computation for a minute and the correspondent remaining SoC. For the latter, we used an integration step of one hundredth, internal battery voltage $V$ of 14.8 volts, internal resistance $R_r$ of 1.2 milliohms, stabilized voltage $V_s$ of twelve volts, and battery capacity $Q_c$ of five amperes per hour in \frefeqM{eq:socevol}{eq:internal_curr} in \fref{sec:batmod-circuit}{Section}. The parameters that correspond to such configurations are {\small\tt frequency=10}, {\small\tt frequency=0.01}, and {\small\tt runtime=60000} in the specification in \fref{sec:conf-spec}{Section}, whereas the battery values are specified while invoking the constructor of the {\small\tt soc\_1resistor} class. Both \fref{fig:darknet-layer1}{Figures}\fref{fig:darknet-layer2} show the parameter $c_{i,1}$ within $\mathcal{S}_{i,1}$ constructed so that the resulting FPS is between 5.8 and thirty-two.
+
+---
+
+
+\subsection*{The \texttt{matrix-gpu} computation}
+
+We derived a set of measurement layers that we merged in the predictive layer using the {\small\tt matrix-gpu} computation in our early contribution~\citep{seewald2019coarse}. It computes the matrix exponentiation with different exponents using parameter $c_{i,1}$ on the GPU, and thus simulates heavy computational load further integrating different scheduling patterns using delays of different durations between consecutive operations using parameter $c_{i,2}$ (again we assume that the parameters are the same for all the $l$ stages).
+\begin{figure}[ht!]
+  \centering
+  \begin{subfigure}[t]{0.405\textwidth}
+      \centering
+      \fontfamily{phv}\selectfont
+      \input{figures/matrix-gpu-exponent-power.tikz}
+      \caption{Average power}
+      \label{fig:matrix-exponent:power}
+      \vskip\baselineskip
+      \input{figures/matrix-gpu-exponent-energy.tikz}
+      \caption{Overall energy}
+      \label{fig:matrix-exponent:energy}
+  \end{subfigure}
+  \quad
+  \begin{subfigure}[c]{0.475\textwidth}   
+      \centering 
+      \fontfamily{phv}\selectfont
+      \vspace{14.8ex}
+      \input{figures/matrix-gpu-exponent-battery.tikz}
+      \caption{Remaining battery capacity}  
+      \label{fig:matrix-exponent:battery}
+  \end{subfigure}
+  \caption{Execution of GPU exponentiation, average total power~\ref{fig:matrix-exponent:power}, overall energy consumption~\ref{fig:matrix-exponent:energy}, and battery depletion~\ref{fig:matrix-exponent:battery} as a function of size and exponent parameters. The plot shows how the choice between specific configurations impacts the energy performance of the system under analysis.}
+  \label{fig:matrix-exponent}
+\end{figure}
+We show the predictive layer for the computation using the parameter $c_{i,1}$ in \fref{fig:matrix-exponent}{Figure}.
+Particularly, \fref{fig:matrix-exponent:power}{Figure} shows the average power, \fref{fig:matrix-exponent:energy}{Figure} the overall energy, and \fref{fig:matrix-exponent:soc}{Figure} the battery SoC as a function of matrix size and exponent. The average power is 
+
+
+%The figure shows the average power as well as overall
+%energy consumption along with the battery depletion as a function of size and exponent
+%parameters. Average power consumption is reported independently of the running time of
+%the component and thus does not reflect the total power consumption. For small problem
+%sizes, the computation terminates before reaching the maximal power level. This effect is
+%visible in Figure 2 (also previously shown), where power consumption is low at the beginning
+%and then reaches the maximum, for which reason the average power consumption is low for
+%small problem sizes. Battery depletion is reported in terms of the total amount of energy
+%consumed by the computation for the duration of the execution. The effect of introducing
+%“scheduling” in the form of sleep of various durations in between iterations of the matrix
+%computations can be seen in Figure 4. Here, the duration of the sleep affects the total power
+%consumption: the higher the sleep value in between the iterations, the greater the battery
+%depletion.
+%CPU vs GPU comparison shows, expectedly, that matrix-gpu is very performant com-
+%pared to matrix-cpu. While the matrix-cpu requires 2 413 J, matrix-gpu requires only 45 J
+%for the same operation on the TX2 board. Therefore, running the benchmark on GPU results
+%in 16\% more SoC against the same trial on CPU. Such a high speed-up is observed due
+%to the highly parallelizable nature of the matrix exponentiation and hence cannot be used
+%as a general rule. From our experiments, we additionally observe the power-related effect
+%of running components sequentially versus in parallel on different computational units. Al-
+%though the CPU and GPU are different computational units, the energy consumed by running
+%components independently (i.e., sequentially in some order) on CPU and GPU is 20% larger
+%compared to running them in parallel, even when subtracting the base power consumed by
+%the board. Thus energy can be conserved by running computations in parallel on the CPU
+%and GPU, compared to scheduling them sequentially.
+
 
 \section{Motion Energy Modeling}
 \label{sec:res-ene-mot}
@@ -69,32 +139,7 @@ With such mechanism, we simulate different FPS rates schedules and asses the ene
 
 
 
-\begin{figure}[p]
-    \centering
-    \begin{subfigure}[t]{0.475\textwidth}
-        \centering
-        \fontfamily{phv}\selectfont
-        \input{figures/matrix-gpu-exponent-power.tikz}
-        \caption{Average power}
-        \label{fig:matrix-exponent:power}
-        \vskip\baselineskip
-        \input{figures/matrix-gpu-exponent-energy.tikz}
-        \caption{Overall energy}
-        \label{fig:matrix-exponent:energy}
-    \end{subfigure}
-    \quad
-    \begin{subfigure}[c]{0.475\textwidth}   
-        \centering 
-        \fontfamily{phv}\selectfont
-        \vspace{14.8ex}
-        \input{figures/matrix-gpu-exponent-battery.tikz}
-        \caption{Remaining battery capacity}  
-        \label{fig:matrix-exponent:battery}
-    \end{subfigure}
-    \caption{Execution of GPU exponentiation, average total power~\ref{fig:matrix-exponent:power}, overall energy consumption~\ref{fig:matrix-exponent:energy}, and battery depletion~\ref{fig:matrix-exponent:battery} as a function of size and exponent parameters. The plot shows how the choice between specific configurations impacts the energy performance of the system under analysis.}
-    \label{fig:matrix-exponent}
-  \end{figure}
-  
+
   \begin{figure}[p]
     \centering
     \begin{subfigure}[t]{0.475\textwidth}
