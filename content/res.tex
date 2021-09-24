@@ -55,16 +55,18 @@ In an initial iteration of our work~\citep{teamplayd43}, we trained the network 
   \caption[Per-minute energy consumption and SoC of the \stt{darknet-gpu} computation]{Per-minute energy consumption and SoC of the \stt{darknet-gpu} computation in terms of CPU, GPU, and overall energies. On the right is the resulting predictive layer that shows the energy and battery SoC in the function of any possible configuration.}
   \label{fig:darknet-layer2}
 \end{figure}
-We schedule the computation via $c_{i,1}$ to assess the energy evolution in the predictive layer in \fref{fig:darknet-layer2}{Figure}. On the right of the figure, we further illustrate the battery state of charge (\Gls{acr:soc}) in the function of varying FPS for the overall power measuring device of the TX2 board (dashed line). Similarly, the predictive layer provides the evolution of the energy also in the function of varying FPS (continuous line).
+We schedule the computation with the parameter $c_{i,1}$ to assess the energy evolution in the predictive layer in \fref{fig:darknet-layer2}{Figure}. On the right of the figure, we further illustrate the battery state of charge (\Gls{acr:soc}) in the function of varying FPS for the overall power measuring device of the TX2 board (dashed line). Similarly, the predictive layer provides the evolution of the energy also in the function of varying FPS (continuous line).
 
 We used a frequency of ten hertz and a running time of one minute to derive all the measurement layers. The energy measure in \fref{fig:darknet-layer2}{Figure} is then relative to the energy needed to run the computation for a minute and the correspondent remaining SoC. For the latter, we used an integration step of one hundredth, internal battery voltage $V$ of 14.8 volts, internal resistance $R_r$ of 1.2 milliohms, stabilized voltage $V_s$ of twelve volts, and battery capacity $Q_c$ of five amperes per hour in \frefeqM{eq:socevol}{eq:internal_curr} in \fref{sec:batmod-circuit}{Section}. The parameters that correspond to such configurations are {\small\tt frequency=10}, {\small\tt frequency=0.01}, and {\small\tt runtime=60000} in the specification in \fref{sec:conf-spec}{Section}, whereas the battery values are specified while invoking the constructor of the {\small\tt soc\_1resistor} class. Both \fref{fig:darknet-layer1}{Figures}\fref{fig:darknet-layer2} show the parameter $c_{i,1}$ within $\mathcal{S}_{i,1}$ constructed so that the resulting FPS is between 5.8 and thirty-two.
 
 ---
 
 
-\subsection*{The \texttt{matrix-gpu} computation}
+\subsection*{The \texttt{matrix-gpu} computation}\findex{computations!matrix-gpu@\texttt{matrix-gpu}}
 
-We derived a set of measurement layers that we merged in the predictive layer using the {\small\tt matrix-gpu} computation in our early contribution~\citep{seewald2019coarse}. It computes the matrix exponentiation with different exponents using parameter $c_{i,1}$ on the GPU, and thus simulates heavy computational load further integrating different scheduling patterns using delays of different durations between consecutive operations using parameter $c_{i,2}$ (again we assume that the parameters are the same for all the $l$ stages).
+We then derived a set of measurement layers and the predictive layers of another computations that we call {\small\tt matrix-gpu}, also related to our early contribution~\citep{seewald2019coarse}. 
+We use the NVIDIA Jetson TX2 computing hardware as with the {\small\tt darknet-gpu} where we utilize the overall power measuring device (the computing hardware supports measuring the power of CPU and GPU separately, as well as overall power; see \fref{fig:darknet-layer1}{Figure} or further information in \fref{sec:model-hete-elem}{Section}). 
+{\small\tt matrix-gpu} computes the matrix exponentiation on the GPU of various matrix sizes using parameter $c_{i,1}$, with different exponents using $c_{i,2}$, and delaying the intermediate steps of the exponentiation with different times using $c_{i,3}$ (here we again assume that the parameters are the same for all the $l$ stages). The exponentiation occurs on the GPU, and is meant to  simulate heavy computational load of, e.g., an algorithm related to computer vision. Indeed these algorithms often rely on various operations with matrix representations of images where, for instance, color balancing (i.e., incandescent lighting compensation) occurs by multiplication with a scale factor~\citep{szeliski2011computer}.
 \begin{figure}[ht!]
   \centering
   \begin{subfigure}[t]{0.405\textwidth}
@@ -90,36 +92,73 @@ We derived a set of measurement layers that we merged in the predictive layer us
   \caption{Execution of GPU exponentiation, average total power~\ref{fig:matrix-exponent:power}, overall energy consumption~\ref{fig:matrix-exponent:energy}, and battery depletion~\ref{fig:matrix-exponent:battery} as a function of size and exponent parameters. The plot shows how the choice between specific configurations impacts the energy performance of the system under analysis.}
   \label{fig:matrix-exponent}
 \end{figure}
-We show the predictive layer for the computation using the parameter $c_{i,1}$ in \fref{fig:matrix-exponent}{Figure}.
-Particularly, \fref{fig:matrix-exponent:power}{Figure} shows the average power, \fref{fig:matrix-exponent:energy}{Figure} the overall energy, and \fref{fig:matrix-exponent:soc}{Figure} the battery SoC as a function of matrix size and exponent. The average power is 
+We illustrate the predictive layers for the computation varying the parameter $c_{i,1}$ from 256 to 4096 and $c_{i,2}$ from twenty to sixty in \fref{fig:matrix-exponent}{Figure} (these values enclose the sets $\mathcal{S}_{i,1}$ and $\mathcal{S}_{i,2}$ respectively).
+Particularly, \fref{fig:matrix-exponent:power}{Figure} shows the average power, \fref{fig:matrix-exponent:energy}{Figure} the overall energy, and \fref{fig:matrix-exponent:battery}{Figure} the battery SoC as a function of matrix size and exponent. 
+We report the average power consumption independently of the running time of the {\small\tt matrix-gpu}, whereas the overall energy measures are measured up until a given configuration of the two parameters $c_{i}=\{c_{i,1},c_{i,2}\}$ evaluated the exponentiation, as well as for the battery state of charge. The computation might evaluate the exponentiation with no notable effect on the total power consumption for values of $c_{i}$ close to $\underline{c}_{i,1}$ and $\underline{c}_{i,2}$ for parameters $c_{i,1},c_{i,2}$. An effect that we observed early and that is reflected also in \fref{fig:darknet-layer1}{Figure}, meaning that the computation terminates before reaching the maximal power level~\citep{seewald2019coarse}. It is the reason why there is notable difference in average power for configurations close to the two opposite configurations.
+\begin{figure}[ht!]
+  \centering
+  \begin{subfigure}[t]{0.475\textwidth}
+      \centering
+      \fontfamily{phv}\selectfont
+      \input{figures/matrix-gpu-sleep-power.tikz}
+      \caption{Average power}
+      \label{fig:matrix-sleep:power}
+      \vskip\baselineskip
+      \input{figures/matrix-gpu-sleep-energy.tikz}
+      \caption{Overall energy}
+      \label{fig:matrix-sleep:energy}
+  \end{subfigure}
+  \quad
+  \begin{subfigure}[c]{0.475\textwidth}   
+      \centering 
+      \fontfamily{phv}\selectfont
+      \vspace{14.8ex}
+      \input{figures/matrix-gpu-sleep-battery.tikz}
+      \caption{Remaining battery capacity}  
+      \label{fig:matrix-sleep:battery}
+  \end{subfigure}
+  \caption{Execution of GPU matrix exponentiation, average total power~\ref{fig:matrix-sleep:power}, overall energy consumption~\ref{fig:matrix-sleep:energy} and battery depletion~\ref{fig:matrix-sleep:battery} as a function of the matrix size and simulated scheduling in the form of sleep between iterations.} 
+  \label{fig:matrix-sleep}
+\end{figure}
+In \fref{fig:matrix-sleep}{Figure} we illustrate the predictive layers by varying the parameter $c_{i,1}$ and $c_{i,3}$ relative to the delay--or ``sleep''--between iterations of the matrix exponentiation from none to ten seconds. Here again \fref{fig:matrix-sleep:power}{Figure} shows the average power, \fref{fig:matrix-sleep:energy}{Figure} the overall energy, and \fref{fig:matrix-sleep:battery}{Figure} the battery SoC as a function of matrix size and the duration of the delay. We observe that the latter directly affects the overall power consumption, hence, the higher the delay, the lower the remaining battery SoC (conversely the higher the overall energy). In both set of \fref{fig:matrix-exponent:energy}{Figures}\fref{fig:matrix-exponent:battery}{--\hspace*{-.8ex}} and \fref{fig:matrix-sleep:energy}{Figures}\fref{fig:matrix-sleep:battery}{--\hspace*{-.8ex}} we thus observe a relation between overall energy and battery SoC.
+
+We used the same configuration parameters as with the {\small\tt darknet-gpu} computation, but for the running time. In \fref{fig:matrix-exponent}{Figures}\fref{fig:matrix-sleep}{--\hspace*{-.8ex}} the runtime is not bounded, the average power, overall energy, and battery SoC are relative to the entire exponentiation. The battery parameters are likewise the same. To define the constraint sets $\mathcal{S}_{i,1}$, we used the configuration {\small\tt pow}, e.g., {\small\tt range=256,4096,pow(2)}, meaning $c_{i,1}$ utilize exponential sampling in \frefeq{eq:meas-layer-exp-sampl}. 
+
+\subsection*{The \texttt{darknet-cpu}, \texttt{matrix-cpu}, \texttt{nvidia-matrix}, and \texttt{nvidia-quicks} computations}\findex{computations!darknet-cpu@\texttt{darknet-cpu}}\findex{computations!matrix-cpu@\texttt{matrix-cpu}}\findex{computations!nvidia-matrix@\texttt{nvidia-matrix}}\findex{computations!nvidia-quicks@\texttt{nvidia-quicks}}
+
+We deployed the computations energy model on additional computations and computing hardware. 
+
+These include {\small\tt matrix-cpu} and {\small\tt darknet-cpu}, similar to {\small\tt matrix-gpu} and {\small\tt darknet-gpu} computations except that the operations run on the CPU rather than GPU. We used all the computing hardware described in \fref{sec:model-hete-elem}{Section} for the {\small\tt matrix-cpu} computation, and NVIDIA Jetson TX2 for the {\small\tt darknet-cpu} computation. On NVIDIA Jetson TX2 we further interfaced some already existing benchmarks with the \powprof{} tool. These were modified to run for several instance over a time interval and implement a quicksort of a given size--the {\small\tt nvidia-quicks}, and a matrix multiplication {\small\tt nvidia-matrix}. We summarize the overall energy contribution of all the computations from this section in \fref{tab:benchmark-components}{Table}. 
+\begin{table}[h]
+  \footnotesize\fontfamily{phv}\selectfont
+  \begin{tabularx}{\textwidth}{|l|*{3}{X|}X|}
+    \hline
+    \multirow{2}{*}{Computation} & ODROID & \multicolumn{3}{c|}{NVIDIA} \\
+    & XU3 & TK1 & TX2 & Nano \\
+    \hline
+    \stt{matrix-cpu}    & 528.4 J & 406.7 J & 241.3 J & 273.6 J \\
+    \stt{matrix-gpu}    & - & 8.1 J & 4.5 J & 3.9 J \\
+    \stt{darknet-cpu}   & (-) & (-) & 240 J & (-) \\
+    \stt{darknet-gpu}   & - & - & 525.5 J & (-) \\
+    \stt{nvidia-matrix} & - & (-) & 405.4 J & (-) \\
+    \stt{nvidia-quicks} & - & (-) & 199.5 J & (-) \\
+    \hline
+  \end{tabularx}
+  \caption{The overall energy consumption for each benchmark. Unsupported platforms are indicated by `-' and `(-)' indicates supported but not included in this paper.}
+  \label{tab:benchmark-components}
+\end{table}
+The table shows the performance of different computations while running on different elements. We expected the computations {\small\tt matrix-cpu} to require a considerably more energy compared to {\small\tt matrix-gpu}. Indeed it is known that there is a large performance gap between GPUs and general-purpose multicore CPUs~\citep{kirk2016programming}, and we thus expected the time needed to compute on the CPU to be considerably larger than on the GPU,  the average power might be greater: the {\small\tt matrix-cpu} requires 4.5 joules, whereas {\small\tt matrix-gpu} 241.3 joules for the same operation on the NVIDIA Jetson TX2 computing hardware~\citep{seewald2019coarse}. The battery SoC evolves accordingly, with the CPU computation requiring 16\% more battery than on GPU.
+%todo here
 
 
-%The figure shows the average power as well as overall
-%energy consumption along with the battery depletion as a function of size and exponent
-%parameters. Average power consumption is reported independently of the running time of
-%the component and thus does not reflect the total power consumption. For small problem
-%sizes, the computation terminates before reaching the maximal power level. This effect is
-%visible in Figure 2 (also previously shown), where power consumption is low at the beginning
-%and then reaches the maximum, for which reason the average power consumption is low for
-%small problem sizes. Battery depletion is reported in terms of the total amount of energy
-%consumed by the computation for the duration of the execution. The effect of introducing
-%“scheduling” in the form of sleep of various durations in between iterations of the matrix
-%computations can be seen in Figure 4. Here, the duration of the sleep affects the total power
-%consumption: the higher the sleep value in between the iterations, the greater the battery
-%depletion.
-%CPU vs GPU comparison shows, expectedly, that matrix-gpu is very performant com-
-%pared to matrix-cpu. While the matrix-cpu requires 2 413 J, matrix-gpu requires only 45 J
-%for the same operation on the TX2 board. Therefore, running the benchmark on GPU results
-%in 16\% more SoC against the same trial on CPU. Such a high speed-up is observed due
-%to the highly parallelizable nature of the matrix exponentiation and hence cannot be used
-%as a general rule. From our experiments, we additionally observe the power-related effect
+
+%From our experiments, we additionally observe the power-related effect
 %of running components sequentially versus in parallel on different computational units. Al-
 %though the CPU and GPU are different computational units, the energy consumed by running
 %components independently (i.e., sequentially in some order) on CPU and GPU is 20% larger
 %compared to running them in parallel, even when subtracting the base power consumed by
 %the board. Thus energy can be conserved by running computations in parallel on the CPU
 %and GPU, compared to scheduling them sequentially.
-
 
 \section{Motion Energy Modeling}
 \label{sec:res-ene-mot}
@@ -140,32 +179,7 @@ Particularly, \fref{fig:matrix-exponent:power}{Figure} shows the average power, 
 
 
 
-  \begin{figure}[p]
-    \centering
-    \begin{subfigure}[t]{0.475\textwidth}
-        \centering
-        \fontfamily{phv}\selectfont
-        \input{figures/matrix-gpu-sleep-power.tikz}
-        \caption{Average power}
-        \label{fig:matrix-sleep:power}
-        \vskip\baselineskip
-        \input{figures/matrix-gpu-sleep-energy.tikz}
-        \caption{Overall energy}
-        \label{fig:matrix-sleep:energy}
-    \end{subfigure}
-    \quad
-    \begin{subfigure}[c]{0.475\textwidth}   
-        \centering 
-        \fontfamily{phv}\selectfont
-        \vspace{14.8ex}
-        \input{figures/matrix-gpu-sleep-battery.tikz}
-        \caption{Remaining battery capacity}  
-        \label{fig:matrix-sleep:battery}
-    \end{subfigure}
-    \caption{Execution of GPU matrix exponentiation, average total power~\ref{fig:matrix-sleep:power}, overall energy consumption~\ref{fig:matrix-sleep:energy} and battery depletion~\ref{fig:matrix-sleep:battery} as a function of the matrix size and simulated scheduling in the form of sleep between iterations.} 
-    \label{fig:matrix-sleep}
-  \end{figure}
-
+  
   \begin{figure}[p]
     \centering
     \fontfamily{phv}\selectfont
