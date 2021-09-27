@@ -175,7 +175,7 @@
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(128.0,203.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Opterra {\color{white}\textlabel{(e)}{lab:opterra}}};
+  \path[cm={{1.0,0.0,0.0,1.0,(130.5,203.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Opterr{\color{white}a \textlabel{(e)}{lab:opterra}}};
 
 
 
@@ -183,7 +183,7 @@
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(252.0,169.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize{\color{white} Penguin BE}  \textlabel{(c)}{lab:penguin}};
+  \path[cm={{1.0,0.0,0.0,1.0,(250.0,169.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize{\color{white} Penguin BE}  \textlabel{(c)}{lab:penguin}};
 
 
 

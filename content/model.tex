@@ -66,12 +66,12 @@ As heterogeneous computing hardware, we use different devices, such as NVIDIA Je
 \begin{table}[h!]
   \footnotesize\fontfamily{phv}\selectfont
     \begin{tabularx}{\textwidth}{|X|*{4}{l|}}\hline
-      Hardware & CPU & GPU & Memory & Sensors \\
+      Hardware & CPU & GPU & Memory & \hspace*{-.8ex}Sensor\hspace*{-.8ex} \\
       \hline
-      NVIDIA Jetson Nano & -A57 & NVIDIA Maxwell & 4 GB LPDDR4 RAM & \cmark\\
-      NVIDIA Jetson TX2 & -A57 & NVIDIA Pascal & 8 GB LPDDR4 RAM, 32 GB NV & \cmark\\
-      NVIDIA Jetson TK1 & -A15 & NVIDIA Kepler & 1 GB DDR3L RAM, 16 GB NV & \xmark\\
-      ODROID XU3 & -A15, -A7 & MALI & 2 GB LPDDR3 RAM & \cmark
+      NVIDIA~Jetson~Nano\hspace*{-.8ex} & -A57 & NVIDIA Maxwell & 4 GB LPDDR4 RAM & \cmark\\
+      NVIDIA~Jetson~TX2 & -A57 & NVIDIA Pascal & 8 GB LPDDR4 RAM, 32 GB NV & \cmark\\
+      NVIDIA~Jetson~TK1 & -A15 & NVIDIA Kepler & 1 GB DDR3L RAM, 16 GB NV & \xmark\\
+      ODROID~XU3 & -A15, -A7 & MALI & 2 GB LPDDR3 RAM & \cmark
       \\\hline
     \end{tabularx}
     \caption[Mobile computing hardware explicitly analyzed in this work]{Mobile computing hardware explicitly analyzed in this work. All the CPUs are ARM Cortex. The majority of the embedded boards provide random access memory (RAM)\findex{memory!random access}, and some a non-volatile (NV) memory\findex{memory!non-volatile}. All the boards have energy measuring capabilities except NVIDIA Jetson TK1.}
@@ -228,6 +228,7 @@ Internally, the tool implements a numerical simulator based on the Runge-Kutta m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Energy Model of the Motion}
+\label{sec:mot-ener-model}
 
 In this section, we implement a model for the motion of aerial robots in coverage path planning (\Gls{acr:cpp})\findex{coverage path planning}. We first derive a differential periodic energy model and provide a formal proof in \fref{sec:deriv}{Section}. This model server to model the motion. We enhance the model with the path and computations parameters in \fref{sec:nom-cont}{Section}, to predict the energy consumption of a given configuration of parameters. We explain how we convert the parameters into actual energy consumption in \fref{sec:merging}{Section}, and discuss the model's behavior for aperiodic power evolutions in \fref{sec:non-perio}{Section}.
 

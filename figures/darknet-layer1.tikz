@@ -252,7 +252,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(85.2656,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(79.2656,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(77.0656,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 5.8 FPS};
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(85.2656,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
@@ -1165,7 +1165,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(85.2656,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(78.7656,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(76.7656,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 25 FPS};
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(85.2656,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
@@ -2052,7 +2052,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(372.159,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(366.159,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(364.659,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 10 FPS};
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(372.159,74.2313)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
@@ -3013,7 +3013,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(373.163,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(367.163,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(365.663,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize 32 FPS};
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(373.163,278.869)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]

@@ -39,26 +39,27 @@ There are some reviews available for computations energy modeling literature: O'
   \rotatesidewayslabel
     \footnotesize\fontfamily{phv}\selectfont
     \begin{tabularx}{\textwidth}{|l|*{6}{l|}X|l|}\hline
-      &  & Model & Technique & Accuracy & DVS & DFS & Platform & Mobile \\
+      &  & Model & Technique & Accuracy & \hspace*{-.8ex}{\scriptsize DVS}\hspace*{-.8ex} & \hspace*{-.8ex}{\scriptsize DFS}\hspace*{-.8ex} & Platform & \hspace*{-.8ex}{\scriptsize Mobile}\hspace*{-.8ex} \\
       \hline
-      \multirow{8}*{\rotatebox{90}{Heterogeneous}} & Marowka & Analytical & Selection & - & \xmark & \xmark & Intel Core-i7-960 (CPU), NVIDIA GTX 280 (GPU) & \xmark \\
+      \multirow{8}*{\hspace*{-.5ex}\rotatebox{90}{\scriptsize Heterogeneous}\hspace*{-.5ex}} & Marowka & Analytical & Selection & - & \xmark & \xmark & Intel Core-i7-960 (CPU), NVIDIA GTX 280 (GPU) & \xmark \\
       & Bailey et al. & Regression & Configuration & 91\%\footnote{accuracy under-limit against oracle with perfect knowledge} & \xmark & \xmark & AMD A10-5800K (CPU), Radeon HD7660D (GPU) & \xmark\\
-      & Goraczko et al. & Analytical & Configuration\footnote{optimization problem solved with ILP} & - & (\cmark) & (\cmark) & ARM7 OKI ML675003 (CPU), TI MSP430F1611 (microcontroller) & \cmark  \\
+      & Goraczko et al. & Analytical & Configuration\footnote{optimization problem solved with ILP} & - & \hspace*{-.8ex}(\cmark)\hspace*{-.8ex} & \hspace*{-.8ex}(\cmark)\hspace*{-.8ex} & ARM7 OKI ML675003 (CPU), TI MSP430F1611 (microcontroller) & \cmark  \\
       & Ma et al. & - & Configuration & - & \cmark & \cmark & AMD Phenom II X2 (CPU), NVIDIA GeForce 8800 (GPU) & \xmark \\
-      & Calore et al. & Analytical & Selection & - & \xmark & [\cmark] & ARM Cortex-A15 (CPU), NVIDIA GK20A (GPU) & \cmark\\
+      & Calore et al. & Analytical & Selection & - & \xmark & \hspace*{-.8ex}[\cmark]\hspace*{-.8ex} & ARM Cortex-A15 (CPU), NVIDIA GK20A (GPU) & \cmark\\
       & Yang et al. & Analytical & Pruning & - & \xmark & \xmark & - & \xmark\\\hline
-      \multirow{5}*{\rotatebox{90}{GPU}} & Hong and Kim & Analytical & Selection & 91.06\%\footnote{average accuracy for both power and time models against measuring hardware} & \xmark & \xmark & NVIDIA GTX280 (GPU) & \xmark\\
-      & Wu et al. & Regression (ML) & Selection & 90\%\footnote{\label{foot:avg-in-tab-energy-model}accuracy against built-in power monitors (if the accuracy is reported for multiple hardware or benchmarks, it is average)} & \xmark & [\cmark] & AMD Radeon HD 7970 (GPU) & \xmark\\
+      \multirow{5}*{\hspace*{-.2ex}\rotatebox{90}{\scriptsize GPU}\hspace*{-.5ex}} & Hong and Kim & Analytical & Selection & 91.06\%\footnote{average accuracy for both power and time models against measuring hardware} & \xmark & \xmark & NVIDIA GTX280 (GPU) & \xmark\\
+      & Wu et al. & Regression (ML) & Selection & 90\%\footnote{\label{foot:avg-in-tab-energy-model}accuracy against built-in power monitors (if the accuracy is reported for multiple hardware or benchmarks, it is average)} & \xmark & \hspace*{-.8ex}[\cmark]\hspace*{-.8ex} & AMD Radeon HD 7970 (GPU) & \xmark\\
       & Collange et al. & - & Selection & - & \xmark & \xmark & NVIDIA G80, G92, GT200 (GPU) & \xmark\\
       & Luo and Suda & Analytical & - & 88.87\%\footnoteref{foot:avg-in-tab-energy-model} & \xmark & \xmark & NVIDIA Tesla C2050 (GPU) & \xmark \\
       & Leng et al. & Analytical & Selection & 88.35\%\footnoteref{foot:avg-in-tab-energy-model} & \cmark & \cmark & NVIDIA GTX 480, Quadro FX5600 (GPU) & \xmark \\\hline
-      \multirow{6}*{\rotatebox{90}{CPU}} & Lee and Brooks & Regression & Selection & 95.7\%\footnote{accuracy against median error, leveraging only the most relevant samples} & \xmark & \xmark & - & \xmark \\
+      \multirow{6}*{\hspace*{-.2ex}\rotatebox{90}{\scriptsize CPU}\hspace*{-.5ex}} & Lee and Brooks & Regression & Selection & 95.7\%\footnote{accuracy against median error, leveraging only the most relevant samples} & \xmark & \xmark & - & \xmark \\
       & Takouna et al. & Regression & Selection & 93\%\footnote{accuracy of 95\% of the predictions} & \xmark & \cmark & Intel Xeon E5540 (CPU) & \xmark \\
       & Reddy et al. & Analytical & Selection & 94\%\footnote{accuracy on 60 workloads}\textsuperscript{, }\footnoteref{foot:avg-in-tab-energy-model} & \cmark & \cmark & ARM Cortex-A15 (CPU) & \cmark \\
       & Nikov et al. & Regression & Selection & 92--95\%\footnote{accuracy against related work} & \cmark & \cmark & ARM Cortex-A15, Cortex-A7 (CPU) & \cmark \\
       & Nunez-Yanez~and~Lore & Regression & Selection & 95\% & \xmark & \xmark & ARM Cortex-A9 (CPU) & \cmark \\
-      & Walker et al. & Regression & Selection & 96.2--97.2\% & \cmark & \cmark & ARM Cortex-A15, Cortex-A7 (CPU) & \cmark \\\hline
+      & Walker et al. & Regression & Selection & 96.2--97.2\%\hspace*{-.8ex} & \cmark & \cmark & ARM Cortex-A15, Cortex-A7 (CPU) & \cmark \\\hline
     \end{tabularx}
+    \vspace*{-2ex}
     \caption[Comparison of different computations energy models]{Comparison of different computations energy models: the model is either an analytical expression or a regression. The energy optimization technique is the selection of some architectural parameters or computations configurations. Scaling is split into DVS and DFS: (\cmark) scaling is used only in the model, not in the optimization technique. [\cmark] values are changed statically (or manually where appropriate such as in Marowka).}
     \label{tab:energy-models}
 \end{sidewaystable}

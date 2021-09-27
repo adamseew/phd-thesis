@@ -151,11 +151,22 @@ We then evaluate the \powprof{} tool through comparison with an external measuri
 
 We further validate our model against a more fine-grained model in the literature~\cite{nunez2013enabling,nikov2015evaluation}, using the ODROID XU3 computing hardware with the {\small\tt matrix-cpu} computation. We described this further validation step in our early work~\citep{seewald2019coarse}. The fine-grained model requires some apriori training, which we performed by evaluating the computation configuration with parameters $c_{i,1}$ 512, and $c_{i,2}$ 30 (meaning the thirtieth power of square matrix of size 512). The model returns an expected energy value, which we compared by subsequently running the computation, obtaining an error of 3.42\%~\citep{seewald2019coarse}. Similarly, we used the \powprof{} tool by varying $c_{i,2}$ with a step that excludes the configuration $c_{i,2}$ 30. We then obtained an expected energy value for configuration 30, which we again evaluated against running the configuration subsequently, obtaining an error of 2.25\%~\citep{seewald2019coarse}, justifying ours against another model in the literature. 
 
----
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Motion Energy Modeling}
 \label{sec:res-ene-mot}
+
+In this section, we derive motions energy models from \fref{sec:mot-ener-model}{Section} of an aerial robot flying the agricultural scenario doing static coverage path planning (\Gls{acr:cpp})\findex{coverage path planning}. We use the computations energy and battery models from \fref{sec:comp-ener-model}{Sections}\fref{sec:battery-model}{--\hspace*{-.8ex}} to integrate the static CPP with computing hardware and the effect of the battery. The coverage is static and decided offline, with no dynamic replanning when unexpected events occur (for instance, sudden battery drops). We will then replan such coverage in \fref{sec:res-dyn}{Section} along with the scheduling of the computations. Particularly, in \fref{sec:res-perio}{Section}, we derive an energy model using the expression in \frefeq{eq:fourier}, relying on the periodicity of the energy signal; we use NVIDIA Jetson TX2 as computing hardware~\citep{seewald2020mechanical}. In \fref{sec:res-diff}{Section}, we derive a differential energy model based on expressions in \frefeq{eq:state-perf} and \fref{lem:eqv}{Lemma}; we use NVIDIA Jetson NANO and ROS middleware. The former is a static model where we cannot predict, e.g., future energy consumption with varying schedules or flight time with varying coverage; whereas the latter allows such operation. Indeed we will use a similar approach later in \fref{sec:res-dyn}{Section} for energy-aware coverage planning and scheduling.
+
+---
+
+\subsection{Periodic modeling}
+\label{sec:res-perio}
+
+
+\subsection{Differential modeling}
+\label{sec:res-diff}
+
 
 \section{Coverage Planning and Scheduling}
 \label{sec:res-dyn}
@@ -167,7 +178,7 @@ We further validate our model against a more fine-grained model in the literatur
 
 
   
-  \begin{figure}[p]
+  \begin{figure}[p!]
     \centering
     \fontfamily{phv}\selectfont
     \footnotesize
@@ -176,7 +187,7 @@ We further validate our model against a more fine-grained model in the literatur
       \input{figures/path-plot-take-off.tikz}
       \caption{Take-off phase path}
       \label{fig:takeoff-path}
-      \vspace{3ex}
+      \vspace{1.4ex}
     \end{subfigure}
     \begin{subfigure}[c]{0.475\textwidth}
       \centering
@@ -184,16 +195,16 @@ We further validate our model against a more fine-grained model in the literatur
       \vspace*{3ex}
       \caption{Landing phase path}
       \label{fig:landing-path}
-      \vspace{3ex}
+      \vspace{1.4ex}
     \end{subfigure}
     \quad
-    \begin{subfigure}[t]{0.34\textwidth}
+    \begin{subfigure}[t]{0.35\textwidth}
       \centering
       \input{figures/takeoff.tikz}
       \caption{Take-off energy evolution}
       \label{fig:takeoff-energy}
     \end{subfigure}
-    \begin{subfigure}[t]{0.32\textwidth}
+    \begin{subfigure}[t]{0.31\textwidth}
       \centering
       \input{figures/cruise.tikz}
       \caption{Cruise energy evolution}
@@ -205,35 +216,32 @@ We further validate our model against a more fine-grained model in the literatur
       \caption{Landing energy evolution}
       \label{fig:landing-energy}
     \end{subfigure}
-    \caption{The evolution in time of energy and paths for three different flight phases. take-off, cruise, and landing}
+    \caption[Paths and modeled energy evolutions in time for different flight phases]{Paths and modeled energy evolutions in time for different flight phases as they appeared in our early study~\citep{seewald2020mechanical}.}
     \label{fig:path-energy}
   \end{figure}
-
-  \begin{figure}[p]
+  \begin{figure}[p!]
     \centering
     \fontfamily{phv}\selectfont
     \footnotesize
     \begin{subfigure}[t]{0.31\textwidth}
       \centering
       \input{figures/soc-configuration.tikz}
-      \vspace*{-2.5ex}
-      \caption{SoC as a function of time for different configurations}
+      \caption{Static schedules}
       \label{fig:soc-configuration}
     \end{subfigure}
-    \begin{subfigure}[t]{0.29\textwidth}
+    \begin{subfigure}[t]{0.26\textwidth}
       \centering
       \input{figures/soc-schedule.tikz}
-      \caption{Two examples of the evolution of SoC-aware schedules}
+      \caption{SoC-aware schedules}
       \label{fig:soc-schedule}
     \end{subfigure}
-    \begin{subfigure}[t]{0.36\textwidth}
+    \begin{subfigure}[t]{0.41\textwidth}
       \centering
       \input{figures/soc-plot.tikz}
-      \vspace*{-2.6ex}
-      \caption{SoC in the function of FPS rate and key-size}
+      \caption{SoC in the function of parameters}
       \label{fig:soc-plot}
     \end{subfigure}
-    \caption{Different SoC evolutions in time}
+    \caption[The effect of different schedules on the battery SoC]{The effect of different schedules on the battery SoC. The figure appeared in our early study~\citep{seewald2020mechanical}.}
     \label{fig:soc-evolution1}
   \end{figure}
 

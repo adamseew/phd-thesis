@@ -3,6 +3,17 @@
 %           %
 % Options   %
 %           %
+\makeatletter % changing font size to 10.5 (90-100 words per line)
+\renewcommand\normalsize{%
+\@setfontsize\normalsize{10.5}{12.5}}
+\renewcommand\small{%
+\@setfontsize\small{9.5}{11.5}}
+\renewcommand\footnotesize{%
+\@setfontsize\footnotesize{8.5}{10.5}}
+\renewcommand\scriptsize{%
+\@setfontsize\scriptsize{7.5}{9.5}}
+\makeatother
+
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype} % better typography?
 
 \usepackage{lettrine} % drop caps to chapter openings
