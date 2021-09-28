@@ -32,6 +32,7 @@ The remainder of this chapter is structured as follows. In \fref{sec:res-ene-com
 In this section, we describe the results and the experimental setup to obtain computations energy models with the \powprof{} tool. We report how we derive both the measurement and predictive layers from \fref{sec:measurement-layer}{Sections}\fref{sec:predictive-layer}{--\hspace*{-.8ex}} and the battery models from \fref{sec:battery-model}{Section} to integrate the two layers with the battery energy contribution for the computing hardware.
 
 \subsection{The {\tt darknet-gpu} computation}\findex{computations!darknet-gpu@\texttt{darknet-gpu}}
+\label{sec:res-darknet-gpu}
 
 In \fref{fig:darknet-layer1}{Figure}, we illustrate a concrete example of four different measurement layers from our early contribution~\citep{seewald2019coarse}: the power evolution in the function of time for three measuring devices, CPU, GPU, and overall of the NVIDIA Jetson TX2 board\findex{NVIDIA Jetson!TX2}. 
 \begin{figure}[h!]
@@ -163,6 +164,79 @@ In this section, we derive motions energy models from \fref{sec:mot-ener-model}{
 \subsection{Periodic modeling}
 \label{sec:res-perio}
 
+In this section we provide details about a case-study of the aerial robot flying the agricultural scenario and doing static CPP from our early study~\citep{seewald2020mechanical}. The aerial robot is the Opterra fixed-wing that we first presented in \fref{fig:opterra}{Figure} in \fref{cp:intro}{Chapter}. The aerial robot uses the Apogee v1.00 microcontroller with the popular Paparazzi flight controller~\citep{papa} and is powered by a 3.2 amperes per hour battery. The experimental setup then consists of the NVIDIA Jetson TX2 computing hardware with two computations evaluated separately of the aerial robot. One computation is {\small\tt darknet-gpu}: it does the object detection with the YOLO~\citep{redmon2016you} deep neural network library (which we discussed in the previous result in \fref{sec:res-darknet-gpu}{Section}), varying a parameter $c_{i,1}$ relative to the delay in two consecutive detection and thus the FPS rate. The other computation is {\small\tt blowfish}\findex{computations!blowfish@\texttt{blowfish}} encrypts the data with a symmetric variable key algorithm named ``Blowfish''~\citep{schneier1993description}\findex{Blowfish algorithm}\findex{enctyption}\findex{symmetric encryption}, varying a parameter $c_{i,2}$, the key-size.
+
+\begin{figure}[p!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize
+  \begin{subfigure}[c]{0.475\textwidth}
+    \centering
+    \input{figures/path-plot-take-off.tikz}
+    \caption{Take-off phase path}
+    \label{fig:takeoff-path}
+    \vspace{1.4ex}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.475\textwidth}
+    \centering
+    \input{figures/path-plot-landing.tikz}
+    \vspace*{3ex}
+    \caption{Landing phase path}
+    \label{fig:landing-path}
+    \vspace{1.4ex}
+  \end{subfigure}
+  \quad
+  \begin{subfigure}[t]{0.35\textwidth}
+    \centering
+    \input{figures/takeoff.tikz}
+    \caption{Take-off energy evolution}
+    \label{fig:takeoff-energy}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.31\textwidth}
+    \centering
+    \input{figures/cruise.tikz}
+    \caption{Cruise energy evolution}
+    \label{fig:cruise-energy}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.30\textwidth}
+    \centering
+    \input{figures/landing.tikz}
+    \caption{Landing energy evolution}
+    \label{fig:landing-energy}
+  \end{subfigure}
+  \caption[Paths and modeled energy evolutions in time for different flight phases]{Paths and modeled energy evolutions in time for different flight phases as they appeared in our early study~\citep{seewald2020mechanical}.}
+  \label{fig:path-energy}
+\end{figure}
+\begin{figure}[p!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize
+  \begin{subfigure}[t]{0.31\textwidth}
+    \centering
+    \input{figures/soc-configuration.tikz}
+    \caption{Static schedules}
+    \label{fig:soc-configuration}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.26\textwidth}
+    \centering
+    \input{figures/soc-schedule.tikz}
+    \caption{SoC-aware schedules}
+    \label{fig:soc-schedule}
+  \end{subfigure}
+  \begin{subfigure}[t]{0.41\textwidth}
+    \centering
+    \input{figures/soc-plot.tikz}
+    \caption{SoC in the function of parameters}
+    \label{fig:soc-plot}
+  \end{subfigure}
+  \caption[The effect of different schedules on the battery SoC]{The effect of different schedules on the battery SoC. The figure appeared in our early study~\citep{seewald2020mechanical}.}
+  \label{fig:soc-evolution}
+\end{figure}
+
+The results are to be seen in \fref{fig:path-energy}{Figures}\fref{fig:soc-evolution}{--\hspace*{-.8ex}} for the motion, computations, and battery energy models.
+
+To model the motion energy, we analyzed the flight logs from the Paparazzi flight controller of the aerial robot flying the agricultural scenario using a static Zamboni-like motion that we proposed in \fref{sec:path-wise}{Section}, and deriving the constants $a,b,\omega$ in \frefeq{eq:fourier}. We performed a number of similar flights on the same day with similar atmospheric conditions (normal wind and temperature). We rely on the fact that the energy evolution is periodic, and indeed the data that we proposed earlier in \fref{sec:mot-ener-model}{Section} and concretely in \fref{fig:energy-1}{Figures}\fref{fig:spectrum-1}{--\hspace{-.8ex}} show a periodic energy evolution that can be modeled with three frequencies including the base frequency. In these initial experiments, we saw marked variability in energy signals for take-off, cruise, and landing phases of a flight. The paths of the take-off and landing phases are reported in \fref{fig:takeoff-path}{Figures}\fref{fig:landing-path}{--\hspace*{-.8ex}}. Particularly, the distinction between the three phases we analyzed the motor torque, the altitude, and throttle~\citep{seewald2020mechanical}. The Opterra fixed-wing aerial robot indeed gains altitude during take-off, before starting to fly the Zamboni-like motion for coverage. The modeled energy signal is in \fref{fig:takeoff-energy}{Figure}. It is evaluated from a number of test flights (gray area in the figure), whereas the resulting regression is aided by \matlab (black line in the figure). Such a regressional analysis depicts little variability at the beginning of the take-off, likely justified by different controls necessary by different atmospheric conditions, and very little to none variability in the remaining. This latter part of the trajectory is indeed where the flight controller starts guiding the aerial robot on the Zamboni-like motion. In \fref{fig:cruise-energy}{Figure} is the modeled energy signal for the cruise phase. There is little variability between the test flights; flight controller takes charge of guiding the aerial robot. Finally, there is considerable variability in the landing phase energy signal illustrated in \fref{fig:landing-energy}{Figure}. Initially, the aerial robot flies small circles (see the path in \fref{fig:landing-path}{Figure}), lowering the altitude while descending to the ground under human operator control~\citep{seewald2020mechanical}. The phase depends on different condition including landing site geologic conformations, sudden wind gusts and others, presenting thus high energy variability. 
+%todo computations
 
 \subsection{Differential modeling}
 \label{sec:res-diff}
@@ -178,72 +252,6 @@ In this section, we derive motions energy models from \fref{sec:mot-ener-model}{
 
 
   
-  \begin{figure}[p!]
-    \centering
-    \fontfamily{phv}\selectfont
-    \footnotesize
-    \begin{subfigure}[c]{0.475\textwidth}
-      \centering
-      \input{figures/path-plot-take-off.tikz}
-      \caption{Take-off phase path}
-      \label{fig:takeoff-path}
-      \vspace{1.4ex}
-    \end{subfigure}
-    \begin{subfigure}[c]{0.475\textwidth}
-      \centering
-      \input{figures/path-plot-landing.tikz}
-      \vspace*{3ex}
-      \caption{Landing phase path}
-      \label{fig:landing-path}
-      \vspace{1.4ex}
-    \end{subfigure}
-    \quad
-    \begin{subfigure}[t]{0.35\textwidth}
-      \centering
-      \input{figures/takeoff.tikz}
-      \caption{Take-off energy evolution}
-      \label{fig:takeoff-energy}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.31\textwidth}
-      \centering
-      \input{figures/cruise.tikz}
-      \caption{Cruise energy evolution}
-      \label{fig:cruise-energy}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.30\textwidth}
-      \centering
-      \input{figures/landing.tikz}
-      \caption{Landing energy evolution}
-      \label{fig:landing-energy}
-    \end{subfigure}
-    \caption[Paths and modeled energy evolutions in time for different flight phases]{Paths and modeled energy evolutions in time for different flight phases as they appeared in our early study~\citep{seewald2020mechanical}.}
-    \label{fig:path-energy}
-  \end{figure}
-  \begin{figure}[p!]
-    \centering
-    \fontfamily{phv}\selectfont
-    \footnotesize
-    \begin{subfigure}[t]{0.31\textwidth}
-      \centering
-      \input{figures/soc-configuration.tikz}
-      \caption{Static schedules}
-      \label{fig:soc-configuration}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.26\textwidth}
-      \centering
-      \input{figures/soc-schedule.tikz}
-      \caption{SoC-aware schedules}
-      \label{fig:soc-schedule}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.41\textwidth}
-      \centering
-      \input{figures/soc-plot.tikz}
-      \caption{SoC in the function of parameters}
-      \label{fig:soc-plot}
-    \end{subfigure}
-    \caption[The effect of different schedules on the battery SoC]{The effect of different schedules on the battery SoC. The figure appeared in our early study~\citep{seewald2020mechanical}.}
-    \label{fig:soc-evolution1}
-  \end{figure}
 
   \begin{figure}[p]
     \centering
