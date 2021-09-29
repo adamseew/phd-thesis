@@ -118,7 +118,7 @@ In \fref{fig:matrix-sleep}{Figure}, we illustrate the predictive layers by varyi
 
 We used the same configuration parameters as with the {\small\tt darknet-gpu} computation but for the running time. In \fref{fig:matrix-exponent}{Figures}\fref{fig:matrix-sleep}{--\hspace*{-.8ex}}, the runtime is unbounded: the average power, overall energy, and battery SoC are relative to the entire exponentiation. The battery parameters are likewise the same. To define the constraint sets $\mathcal{S}_{i,1}$, we used the configuration {\small\tt pow}, e.g., {\small\tt range=256,4096,pow(2)}, meaning $c_{i,1}$ utilize exponential sampling in \frefeq{eq:meas-layer-exp-sampl}. 
 
-\subsection{The {\tt darknet-cpu}, {\tt matrix-cpu}, {\tt nvidia-} {\tt matrix} and {\tt quicks} computations}\findex{computations!darknet-cpu@\texttt{darknet-cpu}}\findex{computations!matrix-cpu@\texttt{matrix-cpu}}\findex{computations!nvidia-matrix@\texttt{nvidia-matrix}}\findex{computations!nvidia-quicks@\texttt{nvidia-quicks}}
+\subsection{The {\tt darknet}/{\tt matrix} {\tt -cpu}, {\tt nvidia-} {\tt matrix}/{\tt quicks} computations}\findex{computations!darknet-cpu@\texttt{darknet-cpu}}\findex{computations!matrix-cpu@\texttt{matrix-cpu}}\findex{computations!nvidia-matrix@\texttt{nvidia-matrix}}\findex{computations!nvidia-quicks@\texttt{nvidia-quicks}}
 
 We deployed the computations energy model on additional computations and computing hardware, including {\small\tt matrix-cpu} and {\small\tt darknet-cpu}, similar to {\small\tt matrix-gpu} and {\small\tt darknet-gpu} computations except that the operations run on the CPU rather than GPU. We used all the computing hardware described in \fref{sec:model-hete-elem}{Section} for {\small\tt matrix-cpu}, and NVIDIA Jetson TX2 for {\small\tt darknet-cpu}. On NVIDIA Jetson TX2, we further interfaced some already existing benchmarks with the \powprof{} tool. 
 These were modified to run for several instances over a time interval and implement a quicksort ({\small\tt nvidia-quicks}) and a matrix multiplication ({\small\tt nvidia-matrix}), both with a given problem size (parameter $c_{i,4}$). We summarize the overall energy contribution of all the computations from this section in \fref{tab:benchmark-components}{Table}. 
@@ -236,48 +236,63 @@ In this section we provide details about a case-study of the aerial robot flying
 The results are to be seen in \fref{fig:path-energy}{Figures}\fref{fig:soc-evolution}{--\hspace*{-.8ex}} for the motion, computations, and battery energy models.
 
 To model the motion energy, we analyzed the flight logs from the Paparazzi flight controller of the aerial robot flying the agricultural scenario using a static Zamboni-like motion that we proposed in \fref{sec:path-wise}{Section}, and deriving the constants $a,b,\omega$ in \frefeq{eq:fourier}. We performed a number of similar flights on the same day with similar atmospheric conditions (normal wind and temperature). We rely on the fact that the energy evolution is periodic, and indeed the data that we proposed earlier in \fref{sec:mot-ener-model}{Section} and concretely in \fref{fig:energy-1}{Figures}\fref{fig:spectrum-1}{--\hspace{-.8ex}} show a periodic energy evolution that can be modeled with three frequencies including the base frequency. In these initial experiments, we saw marked variability in energy signals for take-off, cruise, and landing phases of a flight. The paths of the take-off and landing phases are reported in \fref{fig:takeoff-path}{Figures}\fref{fig:landing-path}{--\hspace*{-.8ex}}. Particularly, the distinction between the three phases we analyzed the motor torque, the altitude, and throttle~\citep{seewald2020mechanical}. The Opterra fixed-wing aerial robot indeed gains altitude during take-off, before starting to fly the Zamboni-like motion for coverage. The modeled energy signal is in \fref{fig:takeoff-energy}{Figure}. It is evaluated from a number of test flights (gray area in the figure), whereas the resulting regression is aided by \matlab (black line in the figure). Such a regressional analysis depicts little variability at the beginning of the take-off, likely justified by different controls necessary by different atmospheric conditions, and very little to none variability in the remaining. This latter part of the trajectory is indeed where the flight controller starts guiding the aerial robot on the Zamboni-like motion. In \fref{fig:cruise-energy}{Figure} is the modeled energy signal for the cruise phase. There is little variability between the test flights; flight controller takes charge of guiding the aerial robot. Finally, there is considerable variability in the landing phase energy signal illustrated in \fref{fig:landing-energy}{Figure}. Initially, the aerial robot flies small circles (see the path in \fref{fig:landing-path}{Figure}), lowering the altitude while descending to the ground under human operator control~\citep{seewald2020mechanical}. The phase depends on different condition including landing site geologic conformations, sudden wind gusts and others, presenting thus high energy variability. 
-%todo computations
+
+The case-study is further composed of two computations, the {\small\tt darknet-gpu} and {\small\tt blowfish}. The predictive layer in terms of battery SoC varying parameters $c_{i,1},c_{i,2}$ is then in \fref{fig:soc-plot}{Figure}. We assume static dependency on motion energy, with only computation energy varying with different computations (we will see in the next section how we merge both). Here again the {\small\tt darknet-gpu} varies in the same range as in \fref{sec:res-darknet-gpu}{Section}, whereas {\small\tt blowfish} varies between thirty-two and 448 bits, enclosing the computations constraint $\mathcal{S}_{i,2}$. For the latter, we further used the OpenSSL~\citep{viega2002network} command-line tool in an iterated encryption manner of a heavy data-file of approximately 150 mega bytes. The two computations were in this use-case analyzed separately, an approach we discussed in our previous work~\citep{seewald2019coarse}, where per-component energy is modeled in a dataflow computational network, and that decreases the modeling effort~\citep{seewald2020mechanical}. The figure then shows the energy impact: the higher the key-size and FPS rate, the larger the impact on the battery. In \fref{fig:soc-configuration}{Figures}\fref{fig:soc-schedule}{--\hspace*{-.8ex}} we then show the energy impact of different schedules. Particularly, \fref{soc-configuration}{Figure} illustrates the energy impact of various static schedules: \sref{lab:sched-a}{} indicates the impact on the battery of merely flying the regressions from \fref{fig:takeoff-energy}{Figures}\fref{fig:landing-energy}{--\hspace*{-.8ex}}, i.e., the energy impact of the motion on the battery; \sref{lab:sched-b}{} a static schedule of flying the configuration 5.8 FPS, and 32 bits (relative to $c_{i,1},c_{i,2},\forall i\in[l]$ with a fixed number of stages $l$); \sref{lab:sched-c}{} also a static schedule with 10 FPS and 240 bits; and finally \sref{lab:sched-c}{} with 32 FPS and 448 bits.
+
+Finally, \fref{fig:soc-schedule}{Figure} shows dynamic schedules. \sref{lab:sched-I}{} has a configuration of 5.8 FPS and 32 bits at take-off and landing, of 32 FPS and 448 bits for the duration of two minutes in the middle of cruise, 5.8 FPS and 32 bits otherwise, resulting in 2.05\% remaining battery SoC at the end of the flight, whereas \sref{lab:sched-II}{} has the same configuration as \fref{lab:sched-I}{} only for the two minutes in the middle cruise, 5.8 FPS and 32 bits otherwise, resulting in 7.86 remaining SoC~\citep{seewald2020mechanical}. In both cases, we show that dynamic scheduling allows completing the flight whilst draining the battery optimally to the w.r.t. the current battery SoC.
 
 \subsection{Differential modeling}
 \label{sec:res-diff}
 
+\begin{figure}[p!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize
+  \begin{subfigure}[c]{0.475\textwidth}
+    \centering
+    \input{figures/cruise-path.tikz}
+    \caption{.}
+    \label{fig:cruise-path}
+  \end{subfigure}
+  \begin{subfigure}[c]{0.475\textwidth}
+    \centering
+    \input{figures/cruise-xy.tikz}
+    \vspace*{1.1ex}
+    \caption{.}
+    \label{fig:cruise-xy}
+  \end{subfigure}
+  \caption{.}
+  \label{fig:cruise-prelim}
+\end{figure}
 
+\begin{figure}[p]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize    
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \input{figures/max-qos.tikz}
+    \caption{.}
+    \label{fig:max-qos}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \input{figures/computational-mobilenet.tikz}
+    \caption{.}
+    \label{fig:pednet}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \input{figures/computational-pednet.tikz}
+    \caption{.}
+    \label{fig:mobilenet}
+  \end{subfigure}
+  \caption{.}
+  \label{fig:computational}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Coverage Planning and Scheduling}
 \label{sec:res-dyn}
-
-
-
-
-
-
-
-  
-
-  \begin{figure}[p]
-    \centering
-    \fontfamily{phv}\selectfont
-    \footnotesize    
-    \begin{subfigure}[c]{0.32\textwidth}
-      \centering
-      \input{figures/max-qos.tikz}
-      \vspace*{-1.25ex}
-      \caption{Max QoS for mission of length {\footnotesize $t$} QoS for mission of length {\footnotesize $t$}}
-      \label{fig:max-qos}
-    \end{subfigure}
-    \begin{subfigure}[c]{0.32\textwidth}
-      \centering
-      \input{figures/computational-mobilenet.tikz}
-      \caption{Estimated SoC as a function of frames-per-second rate and key%-size QoS ranges% after completing a missio
-      }
-      \label{fig:pednet}
-    \end{subfigure}
-    \begin{subfigure}[c]{0.32\textwidth}
-      \centering
-      \input{figures/computational-pednet.tikz}
-      \caption{Max QoS for mission of length {\footnotesize $t$} QoS for mission of length {\footnotesize $t$}}
-      \label{fig:mobilenet}
-    \end{subfigure}
-    \caption{Different SoC evolutions in time}
-    \label{fig:computational}
-  \end{figure}
-  
+ 

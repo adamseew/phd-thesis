@@ -1,0 +1,481 @@
+
+\begin{footnotesize}
+\definecolor{ca0a0a4}{RGB}{160,160,164}
+\definecolor{c808080}{RGB}{128,128,128}
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.590000, xscale=0.660000, inner sep=0pt, outer sep=0pt]
+\begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.800pt]
+  \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (53.5000,268.5000) -- (298.5000,268.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,268.5000) -- (59.5000,268.5000);
+    \path[draw] (298.5000,268.5000) -- (292.5000,268.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,276.216)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,276.216)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,276.216)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,276.216)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,276.216)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,276.216)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text40) {26};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,276.216)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (53.5000,205.5000) -- (298.5000,205.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,205.5000) -- (59.5000,205.5000);
+    \path[draw] (298.5000,205.5000) -- (292.5000,205.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,211.816)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,211.816)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,211.816)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,211.816)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,211.816)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,211.816)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text70) {27};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,211.816)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (53.5000,141.5000) -- (298.5000,141.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,141.5000) -- (59.5000,141.5000);
+    \path[draw] (298.5000,141.5000) -- (292.5000,141.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,148.422)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,148.422)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,148.422)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,148.422)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,148.422)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,148.422)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text100) {28};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(28.175,148.422)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (53.5000,78.5000) -- (298.5000,78.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,78.5000) -- (59.5000,78.5000);
+    \path[draw] (298.5000,78.5000) -- (292.5000,78.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,85.0281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,85.0281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,85.0281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,85.0281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,85.0281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,85.0281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text130) {29};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,85.0281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (53.5000,15.5000) -- (298.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,15.5000) -- (59.5000,15.5000);
+    \path[draw] (298.5000,15.5000) -- (292.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,20.6281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,20.6281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,20.6281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,20.6281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,20.6281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,20.6281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text160) {30};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(27.1688,20.6281)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (53.5000,268.5000) -- (53.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,268.5000) -- (53.5000,262.5000);
+    \path[draw] (53.5000,15.5000) -- (53.5000,21.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(48.3,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(48.3,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(48.3,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(48.3,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(48.3,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(48.3,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text190) {0};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(48.3,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (102.5000,268.5000) -- (102.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (102.5000,268.5000) -- (102.5000,262.5000);
+    \path[draw] (102.5000,15.5000) -- (102.5000,21.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(93.5813,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(93.5813,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(93.5813,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(93.5813,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(93.5813,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(93.5813,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text220) {60};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(93.5813,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (151.5000,268.5000) -- (151.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (151.5000,268.5000) -- (151.5000,262.5000);
+    \path[draw] (151.5000,15.5000) -- (151.5000,21.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.863,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.863,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.863,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.863,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.863,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.863,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text250) {120};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.863,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (200.5000,268.5000) -- (200.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (200.5000,268.5000) -- (200.5000,262.5000);
+    \path[draw] (200.5000,15.5000) -- (200.5000,21.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(188.169,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(188.169,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(188.169,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(188.169,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(188.169,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(188.169,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text280) {180};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(188.169,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (249.5000,268.5000) -- (249.5000,53.5000);
+    \path[draw] (249.5000,21.5000) -- (249.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (249.5000,268.5000) -- (249.5000,262.5000);
+    \path[draw] (249.5000,15.5000) -- (249.5000,21.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(237.475,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(237.475,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(237.475,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(237.475,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(237.475,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(237.475,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text312) {240};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(237.475,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=ca0a0a4,dash pattern=on 0.40pt off 0.80pt,line join=round,line cap=round,line width=0.400pt]
+    \path[draw] (298.5000,268.5000) -- (298.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (298.5000,268.5000) -- (298.5000,262.5000);
+    \path[draw] (298.5000,15.5000) -- (298.5000,21.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(286.781,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(286.781,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(286.781,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(286.781,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(286.781,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(286.781,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text342) {300};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(286.781,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,15.5000) -- (53.5000,268.5000) -- (298.5000,268.5000) --
+      (298.5000,15.5000) -- (53.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(13.5844,176.597)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(13.5844,176.597)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(13.5844,176.597)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(13.5844,176.597)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(13.5844,176.597)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(13.5844,176.597)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text366) {\rotatebox{90}{Power (W)}};
+  \end{scope}
+  \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(13.5844,176.597)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(150.938,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(150.938,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(150.938,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(150.938,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(150.938,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(150.938,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text382) {Time (s)};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(150.938,317.472)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(208.294,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(208.294,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(208.294,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(208.294,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(208.294,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(196.294,35.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text398) {\scriptsize State-space};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(208.294,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},fill=c808080,fill opacity=0.500,transparency group]
+    \path[fill,rounded corners=0.0000cm] (261.0000,25.0000) rectangle
+      (287.0000,33.0000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},fill=c808080,line join=bevel,line cap=rect,draw opacity=0.500,fill opacity=0.500,line width=0.800pt,transparency group]
+    \path[fill,even odd rule] (53.5000,268.5000) -- (53.5000,94.5000) --
+      (55.5000,92.5000) -- (58.5000,91.5000) -- (60.5000,91.5000) --
+      (63.5000,90.5000) -- (65.5000,90.5000) -- (68.5000,91.5000) --
+      (70.5000,92.5000) -- (72.5000,93.5000) -- (75.5000,94.5000) --
+      (77.5000,96.5000) -- (80.5000,98.5000) -- (82.5000,100.5000) --
+      (85.5000,103.5000) -- (87.5000,106.5000) -- (89.5000,108.5000) --
+      (92.5000,111.5000) -- (94.5000,114.5000) -- (97.5000,117.5000) --
+      (99.5000,120.5000) -- (102.5000,123.5000) -- (104.5000,126.5000) --
+      (106.5000,129.5000) -- (109.5000,131.5000) -- (111.5000,134.5000) --
+      (114.5000,136.5000) -- (116.5000,139.5000) -- (119.5000,141.5000) --
+      (121.5000,143.5000) -- (123.5000,144.5000) -- (126.5000,146.5000) --
+      (128.5000,147.5000) -- (131.5000,148.5000) -- (133.5000,149.5000) --
+      (136.5000,150.5000) -- (138.5000,150.5000) -- (141.5000,151.5000) --
+      (143.5000,151.5000) -- (145.5000,150.5000) -- (148.5000,150.5000) --
+      (150.5000,150.5000) -- (153.5000,149.5000) -- (155.5000,148.5000) --
+      (158.5000,147.5000) -- (160.5000,146.5000) -- (162.5000,145.5000) --
+      (165.5000,144.5000) -- (167.5000,143.5000) -- (170.5000,142.5000) --
+      (172.5000,140.5000) -- (175.5000,139.5000) -- (177.5000,138.5000) --
+      (179.5000,137.5000) -- (182.5000,136.5000) -- (184.5000,135.5000) --
+      (187.5000,135.5000) -- (189.5000,134.5000) -- (192.5000,134.5000) --
+      (194.5000,134.5000) -- (196.5000,134.5000) -- (199.5000,134.5000) --
+      (201.5000,134.5000) -- (204.5000,135.5000) -- (206.5000,135.5000) --
+      (209.5000,136.5000) -- (211.5000,138.5000) -- (213.5000,139.5000) --
+      (216.5000,141.5000) -- (218.5000,142.5000) -- (221.5000,144.5000) --
+      (223.5000,147.5000) -- (226.5000,149.5000) -- (228.5000,151.5000) --
+      (230.5000,154.5000) -- (233.5000,157.5000) -- (235.5000,159.5000) --
+      (238.5000,162.5000) -- (240.5000,165.5000) -- (243.5000,168.5000) --
+      (245.5000,171.5000) -- (247.5000,174.5000) -- (250.5000,177.5000) --
+      (252.5000,180.5000) -- (255.5000,183.5000) -- (257.5000,185.5000) --
+      (260.5000,188.5000) -- (262.5000,190.5000) -- (264.5000,193.5000) --
+      (267.5000,195.5000) -- (269.5000,197.5000) -- (272.5000,199.5000) --
+      (274.5000,200.5000) -- (277.5000,202.5000) -- (279.5000,203.5000) --
+      (281.5000,204.5000) -- (284.5000,205.5000) -- (286.5000,205.5000) --
+      (289.5000,206.5000) -- (291.5000,206.5000) -- (294.5000,206.5000) --
+      (298.5000,206.5000) -- (298.5000,268.5000) -- (53.5000,268.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(213.325,49.3063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(213.325,49.3063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(213.325,49.3063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(213.325,49.3063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(213.325,49.3063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(201.325,49.3063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text434) {\scriptsize Measured};
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(213.325,49.3063)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw,even odd rule] (260.5000,45.5000) -- (286.5000,45.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,78.5000) -- (53.5000,78.5000) -- (55.9000,78.5000) --
+      (58.4000,141.9000) -- (60.8000,78.5000) -- (63.2000,78.5000) --
+      (65.6000,141.9000) -- (68.1000,78.5000) -- (70.5000,78.5000) --
+      (72.9000,78.5000) -- (75.4000,141.9000) -- (77.8000,141.9000) --
+      (80.2000,78.5000) -- (82.7000,78.5000) -- (85.1000,141.9000) --
+      (87.5000,141.9000) -- (89.9000,141.9000) -- (92.4000,141.9000) --
+      (94.8000,141.9000) -- (97.2000,141.9000) -- (99.7000,141.9000) --
+      (102.1000,141.9000) -- (104.5000,141.9000) -- (106.9000,141.9000) --
+      (109.4000,141.9000) -- (111.8000,141.9000) -- (114.2000,141.9000) --
+      (116.7000,141.9000) -- (119.1000,141.9000) -- (121.5000,141.9000) --
+      (123.9000,141.9000) -- (126.4000,141.9000) -- (128.8000,141.9000) --
+      (131.2000,141.9000) -- (133.7000,141.9000) -- (136.1000,141.9000) --
+      (138.5000,141.9000) -- (141.0000,141.9000) -- (143.4000,141.9000) --
+      (145.8000,141.9000) -- (148.2000,141.9000) -- (150.7000,141.9000) --
+      (153.1000,141.9000) -- (155.5000,141.9000) -- (158.0000,141.9000) --
+      (160.4000,141.9000) -- (162.8000,141.9000) -- (165.2000,141.9000) --
+      (167.7000,141.9000) -- (170.1000,141.9000) -- (172.5000,141.9000) --
+      (175.0000,141.9000) -- (177.4000,141.9000) -- (179.8000,141.9000) --
+      (182.2000,141.9000) -- (184.7000,141.9000) -- (187.1000,205.3000) --
+      (189.5000,205.3000) -- (192.0000,141.9000) -- (194.4000,141.9000) --
+      (196.8000,205.3000) -- (199.3000,205.3000) -- (201.7000,205.3000) --
+      (204.1000,205.3000) -- (206.5000,205.3000) -- (209.0000,141.9000) --
+      (211.4000,205.3000) -- (213.8000,205.3000) -- (216.3000,205.3000) --
+      (218.7000,205.3000) -- (221.1000,205.3000) -- (223.5000,205.3000) --
+      (226.0000,205.3000) -- (228.4000,205.3000) -- (230.8000,205.3000) --
+      (233.3000,205.3000) -- (235.7000,205.3000) -- (238.1000,205.3000) --
+      (240.6000,205.3000) -- (243.0000,205.3000) -- (245.4000,205.3000) --
+      (247.8000,205.3000) -- (250.3000,205.3000) -- (252.7000,205.3000) --
+      (255.1000,205.3000) -- (257.6000,205.3000) -- (260.0000,205.3000) --
+      (262.4000,205.3000) -- (264.8000,205.3000) -- (267.3000,205.3000) --
+      (269.7000,205.3000) -- (272.1000,205.3000) -- (274.6000,205.3000) --
+      (277.0000,205.3000) -- (279.4000,205.3000) -- (281.8000,205.3000) --
+      (284.3000,205.3000) -- (286.7000,205.3000) -- (289.1000,205.3000) --
+      (291.6000,205.3000) -- (294.0000,268.7000) -- (298.9000,268.7000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=round,line cap=round,line width=0.800pt]
+    \path[draw] (53.5000,15.5000) -- (53.5000,268.5000) -- (298.5000,268.5000) --
+      (298.5000,15.5000) -- (53.5000,15.5000);
+  \end{scope}
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+  \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.800pt]
+  \end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{footnotesize}
+
