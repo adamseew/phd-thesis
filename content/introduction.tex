@@ -29,10 +29,12 @@ In this work, we focus on dynamic energy planning. We generate both an energy-aw
 There are many autonomous use cases involving aerial robots, such as precision agriculture, search and rescue, payload delivery, transportation, and many others. To formulate a mobile robot planning problem later in \fref{cp:pb}{Chapter}, we focus on precision agriculture and progressively build dynamic planning of a fixed-wing aerial robot flying over an agricultural field with little human input.
 
 \begin{figure}[t]
+  \sfr
   \centering
   \includegraphics[width=.7\textwidth]{pictures/photo}
-  \caption[Opterra fixed-wing aerial robot]{Opterra fixed-wing aerial robot employed for precision agriculture {\scriptsize(photo credit: Amit Ferencz Appel)}.}   
+  \caption[Opterra fixed-wing aerial robot]{Opterra fixed-wing aerial robot employed for precision agriculture {\scriptsize(photo credit: Amit Ferencz Appel)}.}
   \label{fig:opterra}
+  \efr
 \end{figure}
 
 We investigate different physical aerial robotics platforms in this work but we focus most on the Opterra fixed-wing aerial robot\findex{Opterra fixed-wing aerial robot}~\citep{opterra} adapted for precision agriculture. Precision agriculture\findex{precision agriculture} is often put into practice~\citep{hajjaj2014review} with ground mobile robots used for harvesting~\citep{qingchun2012study,dong2011development, de2011design, aljanobi2010setup, li2008analysis, edan2000robotic}, and unmanned aerial vehicles (\Gls{acr:uav}s) for preventing damage and ensuring better crop quality~\citep{puri2017agriculture, daponte2019review}. The aerial robot is shown in \fref{fig:opterra}{Figure}.
@@ -48,10 +50,12 @@ This chapter connects to the remainder of this work as follows. Here we introduc
 Modern aerial robots are a valuable tool in robotic research and aerospace. They are found with different names in the literature. These include unmanned aerial vehicles\findex{unmanned aerial vehicles} (\Gls{acr:uav}s)\footnote{The term unmanned is sometimes replaced by uninhabited}, unmanned aerial systems\findex{unmanned aerial systems} (\Gls{acr:uas}s), flying robots, or drones. Usually, we refer to drones, \Gls{acr:uav}s, and \Gls{acr:uas}s when these systems are semi-autonomous, operated from the ground. \Gls{acr:uas} often denotes the entire infrastructure of unmanned flight in the aerospace jargon. Aerial or flying robots, on the other hand, have advanced levels of autonomy~\citep{siciliano2016springer}. Nevertheless, all these systems have basic autonomous features such as position and altitude holding and leveling. The position holding is usually implemented using global navigation satellite system\findex{global navigation satellite system} (\Gls{acr:gnss}), altitude holding using a barometer\findex{barometer}, and leveling using inertial measurement unit\findex{inertial measurement unit} (\Gls{acr:imu}).
 
 \begin{figure}[t]
+  \sfr
   \centering
   \includegraphics[width=.7\textwidth]{pictures/HA-NH-JA-19_1}
   \caption[Hewitt-Sperry Automatic Airplane, first unmanned flying machine]{The Hewitt-Sperry Automatic Airplane, also denominated ``flying bomb'', was developed in WWI and represents the first instance of a \Gls{acr:uav} {\scriptsize(photo credit: United States Naval Institute)}.}   
   \label{fig:hewitt-sperry}
+  \efr
 \end{figure}
 
 The origin of the field of aerial robotics, which deals with the design and development of aerial robots, dates back to the first guided missiles: unmanned (or uninhabited) flight has more than a century of developments~\citep{siciliano2016springer}. Hewitt-Sperry Automatic Airplane\findex{Hewitt-Sperry automatic airplane}, also denominated ``flying bomb'', developed in 1917 during World War I\findex{World War I} (WWI)~\citep{keane2013brief,valavanis2015handbook} is often referred to as the first unmanned flying machine. It is shown in \fref{fig:hewitt-sperry}{Figure}. It has been developed 14 years after the first heavier-than-air flight in history, demonstrated on December 17, 1903, with the Wright Flyer I by Wilbur and Orville Wright\findex{Wright brother} (or the Wright brothers). The Hewitt-Sperry Automatic Airplane used a gyroscope\findex{gyroscope} similarly to modern aerial robots. The device, invented by Elmer Sperry~\citep{keane2013brief}, was mechanically connected to the control surfaces and successfully implemented a control feedback loop~\citep{siciliano2016springer}.
@@ -61,10 +65,12 @@ In the early days, the first flying machines were referred to as remotely pilote
 In recent years, the unmanned flight has been applied in many civilian applications~\citep{gonzalez2017unmanned}. Modern aerial robots are increasingly used in remote sensing\findex{remote sensing}~\citep{colomina2014unmanned,noor2018remote,tang2015drone,milas2018drones}, surveillance\findex{surveillance}~\citep{acevedo2014one,ramasamy2017heuristic,basilico2015deploying,paucar2018use,burkle2009collaborating}, meteorology\findex{meteorology}~\citep{renzaglia2016monitoring,schuyler2019using}, search and rescue\findex{search and rescue}~\citep{hayat2017multi,pensieri2020drones,karaca2018potential,cui2015drones,seguin2018unmanned}, precision agriculture~\citep{popovic2017online,sa2018weednet,lottes2017uav,daponte2019review,puri2017agriculture}, transportation, and payload delivery\findex{payload delivery}~\citep{kellermann2020drones}. The former four categories fall into the area of reconnaissance, surveillance, and target acquisition\findex{reconnaissance, surveillance, and target acquisition} (\Gls{acr:rsta}) and do not require advanced autonomy. Precision agriculture, transportation, and payload delivery are often realized using to a greater or lesser extent some advanced levels of computational intelligence~\citep{siciliano2016springer}. Modern aerial robots are designed to handle unexplored terrain with little interaction as opposed to the past \Gls{acr:uav}s operated mainly by a human operator~\citep{siciliano2016springer}. Instances of modern aerial robots are expected to autonomously adapt and possibly interact in a broad variety of environmental conditions. 
 
 \begin{figure}[t]
+  \sfr
   \centering
   \includegraphics[width=.7\textwidth]{pictures/jpegPIA24550}
   \caption[NASA's Ingenuity Mars Helicopter]{NASA's Ingenuity Mars Helicopter. A rotary-wing coax aerial robot that achieved the first powered, controlled flight on another planet on April 19, 2021. The project is solely a demonstration of technology {\scriptsize(photo credit: NASA Jet Propulsion Laboratory)}.}   
   \label{fig:ingenuity}
+  \efr
 \end{figure}
 
 In summary, aerial robots have a relatively recent past. Some initial experiments of unmanned flights were performed shortly after the first heavier-than-air manned, powered flight. These initial experiments were mostly developed for military purposes, whereas modern aerial robots are used in a broad range of civil applications. Aerial robots are expected to grow significantly in numerous areas of robotics research ranging from agriculture to planetary exploration. For the latter, \fref{fig:ingenuity}{Figure} shows NASA's Ingenuity Mars Helicopter. A small coaxial aerial robot that performed the first powered, controlled flight on another planet on April 19, 2021. Aerial robots for planetary exploration are to be further deployed in future explorations endeavors, for instance, to study Saturn's moon Titan~\citep{voosen2019nasa}.
@@ -85,10 +91,12 @@ Fixed-wing aerial robots\findex{fixed-wings} have wings to provide the lift, som
 Common instances of lighter-than-air aerial robots\findex{lighter-than-air aerial robots} are blimps\findex{blimps} (or non-rigid airships). They usually rely on a gas--such as helium enclosed in a protected envelope~\citep{burri2013design}--to generate the lifting force~\citep{fui2017recent}. An omnidirectional spherical blimp is shown in \fref{fig:skye-blimp}{Figure}. Blimps are similar to balloons but provide basic maneuverability, whereas, in a balloon, only the altitude can be controlled~\citep{colombatti2011lighter}.
 
 \begin{figure}[t]
+  \sfr
   \centering
   \includegraphics[width=.7\textwidth]{pictures/IMG_2612}
   \caption[Skye, an omnidirectional spherical blimp]{Skye, an omnidirectional spherical blimp developed by ETH Z\"urich for entertainment purposes. It has a camera system and combines the energy-efficient flight of a blimp with the characteristics of a quadrotor {\scriptsize(photo credit: ETH Z\"urich)}.}   
   \label{fig:skye-blimp}
+  \efr
 \end{figure}
 
 Some other classifications found in aerial robotics literature trade size and maneuverability and include classes as micro aerial vehicles (MAVs)\findex{micro aerial vehicles} or vertical take-off and landing (VTOLs)\findex{vertical take-off and landing} aerial robots. The former are aerial robots with all dimensions lower than 15 cm. The latter are aerial robots flying in a fixed-wing configuration except if taking-off and landing where they use thrust from rotors rather than lift from wings. 
@@ -102,10 +110,12 @@ The classification that we proposed in this section serves the scopes of our wor
 \label{sec:motivation}
 
 \begin{figure}[p!]
+  \spr
   \centering
   \footnotesize\fontfamily{phv}\selectfont
   \input{figures/robots-vs-power.tikz}
   \vspace*{52pt}
+  \epr
   \caption[Different aerial robots in relation to the power, flight time, and M\&CE]{Different aerial robots in relation to the power, flight time, and M\&CE with a hypothetical fixed costs for computations energy. The power is expressed using a logarithmic scale. Heavier-than-air aerial robots \sref{lab:cumulus}{}--\sref{lab:nano}{} include flapping-wings \sref{lab:delfly}{},~\sref{lab:nano}{} and have a negative M\&CE (computations scheduling is to be accounted for most in planning), whereas rotary-wings have a positive M\&CE \sref{lab:matrice}{},~\sref{lab:agras}{} (path planning is to be accounted for most in dynamic planning). Some smaller rotary-wings have a M\&CE closer to zero \sref{lab:mavic}{},~\sref{lab:phantom}{}. In general, rotary-wings have a short flight time. Fixed-wings \sref{lab:cumulus}{}--\sref{lab:opterra}{} have a considerably longer flight time and M\&CE close to zero (computations scheduling and path planning have both to be accounted for in dynamic planning). Lighter-than-air aerial robots \sref{lab:skye}{} have hypothetically a relatively long flight time and lower than zero M\&CE {\scriptsize(photos credit: \srefsmaller{lab:cumulus} to Sky-Watch, \srefsmaller{lab:matrice} to Rise Above, \srefsmaller{lab:agras} to Aeromotus, \srefsmaller{lab:mavic} to Digital Photography Review, \srefsmaller{lab:phantom} to ePHOTOzine, and \srefsmaller{lab:nano} to DARPA)}.}
   \label{fig:robots-vs-power}
 \end{figure}
@@ -114,10 +124,12 @@ In this section, we provide a brief motivation for dynamic energy planning of th
 Many applications that involve aerial robots have strict battery constraints. Although this is a common problem to most mobile robots, aerial robots are of particular concern. The autonomy of these systems is affected by the availability of the power source. A typical example of an aerial robotics scenario is a robot following a path and performing some onboard computations. For instance, the robot might detect ground patterns and notify other ground-based actors with little human interaction in precision agriculture or another application. Aerial robots in this situation often carry some heterogeneous computing hardware\findex{heterogeneous computing hardware} and a microcontroller. Energy requirements of such computing hardware are a further complication. Computing hardware is involved in autonomous capabilities and planning itself--both often require computer vision or other complex algorithms--whereas microcontroller\findex{microcontroller} runs motion primitives by directly interfacing actuators (such as servos\findex{servo} for the control surfaces\findex{control surface}) and motors\findex{motor}. Energy-wise, it is advantageous to schedule the computations on the computing hardware and simultaneously to plan the path.
 
 \begin{figure}[t!]
+  \sfr
   \centering
   \input{figures/plot2.tikz}
   \caption[The coverage problem in a precision agriculture scenario]{The coverage problem in a precision agriculture scenario. The aerial robot has to cover an agricultural field that forms a polygon (blue/transparent area in the frame) and run some autonomous tasks {\scriptsize(photo credit: Amit Ferencz Appel)}.}
   \label{fig:plot2}
+  \efr
 \end{figure} % <-- figure moved for formatting
 
 \subsection{Path planning and computations scheduling}
@@ -132,13 +144,16 @@ In \fref{fig:robots-vs-power}{Figure} we show the \Gls{acr:mace} against the fli
 \label{sec:objective}
 
 In the remainder of this work, we refer to computational tasks that can be scheduled in an energy-aware fashion as computations, opposed to the other tasks with no significant effect on energy consumption. We assume the aerial robot runs the computations on the heterogeneous computing hardware. As an example, we refer to an aerial robot in a precision agriculture scenario in \fref{fig:opterra}{Figure}, which covers an agricultural field. 
-\begin{figure}[h]
-  \centering
-  \input{figures/plot2x.tikz}
-  \caption[The hazard detection in the precision agriculture scenario]{The aerial robot detects hazard on the agricultural field and communicate the detection to ground-based actors while it cover the polygon.}
-  \label{fig:plot2x}
-\end{figure}
-In abstract terms, the field is represented by a polygon in \fref{fig:plot2}{Figure} and the aerial robot detects some patterns on such polygon using a convolutional neural network (\Gls{acr:cnn})\findex{convolutional neural network} in \fref{fig:plot2x}{Figure}. The aerial robot further communicates the position of a detected pattern to other, ground-based actors. Detecting the patterns usually involves heterogeneous computing elements (GPU\findex{GPU} and/or multiple CPU\findex{CPU} cores) and consumes a significant amount of energy as opposed to communication. Detection is a computation, while communication is an (energy-inexpensive) task.
+%\begin{figure}[h]
+%  \sfr
+%  \centering
+%  \input{figures/plot2x.tikz}
+%  \caption[The hazard detection in the precision agriculture scenario]{The aerial robot detects hazard on the agricultural field and communicate the detection to ground-based actors while it cover the polygon.}
+%  \label{fig:plot2x}
+%  \efr
+%\end{figure}
+In abstract terms, the field is represented by a polygon in \fref{fig:plot2}{Figure} and the aerial robot detects some patterns on such polygon using a convolutional neural network (\Gls{acr:cnn})\findex{convolutional neural network}% in \fref{fig:plot2x}{Figure}
+. The aerial robot further communicates the position of a detected pattern to other, ground-based actors. Detecting the patterns usually involves heterogeneous computing elements (GPU\findex{GPU} and/or multiple CPU\findex{CPU} cores) and consumes a significant amount of energy as opposed to communication. Detection is a computation, while communication is an (energy-inexpensive) task.
 
 We are interested in the energy optimization of the path and computations under uncertainty (atmospheric interferences) in-flight and refer to it as dynamic energy planning. Unlike most of the past mobile robotics planning literature, the approach that we propose plans these two aspects simultaneously. Such planning would find optimal tradeoffs\findex{tradeoffs} between the path, computations, and energy requirements. Current generic planning solutions for aerial robots do not plan the path and computations dynamically, nor are they energy-aware. They are often semi-autonomous: the path and computations are static and usually defined using planning software~\citep{daponte2019review}. Instances of the planning software include famous flight controllers~\citep{px4,papa}. Such a state of practice has prompted us to investigate the topics presented in this work. We will gradually propose a dynamic energy planning approach for aerial robots. It plans both the path and computations while the aerial robot is flying and its batteries draining. 
 
@@ -189,37 +204,37 @@ A dynamic planning approach that we proposed in~\citep{seewald202Xenergy} relies
 \section{Structure}
 \label{sec:structure}
 
-\begin{figure}[!h]
-  \centering
-  \hspace*{-6ex}
-  \footnotesize\fontfamily{phv}\selectfont
-  \begin{tikzpicture}[auto, node distance=3cm,>=latex']
-      \node [block,node distance=1cm] (theblock0) {Introduction,~\fref{cp:intro}{Ch.}};
-      \node [block,below=1cm,node distance=1cm] (theblock) {Planning Problem,~\fref{cp:pb}{Ch.}};
-      \node [block,below=5.5cm] (theblock2) {Optimal Control Generation,~\fref{cp:opt}{Ch.}};
-      \node [block,below left=1cm and -.6cm of theblock] (theblock3) {Energy Models,~\fref{cp:model}{Ch.}};
-      \node [block,below right=.5cm and 2.3cm of theblock3] (theblock4) {Guidance,~\fref{cp:dyn}{Ch.}};
-      \node [block,below=.5cm and -.5cm of theblock3] (theblock5) {State Estimation,~\fref{cp:est}{Ch.}};
-      \draw [->] (theblock0) -- node{} (theblock);
-      \draw [->] (theblock) -- node{} (theblock2);
-      \draw [->] (theblock5) |- node{} (theblock2);
-      \draw [->] (theblock2) -| node{} (theblock4);
-      \draw [->] (theblock5) -- node{} (theblock3);
-      \draw [->] (theblock) |- node{} (theblock3);
-      \draw [->] (theblock) |-   node{} (theblock4);
-      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=64pt},yshift=0pt]
-      (theblock5.north west) -- (theblock5.north west -| theblock4.north east) node [black,midway,yshift=-25ex] (notextnode) {};
-      \node [block,below=-.8cm and -.5cm of notextnode,xshift=-3.3cm] (theblock6) {Implementation,~\fref{app:imp}{App.}};
-      \node [block,below=-.8cm and -.5cm of notextnode,xshift=1.1cm] (theblock8) {Summary and Future Directions,~\fref{cp:conc}{Ch.}};
-      \node [below=-.4cm and -.5cm of notextnode,xshift=-1.62cm] (comma) {,};
-      \node [block,left of=theblock3,node distance=3cm,yshift=1.15cm] (theblock7) {State of the Art,~\fref{cp:soa}{Ch.}};
-      \draw [->] (theblock7) |- node{} (theblock);
-      \draw [->] (theblock7) |- node{} (theblock3);
-      \draw [->] (theblock7) |- node{} (theblock2);
-  \end{tikzpicture}
-  \caption[Diagram of the structure]{Diagram of the structure of this work. The arrows are to be read with ``the chapter influences'' in the direction of the arrow. \fref{cp:intro}{Chapter} serves as an introduction while \fref{cp:soa}{Chapter} presents the state of the art. \fref{cp:pb}{Chapter} presents the planning problem, which is solved in \fref{cp:opt}{Chapter} using notions from \fref{cp:model}{Chapters}\fref{cp:est}{--\hspace*{-.8ex}}. \fref{cp:est}{Chapter} presents the guidance action to move over a replanned. \fref{cp:conc}{Chapter} concludes the work and proposes future directions and \fref{app:imp}{Appendix} the implementation.}
-  \label{fig:structure}
-\end{figure}
+%\begin{figure}[!h]
+%  \centering
+%  \hspace*{-6ex}
+%  \footnotesize\fontfamily{phv}\selectfont
+%  \begin{tikzpicture}[auto, node distance=3cm,>=latex']
+%      \node [block,node distance=1cm] (theblock0) {Introduction,~\fref{cp:intro}{Ch.}};
+%      \node [block,below=1cm,node distance=1cm] (theblock) {Planning Problem,~\fref{cp:pb}{Ch.}};
+%      \node [block,below=5.5cm] (theblock2) {Optimal Control Generation,~\fref{cp:opt}{Ch.}};
+%      \node [block,below left=1cm and -.6cm of theblock] (theblock3) {Energy Models,~\fref{cp:model}{Ch.}};
+%      \node [block,below right=.5cm and 2.3cm of theblock3] (theblock4) {Guidance,~\fref{cp:dyn}{Ch.}};
+%      \node [block,below=.5cm and -.5cm of theblock3] (theblock5) {State Estimation,~\fref{cp:est}{Ch.}};
+%      \draw [->] (theblock0) -- node{} (theblock);
+%      \draw [->] (theblock) -- node{} (theblock2);
+%      \draw [->] (theblock5) |- node{} (theblock2);
+%      \draw [->] (theblock2) -| node{} (theblock4);
+%      \draw [->] (theblock5) -- node{} (theblock3);
+%      \draw [->] (theblock) |- node{} (theblock3);
+%      \draw [->] (theblock) |-   node{} (theblock4);
+%      \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=64pt},yshift=0pt]
+%      (theblock5.north west) -- (theblock5.north west -| theblock4.north east) node [black,midway,yshift=-25ex] (notextnode) {};
+%      \node [block,below=-.8cm and -.5cm of notextnode,xshift=-3.3cm] (theblock6) {Implementation,~\fref{app:imp}{App.}};
+%      \node [block,below=-.8cm and -.5cm of notextnode,xshift=1.1cm] (theblock8) {Summary and Future Directions,~\fref{cp:conc}{Ch.}};
+%      \node [below=-.4cm and -.5cm of notextnode,xshift=-1.62cm] (comma) {,};
+%      \node [block,left of=theblock3,node distance=3cm,yshift=1.15cm] (theblock7) {State of the Art,~\fref{cp:soa}{Ch.}};
+%      \draw [->] (theblock7) |- node{} (theblock);
+%      \draw [->] (theblock7) |- node{} (theblock3);
+%      \draw [->] (theblock7) |- node{} (theblock2);
+%  \end{tikzpicture}
+%  \caption[Diagram of the structure]{Diagram of the structure of this work. The arrows are to be read with ``the chapter influences'' in the direction of the arrow. \fref{cp:intro}{Chapter} serves as an introduction while \fref{cp:soa}{Chapter} presents the state of the art. \fref{cp:pb}{Chapter} presents the planning problem, which is solved in \fref{cp:opt}{Chapter} using notions from \fref{cp:model}{Chapters}\fref{cp:est}{--\hspace*{-.8ex}}. \fref{cp:est}{Chapter} presents the guidance action to move over a replanned. \fref{cp:conc}{Chapter} concludes the work and proposes future directions and \fref{app:imp}{Appendix} the implementation.}
+%  \label{fig:structure}
+%\end{figure}
 
 The remainder of this work is illustrated in \fref{fig:structure}{Figure} structured as follows. In this chapter, we introduced the dynamic energy planning for aerial robots. We define the planning problem in \fref{cp:pb}{Chapter}, and propose the solution to the problem in \fref{cp:opt}{Chapter}, which builds upon the topics presented in the remaining chapters. In particular, in \fref{cp:soa}{Chapter} we present the state-of-the-art in energy modeling and planning for mobile robots. We include some energy models for heterogeneous computing hardware.
 
@@ -228,5 +243,5 @@ Dynamic planning requires accurate future energy predictions. We present the der
 Flying on a dynamic plan requires the derivation of a guidance action to guide the aerial robot in space. This process is elaborated in \fref{cp:dyn}{Chapter}. We discuss an approach to guide the aerial robot in space on the planned path. 
 An optimal solution for the dynamic mobile robot planning problem relies on optimal control techniques. We describe such techniques also in \fref{cp:dyn}{Chapter}. Specifically, after summarizing some of these techniques, we propose an optimization algorithm to select the optimal parameters configuration for the path and computations simultaneously. Finally, we conclude our work in \fref{cp:conc}{Chapter} along some recommendations for future research direction. 
 
-We then present some additional information in appendices. In \fref{app:imp}{Appendix} we propose the implementation in MATLAB(R) of the planning problem, the model, the estimation technique, the guidance action, and the derivation of the optimal control. 
+We then present some additional information in appendices. In \fref{app:imp}{Appendix} we propose the implementation in \matlab of the planning problem, the model, the estimation technique, the guidance action, and the derivation of the optimal control. 
 

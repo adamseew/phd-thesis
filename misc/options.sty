@@ -3,16 +3,16 @@
 %           %
 % Options   %
 %           %
-\makeatletter % changing font size to 10.5 (90-105 words per line, 41 lines per page)
-\renewcommand\normalsize{%
-\@setfontsize\normalsize{10.5}{12.5}}
-\renewcommand\small{%
-\@setfontsize\small{9.5}{11.5}}
-\renewcommand\footnotesize{%
-\@setfontsize\footnotesize{8.5}{10.5}}
-\renewcommand\scriptsize{%
-\@setfontsize\scriptsize{7.5}{9.5}}
-\makeatother
+%\makeatletter % changing font size to 10.5 (90-105 words per line, 41 lines per page)
+%\renewcommand\normalsize{%
+%\@setfontsize\normalsize{10.5}{12.5}}
+%\renewcommand\small{%
+%\@setfontsize\small{9.5}{11.5}}
+%\renewcommand\footnotesize{%
+%\@setfontsize\footnotesize{8.5}{10.5}}
+%\renewcommand\scriptsize{%
+%\@setfontsize\scriptsize{7.5}{9.5}}
+%\makeatother
 
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype} % better typography?
 
@@ -81,9 +81,13 @@
 \usepackage[
     paper=b5paper, %  176x250mm or 6.93x9.84in or 7x10in approx
     top=1in,
-    bottom=.875in,
-    outer=.75in,
-    inner=1in % margins source: http://www.bestbookprinting.com/app/webroot/blog/?p=1459
+    bottom=1.125in,
+    outer=1in,
+    inner=1.25in
+    %top=1in,
+    %bottom=.875in,
+    %outer=.75in,
+    %inner=1in % margins source: http://www.bestbookprinting.com/app/webroot/blog/?p=1459
 ]{geometry}
 
 % reduce overfull \hbox{} warnings
@@ -373,3 +377,9 @@ grow to right by=12pt}
 \DeclareRobustCommand{\ttfamily}{\oldttfamily\csname ttsize\endcsname}
 \newcommand{\setttsize}[1]{\def\ttsize{#1}}%
 
+\usepackage{changepage}
+
+\newcommand{\spr}{\begin{adjustwidth}{-.25in}{-.25in}}
+\newcommand{\epr}{\end{adjustwidth}}
+\newcommand{\sfr}{\begin{adjustwidth}{.25in}{.25in}}
+\newcommand{\efr}{\end{adjustwidth}}

@@ -71,17 +71,21 @@ To model the path, we use multiple mathematical functions $\varphi_1,\varphi_2,\
 \end{highlight}
 
 \begin{figure}[t!]
+  \sfr
   \centering
   \input{figures/line-pf.tikz}
   \caption[Concept of a line as a path function]{The path is mathematical function $\varphi(\mathbf{p}(t))=h$ that represents a line at an altitude $h$. A generic point $\mathbf{p}$ in 2D space intersects the plane formed by $\varphi$ at a given value $d$ of the $z$-axis.}
   \label{fig:line-pf}
+  \efr
 \end{figure}
 
 \begin{figure}[t!]
+  \sfr
   \centering
   \input{figures/circle-pf.tikz}
   \caption[Concept of a circle as a path function]{The path function now represents a circle at an altitude $h$. $\mathbf{p}$ intersects the cone formed by $\varphi$ at a given value $d_2$ of the $z$-axis.}
   \label{fig:circle-pf}
+  \efr
 \end{figure}
 
 We use this notion to guide the aerial robot using vector field in \fref{cp:dyn}{Chapter}. For instance, one can define a line as a path function with
@@ -206,6 +210,7 @@ Formally, we define the plan as a finite state machine using the constructs of p
 The value $\varepsilon$ in \fref{def:plan}{Definition} is the same $\varepsilon$ in \frefeq{eq:trig-vareps}. We illustrate the definition of the plan, stage, triggering, and final points in \fref{fig:state-machine}{Figures}\fref{fig:state-machine-loop}{--\hspace*{-.8ex}}.
 
 \begin{figure}[h!]
+  \sfr
   \center
   \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto,initial text=\footnotesize\fontfamily{phv}\selectfont{start}]
     \node[state,initial] (q_i) {$\Gamma_1$}; 
@@ -227,9 +232,11 @@ The value $\varepsilon$ in \fref{def:plan}{Definition} is the same $\varepsilon$
   \end{tikzpicture}
   \caption[Definition of a plan]{Definition of a plan $\Gamma$ as an FSM. Each state is a stage $\Gamma_i$, the transition happens in the proximity of specific points called triggering points $\mathbf{p}_{\Gamma_i}$. The accepting stage $\Gamma_f$ indicates the termination of the plan.}
   \label{fig:state-machine}
+  \efr
 \end{figure}
 In \fref{fig:state-machine}{Figure} we illustrate a plan with a linear succession of stages. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$, where $t_1<t_2<t_3$ are three different time instants. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
 \begin{figure}[h!]
+  \sfr
   \center
   \begin{tikzpicture}[shorten >=1pt,node distance=27ex,on grid,auto]
     \node        (q_dots0) {$\cdots$};
@@ -241,12 +248,14 @@ In \fref{fig:state-machine}{Figure} we illustrate a plan with a linear successio
     (q_0) edge [loop above] node {$\mathbf{p}(t_2)$} (q_0)
     ; %end path
   \end{tikzpicture}
-\caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between stages (states in the FSM) are expressed in the function of the last and/or previous triggering points.}
-\label{fig:state-machine2}
+  \caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between stages (states in the FSM) are expressed in the function of the last and/or previous triggering points.}
+  \label{fig:state-machine2}
+  \efr
 \end{figure}
 In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can express the basic constructs--such as path functions and triggering points--in the function of the $i$th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}, where we propagate a path parameter to all the following triggering points and path functions.
 
 \begin{figure}[h!]
+  \sfr
   \center
   \begin{tikzpicture}[shorten >=.5pt,node distance=12.5ex,on grid,auto,initial text=\footnotesize\fontfamily{phv}\selectfont{start}]
     \node[state,initial] (q_i) {$\Gamma_1$}; 
@@ -270,9 +279,9 @@ In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can expre
     \draw [decorate,decoration={brace,amplitude=10pt,mirror,raise=60pt},yshift=0pt]
     (q_i.south west) -- (q_f.south west) node [black,midway,yshift=-22ex]{$\Gamma$};
   \end{tikzpicture}
-  \vspace*{-2ex} % <-- for formatting; remove eventually
   \caption[Definition of a plan with a loop]{Definition of a plan $\Gamma$ with periodic patterns. Stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ are iterated with a shift $\mathbf{d}$.}
-  \label{fig:state-machine-loop}\vspace*{-2ex} % <-- for formatting; remove eventually
+  \label{fig:state-machine-loop}
+  \efr
 \end{figure}
 In \fref{fig:state-machine-loop}{Figure} we illustrate a plan composed of $n$ stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ (containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$) that are reiterated with the shift $\mathbf{d}$. $t_3<t_4$ is another time instant. We will see in \fref{cp:dyn}{Chapter} that the algorithm that solves the coverage problem outputs primitive paths and the corresponding plan to be replanned is equivalent to \fref{fig:state-machine-loop}{Figure}. 
 
@@ -333,20 +342,24 @@ In this section, we discuss an example of a plan for the Opterra autonomous aeri
 
 In the paths sub-plan, we define the paths that form the plan of the agricultural scenario. We recall that in the scenario, the aerial robot covers the polygon in \fref{fig:plot2}{Figure}. For simplicity, we assume the polygon has four sides with four vertices $v:=\{v_1,\dots,v_4\}$ (it is a rectangle) and has no obstacles $o:=\{\emptyset\}$. We will later propose in \fref{cp:dyn}{Chapter} an approach that can deal with an arbitrary number of polygon and obstacles vertices. An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage.
 \begin{figure}[h!]
+  \sfr
   \centering
   \input{figures/bm-like_pb.tikz}
   \caption[Intuitive plan to cover a regular polygon with four sides]{An intuitive plan to cover a regular polygon with four sides. The plan is composed of circles $\varphi_2,\varphi_4$ and lines $\varphi_1,\varphi_3$. To switch between paths the aerial robot reaches the proximity of triggering points ($\mathbf{p}_{\Gamma_1}:=(x_{\Gamma_1},y_{\Gamma_1}),\mathbf{p}_{\Gamma_2},\mathbf{p}_{\Gamma_3},\mathbf{p}_{\Gamma_4}$). The dashed blue line indicates the triggering points, and the black line is the planned flight. The rest of the polygon is covered iterating the primitive paths and triggering points with a shift.}
   \label{fig:bm-like_pb}
+  \efr
 \end{figure}
 Such intuitive static plan is illustrated in \fref{fig:bm-like_pb}{Figure}.
 
 We note that in the literature, the pattern in \fref{fig:bm-like_pb}{Figure} is similar to boustrophedon motion~\citep{choset2005principles,lavalle2006planning,choset2001coverage}, but for the circles that are straight lines parallel to the segments connecting the corresponding vertices.
 We can use the intuitive plan to solve the coverage problem with a rotary-wing aerial robot; in fact, the boustrophedon motion is abundant in aerial robotics literature relative to CPP~\citep{difranco2015energy,araujo2013multiple,artemenko2016energy,cabreira2018energy}. However, it is unsuitable for a fixed-wing aerial robot such as the Opterra. Fixed-wing aerial robots have considerable nonholonomic constraints and overall reduced maneuverability compared to rotary-wings~\citep{dille2013efficient,mannadiar2010optimal,xu2011optimal,xu2014efficient}. They are generally unable to perform quick turns in flight~\citep{wang2017curvature}. 
 \begin{figure}[h!]
+  \sfr
   \centering
   \input{figures/zambo-like_pb.tikz}
   \caption[Fixed-wing aerial robot's plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle of the intuitive plan in \fref{fig:bm-like_pb}{Figure} but preserving long turns necessary for the flight of a fixed-wing aerial robot. Likewise in \fref{fig:bm-like_pb}{Figure}, the entire polygon is covered iterating the primitive paths (gray lines) and triggering points. The dashed blue line indicates the triggering points, and the black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_\mathbf{d}/4$.}
   \label{fig:zambo-like_pb}
+  \efr
 \end{figure}
 We illustrate an updated version of the intuitive plan for fixed-wing aerial robots in \fref{fig:zambo-like_pb}{Figure}. This latter variation of the coverage is similar to Zamboni motion in the literature~\citep{araujo2013multiple}. 
 We term the plans in \fref{fig:bm-like_pb}{Figure} and \fref{fig:zambo-like_pb}{Figure} boustrophedon-like and Zamboni-like motions\findex{boustrophedon-like motion}\findex{Zamboni-like motion} because they are similar to the robotics literature but optimized to our use-case and potentially a broad class of aerial robots with turning constraints. Indeed these constraints are commonly treated in the aerial robotics literature~\citep{artemenko2016energy,li2011coverage,xu2011optimal,xu2014efficient}. % maybe cite also huang2001optimal
@@ -406,15 +419,16 @@ where for simplicity, we assume that we can change the parameter in advance at a
   \rotatesidewayslabel
   \centering
   \input{figures/zambo-repla_pb.tikz}
-  \vspace*{78pt}
+  \vspace*{42pt}
   \caption[Alteration of a path parameter of the fixed-wing aerial robot's plan]{Alteration of a path parameter of the fixed-wing aerial robot's plan in \fref{fig:zambo-like_pb}{Figure}. The black line is the un-altered path up to the triggering point $\mathbf{p}_{\Gamma_3}$, where the path can be altered with the parameter $c_{4,1}$ relative to the radius $r_2$ of $\varphi_4$. The alteration changes the distance between the survey lines hence extending or shortening the flying time. The longest distance is then $2(r_1-r_2(\overline{c}_{4,1}))$, the shortest $2(r_1-r_2(\underline{c}_{4,1}))$. Same principle applies to path parameter $c_{8,1}$ for the next two survey lines, $c_{12,1}$, and so on.}
   \label{fig:zambo-repla_pb}
 \end{sidewaysfigure}
 
 The concept is illustrated in \fref{fig:zambo-repla_pb}{Figure}. The black line is the un-altered path until the triggering point $\mathbf{p}_{\Gamma_3}$, where the path splits depending on the value of the path parameter $c_{4,1}$. The alteration of the plan shortens or extends the flying time and thus influence the energy consumption over time. Since the last path $\varphi_4$ is a function of the parameter $c_{4,1}$, the correct expression for \frefeq{eq:second-circ-gene} is 
-\begin{equation}\label{eq:line-gene-param}
-  \varphi_{i+3}(\mathbf{p}(t),c_{4,1}):=(x-x_{\Gamma_2}+r_2(c_{4,1})-\lfloor i/4\rfloor x_\mathbf{d})^2+(y-y_{\Gamma_3}-\lfloor i/4\rfloor y_\mathbf{d})^2-r_2(c_{4,1})^2.
-\end{equation}
+\begin{equation}\label{eq:line-gene-param}\begin{split}
+  \varphi_{i+3}(\mathbf{p}(t),c_{4,1}):=(&x-x_{\Gamma_2}+r_2(c_{4,1})-\lfloor i/4\rfloor x_\mathbf{d})^2+\\
+  (&y-y_{\Gamma_3}-\lfloor i/4\rfloor y_\mathbf{d})^2-r_2(c_{4,1})^2.
+\end{split}\end{equation}
 
 The last triggering point $\mathbf{p}_{\Gamma_4}$ of the example in \frefeq{eq:last-trig-gene} is likewise a function of the parameter $c_{4,1}$
 \begin{equation}
@@ -461,12 +475,18 @@ The plan for the precision agriculture scenario is composed of stages containing
 \end{subequations}
 $\forall i\in\{1,5,9,\dots\}$. The path constraint set for the path parameter $c_{i,1}$ is then defined in \frefeq{eq:path-const-c}, the computation constraint set for the computation parameter $c_{i,2}$ in \frefeq{eq:cnn-comp-const} and for the computation parameter $c_{i,3}$ in \frefeq{eq:encr-comp-const}. The triggering points
 \begin{subequations}\label{eq:ex-pb-trigs}\begin{align}
-  \mathbf{p}_{\Gamma_i}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}+\lfloor i/4\rfloor y_\mathbf{d}),\\
-  \mathbf{p}_{\Gamma_{i+1}}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}+\lfloor i/4\rfloor y_\mathbf{d}),\\
-  \mathbf{p}_{\Gamma_{i+2}}(c_{4,1},\dots,c_{i-1,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}+\lfloor i/4\rfloor y_\mathbf{d}),\\
   \begin{split}
-  \mathbf{p}_{\Gamma_{i+3}}(c_{4,1},\dots,c_{i+3,1})&:=(x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1-2r_2(c_{i+3,1})\\
-    &\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,\,+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}+\lfloor i/4\rfloor y_\mathbf{d}).\end{split}
+  \mathbf{p}_{\Gamma_i}(c_{4,1},\dots,c_{i-1,1}):=(&x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+\\
+  &\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}+\lfloor i/4\rfloor y_\mathbf{d}),\end{split}\\
+  \begin{split}
+  \mathbf{p}_{\Gamma_{i+1}}(c_{4,1},\dots,c_{i-1,1}):=(&x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\\
+  &\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_1}+\lfloor i/4\rfloor y_\mathbf{d}),\end{split}\\
+  \begin{split}
+  \mathbf{p}_{\Gamma_{i+2}}(c_{4,1},\dots,c_{i-1,1}):=(&x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1+\\
+  &\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}+\lfloor i/4\rfloor y_\mathbf{d}),\end{split}\\
+  \begin{split}
+  \mathbf{p}_{\Gamma_{i+3}}(c_{4,1},\dots,c_{i+3,1}):=(&x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+2r_1-2r_2(c_{i+3,1})+\\
+  &\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}+\lfloor i/4\rfloor y_\mathbf{d}).\end{split}
 \end{align}
 \end{subequations}
 $\forall i\in\{5,9,\dots\}$. The initial points $x_{\Gamma_1},y_{\Gamma_1},$ and $y_{\Gamma_3}$ are given along the shift $\mathbf{d}=(x_\mathbf{d},y_\mathbf{d})$, the radius of the first circle $r_1$, and the last triggering point $\mathbf{p}_l$. The function $r_2$ which returns the radius of the second circle and it is a function of the path parameter $c_{i,1}$ is in \frefeq{eq:radius-dynamic} contains $r$ which is likewise given (we can estimate it from the desired distance of the covering lines: $r=r_1-x_\mathbf{d}/2$).

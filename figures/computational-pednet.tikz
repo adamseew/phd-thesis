@@ -242,7 +242,7 @@
 \definecolor{cffe8e8}{RGB}{255,232,232}
 \definecolor{cfff0f0}{RGB}{255,240,240}
 \definecolor{cfff8f8}{RGB}{255,248,248}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.564000, xscale=0.550000, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.564000, xscale=0.500000, inner sep=0pt, outer sep=0pt]
 \scriptsize
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.512pt]
   \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]

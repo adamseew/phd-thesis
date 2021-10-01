@@ -170,7 +170,7 @@
 \definecolor{cfafafa}{RGB}{250,250,250}
 \definecolor{cfcfcfc}{RGB}{252,252,252}
 \scriptsize
-\begin{tikzpicture}[baseline={(0,-5.16)},y=0.80pt, x=0.80pt, yscale=-0.566000, xscale=0.580000, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[baseline={(0,-5.16)},y=0.80pt, x=0.80pt, yscale=-0.566000, xscale=0.510000, inner sep=0pt, outer sep=0pt]
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.512pt]
   \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
