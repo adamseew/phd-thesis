@@ -3,16 +3,16 @@
 %           %
 % Options   %
 %           %
-%\makeatletter % changing font size to 10.5 (90-105 words per line, 41 lines per page)
-%\renewcommand\normalsize{%
-%\@setfontsize\normalsize{10.5}{12.5}}
-%\renewcommand\small{%
-%\@setfontsize\small{9.5}{11.5}}
-%\renewcommand\footnotesize{%
-%\@setfontsize\footnotesize{8.5}{10.5}}
-%\renewcommand\scriptsize{%
-%\@setfontsize\scriptsize{7.5}{9.5}}
-%\makeatother
+\makeatletter % changing font size to 10.5 (90-105 words per line, 41 lines per page)
+\renewcommand\normalsize{%
+\@setfontsize\normalsize{10.5}{12.5}}
+\renewcommand\small{%
+\@setfontsize\small{9.5}{11.5}}
+\renewcommand\footnotesize{%
+\@setfontsize\footnotesize{8.5}{10.5}}
+\renewcommand\scriptsize{%
+\@setfontsize\scriptsize{7.5}{9.5}}
+\makeatother
 
 \usepackage[activate={true,nocompatibility},final,tracking=true,kerning=true,spacing=true,factor=1100,stretch=10,shrink=10]{microtype} % better typography?
 
@@ -81,13 +81,9 @@
 \usepackage[
     paper=b5paper, %  176x250mm or 6.93x9.84in or 7x10in approx
     top=1in,
-    bottom=1.125in,
-    outer=1in,
-    inner=1.25in
-    %top=1in,
-    %bottom=.875in,
-    %outer=.75in,
-    %inner=1in % margins source: http://www.bestbookprinting.com/app/webroot/blog/?p=1459
+    bottom=.875in,
+    outer=.75in,
+    inner=1in % margins source: http://www.bestbookprinting.com/app/webroot/blog/?p=1459
 ]{geometry}
 
 % reduce overfull \hbox{} warnings
@@ -105,11 +101,12 @@
   {\fontfamily{phv}\selectfont\large\bfseries\color{foo}}
   {\thesection}{1em}{#1}
 \titleformat{\subsection}
-  {\fontfamily{phv}\selectfont\bfseries\color{foo}}
+  {\fontfamily{phv}\selectfont\normalsize\bfseries\color{foo}}
   {\thesubsection}{1em}{#1}
 \titleformat{\subsubsection}
-  {\fontfamily{phv}\selectfont\bfseries\color{foo}}
+  {\fontfamily{phv}\selectfont\small\bfseries\color{foo}}
   {\thesubsubsection}{1em}{#1}
+
 
 
 % contents page
@@ -275,7 +272,7 @@ grow to right by=12pt}
 \newcommand{\stt}[1]{{\small\tt #1}} % \small\tt as tt is too big with the provided proof
 \newcommand{\powprof}{\stt{powprofiler}}
 
-\newcommand{\matlab}{\textsc{M}\hspace{-.25ex}\textsc{a}\hspace{-.25ex}\textsc{t}\hspace{-.25ex}\textsc{l}\hspace{-.25ex}\textsc{a}\hspace{-.25ex}\textsc{b}\hspace{.3ex}(R) }
+\newcommand{\matlab}{\mbox{\textsc{M}\hspace{-.25ex}\textsc{a}\hspace{-.25ex}\textsc{t}\hspace{-.25ex}\textsc{l}\hspace{-.25ex}\textsc{a}\hspace{-.25ex}\textsc{b}\hspace{.3ex}(R) }}
 
 \usepackage{diagbox}
 
@@ -379,7 +376,5 @@ grow to right by=12pt}
 
 \usepackage{changepage}
 
-\newcommand{\spr}{\begin{adjustwidth}{-.25in}{-.25in}}
-\newcommand{\epr}{\end{adjustwidth}}
 \newcommand{\sfr}{\begin{adjustwidth}{.25in}{.25in}}
 \newcommand{\efr}{\end{adjustwidth}}

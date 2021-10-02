@@ -2,7 +2,7 @@
 \definecolor{ca0a0a4}{RGB}{160,160,164}
 \definecolor{c494949}{RGB}{73,73,73}
 \definecolor{c808080}{RGB}{128,128,128}
-\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.500000, xscale=0.480000, inner sep=0pt, outer sep=0pt]
+\begin{tikzpicture}[y=0.80pt, x=0.80pt, yscale=-0.510000, xscale=0.490000, inner sep=0pt, outer sep=0pt]
 \scriptsize
 \begin{scope}[draw=black,line join=bevel,line cap=rect,even odd rule,line width=0.512pt]
   \begin{scope}[cm={{1.0,0.0,0.0,1.0,(0.0,0.0)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
@@ -289,7 +289,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(291.309,298.353)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(287.309,295.353)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(291.309,295.353)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] (text342) {28};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(291.309,298.353)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
