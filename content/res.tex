@@ -90,8 +90,8 @@ We then derived a set of measurement and predictive layers of another computatio
   \end{subfigure}
   \sfr
   \caption[Predictive layers of the matrix exponentiation computation in the function of varying exponent and matrix size]{Predictive layers with the power in \fref{fig:matrix-exponent:power}{Figure}, energy in \fref{fig:matrix-exponent:energy}{Figure}, and battery SoC power in \fref{fig:matrix-exponent:battery}{Figure} of the {\small\tt matrix-gpu} component in the function of varying matrix size and exponent. The figure appeared in our early study~\citep{seewald2019coarse}.}
-  \efr
   \label{fig:matrix-exponent}
+  \efr
 \end{figure}
 We illustrate the predictive layers for the computation varying the parameter $c_{i,1}$ from 256 to 4096 and $c_{i,2}$ from twenty to sixty in \fref{fig:matrix-exponent}{Figure} (these values enclose the sets $\mathcal{S}_{i,1}$ and $\mathcal{S}_{i,2}$ respectively). Particularly, \fref{fig:matrix-exponent:power}{Figure} shows the average power, \fref{fig:matrix-exponent:energy}{Figure} the overall energy, and \fref{fig:matrix-exponent:battery}{Figure} the battery SoC as a function of matrix size and exponent. We report the average power consumption independently of the running time of the {\small\tt matrix-gpu}, whereas the overall energy measures are measured up until a given configuration of the two parameters $c_{i}=\{c_{i,1},c_{i,2}\}$ evaluated the exponentiation, as well as for the battery state of charge. The computation might pose no notable effect on the total power consumption for values of $c_{i}$ close to $\underline{c}_{i,1}$ and $\underline{c}_{i,2}$ for parameters $c_{i,1},c_{i,2}$. An effect indicating the computation terminated before reaching the maximal power level~\citep{seewald2019coarse}, also visible in \fref{fig:darknet-layer1}{Figure}. It is the reason why there is a notable difference in average power for two opposite configurations.
 
@@ -133,7 +133,7 @@ These were modified to run for several instances over a time interval and implem
 \begin{table}[h]
   \sfr
   \footnotesize\fontfamily{phv}\selectfont
-  \begin{tabularx}{\textwidth-.5in}{|l|*{3}{X|}X|}
+  \begin{tabularx}{\textwidth}{|l|*{3}{X|}X|}
     \hline
     \multirow{2}{*}{Computation} & ODROID & \multicolumn{3}{c|}{NVIDIA} \\
     & XU3 & TK1 & TX2 & Nano \\
@@ -158,7 +158,7 @@ In \fref{tab:benchmark-components}{Table} we additionally compare {\small\tt dar
 
 To validate the computations energy model from \fref{sec:comp-ener-model}{Section} illustrated in this chapter via the output of the \powprof{} tool, we demonstrated that the model and the tool function on numerous heterogeneous computing hardware and various computations. In \fref{tab:benchmark-components}{Table}, we empirically evaluate the {\small\tt matrix-cpu} computation on the ODROID XU3, NVIDIA Jetson TK1, TX2, and Nano computing hardware\findex{ODROID XU3}\findex{NVIDIA Jetson!TK1}\findex{NVIDIA Jetson!TX2}\findex{NVIDIA Jetson!Nano}. The {\small\tt matrix-gpu} on the NVIDIA Jetson computing hardware, and the rest of the computations in this section on the NVIDIA Jetson TX2 computing hardware. A cross-platform comparison shows the energy efficiency of different computing hardware: the {\small\tt matrix-cpu} computation is most efficient on NVIDIA Jetson TX2 computing hardware, followed by Nano, TK1, and ODROID XU3. Some computations not explicitly evaluated here can be potentially extended in future instances of our approach (hyphen in parenthesis in \fref{tab:benchmark-components}{Table}--future work is then in \fref{cp:conc}{Chapter}) conversely to others that are not supported (hyphen in \fref{tab:benchmark-components}{Table}). 
 
-We then evaluate the \powprof{} tool through comparison with an external measuring device, i.e., a multimeter connected to the power source of the NVIDIA Jetson TX2 hardware. We observe a close co-relation between external and internal power measures. The error is less than 3\% over one minute, with the external exceeding the internal measuring device, possibly due to the energy impact of the carrier board~\citep{seewald2019coarse}. Indeed the NVIDIA Jetson TX2 computing hardware we use is mounted on the Jetson Developer Kit board in \fref{fig:tx2}{Figure}. We further observe that the internal measurements of the overall power include the energy impact of the tool itself, and we thus conclude that \powprof{} has a marginal effect on power~\citep{seewald2019coarse}. We later saw such a marginal effect with other auxiliary libraries, such as the Robot Operating System (ROS) middleware\findex{Robot Operating System}~\citep{zamanakos2020energy}.
+We then evaluate the \powprof{} tool through comparison with an external measuring device, i.e., a multimeter connected to the power source of the NVIDIA Jetson TX2 hardware. We observe a close co-relation between external and internal power measures. The error is less than 3\% over one minute, with the external exceeding the internal measuring device, possibly due to the energy impact of the carrier board~\citep{seewald2019coarse}. Indeed the NVIDIA Jetson TX2 computing hardware we use is mounted on the Jetson Developer Kit board in \fref{fig:tx2}{Figure}. We further observe that the internal measurements of the overall power include the energy impact of the tool itself, and conclude that the tool's effect on the power is marginal~\citep{seewald2019coarse}. We later saw the same effect with other libraries, such as the Robot Operating System (ROS) middleware\findex{Robot Operating System}~\citep{zamanakos2020energy}.
 
 We further validate our model against a more fine-grained model in the literature~\cite{nunez2013enabling,nikov2015evaluation}, using the ODROID XU3 computing hardware with the {\small\tt matrix-cpu} computation. We described this further validation step in our early work~\citep{seewald2019coarse}. The fine-grained model requires some apriori training, which we performed by evaluating the computation configuration with parameters $c_{i,1}$ 512, and $c_{i,2}$ 30 (meaning the thirtieth power of square matrix of size 512). The model returns an expected energy value, which we compared by subsequently running the computation, obtaining an error of 3.42\%~\citep{seewald2019coarse}. Similarly, we used the \powprof{} tool by varying $c_{i,2}$ with a step that excludes the configuration $c_{i,2}$ 30. We then obtained an expected energy value for configuration 30, which we again evaluated against running the configuration subsequently, obtaining an error of 2.25\%~\citep{seewald2019coarse}, justifying ours against another model in the literature. 
 
@@ -172,7 +172,7 @@ In this section, we derive motions energy models from \fref{sec:mot-ener-model}{
 \subsection{Periodic modeling case study}
 \label{sec:res-perio}
 
-The first case study is the aerial robot flying the agricultural scenario and doing static CPP, which we studied in our previous work~\citep{seewald2020mechanical}. 
+The first case study is the aerial robot flying the agricultural scenario and doing static CPP while exploiting the model in \frefeq{eq:fourier} for the energy signal, which we studied in our previous work~\citep{seewald2020mechanical}. 
 
 \subsubsection*{Experimental setup}
 
@@ -262,15 +262,20 @@ The figure then shows the energy impact: the higher the key size and FPS rate, t
 
 Finally, \fref{fig:soc-schedule}{Figure} shows dynamic schedules. \sref{lab:sched-I}{} has a configuration of 5.8 FPS and 32 bits at take-off and landing, of 32 FPS and 448 bits for the duration of two minutes in the middle of the cruise, and of 5.8 FPS and 32 bits otherwise, resulting in 2.05\% remaining battery SoC at the end of the flight. \sref{lab:sched-II}{} has the same configuration as \fref{lab:sched-I}{} only for the two minutes in the middle of the cruise, and 5.8 FPS and 32 bits otherwise, resulting in 7.86\% remaining SoC~\citep{seewald2020mechanical}. In both cases, we show that the dynamic scheduling allows completing the flight while draining the battery optimally w.r.t. the current battery SoC.
 
-
----
-
-
 \subsection{Differential modeling case study}
 \label{sec:res-diff}
 
-This section details another case-study of the same aerial robot proposed in the previous section: the Opterra fixed-wing aerial robot for CPP in an agricultural scenario equipped with the Paparazzi flight controller. The computing hardware is this time the NVIDIA Jetson Nano\findex{NVIDIA Jetson!Nano}, implementing the computations with the ROS middleware. In this use-case we evaluated some initial experiments of the differential model in \frefeq{eq:state-perf} in \fref{sec:deriv}{Section}, opposed to the model in \frefeq{eq:fourier}. Here we did not consider the energy-aware coverage planning along various power-saving schedules (empirically demonstrated in the next section), but rather evaluated initial feasibility of the periodic differential model.  
+The second case study is the same aerial robot and agricultural scenario from \fref{sec:res-perio}{Section}, but now exploiting the model in \frefeq{eq:state-perf} along with different computing hardware and computations.
 
+\subsubsection*{Experimental setup}
+
+The aerial robot is the Opterra fixed-wing for CPP in an agricultural scenario equipped with the Paparazzi flight controller. The computing hardware is now the NVIDIA Jetson Nano\findex{NVIDIA Jetson!Nano}, implementing the computations with the ROS middleware. In this use-case, we evaluated some initial experiments of the differential model in \frefeq{eq:state-perf} in \fref{sec:deriv}{Section}, opposed to the model in \frefeq{eq:fourier}. Here we did not consider the energy-aware coverage planning and various power-saving schedules (empirically demonstrated in the next section) but instead evaluated the initial feasibility of the periodic differential model.
+
+The computing hardware implements three computations: {\small\tt ssd-mobilenet} computation SSD-MobileNet V2 convolutional neural network (\Gls{acr:cnn})\findex{convolutional neural network}\findex{SSD-MobileNet V2}\findex{computations!ssd-mobilenet@\texttt{ssd-mobilenet}}~\citep{sandler2018mobilenetv2}, whereas {\small\tt pednet} computation PedNet fully convolutional network (\Gls{acr:fcn})\findex{fully convolutional network}\findex{computations!pednet@\texttt{pednet}}~\citep{ullah2018pednet}. The third computation is termed {\small\tt sender}, which sends the eventual detections on the ground using the technical standard for wireless communication IEEE 802.11\findex{IEEE 802.11}~\citep{crow1997ieee}. Alike the previous section, the computations and motion energy models are combined without needing to test the two together, simplifying the modeling effort. 
+
+\subsubsection*{Motion energy evaluation}
+
+The coverage path is to be seen in \fref{fig:cruise-path}{Figure}; the aerial robot flies static CPP with the Zamboni-like motion in \fref{sec:path-wise}{Section}, implemented in the Paparazzi flight controller, in the same condition from the previous section. 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
@@ -278,48 +283,20 @@ This section details another case-study of the same aerial robot proposed in the
   \begin{subfigure}[c]{0.475\textwidth}
     \centering
     \input{figures/cruise-path.tikz}
-    \caption{.}
+    \caption{3D path}
     \label{fig:cruise-path}
   \end{subfigure}
   \begin{subfigure}[c]{0.475\textwidth}
     \centering
     \input{figures/cruise-xy.tikz}
     \vspace*{1.1ex}
-    \caption{.}
+    \caption{2D path with altitude zero}
     \label{fig:cruise-xy}
   \end{subfigure}
-  \caption{.}
+  \caption[Paths for the cruise phase in the second case study]{Paths for the cruise phase in the second case study with the Opterra fixed-wing aerial robot flying the Zamboni-like motion.}
   \label{fig:cruise-prelim}
 \end{figure}
-The computing hardware implements three computations. The {\small\tt ssd-mobilenet} computation implements the SSD-MobileNet V2 convolutional neural network (\Gls{acr:cnn})\findex{convolutional neural network}\findex{SSD-MobileNet V2}\findex{computations!ssd-mobilenet@\texttt{ssd-mobilenet}}~\citep{sandler2018mobilenetv2}, whereas the {\small\tt pednet} computation implements the PedNet fully convolutional network (\Gls{acr:fcn})\findex{fully convolutional network}\findex{computations!pednet@\texttt{pednet}}~\citep{ullah2018pednet}. The third computation is termed {\small\tt sender}, as the name suggests, it sends the eventual detections on ground using the technical standard for wireless communication IEEE 802.11\findex{IEEE 802.11}~\citep{crow1997ieee}. Alike the previous section, the computations and motion energy models are combined without needing to test the two together. 
-The coverage path is to be seen in \fref{fig:cruise-prelim}{Figure}; the aerial robot flies static CPP with the Zamboni-like motion in \fref{sec:path-wise}{Section}, implemented in the Paparazzi flight controller, in the same condition from the previous section. Indeed such a flight plan can be seen in \fref{fig:cruise-path}{Figure}, whereas in \fref{fig:cruise-xy}{Figure} is the path from above. There is slight deviation mostly on the $x$-axis, which we attribute to the atmospheric conditions. Initially, we thought to count the period approximately at one fourth of the one we proposed in \fref{sec:pathwise}{Section} (being and end of go-to-waypoint), supposing this would be optimal to model the periodicity of the energy signal, an assumption that we later correct to flying $\varphi_{i},\varphi_{i+1},\varphi_{i+2},\varphi_{i+3}\,\forall i\in\lceil l/4\rceil$ with $l$ a given number of stages in the next section.
-
-\begin{figure}[h!]
-  \centering
-  \fontfamily{phv}\selectfont
-  \footnotesize    
-  \begin{subfigure}[b]{0.32\textwidth}
-    \centering
-    \input{figures/max-qos.tikz}
-    \caption{.}
-    \label{fig:max-qos}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.32\textwidth}
-    \centering
-    \input{figures/computational-mobilenet.tikz}
-    \caption{.}
-    \label{fig:pednet}
-  \end{subfigure}
-  \begin{subfigure}[b]{0.32\textwidth}
-    \centering
-    \input{figures/computational-pednet.tikz}
-    \caption{.}
-    \label{fig:mobilenet}
-  \end{subfigure}
-  \caption{.}
-  \label{fig:computational}
-\end{figure}
-For the computations {\small\tt ssd-mobilenet} and {\small\tt pednet} the parameter $c_{i,1}$ allows to alter the rate hazard detection rate, from two to ten frames per second enclosed in the constraint set $\mathcal{S}_{i,1}$. These numbers are evaluated empirically to match our detection criteria opposed to, e.g., the computation {\small\tt darknet-gpu} where we analyzed all the possible detection rates on the NVIDIA Jetson TX2 computing hardware. The computation {\small\tt sender} can be then altered with the parameter $c_{i,2}$ indicating the rate at which the detections are sent to the ground, also from two to ten seconds (again enclosing the constraint set $\mathcal{S}_{i,2}$). All the computations are wrapped in ROS nodes, meaning that $c_{i,1}$ and $c_{i,2}$ can be changed or analyzed by subscribing to appropriate ROS topics. The predictive layers in temrs of battery SoC are in \fref{fig:mobilenet}{Figure} for the {\small\tt ssd-mobilenet} computation, and in \fref{fig:pednet}{Figure} for the {\small\tt pednet} computation. We use the colors here to underline the energy impact of some configurations, otherwise not visible in grayscale.
+\fref{fig:cruise-xy}{Figure} is then the path from above. There is a slight deviation mostly on the $x$-axis, which we attribute to the atmospheric conditions. Initially, we counted the period approximately at one-fourth of the one we proposed in \fref{sec:path-wise}{Section} (begin and end of go-to-waypoint), supposing this would be optimal to model the periodicity of the energy signal. We later corrected this assumption to flying $\varphi_{i},\varphi_{i+1},\varphi_{i+2},\varphi_{i+3}\,\forall i\in\lceil l/4\rceil$ with $l$ a given number of stages, and we will see the results in the next section. 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
@@ -327,26 +304,56 @@ For the computations {\small\tt ssd-mobilenet} and {\small\tt pednet} the parame
   \begin{subfigure}[c]{0.43\textwidth}
     \centering
     \input{figures/cruise-energy.tikz}
-    \caption{.}
+    \caption{Modeled motion energy}
     \label{fig:cruise-energy}
   \end{subfigure}
-  \begin{subfigure}[c]{0.43\textwidth}
+  \begin{subfigure}[c]{0.45\textwidth}
     \centering
     \input{figures/merge.tikz}
-    \caption{.}
+    \caption{Coupled motion and computations energy}
     \label{fig:cruise-merge}
   \end{subfigure}
-  \caption{.}
+  \caption[Modeled energy evolution with the differential of the second case study]{Modeled energy evolution with the differential model of the second case study, corresponding to the cruise path in \fref{fig:cruise-prelim}{Figure}.}
   \label{fig:cruise-energies}
 \end{figure}
-The overall energy assessment for what concerns the motion is then in \fref{fig:cruise-energy}{Figure}, and for the motion and computations energies in \fref{fig:cruise-merge}{Figure}. For the latter, our early model consisted for an expression similar to \frefeq{eq:state-perf}, but for the components $A_j$ of matrix $A$
+The overall energy assessment for what concerns the motion is then in \fref{fig:cruise-energy}{Figure}, and for the motion and computations energies in \fref{fig:cruise-merge}{Figure}. For the latter, our early model consisted of an expression similar to \frefeq{eq:state-perf}, but for the components $A_j$ of matrix $A$
 \begin{equation}\label{eq:alter-aj}
   A_j:=\begin{bmatrix}0 & 1 \\ -j^2\omega^2 & 0\end{bmatrix},
 \end{equation}
-where $\omega$ is the same from \frefeq{eq:fourier}. We note that the expression derived from using $A_j$ in \frefeq{eq:alter-aj} is equivalent to \frefeq{eq:aj} for periodic modeling purposes (the equivalence comes from the proof of \fref{lem:eqv}{Lemma}, where we evaluate the determinant of $A_j$ in \frefeq{eq:det-aj} and thus multiply the first row and second column with second row and first column with the negative unit, i.e., $j^2\omega^2=j\omega j\omega$). In the model, we then used the coefficients of the fourier series as an initial guess for the model $\mathbf{q}(t_0)$ at a given time instant $t_0$. We derived in the coefficient via the analysis from \fref{sec:res-perio}{Section}. For modeling purposes, we limited the actual flying time of the cruise phase in \fref{fig:cruise-prelim}{Figure} to five minutes. The model output from the initial guess is then the gray area, whereas the energy data are the black solid line. 
+where $\omega$ is the same as in \frefeq{eq:fourier}. We note that the expression derived from using $A_j$ in \frefeq{eq:alter-aj} is equivalent to \frefeq{eq:aj} for periodic modeling purposes (the equivalence comes from the proof of \fref{lem:eqv}{Lemma}, where we evaluate the determinant of $A_j$ in \frefeq{eq:det-aj} and thus multiply the first row and second column with second row and first column with the negative unit, i.e., $j^2\omega^2=j\omega j\omega$). In the model, we then used the coefficients of the Fourier series as an initial guess for the model $\mathbf{q}(t_0)$ at a given time instant $t_0$. We derived the coefficient via the analysis from \fref{sec:res-perio}{Section}. For modeling purposes, we limited the actual flying time of the cruise phase in \fref{fig:cruise-prelim}{Figure} to five minutes. The model output from the initial guess is then the gray area, whereas the energy data are the black-solid line. 
 
-We used the computations energy model further along with the motion energy model to evaluate the maximum allowed configuration as a function of time against the overall energy budget in \fref{fig:max-qos}{Figure} and the battery SoC. The figure shows how different configurations range at different times to complete the flight using the PedNet FCN. We have further observed the cost of ROS bag\findex{ROS bag} recording; it is approximately 0.2 watts.
-The overall energy assessment for the flight is then in \fref{fig:cruise-merge}{Figure}, coupling the motion and computations energies--the black line in the figure. The output constraint in \fref{def:const}{Definition} is where how much energy can be drown in the function of time; the gray area in the figure. The schedule consists of $c_{i,1},c_{i,2}$: 
+\subsubsection*{Computations energy evaluation}
+
+For the computations {\small\tt ssd-mobilenet} and {\small\tt pednet}, the parameter $c_{i,1}$ alters the hazard detection rate from two to ten frames per second (enclosed in the constraint set $\mathcal{S}_{i,1}$). These numbers are evaluated empirically to match our detection criteria, as opposed to the computation {\small\tt darknet-gpu}, where we analyzed all the possible detection rates on the NVIDIA Jetson TX2 computing hardware. The computation {\small\tt sender} can be then altered with the parameter $c_{i,2}$ indicating the frequency at which the detections are sent to the ground, also from two to ten hertz (again enclosing the constraint set $\mathcal{S}_{i,2}$). All the computations are wrapped in ROS nodes, meaning that $c_{i,1}$ and $c_{i,2}$ can be changed or analyzed by subscribing to appropriate ROS topics\findex{ROS topics}.
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize    
+  \begin{subfigure}[b]{0.33\textwidth}
+    \centering
+    \input{figures/max-qos.tikz}
+    \caption{Schedule over time}
+    \label{fig:max-qos}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \input{figures/computational-mobilenet.tikz}
+    \caption{{\tt\small sender},{\tt\small ssd-mobilenet}}
+    \label{fig:pednet}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \input{figures/computational-pednet.tikz}
+    \caption{{\tt\small sender},{\tt\small pednet}}
+    \label{fig:mobilenet}
+  \end{subfigure}
+  \caption[Computations energy models in term of SoC as well as the schedule over time]{Computations energy models in term of SoC as well as the schedule over time for the second case study.}
+  \label{fig:computational}
+\end{figure}
+The predictive layers in terms of battery SoC are in \fref{fig:mobilenet}{Figure} for the {\small\tt ssd-mobilenet} computation, and in \fref{fig:pednet}{Figure} for the {\small\tt pednet} computation (both the layers vary then the frequency $c_{i,2}$ for the {\small\tt sender} computation). We use the colors here to underline the energy impact of some configurations, otherwise not visible in grayscale.
+
+We used the computations energy model further along with the motion energy model to evaluate the maximum allowed configuration as a function of time against the overall energy budget in \fref{fig:max-qos}{Figure} and the battery SoC. The figure shows how different the detection rate ranges, to complete the flight using the PedNet FCN. We have further observed the cost of ROS bag\findex{ROS bag} recording; it is approximately 0.2 watts.
+The overall energy assessment for the flight is then in \fref{fig:cruise-merge}{Figure}, coupling the motion and computations energies--the black line in the figure. The output constraint in \fref{def:const}{Definition} is how much energy is available from the battery in the function of time--the gray area in the figure. The schedule consists of $c_{i,1},c_{i,2}$: 
 \begin{enumerate*}[label={(\alph*)},font={\textit}]
   \item two FPS and ten hertz for the first two minutes (eventual cached images from the previous cruise are sent to the ground, as the frequency is greater than the FPS rate),
   \item ten FPS and two hertz from the second minute to third,
@@ -358,13 +365,15 @@ The overall energy assessment for the flight is then in \fref{fig:cruise-merge}{
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Coverage Planning and Scheduling}
 \label{sec:res-dyn}
- 
-In this section we provide the results for energy-aware coverage planning and scheduling proving experimentally our approach. We extensively use the construct that we derived in the previous chapter, including the energy models in \fref{cp:model}{Chapter}, the guidance, coverage, and replanning from \fref{cp:dyn}{Chapter}, thus solving both the \fref{pb:cov-pb}{Problems}\fref{pb}{--\hspace*{-.8ex}} in \fref{cp:pb}{Chapter}. In particular, in \fref{sec:res-num-simu}{Section} we provide numerical simulations derived with \matlab, in \fref{}{Section} we integrate such simulations in the popular Paparazzi flight controller. In both the section we derive a coverage for a fixed-wing aerial robot with the Zamboni-like motion we introduced in \fref{sec:path-wise}{Section}, and finally, in \fref{sec:res-papa}{Section}, we integrate the previous results to the case of some obstacles in \fref{sec:res-obsta}{Section}\findex{obstacles}. 
+
+In this section, we report the results for energy-aware coverage planning and scheduling; and thus prove our approach experimentally. We extensively use the constructs from the previous chapters, including the energy models in \fref{cp:model}{Chapter}, the guidance, coverage, and replanning from \fref{cp:dyn}{Chapter}, and demonstrate both the solutions to \fref{pb:cov-pb}{Problems}\fref{pb}{--\hspace*{-.8ex}} in \fref{cp:pb}{Chapter}. Indeed, in the previous sections, we justified the various energy models and discussed merely the solution to \fref{pb:cov-pb}{Problem} with the Zamboni-like motion. Specifically, in \fref{sec:res-num-simu}{Section}, we provide results for numerical simulations derived with \matlab. In \fref{sec:res-papa}{Section}, we integrate such simulations with the popular Paparazzi flight controller~\citep{papa}, and finally, in \fref{sec:res-obsta}{Section}, we extend the previous results to the case of some obstacles\findex{obstacles}.
 
 \subsection{Numerical simulations}
 \label{sec:res-num-simu}
 
-In this section, we discuss our experimental setup, the implementation strategy, and the results of the numerical simulation implemented in \matlab to match some realistic condition.
+The first results report is that of a realistic simulation implemented in \matlab relative to our forthcoming work~\citep{seewald202Xenergy}. It involves the Opterra fixed-wing aerial robot in the precision agriculture scenario we introduced in \fref{sec:motivation}{Section}. It does both the CPP and scheduling and online in-flight replanning energy-wise. The agricultural field is delimited by vertices $v$ and forms $\mathcal{Q}^v$ (see \fref{sec:cell-deco}{Section} for the notation). There are no ground obstacles, i.e., $\mathcal{Q}^v=\mathcal{Q}$.
+
+---
 
 \subsubsection*{Experimental setup}
 

@@ -249,7 +249,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(139.366,235.463)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(129.366,253.463)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(108.366,253.463)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {Frequency (10${}^{-\text{2}}$Hz)};
 
 

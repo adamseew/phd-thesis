@@ -234,7 +234,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(282.756,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(282.756,295.309)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(272.756,295.309)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] () {1200};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(282.756,291.309)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
