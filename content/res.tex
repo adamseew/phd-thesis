@@ -8,8 +8,8 @@
 %
 % Brief abstract: wraps up the results from the previous chapters
 %
-% Completion (1-10): 1
-% Missing: -
+% Completion (1-10): 8
+% Missing: There are two results missing at the end of the chapter
 %
 \chapter{Results}
 \label{cp:res}
@@ -160,7 +160,7 @@ To validate the computations energy model from \fref{sec:comp-ener-model}{Sectio
 
 We then evaluate the \powprof{} tool through comparison with an external measuring device, i.e., a multimeter connected to the power source of the NVIDIA Jetson TX2 hardware. We observe a close co-relation between external and internal power measures. The error is less than 3\% over one minute, with the external exceeding the internal measuring device, possibly due to the energy impact of the carrier board~\citep{seewald2019coarse}. Indeed the NVIDIA Jetson TX2 computing hardware we use is mounted on the Jetson Developer Kit board in \fref{fig:tx2}{Figure}. We further observe that the internal measurements of the overall power include the energy impact of the tool itself, and conclude that the tool's effect on the power is marginal~\citep{seewald2019coarse}. We later saw the same effect with other libraries, such as the Robot Operating System (ROS) middleware\findex{Robot Operating System}~\citep{zamanakos2020energy}.
 
-We further validate our model against a more fine-grained model in the literature~\cite{nunez2013enabling,nikov2015evaluation}, using the ODROID XU3 computing hardware with the {\small\tt matrix-cpu} computation. We described this further validation step in our early work~\citep{seewald2019coarse}. The fine-grained model requires some apriori training, which we performed by evaluating the computation configuration with parameters $c_{i,1}$ 512, and $c_{i,2}$ 30 (meaning the thirtieth power of square matrix of size 512). The model returns an expected energy value, which we compared by subsequently running the computation, obtaining an error of 3.42\%~\citep{seewald2019coarse}. Similarly, we used the \powprof{} tool by varying $c_{i,2}$ with a step that excludes the configuration $c_{i,2}$ 30. We then obtained an expected energy value for configuration 30, which we again evaluated against running the configuration subsequently, obtaining an error of 2.25\%~\citep{seewald2019coarse}, justifying ours against another model in the literature. 
+We further validate our model against a more fine-grained model in the literature~\citep{nunez2013enabling,nikov2015evaluation}, using the ODROID XU3 computing hardware with the {\small\tt matrix-cpu} computation. We described this further validation step in our early work~\citep{seewald2019coarse}. The fine-grained model requires some apriori training, which we performed by evaluating the computation configuration with parameters $c_{i,1}$ 512, and $c_{i,2}$ 30 (meaning the thirtieth power of square matrix of size 512). The model returns an expected energy value, which we compared by subsequently running the computation, obtaining an error of 3.42\%~\citep{seewald2019coarse}. Similarly, we used the \powprof{} tool by varying $c_{i,2}$ with a step that excludes the configuration $c_{i,2}$ 30. We then obtained an expected energy value for configuration 30, which we again evaluated against running the configuration subsequently, obtaining an error of 2.25\%~\citep{seewald2019coarse}, justifying ours against another model in the literature. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -373,38 +373,38 @@ In this section, we report the results for energy-aware coverage planning and sc
 
 The first results report is that of a realistic simulation implemented in \matlab relative to our forthcoming work~\citep{seewald202Xenergy}. It involves the Opterra fixed-wing aerial robot in the precision agriculture scenario we introduced in \fref{sec:motivation}{Section}. It does both the CPP and scheduling and online in-flight replanning energy-wise. The agricultural field is delimited by vertices $v$ and forms $\mathcal{Q}^v$ (see \fref{sec:cell-deco}{Section} for the notation). There are no ground obstacles, i.e., $\mathcal{Q}^v=\mathcal{Q}$.
 
----
-
 \subsubsection*{Experimental setup}
 
-The algorithm that we presented in this paper is motivated by a periodic behavior of empirical data on energy consumption (see the subfigures of Figure~\ref{fig:il-abs}). We collected these data flying Opterra, a fixed-wing UAV that we adapted for an agricultural scenario. The UAV was flying in standard atmospheric conditions like the path \hyperref[fig:trajs-I-static]{5.I} in Figure~\ref{fig:trajs}, or the first ``non-adapted'' part of Figure~\ref{fig:il-abs}. We later extended the UAV to carry a companion computer, NVIDIA Jetson Nano~\cite{nano}, running ROS. The companion computer has two ROS nodes; one detects hazards using PedNet, a Fully Convolutional Neural Network~\cite{ullah2018pednet}, and the other communicates with a ground station.
-
-
-\begin{figure}[p]
+The aerial robot in this result is the simulated Opterra fixed-wing for CPP in an agricultural scenario, independent of the specific flight controller. 
+\begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/trajs_revised.tikz}
-  \caption[Path of a static and dynamic plan]{Path simulations with variations of wind speed and direction. In \hyperref[fig:trajs-I-static]{5.I} and \hyperref[fig:trajs-II-static]{5.II} the path is static. It is dynamically replanned with the algorithm in \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii}. The algorithm adapts path parameter radius of the circle $c_{1,1}$ and computation parameter fps rate $c_{1,2}$.}
+  \caption[Numerical simulations of the trajectory with static and dynamic plans]{Trajectory simulations with variations of wind speed and direction. In \sref{lab:trajs-I-static}{} and \sref{lab:trajs-II-static}{} plan is static. It is replanned online with the algorithm in \sref{lab:trajs-dyn-i}{} and \sref{lab:trajs-dyn-ii}{}. The algorithm adapts the path parameter relative to $r_2$ $c_{i,1}$ and computation parameter FPS rate $c_{i,2}$.}
   \label{fig:trajs-revised}
 \end{figure}
+In the remainder, we discuss two sub-results, each with different atmospheric conditions, \sref{lab:trajs-I-static}{} and \sref{lab:trajs-II-static}{}, in \fref{fig:trajs-revised}{Figure}. Path-wise, we replan the coverage embedding a parameter $c_{i,1}$ (same for all the stages) relative to the radius of the fourth circle $\varphi_4$ in a set of four primitive paths $\varphi_{i},\dots,\varphi_{i+3}\,\forall i\in\lfloor l/4 \rfloor$ iterated over time up to reaching a final point $\mathbf{p}_{\Gamma_l}$ that we proposed for the Zamboni-like motion in \fref{sec:path-wise}{Section}. The parameter influences the radius $r_2$ of the circle $\varphi_4$ in \frefeq{eq:radius-dynamic}; we discussed further the precise meaning of how such parameter affects the quality of the coverage in \fref{sec:mpc}{Section}. The result \sref{lab:trajs-I-static}{} is that of the aerial robot flying with a constant wind speed of 5 meters per second, the wind direction of 0 degrees, and an initial path parameter $c_{i,1}$ value of 0. Result \sref{lab:trajs-II-static}{} is flying under the same conditions but a wind direction of 90 degrees and the initial path parameter value of -1000. We simulate sudden battery drops in \sref{lab:trajs-I-static}{}, expecting the replanning to occur with both scheduling and coverage shortening (i.e., lesser quality of the coverage) and an ideal battery behavior in \sref{lab:trajs-II-static}{}, expecting coverage largening (i.e., higher quality of the coverage).
 
+Identically to the two case studies from the previous section, the simulation is extended with computing hardware: NVIDIA Jetson Nano~\citep{nano}, which runs ROS middleware. The computing hardware implements two computations via ROS nodes\findex{ROS nodes}: the {\small\tt pednet} computation detects hazards using PedNet FCN~\citep{ullah2018pednet} and can be scheduled with parameter $c_{i,2}$ the detection rate in FPS. The {\small\tt sender} computation communicates to a ground station and can be scheduled with parameter $c_{i,3}$ the sending frequency in hertz\findex{hertz}. Both are similar to the case study in \fref{sec:res-diff}{Section}, and here we further demonstrate the scheduling with simultaneous online replanning. For the computations, we expect the scheduler to schedule the computations to respect the output constraint set in \fref{def:const}{Definition} (i.e., the maximum battery instantaneous power).
 
+For battery modeling, the internal battery voltage $V$ of 14.8 volts, internal resistance $R_r$ of 1.2 milliohms, stabilized voltage $V_s$ of twelve volts, and battery capacity $Q_c$ of 3.2 amperes per hour in \frefeqM{eq:socevol}{eq:internal_curr} in \fref{sec:batmod-circuit}{Section}. Finally, the battery coefficient $k_b$ in \frefeq{eq:bat} is set to 1.83/1000 and determined experimentally. The model's parameter $r$ in \frefeq{eq:state-perf} is equal to 3. We motivate such a choice with the spectral analysis in \fref{fig:spectrum-1}{Figure}, showing that three frequencies are adequate to model the energy signal.
 
-\begin{figure}[p]
+\subsubsection*{Planning evaluation}
+
+We show the effects of different conditions on the CPP in \fref{fig:trajs-revised}{Figure}. Both trajectories \sref{lab:trajs-I-static}{} and \sref{lab:trajs-II-static}{} are flying the same plan for the coverage with the Zamboni-like motion but with different initial parameters values, the highest configuration $\overline{c}_{i,1}$ and the lowest configuration $\underline{c}_{i,1}$, along slightly different atmospheric conditions. 
+\begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/ener_revised.tikz}
-  \caption[Energy models of different static and dynamic plans]{The energy models of the paths from Figure~\ref{fig:trajs} for 200 seconds against the simulated data (\hyperref[fig:ener:static-I]{6.I} and \hyperref[fig:ener:static-II]{6.II}). Below are the energy evolutions from the algorithm (\hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii}). It replans the path when the final time and battery time do not match, and the computation when the battery is discharged.}
+  \caption[Numerical simulations with the energy models of different static and dynamic plans]{The energy models of the trajectories from~\fref{fig:trajs-revised}{Figure} for 200 seconds against the simulated data (\sref{lab:ener-static-I}{} and \sref{lab:ener-static-II}{}). Below are the energy evolutions with replanning (\sref{lab:ener-dyn-i}{} and \sref{lab:ener-dyn-ii}{}). Here, the algorithm replans the plan when the final time and battery time do not match and the computation when the battery is discharged.}
   \label{fig:ener-revised}
 \end{figure}
+The energy models of these two trajectories are the top two sub-figures \sref{lab:ener-static-I}{} and \sref{lab:ener-static-I}{} in \fref{fig:ener-revised}{Figure}. The simulated energy data are in black the model evolution is in red. The model evolves for two hundred seconds with no information about the real energy: the model is estimated earlier with, e.g., Kalman filter\findex{Kalman filter} on \fref{algo:repla:sysevo}{Lines}\fref{algo:repla:endkalmy}{--\hspace*{-.8ex}} in \fref{algo:repla}{Algorithm}, whereas now it merely evolves without further estimation on \fref{algo:repla:sysevobatt}{Line}. The figure proves the model accuracy experimentally, i.e., the red line copies the periodic evolution of the energy signal.
 
-
-
-
-
-\begin{figure}[p]
+The components of the energy model from \fref{sec:deriv}{Section} are illustrated in \fref{fig:evols-revised}{Figure}. 
+\begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
@@ -412,31 +412,21 @@ The algorithm that we presented in this paper is motivated by a periodic behavio
   \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right.}
   \label{fig:evols-revised}
 \end{figure}
+Left sub-figures are the initial slices of the models and period estimation (the latter we defined in \fref{def:period}{Definition}). On the right of \fref{fig:evols-revised}{Figure}, we show the states $\alpha_0,...,\beta_3$ evolution in time, concluding that approximately two periods are sufficient to obtain consistent state estimates. With non-periodic signals, we observed that the estimator on \fref{algo:repla:sysevo}{Lines}\fref{algo:repla:endkalmy}{--\hspace*{-.8ex}} in \fref{algo:repla}{Algorithm} estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
 
+\subsubsection*{Replanning evaluation}
 
+The practical implementation is based on observations of different variations of paths and computations. A variation of path alters the overall flying time, which we reflect in the factors $\nu_{i,1},\tau_{i,1}$ from \frefeq{eq:scale-traj}. We compare the remaining flight time with the time needed to completely deplete the battery from \frefeq{eq:bat} on \fref{algo:repla:initbat}{Lines}\fref{algo:repla:endbat}{--\hspace*{-.8ex}} in \fref{algo:repla}{Algorithm} and reduce or increase the parameter to optimize the battery time. The path parameter $c_{i,1}$ is equal for all the stages. It changes the radius of the first circle in the current period and therefore shifts the other paths accordingly. The change is in \fref{fig:zambo-repla_pb}{Figure}, resulting in a shorter distance between the coverage lines in the Zamboni-like motion and increment or reduction of the flying time. The path constraint set is set to $\underline{c}_{i,1}=$ -1000 and $\overline{c}_{i,1}=$ zero (enclosing the constraint set $\mathcal{C}_{i,1}$), equal for all the stages.
 
-We implemented a realistic simulator to simulate the empirical data of a given plan and atmospheric conditions. We show the effects of different conditions in Figure~\ref{fig:trajs}. Both paths \hyperref[fig:trajs-I-static]{5.I} and \hyperref[fig:trajs-II-static]{5.II} are flying the same plan with different initial parameters values. Path \hyperref[fig:trajs-I-static]{5.I} is flying with a constant wind speed of 5 meters per second, wind direction of 0 degrees, and an initial path parameter $c_{1,1}$ value of 0. Path  \hyperref[fig:trajs-II-static]{5.II} is flying under the same conditions but a wind direction of 90 degrees and the initial path parameter value of -1000. The energy evolutions of these two paths are the top two subfigures \hyperref[fig:ener:static-I]{6.I} and \hyperref[fig:ener:static-II]{6.II} of Figure~\ref{fig:ener}. The simulated energy data are in black, the model evolution in red.
-
-\subsubsection*{Algorithm evaluation}
-
-%\subsubsection*{Periodic energy model}
-
-We showcase the energy model from Section~\ref{sec:energy-model} in Figure~\ref{fig:model}. Left figures illustrate an initial slice of the model and period estimation (Definition~\ref{def:period}). We used order $r$ equal to 3. We motivate this choice again with Figure~\ref{fig:il-abs}, where the power spectrum subfigure shows that 3 frequencies are adequate. On the right of Figure~\ref{fig:model}, we show the states $\alpha_0,...,\beta_3$ in time, concluding that approximately 2 periods are sufficient to obtain a consistent state estimate. With non-periodic signals, we observed that the estimator estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
-
-\subsubsection*{Replanning strategy}
-
-The practical implementation is based on observations of different variations of paths and computations. A variation of path alters the overall flying time, which we reflect in the factors $\nu_{1,1},\tau_{1,1}$ from Equation~(\ref{eq:scale-traj}). We compare the remaining flight time with the time needed to completely deplete the battery from Equation~(\ref{eq:bat}). We reduce or increase the parameter to optimize the battery time. The path parameter $c_{1,1}$ is equal for all the stages and it changes the radius of the first circle in the current period and therefore shifts the other paths accordingly (the change is illustrated in Figure~\ref{fig:tee1}). It results in a shorter or longer distance between the survey lines and in an increment or reduction of the flying time respectively. The path constraint set is set to $\underline{c}_{1,1}=$ -1000 and $\overline{c}_{1,1}=$ 0 equal for all the stages.
-
-A variation of computations affects directly the power. We thus select the highest computation which satisfies the constraints from Definition~\ref{def:const} in the line~\ref{alg:mpc} of the algorithm. We observed a low effect on the power of the communication ROS node. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest fps. We implemented fps rate parameter $c_{1,2}$ with factors  $\nu_{1,2},\tau_{1,2}$ mapping $c_{1,2}$ to the data from \powprof{}. The computation constraint set is set to $\underline{c}_{1,2}=$ 2 and $\overline{c}_{1,2}=$ 10 equal for all the stages.
+A variation of computations directly affects the power. We thus select the highest computation which satisfies the constraints in \fref{def:const}{Definition} on \fref{algo:repla:mpc}{Line} in \fref{algo:repla}{Algorithm}, suing model predictive control (\Gls{acr:mpc})\findex{model predictive control}. We observed a low effect on the power of the communication ROS node. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest FPS rate. We implemented the FPS rate parameter $c_{i,2}$ with factors  $\nu_{i,2},\tau_{i,2}$ mapping $c_{i,2}$ to the data from \powprof{} as we described in \frefeq{eq:scale-comp} in \fref{sec:merging}{Section}. The computation constraint set is set to $\underline{c}_{i,2}=$ two and $\overline{c}_{i,2}=$ ten (enclosing the constraint set $\mathcal{S}_{i,1}$), equal for all the stages.
 
 \subsubsection*{Coverage planning and scheduling}
 
-We have tested the validity of the algorithm showing the dynamic adaptation in the subfigures \hyperref[fig:trajs-dyn-i]{5.i} and \hyperref[fig:trajs-dyn-ii]{5.ii} of Figure~\ref{fig:trajs} path-wise, and \hyperref[fig:ener-dyn-i]{6.i} and \hyperref[fig:ener-dyn-ii]{6.ii} of Figure~\ref{fig:ener} energy-wise. For the first path (Subfigure \hyperref[fig:trajs-I-static]{5.I}) the plan starts at the highest configuration of parameters. We simulated two unexpected battery drops at approximately 1 minute and a half and 4 minutes and a half. The algorithm optimizes the path in the proximity of the drops to ensure that the flight is completed. Moreover, it maximizes the parameter $c_{1,2}$ when the battery is discharging (green line) respecting the output constraint (Definition~\ref{def:const}). We simulated the opposite scenario for the second path (Subfigure \hyperref[fig:trajs-II-static]{5.II}). The plan starts at the lowest configuration of parameters and the battery behaves linearly. We note that the path parameter is increased as soon as the algorithm estimated enough data (two periods $T$) and the computation parameter is optimized for the battery discharge rate. For both cases, we used reductions $\delta$ of 500 and 2 for $c_{1,1}$ and $c_{1,2}$ respectively, and the horizon $N$ equal to 6 seconds.
+We have tested the validity of our approach via a numerical simulation implemented in \matlab, showing the replanning in \fref{fig:trajs-revised}{Figure} in \sref{lab:trajs-dyn-i}{} and \sref{lab:trajs-dyn-ii}{} path-wise and in \fref{fig:ener-revised}{Figure} in \sref{lab:ener-dyn-i}{} and \sref{lab:ener-dyn-ii}{} energy-wise. For the first sub-result \sref{lab:trajs-I-static}{}, the plan starts at the highest configuration of parameters. We simulated two unexpected battery drops at approximately one minute and a half and four minutes and a half. The algorithm optimizes the path (downward facing arrows in \fref{fig:ener-revised}{Figure}) in the proximity of the drops to ensure that the flight is completed. Moreover, it maximizes the parameter $c_{i,2}$ when the battery is discharging (green line), respecting the output constraint in \fref{def:const}{Definition}. We simulated the opposite scenario for sub-result \sref{lab:trajs-II-static}{}. The plan starts at the lowest configuration of parameters while the battery behaves ideally. We note that the path parameter increases when the algorithm estimates enough data (two periods $T$). The algorithm further optimizes the computation parameter w.r.t. to the battery discharge rate. For both cases, we used discrete reductions $\delta$ of five hundred and two for $c_{i,1}$ and $c_{i,2}$ respectively, and the horizon $N$ equal to 6 seconds. We observed a slight increment in overall replanning time (order of seconds) by using a horizon of 10 seconds--attributable to the MPC component on \fref{algo:repla:mpc}{Line} of \fref{algo:repla}{Algorithm}--but did not detect a notable increment in precision. 
 
 
-
-\subsection{Paparazzi flight controller}
+\subsection{\color{red}Paparazzi flight controller}
 \label{sec:res-papa}
 
-\subsection{Coverage with obstacles}
+\subsection{\color{red}Coverage with obstacles}
 \label{sec:res-obsta}

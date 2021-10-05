@@ -443,8 +443,8 @@
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(50.2941,27.1588)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(50.2941,28.1647)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text360) {\scriptsize path};
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(47.2941,28.1647)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text360) {\scriptsize trajectory};
 
 
 

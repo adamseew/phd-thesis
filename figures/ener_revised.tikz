@@ -1297,8 +1297,8 @@
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(197.153,129.759)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(190.653,130.76399)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1032) {\scriptsize $b_k Q_c V$};
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(200.653,130.76399)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1032) {\scriptsize $\mathcal{Y}(t)$};
 
 
 
@@ -1750,7 +1750,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(232.359,238.394)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(233.359,238.8426)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1396) {\footnotesize \textlabel{ii}{lab:ener-static-ii}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1396) {\footnotesize \textlabel{ii}{lab:ener-dyn-ii}};
 
 
 
