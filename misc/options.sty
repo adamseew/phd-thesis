@@ -258,8 +258,7 @@
 
 \usepackage{tcolorbox}
 
-\newtcolorbox{highlight}{colback=gray!10,colframe=gray!10,boxrule=0pt,arc=0pt,boxsep=4pt,left=8pt,right=8pt,leftrule=0pt,grow to left by=12pt,% 12pt is 1em
-grow to right by=12pt}
+\newtcolorbox{highlight}{colback=gray!10,colframe=foo,boxrule=.4pt,arc=0pt,boxsep=.5em,left=3pt,right=3pt}
 
 \makeatletter
 \newcommand*{\textlabel}[2]{%
@@ -380,3 +379,6 @@ grow to right by=12pt}
 
 \newcommand{\sfr}{\begin{adjustwidth}{.0in}{.0in}}
 \newcommand{\efr}{\end{adjustwidth}}
+
+\usepackage[export]{adjustbox} % figures formatting
+
