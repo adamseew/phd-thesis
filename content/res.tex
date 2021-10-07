@@ -42,10 +42,8 @@ In \fref{fig:darknet-layer1}{Figure}, we illustrate a concrete example of four d
   \hspace*{20ex}
   \input{figures/darknet-layer1.tikz}
   \end{minipage}
-  \sfr
   \caption[The {\tt darknet-gpu} computation measurement layer models]{The {\tt darknet-gpu} computation measurement layer models, featuring the GPU implementation of the YOLO~\citep{redmon2016you} deep neural network library modified to introduce delays between detections. From top left in horizontal order to bottom right, the figure shows the schedules from approximately six up to thirty-two FPS. The figure appeared in our early study~\citep{seewald2019coarse}.}
   \label{fig:darknet-layer1}
-  \efr
 \end{figure}
 The model is relative to one computation with four different schedules where we observed notable differences in instantaneous and overall energies. The computation consists of an object detection algorithm that we term {\small\tt darknet-gpu}, a neural network-based pattern recognition utility. It is a standard computer vision computation, built upon the darknet~\citep{redmond2017yolo,redomnd2013darknet}\findex{darknet} GPU implementation of a deep neural network library YOLO~\citep{redmon2016you}\findex{YOLO}, which detects the objects on some pre-trained as well as trained networks (the latter to detect a personalized set of objects).
 
@@ -54,10 +52,8 @@ In an initial iteration of our work~\citep{teamplayd43}, we trained the network 
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/darknet-layer2.tikz}
-  \sfr
   \caption[Per-minute energy consumption and SoC of the object detection computation]{Per-minute energy consumption and SoC of the {\tt darknet-gpu} computation in terms of CPU, GPU, and overall energies. On the right is the resulting predictive layer that shows the energy and battery SoC in the function of any possible configuration. The figure appeared in our early study~\citep{seewald2019coarse}.}
   \label{fig:darknet-layer2}
-  \efr
 \end{figure}
 We schedule the computation with the parameter $c_{i,1}$ to assess the predictive layer in \fref{fig:darknet-layer2}{Figure}. On the right of the figure, we further illustrate the battery state of charge (\Gls{acr:soc}) in the function of varying FPS for the overall power measuring device of the TX2 board (dashed line). Similarly, the predictive layer provides the evolution of the energy also in the function of varying FPS (continuous line).
 
@@ -88,10 +84,8 @@ We then derived a set of measurement and predictive layers of another computatio
       \caption{Remaining battery capacity}  
       \label{fig:matrix-exponent:battery}
   \end{subfigure}
-  \sfr
   \caption[Predictive layers of the matrix exponentiation computation in the function of varying exponent and matrix size]{Predictive layers with the power in \fref{fig:matrix-exponent:power}{Figure}, energy in \fref{fig:matrix-exponent:energy}{Figure}, and battery SoC power in \fref{fig:matrix-exponent:battery}{Figure} of the {\small\tt matrix-gpu} component in the function of varying matrix size and exponent. The figure appeared in our early study~\citep{seewald2019coarse}.}
   \label{fig:matrix-exponent}
-  \efr
 \end{figure}
 We illustrate the predictive layers for the computation varying the parameter $c_{i,1}$ from 256 to 4096 and $c_{i,2}$ from twenty to sixty in \fref{fig:matrix-exponent}{Figure} (these values enclose the sets $\mathcal{S}_{i,1}$ and $\mathcal{S}_{i,2}$ respectively). Particularly, \fref{fig:matrix-exponent:power}{Figure} shows the average power, \fref{fig:matrix-exponent:energy}{Figure} the overall energy, and \fref{fig:matrix-exponent:battery}{Figure} the battery SoC as a function of matrix size and exponent. We report the average power consumption independently of the running time of the {\small\tt matrix-gpu}, whereas the overall energy measures are measured up until a given configuration of the two parameters $c_{i}=\{c_{i,1},c_{i,2}\}$ evaluated the exponentiation, as well as for the battery state of charge. The computation might pose no notable effect on the total power consumption for values of $c_{i}$ close to $\underline{c}_{i,1}$ and $\underline{c}_{i,2}$ for parameters $c_{i,1},c_{i,2}$. An effect indicating the computation terminated before reaching the maximal power level~\citep{seewald2019coarse}, also visible in \fref{fig:darknet-layer1}{Figure}. It is the reason why there is a notable difference in average power for two opposite configurations.
 
@@ -117,10 +111,8 @@ We illustrate the predictive layers for the computation varying the parameter $c
       \caption{Remaining battery capacity}  
       \label{fig:matrix-sleep:battery}
   \end{subfigure}
-  \sfr
   \caption[Predictive layers in the function of varying exponent and schedules]{Predictive layers with the power in \fref{fig:matrix-exponent:power}{Figure}, energy in \fref{fig:matrix-exponent:energy}{Figure}, and battery SoC power in \fref{fig:matrix-exponent:battery}{Figure} of the {\small\tt matrix-gpu} component in the function of varying matrix size and delays between consecutive iterations, simulating different schedules. The figure appeared in our early study~\citep{seewald2019coarse}.}
   \label{fig:matrix-sleep}
-  \efr
 \end{figure}
 In \fref{fig:matrix-sleep}{Figure}, we illustrate the predictive layers by varying the parameter $c_{i,1}$ and $c_{i,3}$ relative to the delay--or ``sleep''--between iterations of the matrix exponentiation from none to ten seconds. \fref{fig:matrix-sleep:power}{Figure} shows the average power, \fref{fig:matrix-sleep:energy}{Figure} the overall energy, and \fref{fig:matrix-sleep:battery}{Figure} the battery SoC as a function of matrix size and the sleep. We observe that the latter directly affects the overall power consumption hence, the higher the delay, the lower the remaining battery SoC (conversely, the higher the overall energy). In both set of \fref{fig:matrix-exponent:energy}{Figures}\fref{fig:matrix-exponent:battery}{--\hspace*{-.8ex}} and \fref{fig:matrix-sleep:energy}{Figures}\fref{fig:matrix-sleep:battery}{--\hspace*{-.8ex}}, we thus observe a relation between overall energy and battery SoC.
 
@@ -131,7 +123,6 @@ We used the same configuration parameters as with the {\small\tt darknet-gpu} co
 We deployed the computations energy model on additional computations and computing hardware, including {\small\tt matrix-cpu} and {\small\tt darknet-cpu}, similar to {\small\tt matrix-gpu} and {\small\tt darknet-gpu} computations except that the operations run on the CPU rather than GPU. We used all the computing hardware described in \fref{sec:model-hete-elem}{Section} for {\small\tt matrix-cpu}, and NVIDIA Jetson TX2 for {\small\tt darknet-cpu}. On NVIDIA Jetson TX2, we further interfaced some already existing benchmarks with the \powprof{} tool. 
 These were modified to run for several instances over a time interval and implement a quicksort ({\small\tt nvidia-quicks}) and a matrix multiplication ({\small\tt nvidia-matrix}), both with a given problem size (parameter $c_{i,4}$). We summarize the overall energy contribution of all the computations from this section in \fref{tab:benchmark-components}{Table}. 
 \begin{table}[h]
-  \sfr
   \footnotesize\fontfamily{phv}\selectfont
   \begin{tabularx}{\textwidth}{|l|*{3}{X|}X|}
     \hline
@@ -148,7 +139,6 @@ These were modified to run for several instances over a time interval and implem
   \end{tabularx}
   \caption[Overall energy per computation on different computing hardware]{Overall energy per computation on different computing hardware. Unsupported hardware are indicated by ``-'', whereas possible future support by ``(-)'' as it appeared in our early study~\citep{seewald2019coarse}.}
   \label{tab:benchmark-components}
-  \efr
 \end{table}
 The table shows the performance while running on different computing hardware and heterogeneous elements. For instance, {\small\tt matrix-gpu} requires considerably more energy compared to {\small\tt matrix-cpu}; indeed, there is a large performance gap between GPUs and general-purpose multicore CPUs in terms of heavily parallelizable computations~\citep{kirk2016programming}: {\small\tt matrix-gpu} requires only 4.5 joules, whereas {\small\tt matrix-cpu} 241.3 joules for the same operation on the NVIDIA Jetson TX2 computing hardware~\citep{seewald2019coarse}. The battery SoC evolves accordingly, with the difference between {\small\tt matrix-gpu} and {\small\tt matrix-cpu} in terms of battery SoC being 16\%. In our early work~\citep{seewald2019coarse,seewald2019component}, we further observe the parallelization effect on the overall energy. We can conserve energy by running computations parallel on the CPU and GPU compared to a sequential schedule (e.g., scheduling computations sequentially on CPU and GPU in some order) even if we subtract the base power. This latter results in a 20\% larger overall energy consumption than a parallel schedule~\citep{seewald2019coarse}.
 
@@ -221,10 +211,8 @@ The motion energy models are in \fref{fig:path-energy}{Figure} and some correspo
     \caption{Landing energy}
     \label{fig:landing-energy}
   \end{subfigure}
-  \sfr
   \caption[Paths and modeled energy evolutions in time for different flight phases]{Paths and modeled energy evolutions in time for different flight phases as they appeared in our early study~\citep{seewald2020mechanical}.}
   \label{fig:path-energy}
-  \efr
 \end{figure}
 In this use case, we saw marked variability in energy signals for take-off\findex{take-off}, cruise\findex{cruise}, and landing\findex{landing} phases per flight\findex{flight phases}. To distinguish between the phases, we analyzed the motor torque, altitude, and throttle~\citep{seewald2020mechanical}. The Opterra fixed-wing aerial robot\findex{Opterra fixed-wing aerial robot} gains altitude during take-off before starting to fly the Zamboni-like motion for coverage. The modeled energy signal is in \fref{fig:takeoff-energy}{Figure}. It is evaluated from some test flights (the gray area in the figure), whereas \matlab aids the resulting regression (black line in the figure). Such a regressional analysis depicts little variability at the beginning of the take-off, likely justified by different controls necessary by various atmospheric conditions, and very little to no variability in the remaining. This latter part of the trajectory is where the flight controller guides the aerial robot on the Zamboni-like motion\findex{Zamboni-like motion}. \fref{fig:cruise-energy}{Figure} is the modeled energy signal for the cruise phase. There is little variability between the test flights; the flight controller takes charge of the guidance. Finally, there is considerable variability in the landing phase energy signal illustrated in \fref{fig:landing-energy}{Figure}. Initially, the aerial robot flies in small circles (see the path in \fref{fig:landing-path}{Figure}), lowering the altitude while descending to the ground under human control~\citep{seewald2020mechanical}. The phase depends on different conditions, including landing site geologic conformations\findex{geologic conformations}, sudden wind gusts\findex{wind gusts}, and others, presenting thus high energy variability. We measured an average of 28 and 60 seconds for take-off and landing, whereas the cruise depends on the polygon to cover size (containing the agricultural field).
 
@@ -253,10 +241,8 @@ The computation energy model in terms of battery SoC for {\small\tt darknet-gpu}
     \caption{SoC in the function of parameters}
     \label{fig:soc-plot}
   \end{subfigure}
-  \sfr
   \caption[The effect of different schedules on the battery SoC]{The effect of different schedules on the battery SoC. The figure appeared in our early study~\citep{seewald2020mechanical}.}
   \label{fig:soc-evolution}
-  \efr
 \end{figure}
 The figure then shows the energy impact: the higher the key size and FPS rate, the larger the impact on the battery. In \fref{fig:soc-configuration}{Figures}\fref{fig:soc-schedule}{--\hspace*{-.8ex}}, we show the remaining battery after flying with different schedules. Particularly, \fref{fig:soc-configuration}{Figure} illustrates various static schedules: \sref{lab:sched-a}{} indicates the impact on the battery of merely flying the regressions from \fref{fig:takeoff-energy}{Figures}\fref{fig:landing-energy}{--\hspace*{-.8ex}}, i.e., the energy impact of the motion on the battery; \sref{lab:sched-b}{} a static schedule of flying the configuration 5.8 FPS, and 32 bits (relative to $c_{i,1},c_{i,2},\forall i\in[l]$ with a fixed number of stages $l$); \sref{lab:sched-c}{} also a static schedule with 10 FPS and 240 bits; and finally \sref{lab:sched-c}{} with 32 FPS and 448 bits.
 

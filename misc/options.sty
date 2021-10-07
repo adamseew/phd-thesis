@@ -25,7 +25,7 @@
 \usepackage[math]{iwona}
 \usepackage{ebgaramond}
 
-\usepackage{glossaries}
+\usepackage[sort=standard]{glossaries}
 \usepackage[xindy,toc=false,nogroupskip,nonumberlist]{glossaries-extra}
 \usepackage{imakeidx} 
 
@@ -140,7 +140,7 @@
 
 \fancypagestyle{plain}{%
   \fancyhf{}%
-  \fancyfoot[C]{\otherfont\thepage}%
+  \fancyfoot[C]{\otherfont\color{foo}\thepage}%
   \renewcommand{\headrulewidth}{0pt} % line at the header
   \renewcommand{\footrulewidth}{0pt} % line at the footer (both not visible)
 }
@@ -237,10 +237,10 @@
   {\topsep}   % BELOWSPACE
   {}  % BODYFONT
   {0pt}       % INDENT (empty value is the same as 0pt)
-  {\color{foo}\otherfont\bfseries} % HEADFONT
-  {\newline}         % HEADPUNCT
+  {\color{foo}\otherfont} % HEADFONT
+  {.}         % HEADPUNCT
   {5pt plus 1pt minus 1pt} % HEADSPACE
-  {\thmname{#1}\thmnumber{ #2}\thmnote{: #3}}          % CUSTOM-HEAD-SPEC
+  {{\bfseries\thmname{#1}\thmnumber{ #2}}\thmnote{: #3}}          % CUSTOM-HEAD-SPEC
 
 \theoremstyle{komaplain}
 \newtheorem{thm}{Theorem}[section]
@@ -257,8 +257,6 @@
 \newtheorem*{obs}{Observation}
 
 \usepackage{tcolorbox}
-
-\newtcolorbox{highlight}{colback=gray!10,colframe=foo,boxrule=.4pt,arc=0pt,boxsep=.5em,left=3pt,right=3pt}
 
 \makeatletter
 \newcommand*{\textlabel}[2]{%
@@ -376,9 +374,6 @@
 \newcommand{\setttsize}[1]{\def\ttsize{#1}}%
 
 \usepackage{changepage}
-
-\newcommand{\sfr}{\begin{adjustwidth}{.0in}{.0in}}
-\newcommand{\efr}{\end{adjustwidth}}
 
 \renewcommand*{\thefootnote}{{\fontfamily{phv}\selectfont\color{foo}\arabic{footnote}}} % footnote number stule
 

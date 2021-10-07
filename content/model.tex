@@ -43,34 +43,27 @@ In \fref{sec:model-hete-elem}{Section}, we summarize the heterogeneous elements 
 We saw in \fref{cp:pb}{Chapter} that traditionally, models for computing hardware focus on a specific computing element, such as CPU or GPU, or model the elements heterogeneously. The models provide a regression function (measuring the power consumption over time), analytical (using some architectural parameters), or other expressions to infer future energy consumption. The regression functions, analytical or other expressions might depend on low-level architectural parameters and be employed in an energy-efficient selection of such parameters, including voltage and frequency. Alternatively, they might depend on high-level parameters (such as the computations parameters $c_{i}^\sigma$ in this work) and be employed in an energy-aware configuration of software (and hardware), e.g., the tasks allocation on the CPU cores. An expression depending on a configuration is more common for heterogeneous models, as we summarized in \fref{tab:energy-models}{Table}. We focus on these models; in \fref{cp:intro}{Chapter} and formally in \fref{def:comps}{Definition}, we assumed the aerial robot caries heterogeneous computing hardware for energy-demanding computations. We refer to \fref{sec:comp-ener-model}{Section} for an extensive discussion of some energy modeling approaches in the literature for CPUs and GPUs powered and heterogeneous computing hardware. 
 
 \begin{figure}[h!]
-  \sfr
   \centering 
   \includegraphics[width=.7\textwidth]{pictures/_DSC6224}
   \caption[NVIDIA Jetson Nano heterogeneous computing hardware]{NVIDIA Jetson Nano heterogeneous computing hardware that we model the computations energy on. The hardware in the image includes the Jetson Developer Kit board that the Nano heterogeneous board is mounted on and has a total size of 100x80 millimeters and a weight of approx. 140 grams.}  
   \label{fig:nano}\findex{NVIDIA Jetson!Nano}
-  \efr
 \end{figure}
 \begin{figure}[h!]   
-  \sfr
   \centering 
   \includegraphics[width=.7\textwidth]{pictures/_DSC6220}
   \caption[NVIDIA Jetson TX2 heterogeneous computing hardware]{NVIDIA Jetson TX2 heterogeneous computing hardware mounted on a Jetson Developer Kit\findex{NVIDIA Jetson!Developer Kit} board as Nano in \fref{fig:nano}{Figure} with a total size of 170x170 millimeters and a weight of approx. 512 grams.}   
   \label{fig:tx2}\findex{NVIDIA Jetson!TX2}
-  \efr
 \end{figure}
 \begin{figure}[h!]
-  \sfr
   \centering
   \includegraphics[width=.7\textwidth]{pictures/_DSC6222}
   \caption[ODROID XU3 heterogeneous computing hardware]{ODROID XU3 heterogeneous computing hardware with a total size of 94x70 millimeters and a weight of 70 grams.}
   \label{fig:odroid}\findex{ODROID XU3}
-  \efr
 \end{figure}
 
 Our approach is based on our work~\citep{seewald2019coarse} on heterogeneous computing devices' energy modeling and generic, modeling virtually a wide range of heterogeneous computing hardware energy consumption in real use-cases with little users effort. We use statistical methods to derive a regression-based model segmented into two layers. In the first, the measurement layer\findex{measurement layer}, we map the time to the power, and in the second, the predictive layer\findex{predictive layer}, we map the computations configuration $c_{i}^\sigma(t)$ to the power. To generate a model, our approach inputs a user-defined configuration file, which simply specifies the computations along with the computation parameter constraint sets $\mathcal{S}_{i,k}$ in \fref{def:stage}{Definition}, per each computation $k\in[\sigma]_{>0}$ and stage $i\in[l]_{>0}$ (or $[n]_{>0}$ if the computations are specified along the primitive paths and reiterated when the aerial robot reaches $\mathbf{p}_{\Gamma_n}$ with a shift $\mathbf{d}$ in \fref{fig:state-machine}{Figure}). From the configuration, an automated modeling tool termed \powprof{} measures the energy consumption of a discrete set of configurations $c_{i,\rho+j}\in\mathcal{S}_{i,j}$, per each computation parameter $j\in[\sigma]_{>0}$ and derives the measurement layer. The tool allows merging then a set of measurement layers into a predictive layer via linear regression.
 As heterogeneous computing hardware, we use different devices, such as NVIDIA Jetson Nano\findex{NVIDIA Jetson!Nano}, TX2\findex{NVIDIA Jetson!TX2}, and TK1\findex{NVIDIA Jetson!TK1} in \fref{fig:nano}{Figures}\fref{fig:tx2}{--\hspace*{-.8ex}} and \fref{fig:tk1}{} and ODROID XU3\findex{ODROID XU3} in \fref{fig:odroid}{Figure}. 
 \begin{table}[h!]
-  \sfr
   \footnotesize\fontfamily{phv}\selectfont
     \begin{tabularx}{\textwidth}{|X|*{4}{l|}}\hline
       {\hspace*{-.8ex}Hardware} & \hspace*{-.8ex}{\scriptsize CPU} & \hspace*{-.8ex}{\scriptsize GPU} & Memory & \hspace*{-.8ex}{\scriptsize Sensor}\hspace*{-.8ex} \\
@@ -84,7 +77,6 @@ As heterogeneous computing hardware, we use different devices, such as NVIDIA Je
     \footnotesize
     \caption[Mobile computing hardware explicitly analyzed in this work]{Mobile computing hardware explicitly analyzed in this work. All the CPUs are ARM Cortex. The majority of the embedded boards provide random access memory (RAM)\findex{memory!random access}, and some a non-volatile (NV) memory\findex{memory!non-volatile}. All the boards have energy measuring capabilities except NVIDIA Jetson TK1.}
     \label{tab:hws}
-    \efr
 \end{table}
 We summarize the computing hardware that we explicitly consider in this work in \fref{tab:hws}{Table}. These devices are commonly employed in robotics literature to power complex computations. For instance, Jetson TX2 has been employed in path planning\findex{path planning}~\citep{dharmadhikari2020motion,ryou2018applying}, simultaneous localization and mapping\findex{simultaneous localization and mapping} (\Gls{acr:slam})~\citep{aldegheri2019data}, and object detection\findex{object detection} via convolutional neural networks\findex{convolutional neural network} (\Gls{acr:cnn}s)~\citep{william2019aerial}. Jetson Nano in SLAM and CNNs~\citep{peng2019evaluating,wang2020yolo,alexey2021autonomous}, and ODROID XU3~\citep{bhat2019power,papachristos2015aerial,giusti2016machine} and Jetson TK1~\citep{gong2016low,holper2017cyber} in similar applications. Although we report some in this paragraph, heterogeneous embedded boards power computations in many other mobile robots use-cases, thus possibly broadening the applicability of our work, which we further in \fref{cp:conc}{Chapter}. In the remainder of this section, we detail our energy model for the heterogeneous computing hardware.
 
@@ -95,13 +87,12 @@ The measurement layer is the basic building block of the computations energy mod
 
 Let us define the measurement layer formally, assuming there are one or more energy sensors or other energy measuring devices (these include, e.g., internal power resistors or shunt resistors, amperometers, and multimeters) in \fref{def:measur-layer}{Definition}.
 
-\begin{highlight}
-  \begin{defn}[Measurement layer]\label{def:measur-layer}
-    Given a specific energy measuring device, computations parameters configuration $c_i^\sigma(t)$, and an initial and final time instant $t_0,t_f$ such that $t\in\mathcal{T}:=[t_0,t_f]$, the \textit{measurement layer} is the function
-    $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\times\mathcal{T}\rightarrow\mathbb{R}^3$.
-    It returns the power in watts, energy in joules, and SoC in percentages of an energy measuring device, a configuration of computations parameters, and time interval.
-  \end{defn}
-\end{highlight}
+\begin{defn}[Measurement layer]
+  \label{def:measur-layer}
+  Given a specific energy measuring device, computations parameters configuration $c_i^\sigma(t)$, and an initial and final time instant $t_0,t_f$ such that $t\in\mathcal{T}:=[t_0,t_f]$, the \textit{measurement layer} is the function
+  $\mathbf{g}:\mathbb{Z}_{>0}\times\mathbb{Z}^\sigma\times\mathcal{T}\rightarrow\mathbb{R}^3$.
+  It returns the power in watts, energy in joules, and SoC in percentages of an energy measuring device, a configuration of computations parameters, and time interval.
+\end{defn}
 
 The measurement layer physically samples the computing hardware for $\mathcal{T}$ and returns the metrics, but sampling-to-completion is also possible, where a configuration runs up until it terminates rather than for a given interval. In the latter eventuality, $\mathcal{T}$ is ${\emptyset}$.
 
@@ -128,11 +119,10 @@ With the measurement layer described in this section, we know the power and othe
 
 The predictive layer describes coarse-grained metrics, such as the power over FPS rate, mapping them to the metrics from the measurement layer, thus providing energy data for each configuration of parameters (or for each scheduling policy). To this end, it uses the set of measurement layers, building a two-by-two linear regression between consecutive layers. In the precision agriculture example with ten measurement layers, the predictive layer consists of regression between data points $\{c_{i,2},c_{i,3}\}$ for all the possible computations parameters (recall that a measurement later corresponds to a sampled computations configuration), opposed to the sampled ones in \fref{sec:measurement-layer}{Section}. \fref{def:comp-ener}{Definition} details the resulting model.
 
-\begin{highlight}
-  \begin{defn}[Predictive layer]\label{def:comp-ener}
-    Given a specific energy measuring device and computations parameters configuration $c_i^\sigma(t)$ \textit{predictive layer} is the function $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}^\sigma\rightarrow\mathbb{R}^3$. It returns the power in watts, energy in joules, and SoC in percentages of any configuration of parameters within the constraint sets.
-  \end{defn}
-\end{highlight}
+\begin{defn}[Predictive layer]
+  \label{def:comp-ener}
+  Given a specific energy measuring device and computations parameters configuration $c_i^\sigma(t)$ \textit{predictive layer} is the function $g:\mathbb{Z}_{\geq 0}\times\mathbb{Z}^\sigma\rightarrow\mathbb{R}^3$. It returns the power in watts, energy in joules, and SoC in percentages of any configuration of parameters within the constraint sets.
+\end{defn}
 
 Analogously to the measurement layer, there can be various energy measuring devices, resulting in multiple triples of energy, power, and SoC, one per device. The predictive layer returns the same metrics of the measurement layer in \fref{def:measur-layer}{Definition}, without physically sampling the computing hardware but using the stored measurement layers. Indeed due to a potentially large search space in computational energy modeling, it is critical to infer the energy properties of the entire search space from a subset of all the possible samples~\citep{lee2006statistically,lee2006accurate,bailey2014adaptive}. The linear regression to infer such properties utilizes a method that we term the approximation method\findex{approximation method}~\citep{seewald2019coarse}. It builds a linear regression between two adjacent data points rather than merely for all the data points. Indeed we do not assume an apriori knowledge of the computations energy evolution with explicit models for all the data points such as linear or exponential, but rather model the energy linearly on tuples of data points~\citep{seewald2019coarse}.
 
@@ -153,12 +143,10 @@ The tool uses an object-oriented programming\findex{object-oriented programming}
 The function {\small\tt get\_sample} further relies on a specific data type, which we term {\small\tt vectorn}\findex{data type!vectorn@\texttt{vectorn}}. Each value in {\small\tt vectorn} has its flag, indicating the metric and the measuring device. For instance {\small\tt power\_cpu}, {\small\tt soc\_gpu} are two flags indicating that the metric is for the power and the measuring device is of
 the CPU and the SoC of the GPU respectively. The enumeration {\small\tt vectorn\_flags} contains all the flags. The tool stores a set of {\small\tt vectorn}s sampled at discrete intervals (\powprof{} is highly personalizable, allowing to change the frequency via the configuration specification in \fref{sec:conf-spec}{Section}) in another structure termed {\small\tt pathn}\findex{data type!pathn@\texttt{pathn}}. Each {\small\tt pathn} corresponds to a measurement layer in \fref{sec:measurement-layer}{Section}. The tool further provides mechanisms, such as the overload of the constructor, to automatically load the layers from a previously stored CSV file. Internally the tool stores {\small\tt pathn}s (the measurement layers) in a wrapper, {\small\tt model\_1layer}\findex{class!model1layer@\texttt{model\_1layer}}, which contains information such as the parameters configuration and the set $\mathcal{T}$; {\small\tt model\_2layer}\findex{class!model2layer@\texttt{model\_2layer}} is then another internal structure that returns the predictive layer in \fref{sec:predictive-layer}{Section}. 
 \begin{figure}[h!]
-  \sfr
   \centering 
   \includegraphics[width=.7\textwidth]{pictures/_DSC6228}
   \caption[NVIDIA Jetson TK1 heterogeneous computing hardware]{NVIDIA Jetson TK1 heterogeneous computing hardware mounted on a Toradex Ixora\findex{Toradex Ixora} carrier board with a total size of 125x95 millimeters and a weight of approx. 160 grams.} 
   \label{fig:tk1}\findex{NVIDIA Jetson!TK1}
-  \efr
 \end{figure}
 In this setting, NVIDIA Jetson TK1 computing hardware does not include any energy measuring device. \powprof{} allows an external device in the sense that it can import data in the model directly through the overload of the constructor into a measurement layer (and therefore a set of measurement layers into a predictive layer). An early instance of our work~\citep{seewald2019hlpgpu} consisted of three hardware units for the purpose of this latter energy modeling of the TK1 computing hardware, similarly to another study in the literature~\citep{calore2015energy}. The main hardware unit in the early instance was the computing hardware itself, whereas the others were a multimeter and a workstation that interprets the data from the multimeter for subsequent processing by the tool~\citep{seewald2019coarse}.
 
@@ -190,13 +178,11 @@ Equivalent electrical circuits are abstract models, frequently referred to as ba
 For what concerns the specific battery chemistries to be modeled, we focus on Li-ion batteries. These batteries have broad applications involving electric vehicles, mobile, and aerial robots~\citep{shi2006application,xia2015state,hasan2018exogenous,zhang2014battery}, due to their characteristics such as low self-discharge rate\findex{self-discharge rate}, absence of memory effect\findex{memory effect}, and high power and energy density\findex{power density}\findex{energy density}~\citep{zhang2014battery}.
 
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/circuit-rint.tikz}
   \caption[Equivalent electrical circuit for battery modeling with an internal resistance]{Equivalent electrical circuit for battery modeling with one resistor, representing the internal battery resistance.}
   \label{fig:rint}
-  \efr
 \end{figure}
 Here, we propose a simplistic battery model to model a Li-ion battery of an aerial robot in flight, focusing on lesser complexity rather than accuracy. The battery SoC changes--when computations and motion generate a current to be drawn from the battery--according to the equation~\citep{zhang2018online,hasan2018exogenous}
 \begin{equation}\label{eq:socevol}
@@ -223,13 +209,11 @@ where $I_l:=y(t)/V_s$ is the current of the load depending on the computations a
 
 There are also more complex ECMs in the literature~\citep{hinz2019comparison,hasan2018exogenous}, which add additional elements to, e.g., account for the changes in the load current. One such ECM is the Thevenin model and the Thevenin-based model~\citep{chen2006accurate,hasan2018exogenous,hinz2019comparison,mousavi2014various,zhang2018online,salameh1992mathematical}\findex{Thevenin model}. 
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/circuit-thevenin.tikz}
   \caption[Thevenin-based equivalent electrical circuit for battery modeling]{Thevenin-based equivalent electrical circuit for battery modeling with one resistor and two RC internal elements. The two elements add some complexity, making the model able to account for changes in the load current.}
   \label{fig:thevenin}
-  \efr
 \end{figure}
 Sometimes termed the dual-polarization model~\citep{he2011evaluation}, we illustrate the ECM in \fref{fig:thevenin}{Figure}. It models further details, such as the short-term transient behavior with the first RC element ($R_1,C_1$) and the long-term transient behavior with the second RC element ($R_2,C_2$)~\citep{hinz2019comparison}. It is particularly suitable to model the polarization characteristic of Li-ion battery cells~\citep{he2011evaluation}.
 
@@ -249,25 +233,21 @@ In this section, we implement a model for the motion of aerial robots in coverag
 
 Let us suppose the aerial robot is operating in an autonomous scenario, planning the coverage and scheduling some computations for detections and encryption in \fref{sec:flight-plan}{Section}. 
 \begin{figure}[h!]
-  \sfr
   \centering
   \footnotesize
   \fontfamily{phv}\selectfont
   \input{figures/energy_1.tikz}
   \caption[Power evolution data of an aerial robot in coverage planning]{Empirical energy data of the aerial robot in \fref{fig:plot2}{Figure} in coverage planning. The data shows that the energy signal is periodic over time as the fixed-wing aerial robot reiterates a set of paths.}
   \label{fig:energy-1}
-  \efr
 \end{figure}
 It expectedly iterates some paths (the primitive paths) for CPP and schedules the computations periodically, as we outlined in \fref{sec:outline}{Section}, and further backed with the concept of primitive paths in \fref{def:primitive}{Definition}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. This assumption is further supported by our previous contribution on the topic~\citep{seewald2020mechanical}, showing that a Fourier series of a given order can model the energy of the aerial robot (in the contribution, we used the order three). We will ease the assumption of the periodic evolution in practice to periodic with disturbance or aperiodic evolutions in \fref{sec:non-perio}{Section}. 
 \begin{figure}[h!]
-  \sfr
   \centering
   \footnotesize
   \fontfamily{phv}\selectfont
   \input{figures/spectrum_1.tikz}
   \caption[Power evolution frequency spectrum of an aerial robot in coverage planning]{Frequency spectrum of the empirical energy data in \fref{fig:energy-1}{Figure} where the aerial robot does the coverage planning.}
   \label{fig:spectrum-1}
-  \efr
 \end{figure}
 We motivate the choice of a periodic energy model further with some empirical energy data of the Opterra fixed-wing aerial robot\findex{Opterra fixed-wing aerial robot} flying the agricultural scenario in \fref{fig:energy-1}{Figures}\fref{fig:spectrum-1}{--\hspace*{-.8ex}}. The data shows the robot's energy along its frequency spectrum. The latter is centered at zero frequency, and peaks at four hundred kilo decibels. The peak visually depicts the shift on the power axis in  \fref{fig:energy-1}{Figure} (and further backs the choice of the Fourier series of third order in our earlier work, illustrating that the power evolution needs approximately three frequencies to be modeled). To obtain the spectrum in frequency space, we computed the Fourier transform.
 
@@ -323,14 +303,15 @@ The linear model in \frefeq{eq:state-perf} allows us to include the control in t
 In the remainder, we formally prove an important concept in our work: we can use \frefeq{eq:state-perf} to model the energy signal of an aerial robot, assuming the robot iterates periodically a set of paths and computations to achieve a given space coverage. 
 We already know that we can model a periodic energy signal with \frefeq{eq:fourier}, so we prove the equivalence and equality of the models in \frefeq{eq:fourier} and \frefeq{eq:state-perf}.
 
-\begin{highlight}
-\begin{lem}[Signal, output equality]\label{lem:eqv}Suppose control $\mathbf{u}$ is a zero vector, matrices $A,C$ are described by \frefeqM{eq:mat_A}{eq:mat_C}, and the initial guess at a given time instant $t_0\in\mathbb{R}_{>0}$ $\mathbf{q}(t_0)$ is 
+\begin{lem}[Signal, output equality]
+  \label{lem:eqv}
+  \itshape
+  Suppose control $\mathbf{u}$ is a zero vector, matrices $A,C$ are described by \frefeqM{eq:mat_A}{eq:mat_C}, and the initial guess at a given time instant $t_0\in\mathbb{R}_{>0}$ $\mathbf{q}(t_0)$ is 
   \begin{equation*}
-  \mathbf{q}(t_0)=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}'.
+    \mathbf{q}(t_0)=\begin{bmatrix}a_0 & a_1/2 & b_1/2 & \cdots & a_r/2 & b_r/2\end{bmatrix}'.
   \end{equation*} 
   Then, the signal $h$ in \frefeq{eq:fourier} is equal to the output $y$ in \frefeq{eq:state-perf}.
 \end{lem}
-\end{highlight}
 
 \begin{proof}
 The proof justifies the choice of the items of the matrices $A,C$ and the initial guess $\mathbf{q}(t_0)$ in \frefeqM{eq:state-details}{eq:mat_C}. We write these elements such that the coefficients of the series $a_0,\dots,b_r$ are the same as the coefficients of the state $\alpha_0,\dots,\beta_r$.
@@ -493,15 +474,13 @@ Let us suppose that at time instant $t$ the plan in \fref{def:plan}{Definition} 
 \end{split}\end{equation}
 where $c_i(t)\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal control $\mathbf{u}(t)$ in \frefeq{eq:state-perf}. We include the control in the nominal control exploiting the following observation. 
 
-\begin{highlight}
-  \begin{obs}[Relation between the control and energy]
-    We observe that:
-    \begin{enumerate*}[label={(\alph*)},font={\textit}]
-      \item a change in path parameters affects the energy indirectly. It alters the time when the aerial robot reaches the final point $\mathbf{p}_{\Gamma_l}$ and enters the final stage $\Gamma_l$,
-      \item a change in computation parameters affects the energy directly. It alters the power as more computations require more power (and vice versa).
-    \end{enumerate*}
-  \end{obs}
-\end{highlight}
+\begin{obs}[Relation between the control and energy]
+  We observe that:
+  \begin{enumerate*}[label={(\alph*)},font={\textit}]
+    \item a change in path parameters affects the energy indirectly. It alters the time when the aerial robot reaches the final point $\mathbf{p}_{\Gamma_l}$ and enters the final stage $\Gamma_l$,
+    \item a change in computation parameters affects the energy directly. It alters the power as more computations require more power (and vice versa).
+  \end{enumerate*}
+\end{obs}
 
 The second point in the observation is easily verified. The \powprof{} profiling tool models the energy consumption of the heterogeneous computing hardware the mobile robot is carrying. A variation in the computations parameters affects the schedule (as the schedule is parametrized by the parameters in \fref{def:comp-mot-energy}{Definition}), and hence results in more/less power required by the computing hardware.
 
@@ -561,13 +540,11 @@ The variation of the control hence results in an approximate measure of the plan
 $\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters $c_i^\rho=\emptyset$. We use the latter to initialize the algorithm in \fref{sec:algo}{Section}.
 
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/plot6.tikz}
   \caption[Concept of a path and computations parameters scale transformation]{The concept of a path and computations parameters scale transformation. Without any battery constraints, the energy-aware coverage planning and scheduling select the highest configuration which respects the control constraint (admissible region) from \frefeq{eq:constraint-set}.}
   \label{fig:plot-6}
-  \efr
 \end{figure}
 
 The scaling factors for the computations parameters from \frefeq{eq:scaling} are derived using {\small\tt{powprofiler}}, the open-source modeling tool from \fref{sec:powprof}{Section}. We estimate the energy cost of a given schedule (a given computations configuration) with the function $g$ from \fref{def:comp-ener}{Definition}. 
@@ -583,13 +560,11 @@ $\forall j\in[\rho+1,n]$. We then assume $g$ only returns the power metric (so w
 The concept of a path and a computation parameter $(c_{i,1},c_{i,2})$ scale transformation is illustrated in \fref{fig:plot-6}{Figure}. 
 The energy domain is bounded by the output of the \powprof{} tool, while the flight time domain is by the empirical data. The energy-aware coverage planning and scheduling select the highest possible configuration of parameters (control) in the admissible region\findex{admissible region} (under the constraints). 
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/plot7.tikz}
   \caption[Change in the admissible region]{Change in the admissible region in \fref{fig:plot-6}{Figure} due to a battery constraint.}
   \label{fig:plot-7}
-  \efr
 \end{figure}
 Currently, the highest control corresponds to $(\overline{c}_{i,1},\overline{c}_{i,2})$. We will see in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints.
 In \fref{fig:plot-7}{Figure} we briefly exemplify this latter case, where due to, e.g., a sudden battery drop, the energy and time domains are shrunk. The highest possible control is thus now different from the above scenario.

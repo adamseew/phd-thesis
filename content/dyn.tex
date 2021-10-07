@@ -53,13 +53,11 @@ We can then use the gradient in \frefeq{eq:grady} to define a vector field--a fu
 \end{equation}
 
 \begin{figure}[ht!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad.tikz}
   \caption[The direction of the gradient on a circle path function]{The direction of the gradient $\nabla\varphi_i$ in the point $(x_\mathbf{p},y_{\mathbf{p}})$ at an altitude $h$ w.r.t. $\mathcal{O}_W$ for the circle path function in \frefeq{eq:pathf-circle} and \fref{fig:circle-pf}{Figure}. The gradient directs where the function locally maximally increases; the opposite thus to the center of the circle in \frefeq{eq:two-paths} (or the base of the paraboloid $\varphi_i$).}
   \label{fig:grad}
-  \efr
 \end{figure}
 We note some analogies in the physical theory of potential functions with our path functions; indeed vector fields are a well-known concept in physics, with applications such as electrostatic\findex{electrostatic field}, gravitational\findex{gravitational field}, and magnetic fields\findex{magnetic field}~\citep{feynman2015feynman}. Imagine that the aerial robot is a positively charged particle in an electrostatics analysis, attracted by a negatively charged goal. Via the gradient, we can then direct the particle (the aerial robot) to the goal (where the function maximally locally decreases)~\citep{choset2005principles}. In the setting of \frefeq{eq:pathf-line} and \frefeq{eq:pathf-circle}, i.e., 
 \begin{equation}\label{eq:two-paths}
@@ -104,13 +102,11 @@ We discuss in the next section how to fix $\varPhi$ so that it directs us to fol
 
 \fref{algo:grad-desc}{Algorithm} that we illustrate in \fref{fig:grad_desc}{Figure} directs to the center of the circle when we have a circle as a path function in \frefeq{eq:two-paths}.
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_desc.tikz}
   \caption[The gradient descent algorithm illustrated on a circle path function]{The gradient descent algorithm after the first two steps, with the following step being dashed and directing the aerial robot to the center of the circle where the gradient is zero $\nabla\varphi_i=0$. The paraboloid $\varphi_i$ representing the path function circle at altitude $h$ is illustrated in the contour plot.}
   \label{fig:grad_desc}
-  \efr
 \end{figure}
 However, we want to track (or follow) these functions. Concretely, in the path sub-plan in \frefeqM{eq:line-gene}{eq:circ-gene} in \fref{sec:path-wise}{Section}, we want to follow the path function $\varphi_{i+1}$ by flying over rather than heading the center when we follow a circle path function. In the example, we started following the circle described by $\varphi_{i+1}$ after reaching $\mathbf{p}_{\Gamma_i}$ while tracking $\varphi_i$ (for all the previous and following path functions). To this end, we use a vector field-based approach proposed in the literature specifically for aerial robots~\citep{de2017guidance}, which points to the contours of the functions in \fref{fig:line-pf}{Figures}\fref{fig:circle-pf}{--\hspace{-.8ex}} and thus to \frefeq{eq:two-paths}.
 
@@ -127,25 +123,21 @@ where $E_i\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)$ is a vector pointing perpendi
 with $E_i$ being the counterclockwise, $-E_i$ the clockwise direction. 
 The contribution of the component $-k_e\varphi_i(\mathbf{p}(t),c_i^\rho)\nabla\varphi_i(\mathbf{p}(t),c_i^\rho)$ in \frefeq{eq:pd} points in the direction of the path function. It depends on the coefficient $k_e\in\mathbb{R}_{>0}$--indicating the speed of convergence~\citep{de2017guidance}--and on the value of $\varphi_i$ at the current point (of course also on the path parameters and the value of the gradient). 
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_gvf1.tikz}
   \caption[The direction of the vector field inside the path function]{The direction of the vector field for guidance in~\citep{de2017guidance} with a point $\mathbf{p}_{-}$ inside the circle: $\Delta_d$ points to the path function opposite to the center of the circle.}
   \label{fig:grad_gvf1}
-  \efr
 \end{figure}
 We illustrate $\Delta_d\varphi_i$ in \fref{fig:grad_gvf1}{Figure}. When we take a point within the circle, let's call it $\mathbf{p}_{-}$, the value of $\varphi_i$ is negative; $-k_e\varphi_i(\mathbf{p}_{-},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points outwards of the circle center, in the direction of the path function. $E_i\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points perpendicularly to the gradient $\nabla\varphi_i$ and to the path function itself. The resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ then points to the direction of the path function.
 
 Now we take a point $\mathbf{p}_{+}$ out of the circle, and not exactly over the path function. 
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_gvf2.tikz}
   \caption[The direction of the vector field outside and on the path function]{The direction of the vector field with $\mathbf{p}_{+}$ outside the circle: $\Delta_d$ points to the path function in the direction of the center of the circle. With $\mathbf{p}_{0}$, $\Delta_d$ points perpendicularly to the path function.}
   \label{fig:grad_gvf2}
-  \efr
 \end{figure}
 The value of $\varphi_i$ is positive; $-k_e\varphi_i(\mathbf{p}_{+},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{+},c_i^\rho)$ points inwards of the circle center and the resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ in the direction of the path function. If we finally take a point $\mathbf{p}_{0}$ exactly over the path function, $\varphi_i$ is zero; $-k_e\varphi_i(\mathbf{p}_{0},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{0},c_i^\rho)$ is thus also zero, and $\Delta_d\varphi_i(\mathbf{p}_{0},c_i^\rho)$ points perpendicularly to the path functions. We illustrate these two cases in \fref{fig:grad_gvf2}{Figure}. Let us thus define the vector fields
 \begin{equation}
@@ -156,10 +148,8 @@ The value of $\varphi_i$ is positive; $-k_e\varphi_i(\mathbf{p}_{+},c_i^\rho)\na
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/vecfs.tikz}
-  \sfr
   \caption[Path-following vector field of a circle path function.]{Path-following vector field $\varPhi_d$ of a circle path function with the aerial robot starting inside $\mathbf{p}_{-}(t_0)$ and outside $\mathbf{p}_{+}(t_0)$ the circle.}
   \label{fig:vecfs}
-  \efr
 \end{figure}
 This vector fields points to the path function such as the line and the circle in \frefeq{eq:two-paths} for every point in space $\mathcal{Q}^v$ as we illustrate in \fref{fig:vecfs}{Figure} for the circle $(x-3)^2+(y-3)^2-2=h$.
 
@@ -206,13 +196,11 @@ In this section, we solve \fref{pb:cov-pb}{Problem}. Let us recall briefly our o
 
 There are numerous methodologies for cellular decomposition itself. Some decompose the polygon into equally sized sub-regions that form a grid and then visits only the sub-regions where the robot is free to move~\citep{galceran2013survey}. 
 \begin{figure}[h!]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/gride.tikz}
   \caption[Grid decomposition]{A polygonal space where we want to find a coverage tour and visit all the points delimited by $v:=\{v_1,\dots,v_4\}$ except for the obstacle $o_1:=\{o_{1,1},\dots,o_{1,6}\}$. A way to cover the space is the grid decomposition that divides the polygon into equally sized cells and visits each cell except the obstacle.}
   \label{fig:gride}
-  \efr
 \end{figure}
 This methodology is termed grid decomposition\findex{grid decomposition} in~\fref{fig:gride}{Figure}. Another way is to sweep the polygon and divide it into sub-regions\findex{sub-regions} when the sweep line\findex{sweep line} encounters a change in connectivity. We implement this latter class in \fref{sec:cell-deco}{Section}.
 Once the algorithm divides the free space into sub-region, it builds an adjacency graph\findex{adjacency graph}. The vertices contain the sub-regions and edges connect adjacent sub-regions~\citep{choset2005principles}. A covering order between the sub-region to derive the sequence of the coverage is then an exhaustive walkthrough of the adjacency graph with, e.g., depth-first search\findex{depth-first search} algorithm~\citep{choset2005principles}. Once divided the space and the order of the coverage, we need to cover each sub-region. We recall that a method is the boustrophedon motion that we discussed in \fref{cp:soa}{Chapter}. However, a generic nonholonomic mobile robot, such as the Opterra fixed-wing craft in the precision agriculture scenario in \fref{sec:motivation}{Section}, has limited maneuverability~\citep{mannadiar2010optimal,xu2011optimal,xu2014efficient}. For a generic aerial robot, it is preferred to have a large turning radius~\citep{wang2017curvature}; to this end, we propose a Zamboni-like motion. We introduced both the Zamboni- and boustrophedon-like motions in \fref{sec:path-wise}{Section}, whereas we implement them later in this chapter in \fref{sec:cov-motion}{Section}.
@@ -222,49 +210,41 @@ Once the algorithm divides the free space into sub-region, it builds an adjacenc
 
 In detail, a cellular decomposition decomposes the coverage space into non-overlapping sub-regions called cell\findex{cells}s. Let us define the robot's free space\findex{free space} or the coverage space\findex{coverage space} as $\mathcal{Q}^v$ for an inertial navigation frame $\mathcal{O}_W$. Physically, the free space is where the robot is free to move without intersecting an obstacle~\citep{choset2005principles}. Let $\mathcal{Q}^{o_i}\subset\mathbb{R}^2$ be the space delimited by the obstacle $o_i$. $\mathcal{Q}^v\subseteq\mathbb{R}^2$ contains all the points delimited by the vertices of the polygon $v$ except for $i$ obstacles delimited by the vertices of $i$ polygons $o_i$. The entire space in the polygon $v$, including all the obstacles $o_i$, is then $\mathcal{Q}:=(\bigcup_{i\in|o|}\mathcal{Q}^{o_i})\cup\mathcal{Q}^v$. 
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/bcd_1.tikz}
   \caption[Initial step of the boustrophedon decomposition]{The boustrophedon decomposition for coverage path planning sweeps the space and adds cells in case the sweeping line encounters a change in connectivity. Figure shows an initial step with $c_1$ the first cell formed.}
   \label{fig:bcd2}
-  \efr
 \end{figure}
 In \fref{fig:bcd2}{Figure}, the polygon is delimited by $v:=\{v_1,\dots,v_4\}$ and forms $\mathcal{Q}^v$, whereas the obstacle by $o_1:=\{o_{1,1},\dots,o_{1,6}\}$ and forms $\mathcal{Q}^{o_1}$. The union of these two is then $\mathcal{Q}$.
 
 An important approach in the polygonal environment is the boustrophedon decomposition\findex{boustrophedon decomposition}~\citep{choset2000coverage}. For non-polygonal environments where $v$ and $o_i$ are, e.g., elliptical functions, a significant result is the decomposition in terms of critical points of Morse functions\findex{Morse functions}~\citep{choset2000exact}. Both the boustrophedon decomposition and decomposition in terms of critical points of Morse functions sweep $\mathcal{Q}$ with a line and decompose $\mathcal{Q}^v$ adding a cell in case of a change in connectivity or when they encounter a critical point~\citep{choset2000coverage,choset2001coverage,choset2005principles}. 
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/bcd_2.tikz}
   \caption[Intermediate step of the boustrophedon decomposition]{An intermediate step of the boustrophedon decomposition, with $c_2,c_3$ formed at the first encounter of the obstacle $o_1$. The black points indicate the critical points or changes in connectivity.
   }
   \label{fig:bcd3}
-  \efr
 \end{figure}
 In \fref{fig:bcd3}{Figure}, the change in connectivity happens when the sweeping line encounters the obstacle $o_1$. This approach optimizes the neighboring cells that can be thus aggregated as opposed to, e.g., trapezoidal decomposition\findex{trapezoidal decomposition}~\citep{galceran2013survey} in \fref{fig:trap}{Figure}, which splits the space into cells when it encounters a vertex~\citep{lavalle2006planning}.
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/trap.tikz}
   \caption[Trapezoidal decomposition]{In the trapezoidal decomposition a lot of small cells are created (i.e., the cells $c_2,c_3,c_7$) that can be otherwise merged resulting in disconnected coverage. Boustrophedon decomposition solves the problem by splitting/merging the cells at critical points rather than at vertices. The resulting tour has eight cells as opposed to four cells with boustrophedon decomposition in \fref{fig:bcd4}{Figure}.}
   \label{fig:trap}
-  \efr
 \end{figure}
 For the decomposition in terms of critical points of Morse functions, the intuition of using critical points\findex{critical points}~\citep{choset2000exact} comes from some early studies on roadmaps\findex{roadmaps}~\citep{canny1988complexity,canny1988constructing,canny1993opportunistic}. Notably, these studies show that topology\findex{topology} (i.e., connectivity) changes only at critical points of a sweeping function restricted to the boundaries of obstacles. We briefly summarize some findings~\citep{choset2000exact} for this latter method before discussing the coverage motion for the cells.
 
 Let us define $\mathcal{S}_\lambda$ as the vertical sweeping function that sweeps $\mathcal{Q}$. A change in the value of $\lambda$ moves the function in $\mathcal{Q}$. Let further $\overline{x}_v,\underline{x}_v$ be the highest and lowest coordinate $x$ of all the vertices in $v$, i.e., $\lambda\in[\underline{x}_v,\overline{x}_v]$. If we refer to the sweeping function with at a specific point in space as a slice, we can express the entire space as the union of all the slices, i.e., $\mathcal{Q}=\cup_{\lambda}\mathcal{S}_\lambda$. Let us further define the slice contained in the free space $\mathcal{S}^v_\lambda:=\mathcal{S}_\lambda\cap\mathcal{Q}^{v}$.
 At this point, a change in connectivity of $\mathcal{S}^v$ means that the original cell has to be closed and two more opened, or that two cells are closed and one is opened respectively when the connectivity increases or decreases~\citep{choset2000exact}. 
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/bcd_3.tikz}
   \caption[Result of the boustrophedon decomposition]{The final step of the boustrophedon decomposition, where the sweeping line $\mathcal{S}_{\lambda}$ encounters the final point of its domain $\overline{x}_v$. The decomposition results in four cells. To determine the order of the coverage tour, the methodology is to  visit the adjacency graph.}
   \label{fig:bcd4}
-  \efr
 \end{figure}
 In \fref{fig:bcd3}{Figure}, $\mathcal{S}_\lambda$ sweeps the space from $\lambda=\underline{x}_v$ in \fref{fig:bcd2}{Figure} up to $\lambda=x_{o_{1,1}}$. At this latter lambda, $\mathcal{S}_{x_{o_{1,1}}}$ encounters a change in connectivity ($\mathcal{S}^v_{x_{o_{1,1}}}$ forms two disconnected slices). The decomposition methodology builds two new cells $c_2,c_3$, and adds these cells to the adjacency graph. $\mathcal{S}_\lambda$ encounters another change in connectivity at $\lambda=x_{o_{1,4}}$ ($\mathcal{S}^v_{x_{o_{1,4}}}$ is again one connected slice). This latter is different from the previous: the cells are merged with forming a new cell $c_4$. The coverage tour is then a visit through the adjacency graph, resulting in the coverage order $c_1,c_2,c_4$, and finally $c_3$. 
 
@@ -275,13 +255,11 @@ In summary, the methodology iterates through the environment with $\mathcal{S}^v
 
 Once we delimited the coverage and obstacles spaces into appropriate cells, we need to define the tour that travels through all the points in the cells--the coverage motion. A classical approach for the coverage motion in the literature is to travel back and forth. We saw in~\fref{cp:soa}{Chapter} and discussed briefly at the beginning of~\fref{sec:cov-path-plan}{Section} that this is termed the boustrophedon motion. We propose a slight variation of this motion for our problem, which we introduced with the intuitive path in~\fref{sec:path-wise}{Section} in~\fref{fig:bm-like_pb}{Figure}. The variation called the boustrophedon-like motion optimizes the turns of the aerial robot flying. The past literature analyzes broadly turns optimizations in the coverage for both mobile~\citep{huang2001optimal} and aerial robots~\citep{artemenko2016energy,li2011coverage}. The problem is that mobile robots are often subject to various constraints, including the turning radius. The original boustrophedon motion has edges parallel to the polygon where a mobile robot might have to slow to perform the turn. For instance, a lawnmower mobile robot would have to drive outside the path to turn efficiently~\citep{huang2001optimal}. An aerial robot traveling the boustrophedon motion might have to follow a greedy path planning algorithm instead or travel an additional turning maneuver such as a curlicue orbit~\citep{xu2011optimal,xu2014efficient}. To this end, the boustrophedon-like motion in~\fref{sec:path-wise}{Section} considerably smooths the turns. Given two following back and forth parallel lines in the original version, ours connects these lines using a semi-circle of a given radius rather than connecting them with additional lines. We illustrate how we cover the cell $c_1$ in~\fref{fig:bcd4}{Figure} using the boustrophedon-like motion in~\fref{fig:bm}{Figure}. 
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/bm.tikz}
   \caption[Boustrophedon-like motion covering a cell]{The boustrophedon-like motion covering the cell $c_1$, composed of back and forth parallel lines and circles connecting them of radius half the ideal coverage distance.}
   \label{fig:bm}
-  \efr
 \end{figure}
 The remaining cells are covered in the same manner. The overall coverage is achieved by visiting the cells in the appropriate order derived in the previous section ($c_1,c_2,c_4,$ and $c_3$).
 
@@ -296,13 +274,11 @@ The remaining paths $\varphi_5,\varphi_6,\dots$ are formed similarly. To evaluat
 
 Although the turns are considerably smoothed with the plan containing the boustrophedon-like motion, they are still impractical for fixed-wing aerial robots with the turning radius exceeding the radius of these turns~\citep{dille2013efficient,xu2011optimal,xu2014efficient}. For this latter class of robots, we utilize the Zamboni-like motion. The Zamboni motion is often in the literature for fixed-wing aerial robots~\citep{ablavsky2000optimal,araujo2013multiple,majeed2019new}, and its name comes from the hockey arenas' ice maintenance machines~\citep{araujo2013multiple,dille2013efficient,ablavsky2000optimal}. They have a large turning radius like the aerial robots we study; hence they resurface the ice by sweeping distant lines first instead of adjacent lines in a back and forth motion (the boustrophedon or boustrophedon-like motions). 
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/zambo1.tikz}
   \caption[Zamboni-like motion covering a cell]{The Zamboni-like motion to cover the cell $c_1$. It is similar to the boustrophedon-like motion in~\fref{fig:bm}{Figure} but travels distant lines first, respecting the large turning radius constraint of the aerial robots we analyze in this work.}
   \label{fig:zambo1}
-  \efr
 \end{figure}
 The Zamboni-like motion is similar to the original Zamboni motion in the literature but applied to our scenario. We illustrate the Zamboni-like motion for $c_1$ in \fref{fig:zambo1}{Figure} (whereas the boustrophedon-like motion in \fref{fig:bm}{Figure}).
 
@@ -359,13 +335,11 @@ In our work, we do not know the state of our model (the coefficients of $\mathbf
 
 For the sole purpose of exemplification, we provide a detailed visual example of the observation in \fref{sec:nom-cont}{Section} relative to the coverage path, showing how a change in the coverage affects the energy. We already discussed the energy effect of the change of computations on instantaneous energy consumption in \fref{sec:nom-cont}{Section}. It is due to different schedules on the computing hardware carried by the aerial robot. We observe a decrement in the power consumption intuitively by running at lower frames per second (\Gls{acr:fps}) rate. The energy effect of the change of path is due to the length of the coverage path. We elucidate what we mean by this latter statement in \fref{fig:zambo1}{Figures}\fref{fig:zambo2}{--\hspace*{-.8ex}}, where each figure represents the same coverage but different radiuses $r_2$ of the fourth circle $\varphi_4$ in the primitive paths $\varphi_1,\dots,\varphi_4$ in \fref{sec:path-wise}{Section}. 
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/zambo2.tikz}
   \caption[The Zamboni-like motion with the lowest parameter configuration.]{The Zamboni-like motion to cover the cell $c_1$ with the lowest configuration of parameter $c_{4,1}$ relative to the radius of the circle $\varphi_4$ in the primitive paths that form the coverage that we introduced in \fref{sec:path-wise}{Section}.}
   \label{fig:zambo2}
-  \efr
 \end{figure}
 \fref{fig:zambo1}{Figure} showed the coverage of the cell $c_1$ with the highest configuration of parameter $c_{4,1}$. If we assume that the time needed to perform the circle $\varphi_4(\overline{c}_{4,1})$ is $t_3$, the vertical lines $\varphi_1,\varphi_3$ is $2t_1$, and the circle $\varphi_2$ is $t_2$, then the overall time to cover $c_1$ with configuration ${c}_{4,1}=\overline{c}_{4,1}$ is $t_{\overline{c}_{4,1}}=7(2t_1+t_2+t_3)+t_1$. Conversely, in \fref{fig:zambo2}{Figure} we assume that the time needed to perform $\varphi_4(\underline{c}_{4,1})$ is $t_4$; then the time needed to cover $c_1$ with configuration ${c}_{4,1}=\underline{c}_{4,1}$ is $t_{\underline{c}_{4,1}}=3(2t_1+t_2+t_4)+t_1$. It is clear that $t_4<t_3$ (for how the parameter $c_{4,1}$ is constructed in \fref{sec:path-wise}{Section}) and thus $t_{\underline{c}_{4,1}}<t_{\overline{c}_{4,1}}$. If we further assume that traveling all the paths take a similar time $t_1\approx t_2\approx t_3\approx t_4$, then we can observe a 45\% time reduction in flying \fref{fig:zambo2}{Figure} compared to flying \fref{fig:zambo1}{Figure}. Analogously, in the energy domain, we can expect a considerable reduction in the battery drain with ${c}_{4,1}=\underline{c}_{4,1}$ compared to ${c}_{4,1}=\overline{c}_{4,1}$. Our purpose in the remaining of this section is to find the configuration of the path (in the latter case of $c_{4,1}$) along with the computations parameters to maximize the coverage with SoC higher than zero--to find the optimal control on $N$ w.r.t. a given energy cost.
 
@@ -386,14 +360,15 @@ From the literature on the battery SoC~\citep{sunden2019thermal,kurzweil2018stat
   0\leq y(t)\leq b(y(t),t)Q_cV,
 \end{equation}
 and therefore, we define a time-varying constraint for the output in \fref{def:const}{Definition}, being the maximum instantaneous energy consumption dependent on the SoC $b$ from \frefeq{eq:bat}, which is dependent on time and the instantaneous energy consumption (at the previous time step).
-\begin{highlight}
-\begin{defn}[Output constraint]\label{def:const}
-\begin{equation*}
-  \mathcal{Y}(t):=\{y\mid y\in[0,b(y(t),t)Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
-\end{equation*}
-is the \emph{output constraint}\findex{output constraint}, where $b(y(t),t)Q_cV$ is the maximum instantaneous energy consumption.
+
+\begin{defn}[Output constraint]
+  \label{def:const}
+  \begin{equation*}
+    \mathcal{Y}(t):=\{y\mid y\in[0,b(y(t),t)Q_cV]\subseteq{\mathbb{R}_{\geq 0}}\},
+  \end{equation*}
+  is the \emph{output constraint}\findex{output constraint}, where $b(y(t),t)Q_cV$ is the maximum instantaneous energy consumption.
 \end{defn}
-\end{highlight}
+
 We assume the mobile robot carries a battery energy sensor and obtain the initial SoC $b(y(t_0),t_0)$ in the output constraint using the output of such sensor. This is a realistic assumption: aerial robots are often equipped with a flight controller, which returns various metrics, including the battery SoC. Evaluating the constraint requires numerical simulation: the battery model in \frefeq{eq:bat} is differential, similarly to the energy dynamics of the periodic model in \frefeq{eq:state-perf}. We can compute the numerical simulation using the Euler method in \fref{sec:euler}{Section} or the Runge-Kutta method in \fref{sec:rk4}{Section}. 
 
 To state the OCP on a finite horizon, we use a similar expression to \fref{sec:opt-constrained}{Section} with

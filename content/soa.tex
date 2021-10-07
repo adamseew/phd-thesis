@@ -162,13 +162,11 @@ Galceran~and~Carreras propose one of such studies: a survey~\citep{galceran2013s
 
 Huang analyzes an optimal coverage methodology based the cellular decomposition. The study~\citep{huang2001optimal} emphasizes the cost of performing turns and uses a boustrophedon-like motion that minimizes the number of turns. Huang utilizes round turns like the intuitive plan in \fref{fig:bm-like_pb}{Figure}. Huang minimizes the sum of sub-region altitudes--a metric related to the sweep direction of a sub-region. 
 \begin{figure}[h]
-  \sfr
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/huang.tikz}
   \caption[Turn optimal coverage with different sweep directions for each sub-region.]{An example~\citep{huang2001optimal} showing that different sweep directions for sub-regions in a cellular decomposition algorithm produce a coverage with an optimized number of turns; the robot moves from point $\mathbf{p}(t_0)$ to $\mathbf{p}(t_l)$ and in \sref{lab:lesssweeps} has almost half the turns of \sref{lab:moresweeps}.}
   \label{fig:huang}
-  \efr
 \end{figure}
 We illustrate the principle in \fref{fig:huang}{Figure}, where different sweeping directions produce a different number of turns. Huang proposes the methodology for both convex and non-convex shapes and uses dynamic programming for the optimal direction in the coverage. The approach performs better than other approaches by considering possible different sweep directions for different sub-regions. The study is insightful in terms of analyzing the coverage optimality of different directions in a boustrophedon-like motion. We similarly try to optimize the turns in our dynamic planning.
 
