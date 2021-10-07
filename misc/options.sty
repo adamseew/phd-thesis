@@ -25,8 +25,8 @@
 \usepackage[math]{iwona}
 \usepackage{ebgaramond}
 
-\usepackage[xindy,toc=false,nogroupskip]{glossaries-extra}
 \usepackage{glossaries}
+\usepackage[xindy,toc=false,nogroupskip,nonumberlist]{glossaries-extra}
 \usepackage{imakeidx} 
 
 \usepackage[totoc]{idxlayout}
@@ -380,5 +380,5 @@
 \newcommand{\sfr}{\begin{adjustwidth}{.0in}{.0in}}
 \newcommand{\efr}{\end{adjustwidth}}
 
-\usepackage[export]{adjustbox} % figures formatting
+\renewcommand*{\thefootnote}{{\fontfamily{phv}\selectfont\color{foo}\arabic{footnote}}} % footnote number stule
 
