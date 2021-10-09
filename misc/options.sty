@@ -130,17 +130,17 @@
 \usepackage{fancyhdr}
 \setlength{\headheight}{15pt}
 \fancyhf{}
-\renewcommand{\headrulewidth}{.4pt}
+\renewcommand{\headrulewidth}{0pt} % no separator/distracting
 \renewcommand{\headrule}{\hbox to\headwidth{%
   \color{foo}\leaders\hrule height \headrulewidth\hfill}}
-\fancyhead[LE]{\color{foo}\otherfont\thepage}
-\fancyhead[RO]{\color{foo}\otherfont\thepage}
-\fancyhead[LO]{\color{foo}\otherfont\nouppercase{\rightmark}} 
-\fancyhead[RE]{\color{foo}\otherfont\nouppercase{\leftmark}}
+\fancyhead[LE]{\otherfont\thepage}
+\fancyhead[RO]{\otherfont\thepage}
+\fancyhead[LO]{\otherfont\nouppercase{\rightmark}} 
+\fancyhead[RE]{\otherfont\nouppercase{\leftmark}}
 
 \fancypagestyle{plain}{%
   \fancyhf{}%
-  \fancyfoot[C]{\otherfont\color{foo}\thepage}%
+  \fancyfoot[C]{\otherfont\thepage}%
   \renewcommand{\headrulewidth}{0pt} % line at the header
   \renewcommand{\footrulewidth}{0pt} % line at the footer (both not visible)
 }

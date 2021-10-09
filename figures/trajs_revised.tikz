@@ -1594,7 +1594,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,139.315)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,139.315)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1292) {\rotatebox{-90}{\footnotesize $c_{1,2}$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1292) {\rotatebox{-90}{\footnotesize $c_{i,2}$}};
 
 
 
@@ -1974,7 +1974,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,186.591)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,186.591)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text1602) {\rotatebox{-90}{\footnotesize k$c_{1,1}$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text1602) {\rotatebox{-90}{\footnotesize k$c_{i,1}$}};
 
 
 
@@ -2702,7 +2702,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,254.991)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,254.991)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text2192) {\rotatebox{-90}{\footnotesize $c_{1,2}$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text2192) {\rotatebox{-90}{\footnotesize $c_{i,2}$}};
 
 
 
@@ -3082,7 +3082,7 @@
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(276.618,303.274)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00588,1.00588,0.0,(263.618,303.274)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text2502) {\rotatebox{-90}{\footnotesize k$c_{1,1}$}};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text2502) {\rotatebox{-90}{\footnotesize k$c_{i,1}$}};
 
 
 
