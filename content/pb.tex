@@ -20,30 +20,26 @@
 
 \vspace*{1em}
 
-\lettrine{I}{n this chapter}, we discuss the planning and coverage problems that we are interested in solving. The coverage problem is the problem of finding the path that covers all the points in a given space~\citep{choset2001coverage,galceran2013survey}, for instance, the agricultural field in \fref{sec:motivation}{Section}. The coverage path with some user-defined computations forms the plan. The planning problem is then the problem of replanning the plan. It is replanned energy-wise in the eventuality of energy constraints dissatisfaction, and whenever the uncertainty affects the flight unexpectedly. To define both the problems, we need some basic constructs. In particular, we provide formal definitions in \fref{sec:definitions}{Sections}\fref{sec:defs-stages-triggs}{--\hspace*{-.8ex}} that include the computations, motion, computations energy, and motion energy. We then define the difference between computations and motion energy (\Gls{acr:mace}), which we encountered in \fref{sec:aerial-robo-types}{Section}, path, and other plan-specific constructs. We then use all these to formulate the planning and coverage problems in \fref{sec:plan-pb}{Section}. We illustrate the problem with an example of the precision agriculture use case in \fref{sec:flight-plan}{Section}.
+\lettrine{I}{n this chapter}, we discuss the planning and coverage problems that we are interested in solving. The coverage problem is the problem of finding the path that covers all the points in a given space~\citep{choset2001coverage,galceran2013survey}, for instance, the agricultural field in \fref{sec:motivation}{Section}. The coverage path with some user-defined computations forms the plan. The planning problem is then the problem of replanning the plan. It is replanned energy-wise in the eventuality of energy constraints dissatisfaction, and whenever the uncertainty affects the flight unexpectedly. To define both the problems, we need some basic constructs. In particular, we provide formal definitions in \fref{sec:definitions}{Sections}\fref{sec:defs-stages-triggs}{--\hspace*{-.8ex}} that include the computations, motion, computations energy, and motion energy. We then define the difference between computations and motion energy (\Gls{acr:mace}), which we encountered in \fref{sec:aerial-robo-types}{Section}, path, and other plan-specific constructs. In \fref{sec:2pbs}{Section}, we use all these to formulate the planning and coverage problems. We illustrate the problem with an example of the precision agriculture use case in \fref{sec:flight-plan}{Section}.
 
 In \fref{cp:dyn}{Chapter}, we propose two algorithms. A first algorithm generates the coverage path, and another algorithm replans the plan in time, solving the coverage and planning problems. The replanning is energy-aware: the algorithm outputs the best trajectory of the path and computations alteration for an aerial robot with varying battery and atmospheric conditions. 
 
-The chapter connects to the remainder of this work as follows. Here we formalize the plan, the planning and coverage problems, and some other basic constructs. We use the plan characteristics to derive an energy model in \fref{cp:model}{Chapter}. We solve the planning problem using modern optimal control techniques and the coverage problem using a coverage path planning (\Gls{acr:cpp})\findex{coverage path planning} algorithm in \fref{cp:dyn}{Chapter}. We guide the aerial robot using a vector field, using the plan's building blocks from this chapter. We show the solutions to the problems experimentally in \fref{cp:res}{Chapter}. We discuss past approaches to solve the problems in \fref{cp:soa}{Chapter} and the concrete implementation in \fref{app:imp}{Appendix}.
-
-
-
-%---
+The chapter connects to the remainder of this work as follows. Here we formalize the plan, the planning and coverage problems, and some other basic constructs. We use the plan characteristics to derive an energy model in \fref{cp:model}{Chapter}. We solve the planning problem with modern optimal control techniques and the coverage problem using a coverage path planning (\Gls{acr:cpp})\findex{coverage path planning} algorithm in \fref{cp:dyn}{Chapter}. We guide the aerial robot with a vector field, using the plan's building blocks from this chapter. We show the solutions to the problems experimentally in \fref{cp:res}{Chapter}. We discuss past approaches to solve the problems in \fref{cp:soa}{Chapter}.% and the concrete implementation in \fref{app:imp}{Appendix}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Definitions of computations and motion}
 \label{sec:definitions}
 
-Firstly, we define computations, motion, their energy, and M\&CE. Our dynamic planning depends on these basic concepts.
+First, we define computations and motion along with their energy and M\&CE. Our planning-scheduling depends on these basic concepts.
 
 \begin{defn}[Computations/motion]
   \label{def:comps}
   \emph{Computations}\findex{computations} are energy-demanding computational tasks. The aerial robot runs the computations on heterogeneous computing hardware that interfaces microcontrollers.
-  \emph{Motion}\findex{motion} is the act of the aerial robot moving in the surrounding environment. The aerial robot runs some primitives on microcontrollers that interface actuators, motors, and other components.
+  \emph{Motion}\findex{motion} is the act of the aerial robot moving in the surrounding environment. For this purpose, the aerial robot runs some primitives on microcontrollers that interface actuators, motors, and other components.
 \end{defn}
 
-Autonomous capabilities are often achieved by interconnecting heterogeneous computing hardware and microcontrollers. We assume for the computations that the heterogeneous computing hardware runs a schedule parametrized by some parameters. For instance, for the CNN detection from the precision agriculture scenario in \fref{sec:objective}{Section}, a parameter is the frames per second (\Gls{acr:fps})\findex{frames per second} rate. Alike for the computations, we assume for the motion that the robot travels some paths parametrized by some other parameters. For instance, for the coverage, a parameter changes the distance between the survey lines.
+Autonomous capabilities are often achieved by interconnecting heterogeneous computing hardware and microcontrollers. For the computations, we assume that the heterogeneous computing hardware runs a schedule parametrized by some parameters. For instance, for the detection computation from the precision agriculture scenario in \fref{sec:objective}{Section}, a parameter is the frames per second (\Gls{acr:fps})\findex{frames per second} rate. Alike for the computations, for the motion, we assume that the robot travels some paths parametrized by some other parameters. For instance, for the coverage, a parameter changes the coverage quality.
 
 \begin{defn}[Computations/motion and overall energy]
   \label{def:comp-mot-energy}
@@ -66,51 +62,47 @@ To model the path, we use multiple mathematical functions $\varphi_1,\varphi_2,\
 \begin{defn}[Path functions]
   \label{def:paths}
   $\varphi_i:\mathbb{R}^2\rightarrow\mathbb{R},\,\forall i\in\{1,2,\dots\}$ are \emph{path functions}\findex{path functions} used to model the path. They are a function of a generic time-dependent point $\mathbf{p}(t):=(x_{\mathbf{p}(t)},y_{\mathbf{p}(t)})$ of the aerial robot flying in the 2D space and are continuous and twice differentiable. 
-\end{defn}
+\end{defn}\findex{continuity}\findex{twice differentiability}
 
 \begin{figure}[t!]
   \centering
   \input{figures/line-pf.tikz}
-  \caption[Concept of a line as a path function]{The path is mathematical function $\varphi(\mathbf{p}(t))=h$ that represents a line at an altitude $h$. A generic point $\mathbf{p}$ in 2D space intersects the plane formed by $\varphi$ at a given value $d$ of the $z$-axis.}
+  \caption[Concept of a line as a path function]{The path is a mathematical function $\varphi(\mathbf{p}(t))=h$ that represents a line at an altitude $h$. A generic point $\mathbf{p}$ in 2D space intersects the plane formed by $\varphi$ at a value $d$ of the $z$-axis.}
   \label{fig:line-pf}
 \end{figure}
 
 \begin{figure}[t!]
   \centering
   \input{figures/circle-pf.tikz}
-  \caption[Concept of a circle as a path function]{The path function now represents a circle at an altitude $h$. $\mathbf{p}$ intersects the cone formed by $\varphi$ at a given value $d_2$ of the $z$-axis.}
+  \caption[Concept of a circle as a path function]{The path function now represents a circle at an altitude $h$. $\mathbf{p}$ intersects the cone formed by $\varphi$ at a value $d_2$ of the $z$-axis.}
   \label{fig:circle-pf}
 \end{figure}
 
-We use this notion to guide the aerial robot using vector field in \fref{cp:dyn}{Chapter}. For instance, one can define a line as a path function with
+We use this notion to guide the aerial robot using vector field\findex{vector field} in \fref{algo:grad-desc}{Algorithms}\fref{algo:track}{--\hspace*{-.8ex}} in \fref{cp:dyn}{Chapter}. For instance, one can define a line as a path function with
 \begin{equation}\label{eq:basic-path}
   \varphi(x,y):=ax+by+c,
 \end{equation}
-where $a,b,c\in\mathbb{R}$ are given constants. The generic point $\mathbf{p}(t)$ intersects $\varphi(x,y)$ on a specific value $d$ of the $z$-axis $(\mathbf{p}(t),d)$. We illustrate the concept in \fref{fig:line-pf}{Figure} for $c$ zero and $a,b$ minus one and two and $h$ zero for simplicity. The point intersects the plane formed by the path function
+where $a,b,c\in\mathbb{R}$ are given constants. The generic point $\mathbf{p}(t)$ intersects $\varphi(x,y)$ on a specific value $d$ of the $z$-axis $(\mathbf{p}(t),d)$. We illustrate the concept in \fref{fig:line-pf}{Figure} for $c$ zero and $a,b$ minus one and two and $h$ zero for simplicity. The point intersects the plane\findex{plane} formed by the path function\findex{line}
 \begin{equation}\label{eq:pathf-line}
   \varphi(x,y):=2y-x-h,
 \end{equation}
 at $d=\varphi(\mathbf{p})$. The path that the aerial robot follows is then $\varphi(x,y)=h$. $\varphi(\mathbf{p})-h$ is the distance on the $z$-axis.
 
-Likewise with the line, one can define a circle as a path function with
+Likewise with the line, one can define a circle as a path function with\findex{circle}
 \begin{equation}\label{eq:pathf-circle}
   \varphi(x,y):=(x-x_c)^2+(y-y_c)^2-r^2,
 \end{equation}
-where $x_c,y_c$ are given coordinates of the center and $r\in\mathbb{R}_{>0}$ the radius. We illustrate the circle path function in \fref{fig:circle-pf}{Figure} for $x_c,y_c$ both three and $\sqrt{r}$ two and $h$ zero for simplicity. 
+where $x_c,y_c$ are given coordinates of the center and $r\in\mathbb{R}_{>0}$ the radius. We illustrate the circle path function in \fref{fig:circle-pf}{Figure} for $x_c,y_c$ both three, $\sqrt{r}$ two, and $h$ zero for simplicity. 
 
-In this work, we use lines and circles as path functions. We connect these functions using some specific points--the triggering points. However, one can define any mathematical function, with the only requirement being continuity and twice differentiability. We use the first derivative for the vector field, the second derivative to derive the control action. We explain both derivatives further in \fref{cp:dyn}{Chapter}.
+In this work, we use lines and circles as path functions. We connect these functions using some specific points--the triggering points. However, one can define any mathematical function, with the only requirement being continuity and twice differentiability. We use the first derivative for the vector field, the second derivative to derive the control action. We explain the concept further in \fref{cp:dyn}{Chapter}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Definitions of stages and triggering points}
 \label{sec:defs-stages-triggs}
 
-%To specify an integer-valued set, we relay on the following mathematical notation: $[x]$ is the set positive set $\{0,1,\dots,x\}\subseteq\mathbb{Z}_{\geq 0}$, where $x\in\mathbb{Z}_{\geq 0}$. $[x]_{>0}$ is the strictly positive set $\{1,2,\dots,x\}\subseteq\mathbb{Z}_{> 0}$ (or $[x]/\{0\}$). where $x\in\mathbb{Z}_{>0}$. 
-
-%Bold lower-case letters, such as $\mathbf{x}$, denote vectors. Upper-case letters, such as $X$, denote matrices.
-
 The plan has several stages $i=\{1,2,\dots\}$, and we assume that at each stage $i$, the aerial robot runs a schedule and travels a path function $\varphi_i$ using a parameters set $c_i$.
-Parameters are variable values that we use for replanning the path and computations since they influence the computations/motion energy in \fref{def:comp-mot-energy}{Definition}. The path parameters are real-valued variable values ($\mathbb{R}$), the computations parameters are integer-valued variable values ($\mathbb{Z}$). We use the notation  $c_{i,j}$ to denote the $j$th parameter of the $i$th parameters set $c_i$
+Parameters are variable values that we use for replanning the path and computations since they influence the computations/motion energy in \fref{def:comp-mot-energy}{Definition}. The path parameters are real-valued variable values ($\mathbb{R}$), the computations parameters are integer-valued variable values ($\mathbb{Z}$). We use the notation  $c_{i,j}$ to denote the $j$th parameter of the $i$th parameters set
 \begin{equation}
   c_i=\{c_{i,1},c_{i,2},\dots,c_{i,j},\dots\}.
 \end{equation}
@@ -122,22 +114,22 @@ Parameters are bounded. $\underline{c}_{i,j}$ is the lower bound of the paramete
 
 We assume there are $\rho$ \emph{path}-specific \emph{parameters}\findex{path parameters} and $\sigma$ \emph{computations}-specific \emph{parameters}\findex{computations parameters} for every stage. It means that the path at stage $i$ can be replanned with $\rho$ path parameters
 $c_i^\rho:=\{c_{i,1},c_{i,2},\dots,c_{i,\rho}\}$,
-while the computations (i.e., the energy-demanding computational task executed on heterogeneous computing hardware in \fref{def:comps}{Definition}) with $\sigma$ computation parameters 
+whereas the computations (i.e., the energy-demanding computational task executed on heterogeneous computing hardware in \fref{def:comps}{Definition}) with $\sigma$ computation parameters 
 $c_i^\sigma:=\{c_{i,\rho+1},c_{i,\rho+2},\dots,c_{i,\rho+\sigma}\}$.
 
-Returning to \fref{sec:definitions}{Section}, by parametrization of the path with parameters, we mean that we enhance $\varphi_i$ with the path parameters $c_i^\rho$. $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ is thus a (continuous twice differentiable) function of a point and the path parameters. We use the parameters to alter the path and change the energy consumption. Similarly, by parametrization of the schedule with parameters, we mean that we express the computations as the value of the computations parameters. These are also employed for energy alteration (by, e.g., decreasing the granularity of a given computation we lower instantaneous energy consumption). We discuss the alteration of the energy with path parameters and computation parameters further in \fref{sec:nom-cont}{Section} and \fref{sec:merging}{Section} respectively.
+Returning to \fref{sec:definitions}{Section}, by parametrization of the path with parameters, we mean that we enhance $\varphi_i$ with the path parameters $c_i^\rho$. $\varphi_i:\mathbb{R}^2\times\mathbb{R}^\rho\rightarrow\mathbb{R}$ is thus a (continuous twice differentiable) function of a point and the path parameters. We use the parameters to alter the path and change the energy consumption. Similarly, by parametrization of the schedule with parameters, we mean that we express the computations as the value of the computations parameters. These are also employed for energy alteration (by, e.g., decreasing the granularity of a given computation we lower instantaneous energy consumption). We discuss the alteration of the energy with path parameters and computation parameters further in \fref{sec:nom-cont}{Sections}\fref{sec:merging}{--\hspace*{-.8ex}}.
 
 Since at every stage the aerial robot travels a path and executes a schedule both parametrized by the parameters, we define the stage as a set that contains the path and path and computations parameters.
 
 \begin{defn}[Stage]
   \label{def:stage}
-  Given $\mathbf{p}(t)$, the $i$th \emph{stage}\findex{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
+  For a generic point $\mathbf{p}(t)$, the $i$th \emph{stage}\findex{stage} $\Gamma_i$ at time instant $t$ of a plan $\Gamma$ is
   \begin{equation*}\begin{split}
     \Gamma_i:=\{\varphi_i(\mathbf{p}(t),c_i^\rho),c_i^\sigma\mid
     \,&\forall j\,\in\,[\rho]_{>0},\,c_{i,j}\,\,\,\,\,\,\,\in\mathcal{C}_{i,j},\,\\
       &\,\forall k\in[\sigma]_{>0},\,c_{i,\rho+k}\in\mathcal{S}_{i,k}\,\},
   \end{split}\end{equation*}
-  where $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter constraint set, and $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ the $k$th computation parameter constraint set.
+  where $\mathcal{C}_{i,j}:=[\underline{c}_{i,j},\overline{c}_{i,j}]\subseteq\mathbb{R}$ is the $j$th path parameter constraint set, and $\mathcal{S}_{i,k}:=[\underline{c}_{i,\rho+k},\overline{c}_{i,\rho+k}]\subseteq\mathbb{Z}_{\geq 0}$ the $k$th computation parameter constraint set.\findex{constraint set}
 \end{defn}
 
 We clarify in the next section why the stage contains the generic point of the aerial robot flying in 2D space.
@@ -157,9 +149,9 @@ To move from a given stage $\Gamma_i$ to the next stage $\Gamma_{i+1}$, we defin
 \end{equation}
 where $\varepsilon\in\mathbb{R}$ is a given constant value expressing the radius of an imaginary circle over the point $\mathbf{p}_{\Gamma_i}$.
 
-\begin{defn}[Triggering and final point]
+\begin{defn}[Triggering and final point]\findex{triggering point}\findex{final point}\findex{final stage}
   \label{def:trigs}
-  The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between $\Gamma_i$ and $\Gamma_{i+1}$ is called the \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called the \emph{final point}.
+  The point $\mathbf{p}_{\Gamma_{i}}$ that allows the transition between stages is called the \emph{triggering point}. The last triggering point $\mathbf{p}_{\Gamma_{l}}$ relative to the last stage $\Gamma_l$ is called the \emph{final point}.
 \end{defn}
 
 
@@ -167,7 +159,7 @@ where $\varepsilon\in\mathbb{R}$ is a given constant value expressing the radius
 \section{Definition of the plan}
 \label{sec:plan}
 
-Our dynamic planning relies on the concept of the aerial robot flying a set of paths and computations autonomously. Such an autonomous flight plan often presumes a certain degree of periodicity. One can observe the periodicity in the precision agriculture example in \fref{sec:objective}{Section}. An ideal way to cover the agricultural field in \fref{fig:plot2}{Figure} (i.e., to visit all the points in the space) is to define a basic pattern. The aerial robot flies over the field once and iterates the basic pattern until it covers the desired area. It means that we can define the plan just as a set of stages, triggering points, a final point, and finally a shift that tells how these constructs (except the final point) shifts in space each period. To simplify the planning problem to this latter case of plans with a pattern iterated over time, we consider some primitive paths.
+Our motion energy model in \fref{sec:mot-ener-model}{Section} uses the concept of the aerial robot flying a set of paths and computations autonomously. Such an autonomous flight plan often presumes a certain degree of periodicity, which one can observe in the precision agriculture use case in \fref{sec:objective}{Section}. An exhaustive way to cover the agricultural field in \fref{fig:plot2}{Figure}, i.e., to visit all the points in the space, is to define a basic pattern. The aerial robot flies over the field once and iterates the basic pattern until it covers the desired area. In literature, we often talk about motion, with the most common being, e.g., boustrophedon motion~\citep{choset2005principles,choset2001coverage,cabreira2019survey,galceran2013survey}. It means that we can define the plan just as a set of stages, triggering points, a final point, and finally a shift that tells how these constructs (except the final point) shifts in space each period. To simplify the planning problem to this latter case of plans with a pattern iterated over time, we consider some primitive paths.
 
 \begin{defn}[Primitive paths]
   \label{def:primitive}
@@ -178,19 +170,20 @@ Let us assume the number of stages in the plan is known and is $l\in\mathbb{Z}$.
 \begin{equation}
   n<l,\,l/n\in\mathbb{Z}.
 \end{equation}
-This means that $n$ is a multiplier of $l$, whereas $l/n$ is the multiplicand. One can then write the remaining paths from the $n$ primitive paths as $\varphi_{n+1},$ $\varphi_{n+2},\dots,\varphi_{n+n},\dots,\varphi_l$, or more generally $\varphi_{(i-1)n+1},$ $\varphi_{(i-1)n+2},\dots,\varphi_{(i-1)n+n},\,\forall i\in[l/n-1]_{>0}$. It can also be written formally
+%This means that $n$ is a multiplier of $l$, whereas $l/n$ is the multiplicand. 
+One can then write the remaining paths from the $n$ primitive paths as $\varphi_{n+1},$ $\varphi_{n+2},\dots,\varphi_{n+n},\dots,\varphi_l$, or more generally $\varphi_{(i-1)n+1},$ $\varphi_{(i-1)n+2},\dots,\varphi_{(i-1)n+n},\,\forall i\in[l/n-1]_{>0}$. It can also be written formally
 \begin{equation}\label{eq:primitive}\begin{split}
   &\varphi_{(i-1)n+j}(\mathbf{p}+(i-1)\mathbf{d},c_1^\rho)-\varphi_{in+j}(\mathbf{p}+i\mathbf{d},c_1^\rho)=e_j,
 \end{split}\end{equation}
-for a given shift $\mathbf{d}$, initial point $\mathbf{p}$, and initial value of path parameters $c_1^\rho$. The \frefeq{eq:primitive} holds $\forall i\in[l/n-1]_{>0},j\in[n]_{>0}$. $e_j\in\mathbb{R}$ is the $j$th constant difference.
+for a given shift $\mathbf{d}$, initial point $\mathbf{p}$, and initial value of path parameters $c_1^\rho$. \frefeq{eq:primitive} holds $\forall i\in[l/n-1]_{>0},j\in[n]_{>0}$. $e_j\in\mathbb{R}$ is the $j$th constant difference.
 
-Generally, if the plan is built from the primitive paths, it is not required to know a priori the number of stages $l$. The paths can be iterated up until the final point $\mathbf{p}_{\Gamma_l}$. We use the concept of primitive paths for the energy modeling in \fref{cp:model}{Chapter}, where we show from collected energy data that plans built from primitive paths often have a periodic energy evolution. Alternatively to the primitive paths, one can define the plan as a mere linear succession of stages along with the triggering and final points. In the latter case, the energy can be periodic, aperiodic, or semi-periodic. Aperiodicity affects the modeling and thus future energy predictions. We discuss the concrete meaning of periodicity, aperiodicity, and semi-periodicity in the context of energy modeling in \fref{sec:periodic-model}{Section}.
+Generally, if the plan is built from the primitive paths, it is not required to know a priori the number of stages $l$. The paths can be iterated up until the final point $\mathbf{p}_{\Gamma_l}$. We use the concept of primitive paths for the energy modeling in \fref{cp:model}{Chapter}, where we show from collected energy data that plans built from primitive paths often have a periodic energy evolution. Alternatively to the primitive paths, one can define the plan as a mere linear succession of stages along with the triggering and final points. In the latter case, the energy can be periodic, aperiodic, or semi-periodic. Aperiodicity affects the modeling, and thus future energy predictions. We discuss the concrete meaning of periodicity, aperiodicity, and semi-periodicity in the context of energy modeling in \fref{sec:non-perio}{Section}.
 
-Formally, we define the plan as a finite state machine using the constructs of path functions in \fref{def:paths}{Definition}, stages and triggering points in \fref{def:stage}{Definitions}\fref{def:trigs}{--\hspace*{-.8ex}}.
+Formally, we define the plan as a finite state machine using the constructs of path functions in \fref{def:paths}{Definition} of stages and triggering points in \fref{def:stage}{Definitions}\fref{def:trigs}{--\hspace*{-.8ex}}.
 
 \begin{defn}[Plan]
   \label{def:plan}
-  Given $\mathbf{p}(t)$, the \emph{plan} is a finite state machine\findex{finite state machine} (\Gls{acr:fsm}) $\Gamma$, where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
+  For a generic point $\mathbf{p}(t)$, the \emph{plan} is a finite state machine\findex{finite state machine} (\Gls{acr:fsm}) $\Gamma$, where the state-transition function $s:\bigcup_i{\Gamma_i}\times\mathbb{R}^2\rightarrow\bigcup_i{\Gamma_i}$ maps a stage and a point to the next stage
   \begin{equation*}s(\Gamma_i,\mathbf{p}(t)):=\begin{cases}
     \Gamma_{i+j} & \exists j\in\mathbb{Z},\text{ if }\norm{\mathbf{p}(t)-\mathbf{p}_{\Gamma_i}}<\varepsilon\\
     \Gamma_i & \text{otherwise}
@@ -222,7 +215,7 @@ The value $\varepsilon$ in \fref{def:plan}{Definition} is the same $\varepsilon$
   \caption[Definition of a plan]{Definition of a plan $\Gamma$ as an FSM. Each state is a stage $\Gamma_i$, the transition happens in the proximity of specific points called triggering points $\mathbf{p}_{\Gamma_i}$. The accepting stage $\Gamma_f$ indicates the termination of the plan.}
   \label{fig:state-machine}
 \end{figure}
-In \fref{fig:state-machine}{Figure} we illustrate a plan with a linear succession of stages. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$, where $t_1<t_2<t_3$ are three different time instants. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
+In \fref{fig:state-machine}{Figure}, we illustrate a plan with a linear succession of stages. The triggering point $\mathbf{p}_{\Gamma_{i-1}}$ allows the transition to the stage $\Gamma_i$. The robot remains in the stage with any generic point $\mathbf{p}(t_2)$, where $t_1<t_2<t_3$ are three different time instants. It eventually enters the stage $\Gamma_{i+1}$ with the triggering point $\mathbf{p}_{\Gamma_i}$ and so on, until it reaches the final point. $\Gamma_f$ is the accepting stage (it indicates that the robot has completed the plan).
 \begin{figure}[h!]
   \center
   \begin{tikzpicture}[shorten >=1pt,node distance=27ex,on grid,auto]
@@ -235,10 +228,10 @@ In \fref{fig:state-machine}{Figure} we illustrate a plan with a linear successio
     (q_0) edge [loop above] node {$\mathbf{p}(t_2)$} (q_0)
     ; %end path
   \end{tikzpicture}
-  \caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between stages (states in the FSM) are expressed in the function of the last and/or previous triggering points.}
+  \caption[Detail of a stage in the FSM]{Detail of the stage $\Gamma_i$ in the FSM. The triggering points used to transition between states are expressed in the function of the last and/or previous path parameters.}
   \label{fig:state-machine2}
 \end{figure}
-In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can express the basic constructs--such as path functions and triggering points--in the function of the $i$th trajectory parameters $c_{i}^{\rho}$, or any previous trajectory parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}, where we propagate a path parameter to all the following triggering points and path functions.
+In \fref{fig:state-machine2}{Figure}, we illustrate that generally, one can express the basic constructs--such as path functions and triggering points--in the function of the $i$th path parameters $c_{i}^{\rho}$, or any previous path parameters, propagating the information therein if necessary. We further expand on this notion in the example in \fref{sec:flight-plan}{Section}, where we propagate a path parameter to all the following triggering points and path functions.
 
 \begin{figure}[h!]
   \center
@@ -267,48 +260,47 @@ In \fref{fig:state-machine2}{Figure} we illustrate that generally, one can expre
   \caption[Definition of a plan with a loop]{Definition of a plan $\Gamma$ with periodic patterns. Stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ are iterated with a shift $\mathbf{d}$.}
   \label{fig:state-machine-loop}
 \end{figure}
-In \fref{fig:state-machine-loop}{Figure} we illustrate a plan composed of $n$ stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ (containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$) that are reiterated with the shift $\mathbf{d}$. $t_3<t_4$ is another time instant. We will see in \fref{cp:dyn}{Chapter} that the algorithm that solves the coverage problem outputs primitive paths and the corresponding plan to be replanned is equivalent to \fref{fig:state-machine-loop}{Figure}. 
+In \fref{fig:state-machine-loop}{Figure}, we illustrate a plan composed of $n$ stages $\Gamma_1,\Gamma_2,\dots,\Gamma_n$ (containing primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$) that are reiterated with the shift $\mathbf{d}$. $t_3<t_4$ is another time instant. We will see in \fref{cp:dyn}{Chapter} that the algorithm that solves the coverage problem outputs primitive paths, and the corresponding plan to be replanned is equivalent to \fref{fig:state-machine-loop}{Figure}. 
 
-A concept that we use in the remainder of this work, and particularly in energy modeling in \fref{cp:model}{Chapter} and estimation in \fref{cp:est}{Chapter}, is the concept of period--the time required to fly the primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ (or generally $\varphi_{(i-1)n+1},$ $\varphi_{(i-1)n+2},\dots,\varphi_{(i-1)n+n}$). 
+A concept that we use in the remainder of this work, and particularly in energy modeling in \fref{cp:model}{Chapter}, is the period--the time required to fly the primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ (or generally $\varphi_{(i-1)n+1},$ $\varphi_{(i-1)n+2},\dots,\varphi_{(i-1)n+n}$). 
 
 \begin{defn}[Period]
   \label{def:period}\findex{period}
   For a given stage $\Gamma_i$ and $j\in\mathbb{Z}_{>0}$, the \emph{period}\findex{period} $T\in\mathbb{R}_{> 0}$ is the flight time measured in seconds between $\varphi_{(i-1)n+j}$ and $\varphi_{in+j}$.
 \end{defn} 
   
-We assume the initial period is one and measure the period required to fly the paths physically or in simulation. The periods might be different for different $j$s due to atmospheric interferences. For the path functions, the coverage algorithm defines the plan using primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$ but can alternatively define all the stages explicitly and find $n$ searching the value which satisfies the \frefeq{eq:primitive}. If there is no such value (e.g., when the plan is composed of only one stage or the plan is aperiodic), the period $T$ from \fref{def:period}{Definition} can be determined empirically from energy data or assumed as the total flight time. The latter eventuality affects the energy model. We discuss the period estimation further in \fref{sec:period-est}{Section}.
+We assume the initial period is one and measure the period required to fly the paths physically or in simulation. The periods might be different for different $j$s due to atmospheric interferences or replanning. For the path functions, the coverage algorithm defines the plan using primitive paths $\varphi_1,\varphi_2,\dots,\varphi_n$, but can alternatively define all the stages explicitly and find $n$ searching the value which satisfies the \frefeq{eq:primitive}. If there is no such value (e.g., when the plan is composed of only one stage or the plan is aperiodic), the period $T$ from \fref{def:period}{Definition} can be determined empirically from energy data.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Problem Statement}
+\label{sec:2pbs}
 
-We split the overall strategy for energy-aware planning and scheduling into two sub-problems. The planning problem is the problem of replanning a plan, whereas the coverage problem is the problem of defining the plan for a given space to cover.  
+We split the overall strategy for energy-aware planning-scheduling into two sub-problems. The planning problem is the problem of replanning a plan, whereas the coverage problem is the problem of defining the coverage plan for a given space.  
 
 \subsection{Planning problem}
 \label{sec:plan-pb}
 
-More precisely, the planning problem is then the problem of finding the optimal configurations of the parameters within some criteria. In our approach, we focus on energy criteria, such as the battery constraints. In particular, in the solution to the planning problem in \fref{sec:algo}{Section}, we use a cost function (i.e., the function to maximize) that incorporates the energy model in \fref{sec:periodic-model}{Section}. Solving the planning problem by finding the optimal configurations within different criteria, such as shortest time, highest security, path tracking with the shortest detour, or others is equally possible. In the context of the TeamPlay project that funded a considerable part of this work, we aim to find, for instance, the tradeoffs between time, energy, and security criteria for a variety of use cases. We discuss the eventuality of solving the planning problem with criteria different from energy in \fref{cp:conc}{Chapter}. We now use the concepts that we introduced in the previous sections and provide a formal definition of the planning problem that we are interested in solving in the remainder of this work.
+More precisely, the planning problem is then the problem of finding the optimal configurations of the parameters within some criteria. In our approach, we focus on energy criteria, such as the battery constraints. In particular, in the solution to the planning problem in \fref{sec:algo}{Section}, we use a cost function (i.e., the function to maximize) that incorporates the energy model in \fref{sec:mot-ener-model}{Section}. Solving the planning problem by finding the optimal configurations within different criteria, such as shortest time, highest security, path tracking with the shortest detour, or others, is equally possible. In the context of the TeamPlay project that funded a considerable part of this work, we aim to find, for instance, the tradeoffs between time, energy, and security criteria for a variety of use cases. We discuss the eventuality of solving the planning problem with different costs in \fref{cp:conc}{Chapter}. We now use the concepts in the previous sections and provide a formal definition of the planning problem that we are interested in solving in the remainder of this work.
 
 \begin{pb}[Planning problem]
   \label{pb}\findex{planning problem}
-  Consider an initial plan $\Gamma$ in \fref{def:stage}{Definition}. It is either composed of $l$ stages or $n$ stages and a shift $\mathbf{d}$. We are interested in the \emph{planning} of the \emph{path} and \emph{computations parameters} $c_i,\,\forall i\in[l]_{>0},$ or $\forall i\in\{1,2,\dots\}$ under energy constraints and uncertainty.
-  We are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
+  Consider an initial plan $\Gamma$ in \fref{def:stage}{Definition}. It is either composed of $l$ stages or $n$ stages and a shift $\mathbf{d}$. The \emph{planning problem} is the problem of finding the optimal configuration of \emph{path} and \emph{computations parameters} $c_i\,\forall i\in[l]_{>0}$ or $\forall i\in\{1,2,\dots\}$ under energy constraints and uncertainty at each time step $t$.
 \end{pb}    
 
-In the definition, there is a fixed or variable number of stages, in the sense that all the stages are reiterated using the primitive paths in \fref{def:primitive}{Definition} up until the aerial robot reaches the last triggering point $\mathbf{p}_l$.
+In the definition, there is a fixed or variable number of stages, in the sense that all the stages are reiterated using the primitive paths in \fref{def:primitive}{Definition} up until the aerial robot reaches the last triggering point $\mathbf{p}_l$. Given the optimal configuration, we are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
 
 \subsection{Coverage problem}
 
-Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, we want to find the route that covers the polygon. This problem is to be found in the robotics research literature as coverage path planning (\Gls{acr:cpp})~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. There are numerous approaches to solve CPP that ensure the completeness of the coverage and include algorithms optimized for mobile robots. We discuss the state of the art in CPP in detail in \fref{cp:soa}{Chapter}. We assume that the free space where the robot moves can be summarized by a set of vertices while the obstacles by another set of vertices. The planning problem is then the problem of covering the free space without covering the obstacles. Physically, the obstacles space can be seen as areas where, e.g., the aerial robot shouldn't detect hazards in the agricultural scenario in \fref{sec:objective}{Section}.
+Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, we want to find the route that covers the polygon. This problem is in the robotics research literature as coverage path planning (\Gls{acr:cpp})~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. There are numerous approaches to solve CPP that ensure the completeness of the coverage and include algorithms optimized for mobile robots. We discuss the state-of-the-art in CPP in detail in \fref{cp:soa}{Chapter}. We assume that the free space, i.e., the space where the robot is free to move, and the obstacles, can be summarized by a set of vertices. The planning problem is then the problem of covering the free space while avoiding the obstacles. Physically, the obstacles are, e.g., areas where the aerial robot shouldn’t detect hazards in the agricultural use case in \fref{sec:objective}{Section}.
 
 \begin{pb}[Coverage problem]
-  \label{pb:cov-pb}\findex{coverage problem}
-  Consider a finite set of vertices of a polygon to be covered $v:=\{v_1,v_2,\dots\}$ and of the obstacles $o:=\{o_1:=\{o_{1,1},o_{1,2},\dots\},o_2:=\{o_{2,1},o_{2,2},\dots\},\dots\}$ where each vertex $v_i:=(x_{v_i},y_{v_i}),o_{j,k}:=(x_{o_{j,k}},y_{o_{j,k}}),\,\forall i\in|v|,\,\forall j\in|o|,k\in|o_j|$ is a point w.r.t. $\mathcal{O}_W$ and given minimum turning radius $r\in\mathbb{R}_{>0}$ of the aerial robot flying and a starting point $\mathbf{p}(t_0)$ at time $t_0$.
-  We are interesting in \textit{finding a plan} $\Gamma$ that covers $v$ while avoiding $o$ starting from $\mathbf{p}(t_0)$ with a turn radius greater or equal than $\underline{r}\in\mathbb{R}_{\geq 0}$ and a final triggering point $\mathbf{p}_{\Gamma_l}$.
+  \label{pb:cov-pb}\findex{coverage problem}\findex{verices}\findex{obstacles}
+  Consider a finite set of vertices of a polygon to be covered $v:=\{v_1,v_2,\dots\}$ and of the obstacles $o:=\{o_1:=\{o_{1,1},o_{1,2},\dots\},o_2:=\{o_{2,1},o_{2,2},\dots\},\dots\}$ where each vertex $v_i:=(x_{v_i},y_{v_i}),o_{j,k}:=(x_{o_{j,k}},y_{o_{j,k}}),\,\forall i\in|v|,\,\forall j\in|o|,k\in|o_j|$ is a point w.r.t. $\mathcal{O}_W$. Let $r\in\mathbb{R}_{>0}$, the minimum turning radius, and $\mathbf{p}(t_0)$, the starting point at the time instant $t_0$, be given. The \emph{coverage problem} is the problem of finding a plan $\Gamma$ that covers $v$ while avoiding $o$ starting from $\mathbf{p}(t_0)$ with a turning radius greater or equal to $\underline{r}\in\mathbb{R}_{\geq 0}$.
 \end{pb}    
 
-The coverage plan is a solution to the coverage problem and with the user-defined computations an input to the planning problem.
 
+%---
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Precision agriculture example}

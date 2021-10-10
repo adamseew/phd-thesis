@@ -392,8 +392,8 @@
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(232.444,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(210.444,40.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize $\overline{\text{Battery}}$};
+  \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(234.444,40.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize $\mathcal{Y}(t)$};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(232.444,33.2063)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
