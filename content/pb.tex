@@ -9,7 +9,8 @@
 % Brief abstract: formulates the two problem (coverage, (re)planning)
 %
 % Completion (1-10): 10
-% Missing: none, but further consistency check is needed
+% Missing: -
+% Proofreading: 11/10/21
 %
 \chapter{Problem Formulation}
 \label{cp:pb}
@@ -292,7 +293,7 @@ In the definition, there is a fixed or variable number of stages, in the sense t
 
 \subsection{Coverage problem}
 
-Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, we want to find the route that covers the polygon. This problem is in the robotics research literature as coverage path planning (\Gls{acr:cpp})~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. There are numerous approaches to solve CPP that ensure the completeness of the coverage and include algorithms optimized for mobile robots. We discuss the state-of-the-art in CPP in detail in \fref{cp:soa}{Chapter}. We assume that the free space, i.e., the space where the robot is free to move, and the obstacles, can be summarized by a set of vertices. The planning problem is then the problem of covering the free space while avoiding the obstacles. Physically, the obstacles are, e.g., areas where the aerial robot shouldn’t detect hazards in the agricultural use case in \fref{sec:objective}{Section}.
+Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, we want to find the route that covers the polygon. This problem is in the robotics research literature as CPP~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. There are numerous approaches to solve CPP that ensure the completeness of the coverage and include algorithms optimized for mobile robots. We discuss the state-of-the-art in CPP in detail in \fref{cp:soa}{Chapter}. We assume that the free space, i.e., the space where the robot is free to move, and the obstacles, can be summarized by a set of vertices. The planning problem is then the problem of covering the free space while avoiding the obstacles. Physically, the obstacles are, e.g., areas where the aerial robot shouldn’t detect hazards in the agricultural use case in \fref{sec:objective}{Section}.
 
 \begin{pb}[Coverage problem]
   \label{pb:cov-pb}\findex{coverage problem}\findex{verices}\findex{obstacles}
@@ -300,37 +301,33 @@ Given a polygon representing the space to be covered, some possible obstacles wi
 \end{pb}    
 
 
-%---
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Precision agriculture example}
+\section{Precision agriculture use case}
 \label{sec:flight-plan}
 
-In this section, we discuss an example of a plan for the Opterra autonomous aerial robot in a precision agriculture scenario addressing the coverage problem in \fref{fig:plot2}{Figure}. Path-wise, the aerial robot covers a polygon with variable quality of coverage. Computation-wise, it detects ground hazards and communicates eventual detection with other ground-based actors. To simplify the notation, we split the plan into two sub-plans, one containing exclusively the paths and the other the computations. We discuss the paths sub-plan in \fref{sec:path-wise}{Section} and the computations sub-plan in \fref{sec:computation-wise}{Section}.
+In this section, we discuss an example of a plan for the Opterra fixed-wing aerial robot\findex{Opterra fixed-wing aerial robot} in the precision agriculture use case and provide one possible solution to \fref{pb:cov-pb}{Problem}, which we will generalize in \fref{cp:dyn}{Chapter}. Path-wise, the aerial robot covers a polygon with variable quality of coverage. Computation-wise, it detects ground hazards and communicates eventual detection with other ground-based actors. To simplify the notation, we split the plan into two sub-plans, one containing the paths and the other the computations. We discuss the first sub-plan in \fref{sec:path-wise}{Section} and the second in \fref{sec:computation-wise}{Section}.
 
 \subsection{Paths sub-plan}
 \label{sec:path-wise}
 
-In the paths sub-plan, we define the paths that form the plan of the agricultural scenario. We recall that in the scenario, the aerial robot covers the polygon in \fref{fig:plot2}{Figure}. For simplicity, we assume the polygon has four sides with four vertices $v:=\{v_1,\dots,v_4\}$ (it is a rectangle) and has no obstacles $o:=\{\emptyset\}$. We will later propose in \fref{cp:dyn}{Chapter} an approach that can deal with an arbitrary number of polygon and obstacles vertices. An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can be then used as a measure of the quality of the coverage.
+In the paths sub-plan, we define the paths that form the plan. For simplicity, we assume the polygon has four sides with four vertices $v:=\{v_1,\dots,v_4\}$ (it is a rectangle) and has no obstacles $o:=\emptyset$. An intuitive static plan $\Gamma$ can be composed of lines connected by circles. The distance between the lines can then be a measure of the quality of the coverage.
 \begin{figure}[h!]
   \centering
   \input{figures/bm-like_pb.tikz}
-  \caption[Intuitive plan to cover a regular polygon with four sides]{An intuitive plan to cover a regular polygon with four sides. The plan is composed of circles $\varphi_2,\varphi_4$ and lines $\varphi_1,\varphi_3$. To switch between paths the aerial robot reaches the proximity of triggering points ($\mathbf{p}_{\Gamma_1}:=(x_{\Gamma_1},y_{\Gamma_1}),\mathbf{p}_{\Gamma_2},\mathbf{p}_{\Gamma_3},\mathbf{p}_{\Gamma_4}$). The dashed blue line indicates the triggering points, and the black line is the planned flight. The rest of the polygon is covered iterating the primitive paths and triggering points with a shift.}
+  \caption[Intuitive plan to cover a regular polygon with four sides]{An intuitive plan to cover a regular polygon with four sides composed of circles $\varphi_2,\varphi_4$ and lines $\varphi_1,\varphi_3$. To switch between the paths, the aerial robot reaches the proximity of triggering points $\mathbf{p}_{\Gamma_1}:=(x_{\Gamma_1},y_{\Gamma_1}),\mathbf{p}_{\Gamma_2},\mathbf{p}_{\Gamma_3},\mathbf{p}_{\Gamma_4}$. The dashed blue line indicates the triggering points, and the black line is the planned flight. The rest of the polygon is covered by iterating the primitive paths and triggering points with a shift.}
   \label{fig:bm-like_pb}
 \end{figure}
-Such intuitive static plan is illustrated in \fref{fig:bm-like_pb}{Figure}.
+Such an intuitive static plan is illustrated in \fref{fig:bm-like_pb}{Figure}.
 
-We note that in the literature, the pattern in \fref{fig:bm-like_pb}{Figure} is similar to boustrophedon motion~\citep{choset2005principles,lavalle2006planning,choset2001coverage}, but for the circles that are straight lines parallel to the segments connecting the corresponding vertices.
-We can use the intuitive plan to solve the coverage problem with a rotary-wing aerial robot; in fact, the boustrophedon motion is abundant in aerial robotics literature relative to CPP~\citep{difranco2015energy,araujo2013multiple,artemenko2016energy,cabreira2018energy}. However, it is unsuitable for a fixed-wing aerial robot such as the Opterra. Fixed-wing aerial robots have considerable nonholonomic constraints and overall reduced maneuverability compared to rotary-wings~\citep{dille2013efficient,mannadiar2010optimal,xu2011optimal,xu2014efficient}. They are generally unable to perform quick turns in flight~\citep{wang2017curvature}. 
+We can use the intuitive plan to solve the coverage problem with a rotary-wing aerial robot. A similar pattern, termed the boustrophedon motion\findex{boustrophedon motion}, is abundant in the aerial robotics literature relative to CPP~\citep{difranco2015energy,araujo2013multiple,artemenko2016energy,cabreira2018energy} and in the broader mobile robotics literature~\citep{choset2005principles,lavalle2006planning,choset2001coverage} where the circles are instead straight lines parallel to the segments connecting the corresponding vertices. However, this pattern is unsuitable for a fixed-wing aerial robot such as the Opterra. Fixed-wing aerial robots have considerable nonholonomic constraints and overall reduced maneuverability compared to rotary-wings~\citep{dille2013efficient,mannadiar2010optimal,xu2011optimal,xu2014efficient}, and generally, are unable to perform quick turns in flight~\citep{wang2017curvature}. 
 \begin{figure}[h!]
   \centering
   \input{figures/zambo-like_pb.tikz}
-  \caption[Fixed-wing aerial robot's plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle of the intuitive plan in \fref{fig:bm-like_pb}{Figure} but preserving long turns necessary for the flight of a fixed-wing aerial robot. Likewise in \fref{fig:bm-like_pb}{Figure}, the entire polygon is covered iterating the primitive paths (gray lines) and triggering points. The dashed blue line indicates the triggering points, and the black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_\mathbf{d}/4$.}
+  \caption[Fixed-wing aerial robot plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle in \fref{fig:bm-like_pb}{Figure} but respecting turning constraints. The polygon is covered by iterating the primitive paths (gray lines) and triggering points (dashed blue line). The black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_\mathbf{d}/4$.}
   \label{fig:zambo-like_pb}
 \end{figure}
-We illustrate an updated version of the intuitive plan for fixed-wing aerial robots in \fref{fig:zambo-like_pb}{Figure}. This latter variation of the coverage is similar to Zamboni motion in the literature~\citep{araujo2013multiple}. 
-We term the plans in \fref{fig:bm-like_pb}{Figure} and \fref{fig:zambo-like_pb}{Figure} boustrophedon-like and Zamboni-like motions\findex{boustrophedon-like motion}\findex{Zamboni-like motion} because they are similar to the robotics literature but optimized to our use-case and potentially a broad class of aerial robots with turning constraints. Indeed these constraints are commonly treated in the aerial robotics literature~\citep{artemenko2016energy,li2011coverage,xu2011optimal,xu2014efficient}. % maybe cite also huang2001optimal
-We discuss further the boustrophedon, Zamboni, and other motions for the coverage in \fref{cp:soa}{Chapter} and include them in our coverage planning in \fref{cp:dyn}{Chapter}. 
+We illustrate an updated version of the intuitive plan for fixed-wing aerial robots in \fref{fig:zambo-like_pb}{Figure}. This latter coverage variation is similar to Zamboni motion\findex{Zamboni motion} in the literature~\citep{araujo2013multiple}. 
+We term the plans in \fref{fig:bm-like_pb}{Figure} and \fref{fig:zambo-like_pb}{Figure} boustrophedon-like and Zamboni-like motions\findex{boustrophedon-like motion}\findex{Zamboni-like motion} because they are similar to the robotics literature but optimized to our use case and potentially a broad class of aerial robots with turning constraints. Indeed such constraints are commonly treated in the aerial robotics literature~\citep{artemenko2016energy,li2011coverage,xu2011optimal,xu2014efficient}, and similar patterns are already in other studies~\citep{huang2001optimal,xu2014efficient}. We discuss further the boustrophedon, Zamboni, and other motions for the coverage in \fref{cp:soa}{Chapter} and include them in our coverage planning in \fref{cp:dyn}{Chapter}. 
 
 The Zamboni-like motion in \fref{fig:zambo-like_pb}{Figure} is composed of four primitive paths
 \begin{subequations}\label{eq:basic-plan}\begin{align}
@@ -344,7 +341,7 @@ where $x,y$s are the $x$- and $y$-coordinates of a generic point $\mathbf{p}(t)$
   \mathbf{p}_{\Gamma_1}:=(10,10),\,\mathbf{p}_{\Gamma_2}:=(160,10),\,\mathbf{p}_{\Gamma_3}:=(160,140),\,\mathbf{p}_{\Gamma_4}:=(20,140).
 \end{equation}
 
-The coverage problem can be solved using the paths in \frefeq{eq:basic-plan}, the triggering points in \frefeq{eq:basic-plan-trigs}, the remaining paths $\varphi_5,\varphi_6,\dots,\varphi_l$, and triggering points $\mathbf{p}_{\Gamma_5},\mathbf{p}_{\Gamma_6},\dots,\mathbf{p}_{\Gamma_l}$ defined similarly to \frefeqM{eq:basic-plan}{eq:basic-plan-trigs}. A generic solution for the coverage problem defined as a pattern iterated over time is then defined with the primitive paths
+The coverage problem can be solved using the paths in \frefeq{eq:basic-plan}, the triggering points in \frefeq{eq:basic-plan-trigs}, the remaining paths $\varphi_5,\varphi_6,\dots,\varphi_l$, and triggering points $\mathbf{p}_{\Gamma_5},\mathbf{p}_{\Gamma_6},\dots,\mathbf{p}_{\Gamma_l}$ defined similarly to \frefeqM{eq:basic-plan}{eq:basic-plan-trigs}. A generic solution for the coverage problem defined as an iterated pattern contains the primitive paths
 \begin{subequations}\label{eq:line-gene}\begin{align}
   \varphi_i(\mathbf{p}(t))&:=x-x_{\Gamma_1}-\lfloor i/4\rfloor x_\mathbf{d},\\
   \varphi_{i+2}(\mathbf{p}(t))&:=x-x_{\Gamma_2}-\lfloor i/4\rfloor x_\mathbf{d},
@@ -356,7 +353,7 @@ $\forall i\in\{1,5,9,\dots\}$. $x_\mathbf{d}$ is a shift on the $x$-axis, $\lflo
   \varphi_{i+3}(\mathbf{p}(t))&:=(x-x_{\Gamma_2}+r_2-\lfloor i/4\rfloor x_\mathbf{d})^2+(y-y_{\Gamma_3}-\lfloor i/4\rfloor y_\mathbf{d})^2-r_2^2,\label{eq:second-circ-gene}
 \end{align}
 \end{subequations}
-where index $i$ is defined the same way as in \frefeq{eq:line-gene} along the shift (additionally, $y_\mathbf{d}$ is a shift on the $y$-axis) and integer division. $r_1>r_2>\underline{r}$ are given radiuses of the circles $\varphi_2$ and $\varphi_4$ in \fref{fig:zambo-like_pb}{Figure} and $\underline{r}$ is the turning radius in \fref{pb:cov-pb}{Definition}.
+where index $i$ is defined the same way as in \frefeq{eq:line-gene}, along with the shift (additionally, $y_\mathbf{d}$ is a shift on the $y$-axis) and integer division. $r_1>r_2>\underline{r}$ are given radiuses of the circles $\varphi_2$ and $\varphi_4$ in \fref{fig:zambo-like_pb}{Figure}, and $\underline{r}$ is the turning radius in \fref{pb:cov-pb}{Definition}.
 
 The triggering points can be expressed similarly with the expressions
 \begin{subequations}\label{eq:trigs-gene}\begin{align}
@@ -369,48 +366,49 @@ The triggering points can be expressed similarly with the expressions
 
 We note from \fref{fig:zambo-like_pb}{Figure} and \frefeqM{eq:line-gene}{eq:trigs-gene} that $y_{\Gamma_3}-y_{\Gamma_1}$ is the height of the polygon to be covered, $2(r_1-r_2)$ the distance between the covering lines (which is equal to the shift $x_\mathbf{d}$), and $lx_\mathbf{d}/4$ is the length of the polygon if the number of stages $l$ is known.
 
-The plan in \frefeqM{eq:line-gene}{eq:trigs-gene} is static. There is no path parameter that allows to alter the plan. We can easily transform such plan with the addition of a path parameter $c_{4,1}$ relative to the radius of the second circle $\varphi_4$ in \fref{fig:zambo-like_pb}{Figure}
-\begin{equation}\label{eq:radius-dynamic}
-  r_2(c_{4,1}):=(r+c_{4,1}),
-\end{equation}
-where $\underline{r}<r<r_1$ is a given positive constant initial radius and $c_{4,1}\in(\underline{r}-r,0]$. We assume that the highest value is thus $\overline{c}_{4,1}=0$, the lowest is strictly higher than the difference between the turning and constant initial radiuses $\underline{c}_{4,1}>\underline{r}-r$.
 
-We note from the expression in \frefeq{eq:radius-dynamic} that \frefeq{eq:last-trig-gene} and \frefeq{eq:second-circ-gene} depend on the parameter $c_{4,1}$ (they contain $r_2$, which depend on $c_{4,1}$). They can be thereby dynamically replanned, resulting in an alteration of the quality of the coverage. They indeed change the distance between the survey lines.
+The plan in \frefeqM{eq:line-gene}{eq:trigs-gene} is static: no path parameter allows altering the plan. We can transform such a plan with the addition of a path parameter $c_{4,1}$ relative to the radius of the second circle $\varphi_4$ in \fref{fig:zambo-like_pb}{Figure}
+\begin{equation}\label{eq:radius-dynamic}
+  r_2(c_{4,1}):=\sqrt{r^2+c_{4,1}},
+\end{equation}
+where $\underline{r}<r<r_1$ is a given positive constant initial radius and $c_{4,1}\in(\underline{r}^2-r^2,0]$. We assume that the highest value is thus $\overline{c}_{4,1}=0$, the lowest is strictly higher than the difference between the turning and constant initial radiuses squared $\underline{c}_{4,1}>\underline{r}^2-r^2$ (to respect the turning radius).
+
+We note from the expression in \frefeq{eq:radius-dynamic} that \frefeq{eq:last-trig-gene} and \frefeq{eq:second-circ-gene} depend on the parameter $c_{4,1}$ (they contain $r_2$, which depends on $c_{4,1}$). They can be thereby dynamically replanned, resulting in an alteration of the quality of the coverage. They indeed change the distance between the survey lines.
 We can bound the alteration with 
 \begin{equation}\label{eq:path-const-c}
-  c_{i,1}\in[\underline{c}_{4,1},\overline{c}_{4,1}]=:\mathcal{C}_{4,1}=(\underline{r}-r,0],\,\forall i,
+  c_{i,1}\in[\underline{c}_{4,1},\overline{c}_{4,1}]=:\mathcal{C}_{4,1}\subseteq(\underline{r}^2-r^2,0],\,\forall i,
 \end{equation} 
-where for simplicity, we assume that we can change the parameter in advance at any stage (thus we use $\forall i$ in the equation).
+where we assume for ease of notation that we can change the parameter in advance at any stage (thus we use $\forall i$ in the equation). We will see in \fref{cp:res}{Chapter} that $\underline{c}_{4,1}$ is usually chosen from empirical observations to alter the flight time in case of, e.g., sudden battery drop, while still respecting the turning radius.
 
 \begin{sidewaysfigure}
   \rotatesidewayslabel
   \centering
   \input{figures/zambo-repla_pb.tikz}
   \vspace*{42pt}
-  \caption[Alteration of a path parameter of the fixed-wing aerial robot's plan]{Alteration of a path parameter of the fixed-wing aerial robot's plan in \fref{fig:zambo-like_pb}{Figure}. The black line is the un-altered path up to the triggering point $\mathbf{p}_{\Gamma_3}$, where the path can be altered with the parameter $c_{4,1}$ relative to the radius $r_2$ of $\varphi_4$. The alteration changes the distance between the survey lines hence extending or shortening the flying time. The longest distance is then $2(r_1-r_2(\overline{c}_{4,1}))$, the shortest $2(r_1-r_2(\underline{c}_{4,1}))$. Same principle applies to path parameter $c_{8,1}$ for the next two survey lines, $c_{12,1}$, and so on.}
+  \caption[Alteration of a path parameter of the fixed-wing aerial robot's plan]{Alteration of a path parameter of the fixed-wing aerial robot's plan in \fref{fig:zambo-like_pb}{Figure}. The black line is the un-altered path up to the triggering point $\mathbf{p}_{\Gamma_3}$, where the path can be altered with the parameter $c_{4,1}$ relative to the radius $r_2$ of $\varphi_4$. The alteration changes the distance between the survey lines hence extending or shortening the flying time. The longest distance is then $2(r_1-r_2(\overline{c}_{4,1}))$, the shortest $2(r_1-r_2(\underline{c}_{4,1}))$. The same principle applies to path parameter $c_{8,1}$ for the next two survey lines, to $c_{12,1}$, and so on.}
   \label{fig:zambo-repla_pb}
 \end{sidewaysfigure}
 
-The concept is illustrated in \fref{fig:zambo-repla_pb}{Figure}. The black line is the un-altered path until the triggering point $\mathbf{p}_{\Gamma_3}$, where the path splits depending on the value of the path parameter $c_{4,1}$. The alteration of the plan shortens or extends the flying time and thus influence the energy consumption over time. Since the last path $\varphi_4$ is a function of the parameter $c_{4,1}$, the correct expression for \frefeq{eq:second-circ-gene} is 
+The concept is illustrated in \fref{fig:zambo-repla_pb}{Figure}. The black line is the un-altered path until the triggering point $\mathbf{p}_{\Gamma_3}$, where the path splits depending on the value of the path parameter $c_{4,1}$. The alteration of the plan shortens or extends the flying time and thus influences the energy consumption. Since the last path $\varphi_4$ is a function of the parameter $c_{4,1}$, the correct expression for \frefeq{eq:second-circ-gene} is 
 \begin{equation}\label{eq:line-gene-param}\begin{split}
   \varphi_{i+3}(\mathbf{p}(t),c_{4,1}):=(&x-x_{\Gamma_2}+r_2(c_{4,1})-\lfloor i/4\rfloor x_\mathbf{d})^2+\\
   (&y-y_{\Gamma_3}-\lfloor i/4\rfloor y_\mathbf{d})^2-r_2(c_{4,1})^2.
 \end{split}\end{equation}
 
-The last triggering point $\mathbf{p}_{\Gamma_4}$ of the example in \frefeq{eq:last-trig-gene} is likewise a function of the parameter $c_{4,1}$
+The last triggering point $\mathbf{p}_{\Gamma_4}$ in \frefeq{eq:last-trig-gene} is likewise a function of the parameter $c_{4,1}$
 \begin{equation}
   \mathbf{p}_{\Gamma_{i+3}}(c_{4,1}):=(x_{\Gamma_1}+2r_1-2r_2(c_{4,1})+\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}+\lfloor i/4\rfloor y_\mathbf{d}),
 \end{equation}
-as it depends on the radius $r_2$ of the circle $\varphi_4$. The same applies to all the following functions $\varphi_5,\varphi_6,\varphi_7$, since these are all a function of the triggering point $\mathbf{p}_{\Gamma_4}$. The path $\varphi_8$ is then a function of the parameter $c_{4,1}$ and $c_{8,1}$ propagating the parameters for all the following paths $\varphi_9,\varphi_{10},\varphi_{11}$ and so on.
+as it depends on the radius $r_2$ of the circle $\varphi_4$. The same applies to all the following functions $\varphi_5,\varphi_6,\varphi_7$ since these are all a function of the triggering point $\mathbf{p}_{\Gamma_4}$. The path $\varphi_8$ is then a function of the parameter $c_{4,1}$ and $c_{8,1}$ propagating the parameters for all the following paths $\varphi_9,\varphi_{10},\varphi_{11}$ and so on.
 
 We discuss further the coverage with the Zamboni-like motion in \fref{sec:cov-path-plan}{Section}.
 
 \subsection{Computations sub-plan}
 \label{sec:computation-wise}
 
-In the computations sub-plan, we define the computations that form the plan of the agricultural scenario, opposed to the paths defined in the previous section. In the scenario, we are interested in monitoring the field in \fref{fig:plot2}{Figure}. We detect ground hazards and communicate with other ground-based actors. We use a CNN implemented in a ROS node to detect the ground hazards. The CNN detection uses image frames from a downward-facing camera mounted on the aerial robot. We assume that there is one centralized workstation\findex{workstation} on the ground to communicate with the ground-based actors. The communication between the aerial robot and the centralized work station occurs on another ROS node, which uses the technical standard for wireless communication IEEE 802.11\findex{IEEE 802.11}~\citep{crow1997ieee}. It sends the detected images either unencrypted or using public-key infrastructure\findex{public-key infrastructure} for encryption\findex{encryption}. We refer to these two computations as CNN and encryption ROS nodes. The schedule for the CNN ROS node is parametrized by the FPS rate at which the frames are sent from the camera. The schedule for the encryption ROS node is parametrized by a binary value that indicates whenever the encryption is enabled.
+In the computations sub-plan, we define the computations that form the plan. In the precision agriculture use case, we are interested in monitoring the field in \fref{fig:plot2}{Figure}, detecting ground hazards, and communicating with other ground-based actors. We use a convolutional neural network (\Gls{acr:cnn})\findex{convolutional neural network} implemented in a ROS node\findex{ROS node} to detect the ground hazards. The CNN detection uses image frames from a downward-facing camera mounted on the aerial robot. We assume that there is one centralized workstation on the ground to communicate with the ground-based actors and that the communication between the aerial robot and the centralized workstation\findex{workstation} occurs on another ROS node, which uses the technical standard for wireless communication IEEE 802.11\findex{IEEE 802.11}~\citep{crow1997ieee}. It sends the detected images either unencrypted or using public-key infrastructure\findex{public-key infrastructure} for encryption\findex{encryption}. We refer to these two computations as CNN and encryption ROS nodes here and discuss the implementation in \fref{cp:res}{Chapter}. The schedule for the CNN ROS node is parametrized by the FPS rate at which the frames are sent from the camera and for the encryption ROS node by a binary value that indicates whenever the encryption is enabled.
 
-There are thus two computations parameters. A computation parameter is the FPS rate, and another computation parameter the encryption binary value. The CNN ROS node's computation parameter is $c_{i,2}$, and the encryption ROS node's computation parameter is $c_{i,3}$.
+There are thus two computations parameters. A computation parameter is the FPS rate, and another computation parameter is the encryption binary value. The CNN ROS node's computation parameter is $c_{i,2}$, and the encryption ROS node's computation parameter is $c_{i,3}$.
 
 The upper and lower bounds of $c_{i,3}$ are 
 \begin{equation}\label{eq:encr-comp-const}
@@ -418,7 +416,7 @@ The upper and lower bounds of $c_{i,3}$ are
 \end{equation}
 the parameter value thus indicates if the encryption is active (one) or data are sent unencrypted (zero).
 
-For the upper and lower bound of $c_{i,2}$, we first note from the path plan in \fref{sec:path-wise}{Section} that during the turns the aerial robot is not surveying the polygon. We thus place different constraints for different paths. For the circles in \frefeq{eq:circ-plan} and \frefeq{eq:circ2-plan} the computation parameters constraint sets are 
+For the upper and lower bound of $c_{i,2}$, we first note from the path plan in \fref{sec:path-wise}{Section} that during the turns the aerial robot is not surveying the polygon. We thus place different constraints for different paths. For the circles in \frefeq{eq:circ-plan} and \frefeq{eq:circ2-plan}, the computation parameters constraint sets are 
 \begin{equation}
   c_{i+1,2},c_{i+3,2}\in\mathcal{S}_{i+1,2}=\mathcal{S}_{i+3,2}:=\{0\},\,\forall i\in\{1,5,9,\dots\},
 \end{equation}
@@ -426,13 +424,13 @@ and thus the CNN ROS node is not detecting any hazard when it flies out of the p
 \begin{equation}\label{eq:cnn-comp-const}
 c_{i,2},c_{i+2,2}\in\mathcal{S}_{i,2}=\mathcal{S}_{i+2,2}:=[2,10],\,\forall i\in\{1,5,9,\dots\},
 \end{equation} 
-the the CNN ROS node is detecting hazard on the ground with a FPS rate between two and ten.
+the CNN ROS node is detecting hazards on the ground with an FPS rate between two and ten.
 
-Energy-wise we expect the highest configuration of computations parameters to correspond to the highest instantaneous energy consumption. We use \powprof{}, the profiling and modeling tool that we briefly outlined in \fref{sec:outline}{Section} and that we introduce in \fref{sec:comp-ener-model}{Section}, to measure and model the future energy consumption of different computations' configurations.
+Energy-wise we expect the highest configuration of computations parameters to correspond to the highest instantaneous energy consumption. We use \powprof{}, the profiling and modeling tool that we briefly outlined in \fref{sec:outline}{Section} and introduce in \fref{sec:comp-ener-model}{Section}, to measure and model the future energy consumption of different computations' configurations.
 
-\subsection{Planning problem with paths and computations sub-plans}
+\subsection{Coverage plan with paths and computations sub-plans}
 
-The plan for the precision agriculture scenario is composed of stages containing the primitive paths in \frefeqM{eq:line-gene}{eq:circ-gene}, and the parameter dependent version in \frefeq{eq:line-gene-param}. It further contains the path parameter $c_{i,1},\,\forall i\in\{4,8,\dots\}$, the computations parameters $c_{i,2}$ and $c_{i,3},\,\forall i\in\{1,2,\dots\}$. In particular, the stages corresponding to the primitive paths are 
+The plan for the precision agriculture use case is composed of stages, containing the primitive paths in \frefeqM{eq:line-gene}{eq:circ-gene} and the parameter-dependent version in \frefeq{eq:line-gene-param}. It further contains the path parameter $c_{i,1},\,\forall i\in\{4,8,\dots\}$ and the computations parameters $c_{i,2}$ and $c_{i,3},\,\forall i\in\{1,2,\dots\}$. In particular, the stages corresponding to the primitive paths are 
 \begin{subequations}\label{eq:ex-pb-stages}\begin{align}
   \Gamma_i&:=\{\varphi_i(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1}),c_{i,2},c_{i,3}\},\label{eq:line-plan}\\
   \Gamma_{i+1}&:=\{\varphi_{i+1}(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1}),c_{i+1,2},c_{i+1,3}\},\label{eq:circ-plan}\\
@@ -440,7 +438,7 @@ The plan for the precision agriculture scenario is composed of stages containing
   \Gamma_{i+3}&:=\{\varphi_{i+3}(\mathbf{p}(t),c_{4,1},c_{8,1},\dots,c_{i-1,1},c_{i+3,1}),c_{i+3,2},c_{i+3,3}\},\label{eq:circ2-plan}
 \end{align}
 \end{subequations}
-$\forall i\in\{1,5,9,\dots\}$. The path constraint set for the path parameter $c_{i,1}$ is then defined in \frefeq{eq:path-const-c}, the computation constraint set for the computation parameter $c_{i,2}$ in \frefeq{eq:cnn-comp-const} and for the computation parameter $c_{i,3}$ in \frefeq{eq:encr-comp-const}. The triggering points
+$\forall i\in\{1,5,9,\dots\}$. The path constraint set for the path parameter $c_{i,1}$ is then in \frefeq{eq:path-const-c}, the computation constraint set for the computation parameter $c_{i,2}$ in \frefeq{eq:cnn-comp-const}, and for the computation parameter $c_{i,3}$ in \frefeq{eq:encr-comp-const}. The triggering points
 \begin{subequations}\label{eq:ex-pb-trigs}\begin{align}
   \begin{split}
   \mathbf{p}_{\Gamma_i}(c_{4,1},\dots,c_{i-1,1}):=(&x_{\Gamma_{i-4}}(c_{4,1},\dots,c_{i-1,1})+\\
@@ -456,20 +454,22 @@ $\forall i\in\{1,5,9,\dots\}$. The path constraint set for the path parameter $c
   &\lfloor i/4\rfloor x_\mathbf{d},y_{\Gamma_3}+\lfloor i/4\rfloor y_\mathbf{d}).\end{split}
 \end{align}
 \end{subequations}
-$\forall i\in\{5,9,\dots\}$. The initial points $x_{\Gamma_1},y_{\Gamma_1},$ and $y_{\Gamma_3}$ are given along the shift $\mathbf{d}=(x_\mathbf{d},y_\mathbf{d})$, the radius of the first circle $r_1$, and the last triggering point $\mathbf{p}_l$. The function $r_2$ which returns the radius of the second circle and it is a function of the path parameter $c_{i,1}$ is in \frefeq{eq:radius-dynamic} contains $r$ which is likewise given (we can estimate it from the desired distance of the covering lines: $r=r_1-x_\mathbf{d}/2$).
+$\forall i\in\{5,9,\dots\}$. The initial points $x_{\Gamma_1},y_{\Gamma_1}$ and $y_{\Gamma_3}$ are given along the shift $\mathbf{d}=(x_\mathbf{d},y_\mathbf{d})$, the radius of the first circle $r_1$, and the last triggering point $\mathbf{p}_l$. The function $r_2$, which returns the radius of the second circle and it is a function of the path parameter $c_{i,1}$, is in \frefeq{eq:radius-dynamic}. It contains $r$, which is likewise given (we can estimate $r$ from the desired distance of the covering lines $r=r_1-x_\mathbf{d}/2$).
 
-The solution to the planning problem are thus the three trajectories $c_i^*(t)=\{c_{i,1}^*(t),c_{i,2}^*(t),c_{i,3}^*(t)\},\,\forall i\in\{1,2,\dots\}$ that are energy-aware under given battery budget and uncertainty. 
+The solutions to the planning problem are thus the three trajectories $c_i^*(t)=\{c_{i,1}^*(t),c_{i,2}^*(t),c_{i,3}^*(t)\},\,\forall i\in\{1,2,\dots\}$ that are energy-aware. 
 Since each quadruple of stages in \frefeq{eq:ex-pb-stages} and triggering points in \frefeq{eq:ex-pb-trigs} depends only on the last path parameter (of the quadruple), we further assume that $c_{1,1}=c_{1,2}=c_{1,3}=c_{1,4}$ and more generally 
 \begin{equation}
 c_{i,1}=c_{i+1,1}=c_{i+2,1}=c_{i+3,1},\,\forall i\in\{1,5,9,\dots\}.
 \end{equation}
 
-We derive the solution for the planning problem of the precision agriculture example in \fref{sec:output-mpc}{Section}.
+We derive the solution to the planning problem in \fref{sec:output-mpc}{Section}.
 
 
 %%%%%%%%%%%%%%%%%
 \section{Summary}
 
-In this chapter, we defined the planning and coverage problems in \fref{sec:plan-pb}{Section}. The solution to the coverage problem is a static cover tour, to the planning problem energy-aware replanning. Both problems are interconnected and require some basic concepts, including path functions in \fref{sec:path-functions}{Section} and plan in \fref{sec:plan}{Section}. The latter is composed of stages, triggering, and final points in \fref{sec:defs-stages-triggs}{Section}, and parameters for the replanning itself. Some parameters parametrize the path, and some parameters parametrize the computations. 
-Alternatively to defining all the stages manually, it is possible to define an autonomous scenario with a certain degree of periodicity using primitive paths and a shift as we saw in \fref{sec:plan}{Section}. We illustrated the concept with the precision agriculture autonomous scenario, first introduced in \fref{sec:objective}{Section}, in \fref{sec:flight-plan}{Section}. We discuss later in \fref{cp:model}{Chapter} the physical intuition behind the degree of periodicity, with some empirical data proving a periodic energy evolution and thus helping us to define a model for future energy estimations.
+In this chapter, we defined the planning and coverage problems in \fref{sec:2pbs}{Section}. The solution to the coverage problem is a static cover tour, to the planning problem energy-aware replanning. Both are interconnected and require some basic concepts, including path functions in \fref{sec:path-functions}{Section} and plan in \fref{sec:plan}{Section}. The latter is composed of stages, triggering, and final points in \fref{sec:defs-stages-triggs}{Section} and parameters for the replanning itself. Some parameters parametrize the path, and some parameters parametrize the computations. 
+Alternatively to defining all the stages manually, it is possible to define an autonomous scenario with some periodicity, using primitive paths and a shift as we saw in \fref{sec:plan}{Section}. We illustrated the concept with the precision agriculture use case first introduced in \fref{sec:objective}{Section} in \fref{sec:flight-plan}{Section}. We discuss later in \fref{cp:model}{Chapter} the physical intuition behind periodicity, with some empirical data proving a periodic energy evolution and thus helping us to define a model for future energy estimations.
+
+%---
 
