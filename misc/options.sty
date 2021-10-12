@@ -175,11 +175,15 @@
 \usepackage[hidelinks]{hyperref}
 \hypersetup{allcolors=foo}
 \renewcommand*{\citesetup}{%
-  \color{foo}
-  \otherfont
   \biburlsetup
   \frenchspacing
 }
+\let\oldcitep=\citep 
+\renewcommand{\citep}[1]{{\color{foo}
+\otherfont\oldcitep{#1}}}
+\let\oldcite=\cite
+\renewcommand{\cite}[1]{{\color{foo}
+\otherfont\oldcite{#1}}}
 
 \DeclareNameAlias{sortname}{family-given} % counts in biblio
 

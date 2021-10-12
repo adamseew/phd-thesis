@@ -8,8 +8,8 @@
 %
 % Brief abstract: wraps up the results from the previous chapters
 %
-% Completion (1-10): 8
-% Missing: There are two results missing at the end of the chapter
+% Completion (1-10): 9.4
+% Missing: There is one result missing at the end of the chapter
 %
 \chapter{Results}
 \label{cp:res}
@@ -257,7 +257,7 @@ The second case study is the same aerial robot and agricultural scenario from \f
 
 The aerial robot is the Opterra fixed-wing for CPP in an agricultural scenario equipped with the Paparazzi flight controller. The computing hardware is now the NVIDIA Jetson Nano\findex{NVIDIA Jetson!Nano}, implementing the computations with the ROS middleware. In this use-case, we evaluated some initial experiments of the differential model in \frefeq{eq:state-perf} in \fref{sec:deriv}{Section}, opposed to the model in \frefeq{eq:fourier}. Here we did not consider the energy-aware coverage planning and various power-saving schedules (empirically demonstrated in the next section) but instead evaluated the initial feasibility of the periodic differential model.
 
-The computing hardware implements three computations: {\small\tt ssd-mobilenet} computation SSD-MobileNet V2 convolutional neural network (\Gls{acr:cnn})\findex{convolutional neural network}\findex{SSD-MobileNet V2}\findex{computations!ssd-mobilenet@\texttt{ssd-mobilenet}}~\citep{sandler2018mobilenetv2}, whereas {\small\tt pednet} computation PedNet fully convolutional network (\Gls{acr:fcn})\findex{fully convolutional network}\findex{computations!pednet@\texttt{pednet}}~\citep{ullah2018pednet}. The third computation is termed {\small\tt sender}, which sends the eventual detections on the ground using the technical standard for wireless communication IEEE 802.11\findex{IEEE 802.11}~\citep{crow1997ieee}. Alike the previous section, the computations and motion energy models are combined without needing to test the two together, simplifying the modeling effort. 
+The computing hardware implements three computations: {\small\tt ssd-mobilenet} computation SSD-MobileNet V2 convolutional neural network (\Gls{acr:cnn})\findex{convolutional neural network}\findex{SSD-MobileNet V2}\findex{computations!ssd-mobilenet@\texttt{ssd-mobilenet}}~\citep{sandler2018mobilenetv2}, whereas {\small\tt pednet} computation PedNet fully convolutional network (\Gls{acr:fcn})\findex{fully convolutional network}\findex{computations!pednet@\texttt{pednet}}\findex{PedNet}~\citep{ullah2018pednet}. The third computation is termed {\small\tt sender}, which sends the eventual detections on the ground using the technical standard for wireless communication IEEE 802.11\findex{IEEE 802.11}~\citep{crow1997ieee}. Alike the previous section, the computations and motion energy models are combined without needing to test the two together, simplifying the modeling effort. 
 
 \subsubsection*{Motion energy evaluation}
 
@@ -325,13 +325,13 @@ For the computations {\small\tt ssd-mobilenet} and {\small\tt pednet}, the param
     \centering
     \input{figures/computational-mobilenet.tikz}
     \caption{{\tt\small sender},{\tt\small ssd-mobilenet}}
-    \label{fig:pednet}
+    \label{fig:mobilenet}
   \end{subfigure}
   \begin{subfigure}[b]{0.32\textwidth}
     \centering
     \input{figures/computational-pednet.tikz}
     \caption{{\tt\small sender},{\tt\small pednet}}
-    \label{fig:mobilenet}
+    \label{fig:pednet}
   \end{subfigure}
   \caption[Computations energy models in term of SoC as well as the schedule over time]{Computations energy models in term of SoC as well as the schedule over time for the second case study.}
   \label{fig:computational}
@@ -357,7 +357,7 @@ In this section, we report the results for energy-aware coverage planning and sc
 \subsection{Numerical simulations}
 \label{sec:res-num-simu}
 
-The first results report is that of a realistic simulation implemented in \matlab relative to our forthcoming work~\citep{seewald202Xenergy}. It involves the Opterra fixed-wing aerial robot in the precision agriculture scenario we introduced in \fref{sec:motivation}{Section}. It does both the CPP and scheduling and online in-flight replanning energy-wise. The agricultural field is delimited by vertices $v$ and forms $\mathcal{Q}^v$ (see \fref{sec:cell-deco}{Section} for the notation). There are no ground obstacles, i.e., $\mathcal{Q}^v=\mathcal{Q}$.
+The first results report is that of a realistic simulation implemented in \matlab relative to our forthcoming work~\citep{seewald202Xenergy}, where we implement the craft's flight dynamics. It involves the Opterra fixed-wing aerial robot in the precision agriculture scenario we introduced in \fref{sec:motivation}{Section}. It does both the CPP and scheduling and online in-flight replanning energy-wise. The agricultural field is delimited by vertices $v$ and forms $\mathcal{Q}^v$ (see \fref{sec:cell-deco}{Section} for the notation). There are no ground obstacles, i.e., $\mathcal{Q}^v=\mathcal{Q}$.
 
 \subsubsection*{Experimental setup}
 
@@ -367,7 +367,7 @@ The aerial robot in this result is the simulated Opterra fixed-wing for CPP in a
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/trajs_revised.tikz}
-  \caption[Numerical simulations of the trajectory with static and dynamic plans]{Trajectory simulations with variations of wind speed and direction. In \sref{lab:trajs-I-static}{} and \sref{lab:trajs-II-static}{} plan is static. It is replanned online with the algorithm in \sref{lab:trajs-dyn-i}{} and \sref{lab:trajs-dyn-ii}{}. The algorithm adapts the path parameter relative to $r_2$ $c_{i,1}$ and computation parameter FPS rate $c_{i,2}$.}
+  \caption[Numerical simulations of the trajectory with static and dynamic plans]{Trajectory simulations with variations of wind speed and direction. In \sref{lab:trajs-I-static}{} and \sref{lab:trajs-II-static}{} plan is static. It is replanned online with the algorithm in \sref{lab:trajs-dyn-i}{} and \sref{lab:trajs-dyn-ii}{}. The algorithm adapts the path parameter relative to $r_2$ $c_{i,1}$ and computation parameter FPS rate $c_{i,2}$. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:trajs-revised}
 \end{figure}
 In the remainder, we discuss two sub-results, each with different atmospheric conditions, \sref{lab:trajs-I-static}{} and \sref{lab:trajs-II-static}{}, in \fref{fig:trajs-revised}{Figure}. Path-wise, we replan the coverage embedding a parameter $c_{i,1}$ (same for all the stages) relative to the radius of the fourth circle $\varphi_4$ in a set of four primitive paths $\varphi_{i},\dots,\varphi_{i+3}\,\forall i\in\lfloor l/4 \rfloor$ iterated over time up to reaching a final point $\mathbf{p}_{\Gamma_l}$ that we proposed for the Zamboni-like motion in \fref{sec:path-wise}{Section}. The parameter influences the radius $r_2$ of the circle $\varphi_4$ in \frefeq{eq:radius-dynamic}; we discussed further the precise meaning of how such parameter affects the quality of the coverage in \fref{sec:mpc}{Section}. The result \sref{lab:trajs-I-static}{} is that of the aerial robot flying with a constant wind speed of 5 meters per second, the wind direction of 0 degrees, and an initial path parameter $c_{i,1}$ value of 0. Result \sref{lab:trajs-II-static}{} is flying under the same conditions but a wind direction of 90 degrees and the initial path parameter value of -1000. We simulate sudden battery drops in \sref{lab:trajs-I-static}{}, expecting the replanning to occur with both scheduling and coverage shortening (i.e., lesser quality of the coverage) and an ideal battery behavior in \sref{lab:trajs-II-static}{}, expecting coverage largening (i.e., higher quality of the coverage).
@@ -384,7 +384,7 @@ We show the effects of different conditions on the CPP in \fref{fig:trajs-revise
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/ener_revised.tikz}
-  \caption[Numerical simulations with the energy models of different static and dynamic plans]{The energy models of the trajectories from~\fref{fig:trajs-revised}{Figure} for 200 seconds against the simulated data (\sref{lab:ener-static-I}{} and \sref{lab:ener-static-II}{}). Below are the energy evolutions with replanning (\sref{lab:ener-dyn-i}{} and \sref{lab:ener-dyn-ii}{}). Here, the algorithm replans the plan when the final time and battery time do not match and the computation when the battery is discharged.}
+  \caption[Numerical simulations with the energy models of different static and dynamic plans]{The energy models of the trajectories from~\fref{fig:trajs-revised}{Figure} for 200 seconds against the simulated data (\sref{lab:ener-static-I}{} and \sref{lab:ener-static-II}{}). Below are the energy evolutions with replanning (\sref{lab:ener-dyn-i}{} and \sref{lab:ener-dyn-ii}{}). Here, the algorithm replans the plan when the final time and battery time do not match and the computation when the battery is discharged. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:ener-revised}
 \end{figure}
 The energy models of these two trajectories are the top two sub-figures \sref{lab:ener-static-I}{} and \sref{lab:ener-static-I}{} in \fref{fig:ener-revised}{Figure}. The simulated energy data are in black the model evolution is in red. The model evolves for two hundred seconds with no information about the real energy: the model is estimated earlier with, e.g., Kalman filter\findex{Kalman filter} on \fref{algo:repla:sysevo}{Lines}\fref{algo:repla:endkalmy}{--\hspace*{-.8ex}} in \fref{algo:repla}{Algorithm}, whereas now it merely evolves without further estimation on \fref{algo:repla:sysevobatt}{Line}. The figure proves the model accuracy experimentally, i.e., the red line copies the periodic evolution of the energy signal.
@@ -395,7 +395,7 @@ The components of the energy model from \fref{sec:deriv}{Section} are illustrate
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/evols_revised.tikz}
-  \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right.}
+  \caption[Energy estimation and evolution of the state]{Energy estimation for the first 6 seconds on the left side, the evolution of the state $\mathbf{q}$ on the right. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:evols-revised}
 \end{figure}
 Left sub-figures are the initial slices of the models and period estimation (the latter we defined in \fref{def:period}{Definition}). On the right of \fref{fig:evols-revised}{Figure}, we show the states $\alpha_0,...,\beta_3$ evolution in time, concluding that approximately two periods are sufficient to obtain consistent state estimates. With non-periodic signals, we observed that the estimator on \fref{algo:repla:sysevo}{Lines}\fref{algo:repla:endkalmy}{--\hspace*{-.8ex}} in \fref{algo:repla}{Algorithm} estimates primarily the first state $\alpha_0$ and it neglects the others. It hence approximates the non-periodicity with a linear model.
@@ -404,50 +404,72 @@ Left sub-figures are the initial slices of the models and period estimation (the
 
 The practical implementation is based on observations of different variations of paths and computations. A variation of path alters the overall flying time, which we reflect in the factors $\nu_{i,1},\tau_{i,1}$ from \frefeq{eq:scale-traj}. We compare the remaining flight time with the time needed to completely deplete the battery from \frefeq{eq:bat} on \fref{algo:repla:initbat}{Lines}\fref{algo:repla:endbat}{--\hspace*{-.8ex}} in \fref{algo:repla}{Algorithm} and reduce or increase the parameter to optimize the battery time. The path parameter $c_{i,1}$ is equal for all the stages. It changes the radius of the first circle in the current period and therefore shifts the other paths accordingly. The change is in \fref{fig:zambo-repla_pb}{Figure}, resulting in a shorter distance between the coverage lines in the Zamboni-like motion and increment or reduction of the flying time. The path constraint set is set to $\underline{c}_{i,1}=$ -1000 and $\overline{c}_{i,1}=$ zero (enclosing the constraint set $\mathcal{C}_{i,1}$), equal for all the stages.
 
-A variation of computations directly affects the power. We thus select the highest computation which satisfies the constraints in \fref{def:const}{Definition} on \fref{algo:repla:mpc}{Line} in \fref{algo:repla}{Algorithm}, suing model predictive control (\Gls{acr:mpc})\findex{model predictive control}. We observed a low effect on the power of the communication ROS node. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest FPS rate. We implemented the FPS rate parameter $c_{i,2}$ with factors  $\nu_{i,2},\tau_{i,2}$ mapping $c_{i,2}$ to the data from \powprof{} as we described in \frefeq{eq:scale-comp} in \fref{sec:merging}{Section}. The computation constraint set is set to $\underline{c}_{i,2}=$ two and $\overline{c}_{i,2}=$ ten (enclosing the constraint set $\mathcal{S}_{i,1}$), equal for all the stages.
+A variation of computations directly affects the power. We thus select the highest computation which satisfies the constraints in \fref{def:const}{Definition} on \fref{algo:repla:mpc}{Line} in \fref{algo:repla}{Algorithm}, using model predictive control (\Gls{acr:mpc})\findex{model predictive control}. We observed a low effect on the power of the communication ROS node (see \fref{fig:pednet}{Figure}); we thus used a static frequency of ten hertz for the parameter $c_{i,3}$. Nevertheless, the detection node varies between 5 and 10 watts for the lowest and highest FPS rate. We implemented the FPS rate parameter $c_{i,2}$ with factors  $\nu_{i,2},\tau_{i,2}$ mapping $c_{i,2}$ to the data from \powprof{} as we described in \frefeq{eq:scale-comp} in \fref{sec:merging}{Section}. The computation constraint set is set to $\underline{c}_{i,2}=$ two and $\overline{c}_{i,2}=$ ten (enclosing the constraint set $\mathcal{S}_{i,1}$), equal for all the stages.
 
 \subsubsection*{Coverage planning and scheduling}
 
-We have tested the validity of our approach via a numerical simulation implemented in \matlab, showing the replanning in \fref{fig:trajs-revised}{Figure} in \sref{lab:trajs-dyn-i}{} and \sref{lab:trajs-dyn-ii}{} path-wise and in \fref{fig:ener-revised}{Figure} in \sref{lab:ener-dyn-i}{} and \sref{lab:ener-dyn-ii}{} energy-wise. For the first sub-result \sref{lab:trajs-I-static}{}, the plan starts at the highest configuration of parameters. We simulated two unexpected battery drops at approximately one minute and a half and four minutes and a half. The algorithm optimizes the path (downward facing arrows in \fref{fig:ener-revised}{Figure}) in the proximity of the drops to ensure that the flight is completed. Moreover, it maximizes the parameter $c_{i,2}$ when the battery is discharging (green line), respecting the output constraint in \fref{def:const}{Definition}. We simulated the opposite scenario for sub-result \sref{lab:trajs-II-static}{}. The plan starts at the lowest configuration of parameters while the battery behaves ideally. We note that the path parameter increases when the algorithm estimates enough data (two periods $T$). The algorithm further optimizes the computation parameter w.r.t. to the battery discharge rate. For both cases, we used discrete reductions $\delta$ of five hundred and two for $c_{i,1}$ and $c_{i,2}$ respectively, and the horizon $N$ equal to 6 seconds. We observed a slight increment in overall replanning time (order of seconds) by using a horizon of 10 seconds--attributable to the MPC component on \fref{algo:repla:mpc}{Line} of \fref{algo:repla}{Algorithm}--but did not detect a notable increment in precision. 
+We have tested the validity of our approach via a numerical simulation implemented in \matlab, showing the replanning in \fref{fig:trajs-revised}{Figure} in \sref{lab:trajs-dyn-i}{} and \sref{lab:trajs-dyn-ii}{} path-wise and in \fref{fig:ener-revised}{Figure} in \sref{lab:ener-dyn-i}{} and \sref{lab:ener-dyn-ii}{} energy-wise. For the first sub-result \sref{lab:trajs-I-static}{}, the plan starts at the highest configuration of parameters. We simulated two unexpected battery drops at approximately one minute and a half and four minutes and a half. The algorithm optimizes the path (downward facing arrows in \fref{fig:ener-revised}{Figure}) in the proximity of the drops to ensure that the flight is completed. Moreover, it maximizes the parameter $c_{i,2}$ when the battery is discharging (green line), respecting the output constraint in \fref{def:const}{Definition}. We simulated the opposite scenario for sub-result \sref{lab:trajs-II-static}{}. The plan starts at the lowest configuration of parameters while the battery behaves ideally. We note that the path parameter increases when the algorithm estimates enough data (two periods $T$). The algorithm further optimizes the computation parameter w.r.t. to the battery discharge rate. For both cases, we used discrete reductions $\delta$ of five hundred and two for $c_{i,1}$ and $c_{i,2}$ respectively, and the horizon $N$ equal to six seconds. We observed a slight increment in overall replanning time (order of seconds) by using a horizon of ten seconds--attributable to the MPC component on \fref{algo:repla:mpc}{Line} of \fref{algo:repla}{Algorithm}--but did not detect a notable increment in precision. 
 
 
-\subsection{\color{red}Paparazzi flight controller}
+\subsection{Paparazzi flight controller}
 \label{sec:res-papa}
 
-\begin{figure}[h!]
-  \centering
-  \includegraphics[width=.7\textwidth]{pictures/paparazzi}
-  \caption[.]{.}   
-  \label{fig:pprz-scrren}
-\end{figure}
+This section extends the previous, describing the experimental setup and the result for the implementation of our approach in the New Paparazzi Simulator (\Gls{acr:nps})\findex{new paparazzi simulator}, an advanced simulator with sensors models along with JSBSim~\citep{berndt2004jsbsim}\findex{JSBSim}, an open-source flight dynamics model (\Gls{acr:fdm})\findex{flight dynamics model}~\citep{papanps}. It is also relative to our forthcoming work~\citep{seewald202Xenergy}. It involves the simulated craft in CPP and hazards detection from the previous section under more diverse battery conditions, with a further complication of asynchronous communication between the planner-scheduler and the flight controller. Again, there are no ground obstacles $\mathcal{Q}^v=\mathcal{Q}$.
 
 \begin{figure}[p!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/trajs_pprz2.tikz}
-  \caption[.]{.}
+  \caption[Trajectories of flight under various conditions and initial configurations in New Paparazzi Simulator]{Trajectories of flight under various conditions and initial configurations implemented in New Paparazzi Simulator. The first cluster of flights \sref{lab:trajs-pprz-i}{--}\sref{lab:trajs-pprz-iv}{} starts with the highest configuration of parameters, the second cluster \sref{lab:trajs-pprz-v}{--}\sref{lab:trajs-pprz-viii}{} with the lowest. Similarly to \fref{fig:trajs-pprz}{Figure}, different battery conditions apply to each flight resulting in different replannings. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:trajs-pprz}
 \end{figure}
 
+\subsubsection*{Experimental setup}
+
+On the contrary to the previous result, the outcome depends on the specific flight controller, meaning we simulate the actual interactions between the Paparazzi flight controller~\citep{papa} and the computing hardware on-board the aerial robot in some simulated flights using the NPS with JSBSim. 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=.7\textwidth]{pictures/paparazzi}
+  \caption[New Paparazzi Simulator flying our coverage planning with energy-aware replanning]{New Paparazzi Simulator flying our coverage planning with energy-aware replanning, implementing the JSBSim flight dynamics model.}   
+  \label{fig:pprz-screen}
+\end{figure}
+We implement planning-scheduling in Python open source programming language and the communication between NPS and planner-scheduler with a software bus termed Ivy~\citep{ivybus}. The resulting NPS graphical user interface for one of the flights is in \fref{fig:pprz-screen}{Figure}. The path and computations are analogous to these that we proposed in the previous result in \fref{sec:res-num-simu}{Section}. The battery model parameters, the constraint sets $\mathcal{C}_{i,1}$ and $\mathcal{S}_{i,2}$, and the factors $\nu_1,\nu_2,\tau_1,\tau_2$ all have the same values in these two results. We replan the coverage with varying parameter $c_{i,1}$ that alters the distance between the survey lines and schedule the computations with the parameter $c_{i,2}$ relative to the FPS rate of {\small\tt pednet}. We keep the parameter $c_{i,3}$, the communication frequency of the {\small\tt sender} computation, static, motivated by the early results showing low energy effect of different schedules (see \fref{fig:pednet}{Figure}). The two computations run on the NVIDIA Jetson Nano computing hardware using ROS middleware, extending the simulation. The schedule for $c_{i,2}$ is varied via a ROS topic\findex{ROS topic}, whereas the computations are ROS nodes\findex{ROS nodes}, one implementing PedNet FCN\findex{PedNet}~\citep{ullah2018pednet}, the other simply communicating with the ground.
+
+\subsubsection*{Planning evaluation}
+
+We performed eight test flights in two clusters. The trajectories of these flights are in \fref{fig:trajs-pprz}{Figure}. 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/ctls_pprz2.tikz}
-  \caption[.]{.}
+  \caption[Evolution of the parameters configurations in Paparazzi New Simulator]{Evolution of the parameters configurations for two clusters of flights implemented in Paparazzi New Simulator. Each has a similar overall flight time due to the initial conditions. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:ctls-pprz}
 \end{figure}
+A first cluster \sref{lab:trajs-pprz-i}{--}\sref{lab:trajs-pprz-iv}{} compromises flights starting with the highest configurations of parameter $c_{i,1}=\underline{c}_{i,1}$ and $c_{i,2}=\underline{c}_{i,2}$, requiring then replanning due to various simulated battery profiles. A second cluster \sref{lab:trajs-pprz-v}{--}\sref{lab:trajs-pprz-viii}{} starts on the contrary with the lowest configuration of $c_{i,1}=\underline{c}_{i,1}$ and $c_{i,2}=\underline{c}_{i,2}$. The evolution of the parameters is then in \fref{fig:ctls-pprz}{Figure}. For coverage planning, we further observe some unexpected flight patterns in \sref{lab:trajs-pprz-ii}, \sref{lab:trajs-pprz-v}{--}\sref{lab:trajs-pprz-vii}{}, which are, in part, caused by the delay between the flight controller and planner-scheduler. Indeed these often happen when the planner-scheduler evaluates the final battery time $t_b$ on \fref{algo:repla:initbat}{Lines}\fref{algo:repla:endbat}{--\hspace*{-.8ex}} in \fref{algo:repla}{Algorithm}, being these lines computationally expensive. Nonetheless, we observe a minor incidence in a multi-thread implementation, with each computationally expensive block (i.e., MPC\findex{model predictive control} on \fref{algo:repla:mpc}{Line} and battery estimator on \fref{algo:repla:initbat}{Lines}\fref{algo:repla:endbat}{--\hspace*{-.8ex}}) computing in a separate thread, compared to simple sequential execution.
+
+In \fref{fig:trajs-revised}{Figure}, the reference frame $\mathcal{O}_W$ is different along with the flight time. The latter is due to the different velocities of the craft. Indeed we solely rely on the values from FDM rather than our implementation of the dynamics. The former is due to different initial conditions. Although we generated the same coverage, $\mathbf{p}(t_0)$ are different: practically, we shift the paths that form the plan.
 
 \begin{figure}[p!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/ener_pprz.tikz}
-  \caption[.]{.}
+  \caption[The energy models for the flights implemented in New Paparazzi Simulator]{The energy models for the flights implemented in New Paparazzi Simulator with different initial and simulated battery conditions. The green line indicates the output constraint. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:ener-pprz}
 \end{figure}
 
+\subsubsection*{Replanning evaluation}
+
+All the flights start with a charged battery but have different battery evolutions and initial conditions. For the first cluster of flights, flight \sref{lab:ctls-pprz-i}{} starts with the highest configuration of $c_{i,1}$ and $c_{i,2}$, and the battery behaves linearly up to 90\%. At approx. 95 seconds we simulate a sudden battery drop of 4\%. The battery then again behaves linearly, and the final battery state is approx. 57\%. The parameter $c_{i,1}$ is thus replanned by \fref{algo:repla}{Algorithm} in the proximity of the drop and the computation parameter $c_{i,2}$ is scheduled to respect the output constraint in \fref{def:const}{Definition} visible in \fref{fig:ener-pprz}{Figure} (the green line indicates the constraint). Flight \sref{lab:ctls-pprz-ii}{} is similar, but the battery drop happens at approx. 122 seconds. The evolution of the parameter $c_{i,1}$ is indeed mostly the same, whereas the parameter $c_{i,2}$ is replanned with a higher schedule. Flight \sref{lab:ctls-pprz-iii}{} has slightly different atmospheric conditions and eventual additional uncertainty due to the communication lag between the flight controller and scheduler. We can see that indeed \sref{lab:ctls-pprz-ii}{--}\sref{lab:ctls-pprz-iii}{} are very similar, conversely to flight \sref{lab:ctls-pprz-iv}, where the battery drop happens at approx. 163 seconds.
+
+The second cluster of flights exhibits the same tendency for flights \sref{lab:ctls-pprz-v}{--}\sref{lab:ctls-pprz-vi}{} and, indeed, the energy in \fref{fig:ener-pprz}{Figure}, the configurations in \fref{fig:ctls-pprz}{Figure}, and the trajectories in \fref{fig:trajs-pprz}{Figure} are almost identical. There are no simulated sudden battery drops and enough battery SoC to respect the output constraint in \fref{def:const}{Definition}. Flights \sref{lab:ctls-pprz-vii}{--}\sref{lab:ctls-pprz-viii}{} are similar to the previous couple, except for a more steep simulated battery evolution, lower of approx. 4\%. There is then a simulated 2\% points battery difference at the end of the flight between \sref{lab:ctls-pprz-vii}{} and \sref{lab:ctls-pprz-viii}{}, requiring additional replanning.
+
+\subsubsection*{Coverage planning and scheduling}
+
+We have further validated our approach utilizing NPS with JSBSim as FDM. We simulated various battery evolutions and drops, corresponding to, e.g., imperfect batteries of fixed-wing aerial robots operating in real-world conditions. We have simulated the interaction between the flight controller and the planner-scheduler, interconnecting the two via Ivy bus, showing possible complications such as delays. We will discuss future possibilities of additional optimizations to reduce such delays in \fref{cp:conc}{Chapter}. In this result, we use a lower reduction $\delta$ for the path parameters of two hundred fifty, with no notable difference in path replanning. We thus conclude that $\delta$ of five hundred from \fref{sec:res-num-simu}{Section} is adequate for path replanning. Conversely to the previous result, we use a fixed horizon $N$ of ten seconds.
 
 \subsection{\color{red}Coverage with obstacles}
 \label{sec:res-obsta}
+
