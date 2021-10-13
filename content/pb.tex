@@ -85,7 +85,7 @@ We use this notion to guide the aerial robot using vector field\findex{vector fi
 \end{equation}
 where $a,b,c\in\mathbb{R}$ are given constants. The generic point $\mathbf{p}(t)$ intersects $\varphi(x,y)$ on a specific value $d$ of the $z$-axis $(\mathbf{p}(t),d)$. We illustrate the concept in \fref{fig:line-pf}{Figure} for $c$ zero and $a,b$ minus one and two and $h$ zero for simplicity. The point intersects the plane\findex{plane} formed by the path function\findex{line}
 \begin{equation}\label{eq:pathf-line}
-  \varphi(x,y):=2y-x-h,
+  \varphi(x,y):=2y-x,%-h, there is no minus h here (facepalm)
 \end{equation}
 at $d=\varphi(\mathbf{p})$. The path that the aerial robot follows is then $\varphi(x,y)=h$. $\varphi(\mathbf{p})-h$ is the distance on the $z$-axis.
 
@@ -293,7 +293,7 @@ In the definition, there is a fixed or variable number of stages, in the sense t
 
 \subsection{Coverage problem}
 
-Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, we want to find the route that covers the polygon. This problem is in the robotics research literature as CPP~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. There are numerous approaches to solve CPP that ensure the completeness of the coverage and include algorithms optimized for mobile robots. We discuss the state-of-the-art in CPP in detail in \fref{cp:soa}{Chapter}. We assume that the free space, i.e., the space where the robot is free to move, and the obstacles, can be summarized by a set of vertices. The planning problem is then the problem of covering the free space while avoiding the obstacles. Physically, the obstacles are, e.g., areas where the aerial robot shouldn’t detect hazards in the agricultural use case in \fref{sec:objective}{Section}.
+Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, we want to find the route that covers the polygon. This problem is in the robotics research literature as CPP~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. There are numerous approaches to solve CPP that ensure the completeness of the coverage and include algorithms optimized for mobile robots. We discuss the state-of-the-art in CPP in detail in \fref{cp:soa}{Chapter}. We assume that the free space, i.e., the space where the robot is free to move, and the obstacles, can be summarized by a set of vertices. The planning problem is then the problem of covering the free space while avoiding the obstacles. Physically, the obstacles are, e.g., areas where the aerial robot should not detect hazards in the agricultural use case in \fref{sec:objective}{Section}.
 
 \begin{pb}[Coverage problem]
   \label{pb:cov-pb}\findex{coverage problem}\findex{verices}\findex{obstacles}
