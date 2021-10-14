@@ -101,22 +101,6 @@ The \frefeqM{eq:optimization:perfect-model}{eq:optimization:control-constraint-s
     \mathbf{q}(t_0)&=\mathbf{q}_0\,\,\,\text{given}.
 \end{split}\end{equation}
 
-%A simplistic controller which uses \frefeq{eq:optimization:unconstrained-opt-control-pb} is shown in \fref{fig:unconstrained-controller}{Fig.}.
-%\begin{figure}[!h]
-%    \centering
-%    \footnotesize
-%    \begin{tikzpicture}[auto, node distance=3.2cm,>=latex']
-%        \node [input, name=rinput] (rinput) {};
-%        \node [block, right of=rinput] (controller) {~~~$\argmax_{\mathbf{u}(t)}{L}$~~~};
-%        \node [right of=controller,node distance=2.8cm] (routput) {\input{figures/opterra-bp.tikz}};
-%        \node [right of=routput,node distance=3.6cm] (routput2) {};
-%        \draw [->] (rinput) -- node{$\dot{\mathbf{q}}(t),\mathbf{q}_0,t_0,T,\mathcal{U}(t)$} (controller);
-%        \draw [->] (controller) -- node{$\mathbf{u}(t)$} (routput);
-%        \draw [->] (routput) -- node{path/computations} (routput2);
-%    \end{tikzpicture}
-%    \caption[Unconstrained state optimal control trajectory controller]{Controller that select the optimal control trajectory from the unconstrained \Gls{acr:ocp} in \frefeq{eq:optimization:unconstrained-opt-control-pb}.}
-%    \label{fig:unconstrained-controller}
-%\end{figure}
 The evolution of the model is used to derive an optimal control trajectory $\mathbf{u}(t)$ from an initial guess of the state $\mathbf{q}_0$ and the horizon. This initial simplistic controller does not represent a realistic scenario. The controller implies that the horizon is known. However, it is often the case that only the initial time step of the horizon $[t_0,T]$ is known. In the model from \fref{cp:model}{Chapter} it is indeed unknown apriori when the aerial robot plan terminates. Moreover the controller does not include any constraint on the state $\mathbf{q}$, although mobile robots are often bounded by strict battery requirements. Lastly, the optimal control generated with such controller is static given the initial state and the horizon. It is unrealistic to assume that the state of the aerial robot travelling the optimal control $\mathbf{u}$ does not change for instants $t_0+\Delta t,t_0+2\Delta t,\dots,T$.
 
 All these initial assumption (known final time step, absence of state constraints, static optimal control law) will be eased in the remaining of the chapter.

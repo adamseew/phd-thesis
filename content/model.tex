@@ -222,7 +222,7 @@ Sometimes termed the dual-polarization model~\citep{he2011evaluation}, we illust
 
 The \powprof{} tool allows automated battery modeling and directly derives battery SoC for each measurement layer in \fref{sec:measurement-layer}{Section}. Indeed in \fref{def:measur-layer}{Definition}, the function $\mathbf{g}$ returns a triplet of values, including the SoC. For the predictive layer in \fref{def:comp-ener}{Definition} in \fref{sec:predictive-layer}{Section}, the tool similarly outputs the SoC for a given configuration of parameters and energy sensor or other energy measuring device. To this end, it implements the simplistic equivalent electrical circuit in \fref{fig:rint}{Figure} from the literature~\citep{mousavi2014various,hinz2019comparison,he2011evaluation}, with the class {\small\tt soc\_1resistor}, where the constructor accepts in input the parameters $I_l,V,R_r,V_s$ and $Q_c$ that we discussed in \fref{sec:batmod-circuit}{Section}. The current load $I_l$ is expressed via the data type {\small\tt pathn} in \fref{sec:powprof}{Section}. One can implement a similar battery model, e.g., the Thevenin-based ECM in \fref{fig:thevenin}{Figure}, by simply inheriting from class {\small\tt first\_derivative} the function {\small\tt get\_value}. It returns the modeled battery SoC at the next time instant from an independent variable, i.e., time, and a dependent variable represented via the data type {\small\tt soc\_1resistor} in \fref{sec:powprof}{Section}.
 
-Internally, the tool implements a numerical simulator based on the Runge-Kutta methods\findex{Runge-Kutta methods} for numerical integration\findex{numerical integration} in \fref{sec:rk4}{Section}. One can then personalize the size of the integration step $h\in\mathbb{R}_{>0}$ via the property {\small\tt h} in the configuration specification in \fref{sec:conf-spec}{Section} (a typical practical value of such property is, e.g., one hundredth). The tool first derives a model for the power and energy and later numerically simulates the battery model via the equivalent electrical circuit in \fref{fig:rint}{Figure} adjoining the battery SoC.
+Internally, the tool implements a numerical simulator based on the Runge-Kutta methods\findex{Runge-Kutta methods} for numerical integration\findex{numerical integration}~\citep{iserles2009first}. One can then personalize the size of the integration step $h\in\mathbb{R}_{>0}$ via the property {\small\tt h} in the configuration specification in \fref{sec:conf-spec}{Section} (a typical practical value of such property is, e.g., one hundredth). The tool first derives a model for the power and energy and later numerically simulates the battery model via the equivalent electrical circuit in \fref{fig:rint}{Figure} adjoining the battery SoC.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -275,7 +275,7 @@ The state $\mathbf{q}(t)$ contains the energy coefficients
     \alpha_0(t) & \alpha_1(t) & \beta_1(t) & \cdots & \alpha_r(t) & \beta_r(t)
   \end{array}\right]',\\
 \end{equation}
-where $\mathbf{q}(t)\in\mathbb{R}^m$ with $m=2r+1$. We will estimate the value of $\mathbf{q}$ with a state estimator in \fref{cp:est}{Chapter}.
+where $\mathbf{q}(t)\in\mathbb{R}^m$ with $m=2r+1$. We will estimate the value of $\mathbf{q}$ with a state estimator in \fref{algo:repla}{Algorithm}.
 
 The state transition matrix
 \begin{equation}\label{eq:mat_A}
