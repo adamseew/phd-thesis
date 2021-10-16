@@ -352,12 +352,12 @@ The overall energy assessment for the flight is then in \fref{fig:cruise-merge}{
 \section{Coverage Planning and Scheduling}
 \label{sec:res-dyn}
 
-In this section, we report the results for energy-aware coverage planning and scheduling; and thus prove our approach experimentally. We extensively use the constructs from the previous chapters, including the energy models in \fref{cp:model}{Chapter}, the guidance, coverage, and replanning from \fref{cp:dyn}{Chapter}, and demonstrate both the solutions to \fref{pb:cov-pb}{Problems}\fref{pb}{--\hspace*{-.8ex}} in \fref{cp:pb}{Chapter}. Indeed, in the previous sections, we justified the various energy models and discussed merely the solution to \fref{pb:cov-pb}{Problem} with the Zamboni-like motion. Specifically, in \fref{sec:res-num-simu}{Section}, we provide results for numerical simulations derived with \matlab. In \fref{sec:res-papa}{Section}, we integrate such simulations with the popular Paparazzi flight controller~\citep{papa}, and finally, in \fref{sec:res-obsta}{Section}, we extend the previous results to the case of some obstacles\findex{obstacles}.
+In this section, we report the results for energy-aware coverage planning and scheduling; and thus prove our approach experimentally. We extensively use the constructs from the previous chapters, including the energy models in \fref{cp:model}{Chapter}, the guidance, coverage, and replanning from \fref{cp:dyn}{Chapter}, and demonstrate both the solutions to \fref{pb:cov-pb}{Problems}\fref{pb}{--\hspace*{-.8ex}} in \fref{cp:pb}{Chapter}. Indeed, in the previous sections, we justified the various energy models and discussed merely the solution to \fref{pb:cov-pb}{Problem} with the Zamboni-like motion. Specifically, in \fref{sec:res-num-simu}{Section}, we provide results for numerical simulations derived with \matlab. In \fref{sec:res-papa}{Section}, we integrate such simulations with the popular Paparazzi flight controller~\citep{papa}, and finally, in \fref{sec:res-obsta}{Section}, we extend the previous results to the case of avoiding the computations over the no-interest zones (\Gls{acr:niz}s) and out of the polygon\findex{no-interest zones}.
 
 \subsection{Numerical simulations}
 \label{sec:res-num-simu}
 
-The first results report is that of a realistic simulation implemented in \matlab relative to our forthcoming work~\citep{seewald202Xenergy}, where we implement the craft's flight dynamics. It involves the Opterra fixed-wing aerial robot in the precision agriculture scenario we introduced in \fref{sec:motivation}{Section}. It does both the CPP and scheduling and online in-flight replanning energy-wise. The agricultural field is delimited by vertices $v$ and forms $\mathcal{Q}^v$ (see \fref{sec:cell-deco}{Section} for the notation). There are no ground obstacles, i.e., $\mathcal{Q}^v=\mathcal{Q}$.
+The first results report is that of a realistic simulation implemented in \matlab relative to our forthcoming work~\citep{seewald202Xenergy}, where we implement the craft's flight dynamics. It involves the Opterra fixed-wing aerial robot in the precision agriculture scenario we introduced in \fref{sec:motivation}{Section}. It does both the CPP and scheduling and online in-flight replanning energy-wise. The agricultural field is delimited by vertices $v$ and forms $\mathcal{Q}^v$ (see \fref{sec:cell-deco}{Section} for the notation). There are no NIZs, i.e., $\mathcal{Q}^v=\mathcal{Q}$.
 
 \subsubsection*{Experimental setup}
 
@@ -414,7 +414,7 @@ We have tested the validity of our approach via a numerical simulation implement
 \subsection{Paparazzi flight controller}
 \label{sec:res-papa}
 
-This section extends the previous, describing the experimental setup and the result for the implementation of our approach in the New Paparazzi Simulator (\Gls{acr:nps})\findex{new paparazzi simulator}, an advanced simulator with sensors models along with JSBSim~\citep{berndt2004jsbsim}\findex{JSBSim}, an open-source flight dynamics model (\Gls{acr:fdm})\findex{flight dynamics model}~\citep{papanps}. It is also relative to our forthcoming work~\citep{seewald202Xenergy}. It involves the simulated craft in CPP and hazards detection from the previous section under more diverse battery conditions, with a further complication of asynchronous communication between the planner-scheduler and the flight controller. Again, there are no ground obstacles $\mathcal{Q}^v=\mathcal{Q}$.
+This section extends the previous, describing the experimental setup and the result for the implementation of our approach in the New Paparazzi Simulator (\Gls{acr:nps})\findex{new paparazzi simulator}, an advanced simulator with sensors models along with JSBSim~\citep{berndt2004jsbsim}\findex{JSBSim}, an open-source flight dynamics model (\Gls{acr:fdm})\findex{flight dynamics model}~\citep{papanps}. It is also relative to our forthcoming work~\citep{seewald202Xenergy}. It involves the simulated craft in CPP and hazards detection from the previous section under more diverse battery conditions, with a further complication of asynchronous communication between the planner-scheduler and the flight controller. Again, there are no NIZs $\mathcal{Q}^v=\mathcal{Q}$.
 
 \begin{figure}[p!]
   \centering
@@ -470,6 +470,33 @@ The second cluster of flights exhibits the same tendency for flights \sref{lab:c
 
 We have further validated our approach utilizing NPS with JSBSim as FDM. We simulated various battery evolutions and drops, corresponding to, e.g., imperfect batteries of fixed-wing aerial robots operating in real-world conditions. We have simulated the interaction between the flight controller and the planner-scheduler, interconnecting the two via Ivy bus, showing possible complications such as delays. We will discuss future possibilities of additional optimizations to reduce such delays in \fref{cp:conc}{Chapter}. In this result, we use a lower reduction $\delta$ for the path parameters of two hundred fifty, with no notable difference in path replanning. We thus conclude that $\delta$ of five hundred from \fref{sec:res-num-simu}{Section} is adequate for path replanning. Conversely to the previous result, we use a fixed horizon $N$ of ten seconds.
 
-\subsection{\color{red}Coverage with obstacles}
+\subsection{\color{red}Coverage with NIZs}
 \label{sec:res-obsta}
+
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize    
+  \input{figures/trajs_niz.tikz}
+  \caption[.]{.}
+  \label{fig:trajs-niz}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize    
+  \input{figures/ctls_niz.tikz}
+  \caption[.]{.}
+  \label{fig:ctls-niz}
+\end{figure}
+
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \footnotesize    
+  \input{figures/ener_niz.tikz}
+  \caption[.]{.}
+  \label{fig:ener-niz}
+\end{figure}
 

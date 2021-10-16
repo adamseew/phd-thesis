@@ -2064,7 +2064,7 @@
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(551.531,50.1562)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(551.531,50.1562)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (4.0000,16.0000) node[above right] () {\scriptsize Total};
+    \path[fill=black] (4.0000,16.0000) node[above right] () {\scriptsize total};
   \end{scope}
   \begin{scope}[cm={{1.00313,0.0,0.0,1.00313,(551.531,50.1562)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}

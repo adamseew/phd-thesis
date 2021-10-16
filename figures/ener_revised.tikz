@@ -361,7 +361,7 @@
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(62.3647,28.1647)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(61.8647,27.1647)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] (text290) {\scriptsize Energy};
+    \path[fill=black] (0.0000,0.0000) node[above right] (text290) {\scriptsize energy};
 
 
 

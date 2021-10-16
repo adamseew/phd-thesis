@@ -1352,7 +1352,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(143.894,40.25)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(138.896,40.25)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize Begin go-to-waypoint};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize begin go-to-waypoint};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(143.894,40.25)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
@@ -1394,7 +1394,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(151.944,55.3438)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(147.944,59.3438)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize End go-to-waypoint};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize end go-to-waypoint};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(151.944,55.3438)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
@@ -1474,7 +1474,7 @@
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(21.6344,226.406)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(10.6344,226.406)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{Altitude (m)}};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\rotatebox{90}{\footnotesize Altitude (m)}};
   \end{scope}
   \begin{scope}[cm={{0.0,-1.00625,1.00625,0.0,(21.6344,226.406)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}

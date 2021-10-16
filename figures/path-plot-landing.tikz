@@ -768,7 +768,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(182.131,40.25)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(182.131,41.25)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize Begin landing};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize begin landing};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(182.131,40.25)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
@@ -810,7 +810,7 @@
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(190.181,55.3438)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(190.181,57.3438)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
-    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize End landing};
+    \path[fill=black] (0.0000,0.0000) node[above right] () {\scriptsize end landing};
   \end{scope}
   \begin{scope}[cm={{1.00625,0.0,0.0,1.00625,(190.181,55.3438)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
