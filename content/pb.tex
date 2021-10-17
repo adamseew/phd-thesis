@@ -157,7 +157,7 @@ where $\varepsilon\in\mathbb{R}$ is a given constant value expressing the radius
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Definition of the plan}
+\section{Definition of plan}
 \label{sec:plan}
 
 Our motion energy model in \fref{sec:mot-ener-model}{Section} uses the concept of the aerial robot flying a set of paths and computations autonomously. Such an autonomous flight plan often presumes a certain degree of periodicity, which one can observe in the precision agriculture use case in \fref{sec:objective}{Section}. An exhaustive way to cover the agricultural field in \fref{fig:plot2}{Figure}, i.e., to visit all the points in the space, is to define a basic pattern. The aerial robot flies over the field once and iterates the basic pattern until it covers the desired area. In literature, we often talk about motion, with the most common being, e.g., boustrophedon motion~\citep{choset2005principles,choset2001coverage,cabreira2019survey,galceran2013survey}. It means that we can define the plan just as a set of stages, triggering points, a final point, and finally a shift that tells how these constructs (except the final point) shifts in space each period. To simplify the planning problem to this latter case of plans with a pattern iterated over time, we consider some primitive paths.

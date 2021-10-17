@@ -427,6 +427,11 @@ This section extends the previous, describing the experimental setup and the res
 
 \subsubsection*{Experimental setup}
 
+The polygon $v$ is described by the set of vertices
+\begin{equation}
+  v_1:=(5,139.5),\,v_2:=(384.4,162.4),\,v_3:=(384.4,32.4),\,v_4:=(5,9.5),
+\end{equation}
+and is regular. 
 On the contrary to the previous result, the outcome depends on the specific flight controller, meaning we simulate the actual interactions between the Paparazzi flight controller~\citep{papa} and the computing hardware on-board the aerial robot in some simulated flights using the NPS with JSBSim. 
 \begin{figure}[h!]
   \centering
@@ -470,33 +475,46 @@ The second cluster of flights exhibits the same tendency for flights \sref{lab:c
 
 We have further validated our approach utilizing NPS with JSBSim as FDM. We simulated various battery evolutions and drops, corresponding to, e.g., imperfect batteries of fixed-wing aerial robots operating in real-world conditions. We have simulated the interaction between the flight controller and the planner-scheduler, interconnecting the two via Ivy bus, showing possible complications such as delays. We will discuss future possibilities of additional optimizations to reduce such delays in \fref{cp:conc}{Chapter}. In this result, we use a lower reduction $\delta$ for the path parameters of two hundred fifty, with no notable difference in path replanning. We thus conclude that $\delta$ of five hundred from \fref{sec:res-num-simu}{Section} is adequate for path replanning. Conversely to the previous result, we use a fixed horizon $N$ of ten seconds.
 
-\subsection{\color{red}Coverage with NIZs}
+\subsection{Coverage with no-interest zones}
 \label{sec:res-obsta}
 
+In this final result, we complement our approach, interrupting the computations over a NIZ on the ground as we hypothesized in \fref{pb:cov-pb}{Problem} and \fref{sec:cov-path-plan}{Section}, and additionally out of the polygon $v$, thus computing only within the space $\mathcal{Q}^v$ in \fref{sec:flight-plan}{Section}. The result is relative to our forthcoming work~\citep{seewald202Xenergy}. The NIZ resulting polygon $o_1$ mimics conveniently the shape and location in \fref{fig:gride}{Figures}\fref{fig:zambo2}{--\hspace*{-.8ex}} in Sections \fref{sec:cov-path-plan}{Sections}\fref{sec:mpc}{--\hspace*{-.8ex}}, whereas $v$ is the same as in \fref{sec:res-papa}{Section}. The polygon $o_1$, representing the NIZ\findex{no-interest zones}, has six vertices
+\begin{equation}\begin{split}
+  o_{1,1}&:=(110,85),\,\,\,\,\,\,o_{1,2}:=(125,106.5),\,o_{1,3}:=(155,114.5),\\
+  o_{1,4}&:=(195,93.5),\,o_{1,5}:=(175,76.5),\,\,\,\,o_{1,6}:=(137,57.7),
+\end{split}\end{equation}
+and the resulting trajectory of the aerial robot flying the coverage while avoiding the computations over NIZ and out of the polygon is in \fref{fig:trajs-niz}{Figure}.
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/trajs_niz.tikz}
-  \caption[.]{.}
+  \caption[The trajectory effect of inhibiting computations over NIZ and out of the polygon]{Trajectories of two flights flying the same condition as \sref{lab:trajs-pprz-ii}{} in \fref{fig:trajs-pprz}{} but inhibiting computations over NIZ in \sref{lab:trajs-niz-iia}{}, and over NIZ and out of the polygon $v$ in \sref{lab:trajs-niz-iib}{}. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:trajs-niz}
 \end{figure}
+To simulate the energy effect of the configuration $c_{i,2}=\{0\}$, we evaluated the average power of the NVIDIA Jetson Nano\findex{NVIDIA Jetson!Nano} computing hardware with the \powprof{} tool, solely running ROS core\findex{ROS core} with the remaining computations ({\small\tt pednet}, {\small\tt sender}) switched off. The rest of the experimental setup is shared with \fref{sec:res-papa}{Section}, and the resulting initial and battery conditions are these of flight \sref{lab:trajs-pprz-ii}{} in the first cluster in \fref{fig:trajs-pprz}{Figure}, i.e., the highest configuration of $c_{i,1}$ and $c_{i,2}$ with the simulated battery behaving ideally but for a drop at approx. 122 seconds.
 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/ctls_niz.tikz}
-  \caption[.]{.}
+  \caption[The configuration effect of inhibiting computations over NIZ and out of the polygon]{Configurations trajectories of a schedule that additionally inhibits the computations over NIZ in \sref{lab:ctls-niz-iia}{}, and over NIZ and out of the polygon $v$ in \sref{lab:ctls-niz-iib}{}, similarly to \fref{fig:trajs-niz}{Figure}. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:ctls-niz}
 \end{figure}
+The trajectory is indeed similar to \sref{lab:trajs-pprz-ii}{}. Flight \sref{lab:trajs-niz-iia}{} in \fref{fig:trajs-niz}{Figure} is that of the coverage while avoiding computations over $\mathcal{O}^{o_1}$, whereas flight \sref{lab:trajs-niz-iib}{} avoids the computations everywhere but over $\mathcal{Q}^v$ (i.e., additionally to \sref{lab:trajs-niz-iia}{}, it avoids the computations outside of the polygon $v$). There is an observable difference in the configuration trajectories for the parameter $c_{i,2}$, visible in \fref{fig:ctls-niz}{Figure}. Indeed \sref{lab:ctls-niz-iia}{} in \fref{fig:ctls-niz}{Figure} is similar to \sref{lab:ctls-pprz-ii}{} in \fref{fig:ctls-pprz}{Figure}, but for the instants when the aerial robot flies over the NIZ $o_1$ and the computation parameter is inhibited $c_{i,2}=\{0\}$. The corresponding energy consumption is then in \sref{lab:ener-niz-iia}{} in \fref{fig:ener-niz}{Figure}.
 
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
   \footnotesize    
   \input{figures/ener_niz.tikz}
-  \caption[.]{.}
+  \caption[The energy effect of inhibiting computations over NIZ and out of the polygon]{Energy evolution of a schedule that additionally inhibits the computations over NIZ in \sref{lab:ener-niz-iia}{}, and over NIZ and out of the polygon $v$ in \sref{lab:ener-niz-iib}{}, similarly to \fref{fig:trajs-niz}{Figures}\fref{fig:ctls-niz}{--\hspace*{-.8ex}}. The figure is to appear in our forthcoming study~\citep{seewald202Xenergy}.}
   \label{fig:ener-niz}
 \end{figure}
+Finally, there is a notable difference between the two sub-results \sref{lab:ctls-niz-iia}{} and \sref{lab:ctls-niz-iib}{} in \fref{fig:ctls-niz}{Figures}\fref{fig:ener-niz}{--\hspace*{-.8ex}}, contrary to \fref{fig:trajs-niz}{Figure}, showing the energy evolution (and configuration trajectory) effect of avoiding computations on $o_1$ and avoiding computations everywhere except over the interest space $\mathcal{Q}^v$. One can further note the impact of the NIZ polygon $o_1$ shape on the energy and configuration trajectories. Depending on the position in space, it takes longer or shorter to fly over the NIZ due to the different lengths of a line segment parallel to the edge ${}^{v_4}|_{v_1}$ intersecting the NIZ $o_1$ (see \fref{fig:bcd3}{Figure}).
+
+
+%%%%%%%%%%%%%%%%%
+\section{\color{red}Summary}
 

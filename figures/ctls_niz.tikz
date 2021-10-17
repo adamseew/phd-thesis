@@ -1299,7 +1299,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(108.635,54.3176)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-4.9592,52.8176)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-2.9592,52.8176)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] (text1478) {0};
 
 
@@ -1761,7 +1761,7 @@
   \end{scope}
   \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(112.659,63.3706)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
   \end{scope}
-  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(0.94744,63.3706)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
+  \begin{scope}[cm={{1.00588,0.0,0.0,1.00588,(-2.94744,63.3706)}},draw=black,line join=bevel,line cap=rect,line width=0.512pt]
     \path[fill=black] (0.0000,0.0000) node[above right] (text1868) {0};
 
 
