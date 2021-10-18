@@ -3,7 +3,7 @@
 %                                 % 
 % Summary and Future Directions   %
 %                                 %
-\chapter{\color{red}Summary and Future Directions}
+\chapter{Summary and Future Directions}
 \label{cp:conc}
 
 \begin{chapquote}{\cite{ondruska2015scheduled}}
@@ -12,16 +12,60 @@
   
 \vspace*{1em}
 
-%\lettrine{P}{lanning-scheduling} energy-awareness exhibits improved performances compared to, e.g., planning an energy-optimal path and a greedy schedule, or conversely scheduling a power-saving schedule and a greedy path, and, notably, incr
 
-\section{\color{red}Summary}
+%Answer the research questions
+%Show how you have addressed your aims and objectives
+%Explain the significance and implications of your findings
+%Explain the contribution the study makes
+%Explain the limitations of the study
+%Lay out questions for further research
+
+\lettrine{P}{lanning-scheduling} energy awareness demonstrates improved robustness to in-flight failures in the autonomous use case, mitigating the adverse effect of environmental interferences on battery life and overall flight span. In the previous chapters, we progressively built and showcased our approach using the use case both in simulation and some early flight with a fixed-wing autonomous aerial robot. The approach trades off the path to the schedule by varying both while exploiting differential periodic, computations, and battery models. In this chapter, we summarize our work, re-discuss the overall contribution, and propose future directions and conclusions in \fref{sec:conc-summ}{Sections}\fref{sec:conc-conc}{--\hspace*{-.8ex}}.
 
 
-\section{\color{red}Contribution}
+%%%%%%%%%%%%%%%%%
+\section{Summary}
+\label{sec:conc-summ}
+
+The approach that we propose in this work provides an energy-optimal path and a power-saving schedule altogether. Past studies often derive one of these aspects, whereas the analysis of the interactions of the two is less common~\citep{brateman2006energy,sudhakar2020balancing}. To this end, our work focus on coverage path planning (\Gls{acr:cpp})\findex{coverage path planning}--a common problem in the planning literature where it is required to visit each point in a given space~\citep{choset2001coverage,galceran2013survey}--in a precision agriculture use case. Here, a fixed-wing aerial robot covers a given agricultural field, detects ground hazards, and communicates with other ground-based actors. Although use-case specific, the approach is generic in terms of computations and battery modeling, and CPP. The guidance and differential periodic energy modeling can be applied to a broader class of energy-constrained autonomous mobile robotics use cases.
+
+To derive energy-aware coverage planning and scheduling for autonomous aerial robots, we defined some basic constructs in \fref{cp:pb}{Chapter}. These included the concepts of computations and motion along with their energies in \fref{sec:definitions}{Section}. Indeed their close interaction is the very basis of this work. Computations are some energy-expensive computational tasks we aim to schedule energy-wise along with the motion on a coverage path. The latter is a succession of continuous and twice differentiable path functions in \fref{sec:path-functions}{Section}. These functions are wrapped with computations in stages in \fref{sec:defs-stages-triggs}{Section}, along with parameters for scheduling and coverage replanning. The succession of stages forms a plan in \fref{sec:plan}{Section}, and the progression from one stage to another happens in the proximity of triggering points. The plan can be expressed as a mere succession of stages or using primitive paths with a shift. In \fref{sec:2pbs}{Section}, we formally defined the problems of coverage planning and energy-aware coverage replanning and scheduling.
+
+We discussed the state of the art spanning broadly in \fref{cp:soa}{Chapter}. In \fref{sec:soa-ene-mod}{Sections}\fref{sec:soa-ene-bat}{--\hspace*{-.8ex}}, we saw the literature for computations energy and battery modeling. We focused on energy models for heterogeneous elements, involving CPUs and GPUs separately, and on abstract battery models. We then examined motion planning for mobile and aerial robots in \fref{sec:soa-motion-pl}{Sections}\fref{sec:soa-aerial-pl}{--\hspace*{-.8ex}}, whereas the planning-scheduling interactions in the robotics literature in \fref{sec:soa-comp-motion-pl}{Section}.
+
+In \fref{cp:model}{Chapter}, we provided energy models for future energy estimations of computations, motions, and batteries before digging into the technicalities of coverage planning and energy-aware replanning. The computations energy model in \fref{sec:comp-ener-model}{Section} models heterogeneous elements (i.e., CPU and GPUs) of the computing hardware and provides overall energy, average power, and battery state of charge (\Gls{acr:soc}) in the function of a software configuration. It utilizes a two layers architecture, where the top layer incorporates multiple bottom layers. It derives an automatic modeling and profiling tool named \powprof~\citep{seewald2019coarse,powprofiler}, which derives a battery model in \fref{sec:battery-model}{Section} from an abstract model in the literature termed ``Rint''. We proposed a differential periodic energy model for the motion in \fref{sec:mot-ener-model}{Section}, exploiting energy characteristics of the coverage from some empirical observations. The motion energy model includes the computations energy via the control, modeling the energy effect of different schedules.
+
+We discussed the coverage planning and scheduling, energy-aware replanning, and the guidance on a coverage path are in \fref{cp:dyn}{Chapter}, providing the solution to the original problems in \fref{cp:pb}{Chapter}. First, in \fref{sec:gvf}{Section}, we discussed how to guide the aerial robot given a set of paths in the plan using the theory of vector fields. We derived a coverage plan that visits all the points in a given space in \fref{sec:cov-path-plan}{Section}, using cellular decomposition and a modified coverage motion for fixed-wings with variable coverage that we termed Zamboni-like motion. We included all the past constructs in \fref{sec:mpc}{Section} for energy-aware coverage replanning and scheduling. Here, we replanned the original path using the computations and motion energy along with the battery models. We used a modern optimal control and state estimation technique robust to uncertainty. 
+
+Finally, in \fref{cp:res}{Chapter}, we discussed the experimental setup and results. In \fref{sec:res-ene-comps}{Section}, we provided the \powprof{} computations energy models. We saw case studies of motion and periodic energy models in \fref{sec:res-ene-mot}{Section}, and finally, discussed the results for energy-aware coverage planning and scheduling in \fref{sec:res-dyn}{Section}.
+
+
+
+%---
+
+%%%%%%%%%%%%%%%%%%%%%%
+\section{Contribution}
+
+This works contributes to the existing robotics literature on planning-scheduling energy awareness~\citep{mei2005case,mei2006deployment,brateman2006energy,zhang2007low,sadrpour2013experimental,sadrpour2013mission,ondruska2015scheduled,lahijanian2018resource,sudhakar2020balancing} by proposing an approach for energy-aware coverage planning for autonomous aerial robots.
+
+Specific contributions in order as they appear in the previous chapters include:
+\begin{enumerate*}[label={(\alph*)},font={\textit}]
+  \item the introduction of the concept of replanning a variable CPP along with schedule~\citep{seewald202Xenergy},
+  \item the formal definition of no-interest zones (NIZs) -aware schedules for further energy savings by selectively running computations only when necessary~\citep{seewald202Xenergy},
+  \item the derivation of an automatic modeling and profiling tool named \powprof{}~\citep{seewald2019coarse} for various computing hardwares~\citep{powprofiler} that derives power, energy, and battery SoC in the function of software configuration,
+  \item the extension of the \powprof{} tool to dataflow computational networks~\citep{seewald2019component} and to the robot operating system (\Gls{acr:ros}) middleware~\citep{zamanakos2020energy},
+  \item the adaptation of the ``Rint'' equivalent electrical circuit in the literature into the \powprof{} tool~\citep{seewald2019coarse} and the coverage replanning problem for future SoC estimations~\citep{seewald202Xenergy},
+  \item the derivation of a differential periodic energy model~\citep{seewald202Xenergy} based on empirical observations~\citep{seewald2020mechanical} for future energy predictions and energy predictions under variable schedules for autonomous coverage, potentially applying to a broader class of mobile robotics use cases~\citep{seewald2020beyond},
+  \item the adaptation~\citep{seewald202Xenergy} of an existing approach for guidance~\citep{de2017guidance} based on vector fields to the case of coverage plans composed of multiple paths,
+  \item the introduction of the Zamboni-like motion for variable coverage~\citep{seewald202Xenergy} for aerial robots with strict turning radius constraints, and
+  \item {\itshape the derivation of an algorithm for replanning of the coverage and scheduling inflight and under strict energy constraints}~\citep{seewald202Xenergy}.
+\end{enumerate*} 
 
 
 \section{\color{red}Future Directions}
+\label{sec:conc-future}
 
 
 \section{\color{red}Conclusion}
+\label{sec:conc-conc}
 

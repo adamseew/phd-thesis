@@ -4,10 +4,18 @@
 % Title page   %
 %              %
 \pagestyle{empty}
-\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{figures/source/cover.pdf}};
+\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{figures/source/cover-new.pdf}};
 {
 \centering
+	{\large ~\par}
 	~
+
+	\vspace{28pt}
+	{\Huge\fontfamily{phv}\selectfont\bfseries\booktitle\par}
+	\vspace{24pt}
+
+	{\Large\fontfamily{phv}\selectfont\authorname\par}
+
 }
 \cleardoublepage
 
@@ -25,20 +33,18 @@
 	{\large \publisher\par}
 	~
 
-	\vspace{36pt}
+	\vspace{28pt}
 	{\Huge\fontfamily{phv}\selectfont\bfseries\booktitle\par}
+	\vspace{24pt}
+
+	{\Large\fontfamily{phv}\selectfont\authorname\par}
 	\vspace{24pt}
 
 	\vspace{\stretch{1.25}}
 	{\large A dissertation submitted in partial satisfaction of the\par\vspace*{.8ex}
 	requirements for the degree Doctor of Philosophy\par\vspace*{.8ex}
 	in Engineering Science}
-
-	\vspace{12pt}
-	{\large\itshape by\par}
-	\vspace{6pt}
-	{\Large\itshape \authorname\par}
-	\vspace{24pt}
+	\vspace{42pt}
 
 	{\begin{flushleft}{\itshape Committee in charge:}
 		\begin{multicols}{2}
