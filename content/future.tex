@@ -40,9 +40,6 @@ We discussed the coverage planning and scheduling, energy-aware replanning, and 
 Finally, in \fref{cp:res}{Chapter}, we discussed the experimental setup and results. In \fref{sec:res-ene-comps}{Section}, we provided the \powprof{} computations energy models. We saw case studies of motion and periodic energy models in \fref{sec:res-ene-mot}{Section}, and finally, discussed the results for energy-aware coverage planning and scheduling in \fref{sec:res-dyn}{Section}.
 
 
-
-%---
-
 %%%%%%%%%%%%%%%%%%%%%%
 \section{Contribution}
 
@@ -62,8 +59,50 @@ Specific contributions in order as they appear in the previous chapters include:
 \end{enumerate*} 
 
 
-\section{\color{red}Future Directions}
+\section{Future Directions}
 \label{sec:conc-future}
+
+Multiple observations and open questions regarding possible future studies were made in the previous chapters. These include further developments spanning from coverage planning to broad planning-scheduling considerations.
+
+% non aerial mobile robots OK
+
+We hypothesized a possible generalization to other mobile robots. Indeed CPP in the literature applies to diverse use cases. These include decontamination, mine clearance, oceanographic mapping, cleanup, and others~\citep{choset1998coverage} and involve various mobile robots~\citep{galceran2013survey}. Although the Zamboni-like motion in \fref{sec:cov-motion}{Section} suits best aerial robots with strict turning radius constraints, the concept of variable coverage can be applied broadly. For instance, the boustrophedon-like motion for variable coverage in \fref{sec:path-wise}{Section}, to rotary-wings aerial robots and other mobile robots.
+
+In our past brief work~\citep{seewald2020beyond}, we discussed the approach's applicability to the planetary exploration context. An unexplored terrain can be covered with variable coverage by trading a greedy technique with more complex planning. Schedules can vary by, e.g., pattern detections of features of interest or perception~\citep{ondruska2015scheduled}. Recent contributions are increasingly proposing onboard autonomy with artificial neural networks~\citep{gankidi2017fpga} and other machine learning techniques~\citep{ono2020maars} for future space exploration missions such as Sample Retrieval and Lander mission~\citep{muirhead2019mars}. In the latter, the robot is to be solar-powered~\citep{higa2019vision}. Planning-scheduling energy awareness might pose an advantage for these systems, despite past instances caring limited onboard resources due to radiation levels and temperature changes~\citep{bajracharya2008autonomy,gankidi2017fpga}. Indeed the average motion energy reported in a recent study~\citep{ishigami2011path} decreased considerably compared to the past literature~\citep{krotkov1992performance}.
+
+% different energy models OK
+
+The differential periodic energy model in \fref{sec:mot-ener-model}{Section} is generic, modeling systems energy with some degree of periodicity. However, other energy models for aperiodic use cases are equally possible. The only requirement is embedding the controls as the configuration of parameters for future energy prediction in \fref{sec:mpc}{Section}. A possible model is a differential linear aperiodic model built via regressional analysis, mapping a change in the schedule to, e.g., the slope of the regression. Other examples are models that incorporate robots dynamics, that map the energy to turns, etc.
+
+% costs different from energy OK
+
+\fref{sec:2pbs}{Section} mentions the optimal configuration in \frefeq{eq:disc-ocp-output-mpc} with costs other than the energy. For instance, it might be required to cover a given space with the fastest tour possible. Or, similarly, selectively prioritize some computations over the others. These considerations were not covered by \fref{algo:repla}{Algorithm}, which merely selects the best possible schedule w.r.t. to the given cost in \frefeq{eq:insta-cost-mpc}. In a prioritized setting, it might be then possible to utilize a stage-dependent priority list: let's call it $\mathbf{r}_i\in(0,1]\subset\mathbb{R}^n$ where $n$ is given in \fref{sec:nom-cont}{Section}. The list can be used in the cost with the parameters,  prioritizing specific computations for particular stages. In this setting, it might be possible to trade-off other non-functional properties, such as security involved in the TeamPlay\findex{TeamPlay} project~\citep{teamplay} that funded a considerable part of this work, by, e.g., increasing the latter at given ``security demanding'' stages.
+
+% 3D generalization for the path functions OK
+
+The construct of path functions in \fref{sec:path-functions}{Section} involves aerial coverage flying at a given altitude $h$. A more complex coverage planning with, for example, the aerial robot covering a building requires further investigation. In this latter case, \fref{def:paths}{Definition} might be extended to functions $\mathbb{R}^3\rightarrow\mathbb{R}$, expressing simply a 3D shape of, e.g., the building to cover with a cylinder. The guidance in \fref{sec:gvf}{Section} would then adopt different strategies. For example, the introduction of multiple path functions in 2D discretely ``slicing'' the cylinder, or the development of the theory of vector fields further with, e.g., the magnitude of the gradient in \frefeq{eq:grady}. The varying quality of the coverage can be achieved by changing the distance between the ``slicing'' functions.
+
+% extension of to other variable coverage motions OK
+% consider different i (evolve the paths) in the best configuration MPC algorithm OK
+
+Future directions then involve the extension of the coverage motion, the study of additional motions and their trade-offs, and the shortcomings of \fref{algo:repla}{Algorithm}. The derivation of the optimal parameters configuration happens for the current stage $i$ and assumes future stages evolve according to the energy model and the observation in \fref{sec:nom-cont}{Section}. The energy of complex plans might, however, change completely at each stage and require a stage-dependent energy model. \fref{algo:repla}{Algorithm} would necessitate a trajectory to map the time to the stage for energy predictions in this latter stage-dependent energy model.
+
+% proper obstacles (no-flight zones rather than no-interest zones) OK
+% more accurate battery modeling OK
+
+The derivation of a coverage plan along with no-flight zones (\Gls{acr:nfz}s) requires further analysis. Other than for the physical obstacles in form of, e.g., tall buildings, it might be indeed more convenient to avoid flying over a NIZ energy-wise. For instance, if the NIZ is attached to one of the vertices $v$. For some cases, it might be then advantageous to consider complex battery models, including details such as different battery chemistries, state of health, temperature, or C-rate. Additional rigor might lead to better modeling with other equivalent electrical circuits models such as the Thevenin-based model~\citep{chen2006accurate,hasan2018exogenous,hinz2019comparison,mousavi2014various,zhang2018online,salameh1992mathematical} outlined in \fref{sec:cell-deco}{Section}.
+
+% other planning approaches rather than only coverage OK
+% multi robot strategies OK
+
+Further possible development is that of the derivation of an approach for planning-scheduling energy awareness with multiple robots. Here a swarm of aerial robots might be covering the agricultural field with a centralized or distributed system handling overall multi-agent planning-scheduling. The system might then integrate \fref{algo:repla}{Algortihm} for coverage replanning by deciding a piece-wise coverage. It might even distribute the computations to optimize the battery utilization of each agent while preserving given use case constraints.
+
+Integration of various approaches might lead to additional new developments; for instance, considering the frequency and voltage from other planning-scheduling literature~\citep{zhang2007low,brateman2006energy} in \fref{algo:repla}{Algortihm}.
+
+These additional studies will possibly further provide insights into planning-scheduling energy awareness and expedite the research foundations of varying both aspects altogether, bridging low power computing and mobile robotics domains.
+
+
+%---
 
 
 \section{\color{red}Conclusion}
