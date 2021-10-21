@@ -191,7 +191,7 @@
 
 
 
-  \path[cm={{1.0,0.0,0.0,1.0,(47.0,292.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize Delfly II  \textlabel{(k)}{lab:delfly}};
+  \path[cm={{1.0,0.0,0.0,1.0,(47.0,292.0)}}] (0.0000,0.0000) node[above right] () {\scriptsize DelFly II  \textlabel{(k)}{lab:delfly}};
 
 
 
