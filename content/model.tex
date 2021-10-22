@@ -483,7 +483,7 @@ where $c_i(t)\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal cont
   We observe that:
   \begin{enumerate*}[label={(\alph*)},font={\textit}]
     \item a change in path parameters affects the energy indirectly. It alters the time when the aerial robot reaches the final point $\mathbf{p}_{\Gamma_l}$ and enters the final stage $\Gamma_l$,
-    \item a change in computation parameters affects the energy directly. It alters the power as more computations require more power (and vice versa).
+    \item a change in computations parameters affects the energy directly. It alters the power as more computations require more power (and vice versa).
   \end{enumerate*}
 \end{obs}
 
@@ -491,7 +491,7 @@ The second point in the observation is easily verified. The \powprof{} profiling
 
 The first point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we decrease the parameter $c_{4,1}$ relative to the circle radius, the flying time decreases. This is shown in \fref{fig:zambo1}{Figure} and \fref{fig:zambo2}{Figure}. \fref{fig:zambo1}{Figure} illustrates the trajectory of the aerial robot (composed of all the paths $\varphi_1,\varphi_2\,\dots$) flying at the highest configuration of the path parameter $c_{i,1}=\overline{c}_{4,1}$. \fref{fig:zambo2}{Figure} then illustrate the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{4,1}$. The flying time differs significantly, along with the quality of the coverage of the polygon (the agricultural field in \fref{fig:plot2}{Figure}). In \fref{fig:zambo2}{Figure}, the parameter $c_{4,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., averse atmospheric conditions do not allow to terminate the original plan in \fref{fig:zambo1}{Figure}.
 
-We use the observation later in \fref{sec:opt-cont-gener}{Section} to check that the time to completely discharge the battery is greater than the flight time and replan the path parameters accordingly.  We replan the computation parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
+We use the observation later in \fref{sec:opt-cont-gener}{Section} to check that the time to completely discharge the battery is greater than the flight time and replan the path parameters accordingly.  We replan the computations parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
 
 The nominal control is
 \begin{equation}\label{eq:state-control}
