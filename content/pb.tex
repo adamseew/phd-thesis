@@ -303,23 +303,30 @@ We illustrate the plan, stage, triggering, and final points definitions in \fref
 \section{Problem Statement}
 \label{sec:2pbs}
 
-We split the overall strategy for energy-aware planning-scheduling into two sub-problems. The planning problem is the problem of replanning a plan, whereas the coverage problem is the problem of defining the coverage plan for a given space.  
+The overall strategy for energy-aware coverage planning and scheduling for autonomous aerial robots is split into two sub-problems: the planning and coverage problems.  
 
 \subsection{Planning problem}
 \label{sec:plan-pb}
 
-More precisely, the planning problem is then the problem of finding the optimal configurations of the parameters within some criteria. In our approach, we focus on energy criteria, such as the battery constraints. In particular, in the solution to the planning problem in \fref{sec:algo}{Section}, we use a cost function (i.e., the function to maximize) that incorporates the energy model in \fref{sec:mot-ener-model}{Section}. Solving the planning problem by finding the optimal configurations within different criteria, such as shortest time, highest security, path tracking with the shortest detour, or others, is equally possible. In the context of the TeamPlay project that funded a considerable part of this work, we aim to find, for instance, the tradeoffs between time, energy, and security criteria for a variety of use cases. We discuss the eventuality of solving the planning problem with different costs in \fref{cp:conc}{Chapter}. We now use the concepts in the previous sections and provide a formal definition of the planning problem that we are interested in solving in the remainder of this work.
+The planning problem is the problem of finding the optimal configurations of the parameters using some criteria. Within planning-scheduling energy awareness in the robotics research literature, it is often solved with optimal control techniques~\citep{zhang2007low,ondruska2015scheduled,lahijanian2018resource,brateman2006energy}. Here, we focus on energy criteria, such as the battery constraints. %In particular, in the solution to the planning problem in \fref{sec:mpc}{Section} uses a cost function (i.e., the function to maximize) that incorporates the energy model in \fref{sec:mot-ener-model}{Section}. 
+Solving the planning problem by finding the optimal configurations with different criteria, such as shortest time, highest security, path tracking with the shortest detour, or others, is equally possible. In the context of the TeamPlay project that funded a considerable part of this work, we aim to find, for instance, the tradeoffs between time, energy, and security criteria for a variety of use cases. \fref{cp:conc}{Chapter} discusses the eventuality of solving the planning problem with different costs. 
+%We now use the concepts in the previous sections and provide a formal definition of the planning problem that we are interested in solving in the remainder of this work.
 
 \begin{pb}[Planning problem]
   \label{pb}\findex{planning problem}
-  Consider an initial plan $\Gamma$ in \fref{def:stage}{Definition}. It is either composed of $l$ stages or $n$ stages and a shift $\mathbf{d}$. The \emph{planning problem} is the problem of finding the optimal configuration of \emph{path} and \emph{computations parameters} $c_i\,\forall i\in[l]_{>0}$ or $\forall i\in\{1,2,\dots\}$ under energy constraints and uncertainty at each time step $t$.
+  Consider an initial plan $\Gamma$ in \fref{def:plan}{Definition}. It is either composed of $l$ stages or $n$ stages and a shift $\mathbf{d}$. The \emph{planning problem} is the problem of finding the optimal configuration of \emph{path} and \emph{computations parameters} $c_i\,\forall i\in[l]_{>0}$ or $\forall i\in\{1,2,\dots\}$ under energy constraints and uncertainty at each time step $t$.
 \end{pb}    
 
-In the definition, there is a fixed or variable number of stages, in the sense that all the stages are reiterated using the primitive paths in \fref{def:primitive}{Definition} up until the aerial robot reaches the last triggering point $\mathbf{p}_l$. Given the optimal configuration, we are further interested in the guidance to the path and the scheduling of the computations resulting from such planning.
+In the definition, there is a fixed or variable number of stages, in the sense that all the stages are reiterated using the primitive paths in \fref{def:primitive}{Definition} up until the aerial robot reaches the last triggering point $\mathbf{p}_l$. Given the optimal configuration, we are further interested in the guidance to the path and the scheduling of the computations.
 
 \subsection{Coverage problem}
 
-Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, we want to find the route that covers the polygon. This problem is in the robotics research literature as CPP~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. There are numerous approaches to solve CPP that ensure the completeness of the coverage and include algorithms optimized for mobile robots. We discuss the state-of-the-art in CPP in \fref{cp:soa}{Chapter}. In the aerial robotics context, obstacles\findex{obstacles} can be seen as areas that the aerial robot should not consider~\citep{cabreira2019survey}. Since there are no physical obstacles in our use case--e.g., airports, tall buildings, etc., to physically avoid--we use the term no-interest zones (\Gls{acr:niz}s)\findex{no-interest zones}. It depicts areas on the ground where the aerial robot can potentially fly but should not perform any computation. These NIZs can be seen as, e.g., adjacent agricultural areas or supporting infrastructure laying on the ground of no interest. We assume that the space to be covered and the NIZs are described by sets of vertices. The planning problem is the problem of covering the space while, e.g., overflying NIZs without computing. We discuss this methodology further in \fref{sec:cov-path-plan}{Section}.
+%Given a polygon representing the space to be covered, some possible obstacles within the polygon, a starting point, and a turning radius, 
+The coverage problem is the problem of finding a route that covers all the points in a given space, avoiding the obstacles. In the literature, it is under a branch of motion planning termed CPP~\citep{choset1998coverage,choset2001coverage,galceran2013survey}. Some approaches ensure the completeness of the coverage and include algorithms optimized for mobile robots. Here, we focus on these algorithms, including specific constraints such as turning radius and the variability of the coverage.
+%We discuss the state-of-the-art in CPP in \fref{cp:soa}{Chapter}. 
+Furthermore, in the aerial robotics context, obstacles\findex{obstacles} can be seen as areas that the aerial robot should not consider~\citep{cabreira2019survey}. Since there are no obstacles in our use case to avoid physically--e.g., airports, tall buildings, etc.--we use the term no-interest zones (\Gls{acr:niz}s)\findex{no-interest zones}. It depicts areas on the ground where the aerial robot can potentially fly but should not perform any computation, e.g., adjacent agricultural lots or supporting infrastructure laying on the ground. We assume that sets of vertices describe the space and NIZs. In this context, the coverage problem is the problem of covering the space while, e.g., overflying NIZs without computing. 
+\fref{cp:conc}{Chapter} discusses a generalization of NIZs to physical obstacles. 
+%We discuss this methodology further in \fref{sec:cov-path-plan}{Section}.
 
 \begin{pb}[Coverage problem]
   \label{pb:cov-pb}\findex{coverage problem}\findex{verices}
@@ -352,13 +359,6 @@ We can use the intuitive plan to solve the coverage problem with a rotary-wing a
 We illustrate an updated version of the intuitive plan for fixed-wing aerial robots in \fref{fig:zambo-like_pb}{Figure}. This latter coverage variation is similar to Zamboni motion\findex{Zamboni motion} in the literature~\citep{araujo2013multiple}. 
 We term the plans in \fref{fig:bm-like_pb}{Figure} and \fref{fig:zambo-like_pb}{Figure} boustrophedon-like and Zamboni-like motions\findex{boustrophedon-like motion}\findex{Zamboni-like motion} because they are similar to the robotics literature but optimized to our use case and potentially a broad class of aerial robots with turning constraints. Indeed such constraints are commonly treated in the aerial robotics literature~\citep{artemenko2016energy,li2011coverage,xu2011optimal,xu2014efficient}, and similar patterns are already in other studies~\citep{huang2001optimal,xu2014efficient}. We discuss further the boustrophedon, Zamboni, and other motions for the coverage in \fref{cp:soa}{Chapter}. 
 
-\begin{figure}[ht!]
-  \centering
-  \input{figures/zambo-like_pb.tikz}
-  \caption[Fixed-wing aerial robot plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle in \fref{fig:bm-like_pb}{Figure} but respecting turning constraints. The polygon is covered by iterating the primitive paths (gray lines) and triggering points (dashed blue line). The black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_\mathbf{d}/4$.}
-  \label{fig:zambo-like_pb}
-\end{figure}
-
 The Zamboni-like motion in \fref{fig:zambo-like_pb}{Figure} is composed of four primitive paths
 \begin{subequations}\label{eq:basic-plan}\begin{align}
 \varphi_1(\mathbf{p}(t))&:=x-10,\label{eq:line1}\\
@@ -370,6 +370,13 @@ where $x,y$s are the $x$- and $y$-coordinates of a generic point $\mathbf{p}(t)$
 \begin{equation}\label{eq:basic-plan-trigs}
   \mathbf{p}_{\Gamma_1}:=(10,10),\,\mathbf{p}_{\Gamma_2}:=(160,10),\,\mathbf{p}_{\Gamma_3}:=(160,140),\,\mathbf{p}_{\Gamma_4}:=(20,140).
 \end{equation}
+
+\begin{figure}[ht!]
+  \centering
+  \input{figures/zambo-like_pb.tikz}
+  \caption[Fixed-wing aerial robot plan to cover a regular polygon with four sides]{Fixed-wing aerial robot plan to cover a regular polygon with four sides. The plan covers the polygon with the same principle in \fref{fig:bm-like_pb}{Figure} but respecting turning constraints. The polygon is covered by iterating the primitive paths (gray lines) and triggering points (dashed blue line). The black line is the planned flight. The height and length of the polygon are $y_{\Gamma_3}-y_{\Gamma_1}$ and $lx_\mathbf{d}/4$.}
+  \label{fig:zambo-like_pb}
+\end{figure}
 
 The coverage problem can be solved using the paths in \frefeq{eq:basic-plan}, the triggering points in \frefeq{eq:basic-plan-trigs}, the remaining paths $\varphi_5,\varphi_6,\dots,\varphi_l$, and triggering points $\mathbf{p}_{\Gamma_5},\mathbf{p}_{\Gamma_6},\dots,\mathbf{p}_{\Gamma_l}$ defined similarly to \frefeqM{eq:basic-plan}{eq:basic-plan-trigs}. A generic solution for the coverage problem defined as an iterated pattern contains the primitive paths
 \begin{subequations}\label{eq:line-gene}\begin{align}
@@ -490,7 +497,7 @@ c_{i,1}=c_{i+1,1}=c_{i+2,1}=c_{i+3,1},\,\forall i\in\{1,5,9,\dots\}.
 %%%%%%%%%%%%%%%%%
 \section{Summary}
 
-In this chapter, we defined the planning and coverage problems. The solution to the coverage problem is a static cover tour; to the planning problem, the optimal configurations of the path and computations parameters. Both are interconnected and require some basic concepts, including plan and path functions. The latter is composed of stages, triggering, and final points and parameters for the replanning itself. Some parameters parametrize the path, and some parameters parametrize the computations. Alternatively to defining all the stages manually, it is possible to define an autonomous scenario with some periodicity, using primitive paths and a shift. We illustrated the concept with the precision agriculture use case. Here, we provided two sub-plans. The first contains the paths constructed with the Zamboni-like motion for fixed-wing aerial robots with strict turning radius constraints. The second contains the computations with the hazards detection and communication with other ground-based actors. 
+In this chapter, we defined the planning and coverage problems. The solution to the coverage problem is a cover tour; to the planning problem, the optimal configurations of the path and computations parameters. Both are interconnected and require some basic concepts, including plan and path functions. The plan is composed of stages, triggering, and final points and parameters for the replanning itself. At each stage, the robot flies a path function and computes a schedule. Some parameters parametrize the path, and some parameters parametrize the computations. Bounds limit these parameters due to physical impediments of the computing hardware and the aerial robot. Alternatively to defining all the stages manually, it is possible defining an autonomous use case with some periodicity, using primitive paths and a shift. We illustrated the concept with the precision agriculture use case. Here, we provided two sub-plans. The first contains the paths constructed with the Zamboni-like motion for fixed-wing aerial robots with strict turning radius constraints. The second contains the computations with the hazards detection and communication with other ground-based actors. There is one parameter to alter the quality of the coverage with the radius in the Zamboni-like motion and two parameters to alter the computations of the ground hazards detection and communication.
 
 %---
 %$$$
