@@ -8,8 +8,9 @@
 %
 % Brief abstract: wraps up the results from the previous chapters
 %
-% Completion (1-10): 9.4
-% Missing: There is one result missing at the end of the chapter
+% Completion (1-10): 10
+% Missing: summary
+% Proofreading: 24/10/21 (started)
 %
 \chapter{Results}
 \label{cp:res}
@@ -155,10 +156,10 @@ We further validate our model against a more fine-grained model in the literatur
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Motion Energy Modeling}
+\section{Case Studies in Motion Energy Modeling}
 \label{sec:res-ene-mot}
 
-In this section, we derive motions energy models from \fref{sec:mot-ener-model}{Section} of an aerial robot flying the agricultural scenario doing static coverage path planning (\Gls{acr:cpp})\findex{coverage path planning}. We use the computations energy and battery models from \fref{sec:comp-ener-model}{Sections}\fref{sec:battery-model}{--\hspace*{-.8ex}} to integrate the static CPP with computing hardware and the effect of the battery. The coverage is static and decided offline, with no online replanning when unexpected events occur (e.g., sudden battery drops). We will then replan such coverage in \fref{sec:res-dyn}{Section} along with the scheduling of the computations. In detail, here we deploy two case studies of aerial robots flying the Zamboni-like motion: in \fref{sec:res-perio}{Section}, we derive an energy model using the expression in \frefeq{eq:fourier}, relying on the periodicity of the energy signal; we use NVIDIA Jetson TX2 as computing hardware~\citep{seewald2020mechanical}. In \fref{sec:res-diff}{Section}, we derive a differential energy model based on expressions in \frefeq{eq:state-perf} and \fref{lem:eqv}{Lemma}; we use NVIDIA Jetson Nano and ROS middleware. The first case study uses a static model where we cannot predict, e.g., future energy consumption with varying schedules or flight time with varying coverage; whereas the second allows such operation. Indeed we will use a similar approach later in \fref{sec:res-dyn}{Section} for energy-aware coverage planning and scheduling.
+In this section, we discuss case studies of motions energy models from \fref{sec:mot-ener-model}{Section} of an aerial robot flying the agricultural scenario doing static coverage path planning (\Gls{acr:cpp})\findex{coverage path planning}. We use the computations energy and battery models from \fref{sec:comp-ener-model}{Sections}\fref{sec:battery-model}{--\hspace*{-.8ex}} to integrate the static CPP with computing hardware and the effect of the battery. The coverage is static and decided offline, with no online replanning when unexpected events occur (e.g., sudden battery drops). We will then replan such coverage in \fref{sec:res-dyn}{Section} along with the scheduling of the computations. In detail, here we deploy two case studies of aerial robots flying the Zamboni-like motion: in \fref{sec:res-perio}{Section}, we derive an energy model using the expression in \frefeq{eq:fourier}, relying on the periodicity of the energy signal; we use NVIDIA Jetson TX2 as computing hardware~\citep{seewald2020mechanical}. In \fref{sec:res-diff}{Section}, we derive a differential energy model based on expressions in \frefeq{eq:state-perf} and \fref{lem:eqv}{Lemma}; we use NVIDIA Jetson Nano and ROS middleware. The first case study uses a static model where we cannot predict, e.g., future energy consumption with varying schedules or flight time with varying coverage; whereas the second allows such operation. Indeed we will use a similar approach later in \fref{sec:res-dyn}{Section} for energy-aware coverage planning and scheduling.
 
 \subsection{Periodic modeling case study}
 \label{sec:res-perio}
@@ -347,6 +348,11 @@ The overall energy assessment for the flight is then in \fref{fig:cruise-merge}{
   \item ten FPS and eight hertz from the third minute to fourth, 
   \item and two FPS and ten hertz from the fourth minute to fifth.
 \end{enumerate*}
+
+
+\subsection{Assessment}
+
+In this section, we discussed two case studies of the aerial robot flying a static coverage without replanning. We propose computations models corresponding to the agricultural use case for detections and ground communication, reporting their energy efficiency in terms of power and battery SoC. The first case study exploits the model in \frefeq{eq:fourier} to approximate the energy of different flight phases, motivating the periodic analysis.  The second case study then proposes initial experiments of the differential periodic energy model in \frefeq{eq:state-perf} with some additional computations implemented in the ROS middleware we use in the remainder. We expand the model using variations of paths and computations with replanning in the next section.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
