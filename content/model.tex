@@ -9,8 +9,7 @@
 % Brief abstract: contains the energy models that are later employed for replanning and scheduling
 %
 % Completion (1-10): 10
-% Missing: summary, one figure [!!]
-% Proofreading: 24/10/21 (integrated reviews) [pending, up to predictive layer] 
+% Proofreading: 24/10/21 (integrated reviews)
 %
 \chapter{Energy Models}
 \label{cp:model}
@@ -144,7 +143,7 @@ Given an (unsampled) configuration $c_i^\sigma$, the predictive layer is approxi
   g(c_i^\sigma)=(\mathbf{g}(\lceil c_i^\sigma\rceil,\mathcal{T}_1)-\mathbf{g}(\lfloor c_i^\sigma\rfloor),\mathcal{T}_2)(c_i^\sigma-\lfloor c_i^\sigma\rfloor)/(\lceil c_i^\sigma\rceil-\lfloor c_i^\sigma\rfloor)+\mathbf{g}(\lfloor c_i^\sigma\rfloor,\mathcal{T}_2),
 \end{equation}
 where $\lceil c_i^\sigma\rceil,\lfloor c_i^\sigma\rfloor$ are the two adjacent measurement layers of the computations configuration $c_i^\sigma$ (e.g., if we use $\delta_1=2$ in \frefeq{eq:meas-layer-lin-sampl}, $c_i^\sigma$ with just the parameter $c_{i,2}$ has $\lfloor c_i^\sigma\rfloor$ equal to two and $\lceil c_i^\sigma\rceil$ to four), and $\mathcal{T}_1,\mathcal{T}_2$ are the two time intervals in the measurement layer for configurations $\lfloor c_i^\sigma\rfloor,\lceil c_i^\sigma\rceil$ respectively.
-We illustrate the principle in \fref{}{Figure}. % todo the figure
+%We illustrate the principle in \fref{}{Figure}. % todo the figure
 
 \subsection{The {\tt powprofiler} tool}\findex{powprofiler@\texttt{powprofiler}}
 \label{sec:powprof}
@@ -217,11 +216,19 @@ where $V_e\in\mathbb{R}$ is the external battery voltage at the extremes of the 
 \begin{equation}\label{eq:tocomb2}
   V_sI_l=V_eI,
 \end{equation}
-using simply Kirchhoff's circuit laws (the power into the load should exactly match the power out). Combining the \frefeqM{eq:tocomb1}{eq:tocomb2}, we obtain the quadratic expression $R_rI^2-VI+V_sI_l=0$, which leads to
+using simply Kirchhoff's circuit laws (the power into the load should exactly match the power out). Combining the \frefeqM{eq:tocomb1}{eq:tocomb2}\footnote{Practical implementations would then require a voltage regulator.}, we obtain the quadratic expression $R_rI^2-VI+V_sI_l=0$, which leads to
 \begin{equation}\label{eq:internal_curr}
   I(y(t))=\left(V-\sqrt{V^2-4R_ry(t)}\right)/(2R_r),
 \end{equation}
-where $I_l:=y(t)/V_s$ is the current of the load depending on the computations and motion power $y(t)$ at a given time instant $t$ in \frefeq{eq:socevol}. Furthermore, we take the negative solution of the quadratic expression: when $I_l$ is zero, $I$ should also be zero. With the internal current in \frefeq{eq:internal_curr} combined with the battery SoC in \frefeq{eq:socevol}, we can model how the computations and motion power trajectory $y(t)$ on $t\in\mathcal{T}:=[t_0,t_f]$ for given initial and final time instants ($t_0,t_f$ respectively) affects the battery. In one of our earlier intuitions~\citep{seewald2019coarse}, we expected a constant energy load to result in a better overall SoC compared to, e.g., a spiked one, even if the two have the same overall energy. The model above confirms this intuition. In \fref{fig:}{Figure}, we show the evolution of $I$ in \frefeq{eq:internal_curr} for a given linear load $I_l$ from zero to approximately one-third, assuming $V=V_s=R_r$ all one. The curve in the plot bends upwards for the plotted range: a line between two points will always be above the curve; it implies that a constant load is to be preferred compared to a load that repeatedly changes from high to low.
+where $I_l:=y(t)/V_s$ is the current of the load depending on the computations and motion power $y(t)$ at a given time instant $t$ in \frefeq{eq:socevol}. Furthermore, we take the negative solution of the quadratic expression: when $I_l$ is zero, $I$ should also be zero. With the internal current in \frefeq{eq:internal_curr} combined with the battery SoC in \frefeq{eq:socevol}, we can model how the computations and motion power trajectory $y(t)$ on $t\in\mathcal{T}:=[t_0,t_f]$ for given initial and final time instants ($t_0,t_f$ respectively) affects the battery. In one of our earlier intuitions~\citep{seewald2019coarse}, we expected a constant energy load to result in a better overall SoC compared to, e.g., a spiked one, even if the two have the same overall energy. The model above confirms this intuition.
+\begin{figure}[t!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/battmod.tikz}
+  \caption[Evolution of the current for a given linear load]{Evolution of $I$ for a given linear load, showing that a constant load is to be preferred compared to one that repeatedly changes.}
+  \label{fig:battmod}
+\end{figure}
+In \fref{fig:battmod}{Figure}, we show the evolution of $I$ in \frefeq{eq:internal_curr} for a given linear load $y(t)/v$ from zero to approximately one-third, assuming $V=V_s=R_r$ all one. The curve in the plot bends upwards for the plotted range: a line between two points will always be above the curve; it implies that a constant load is to be preferred compared to a load that repeatedly changes from high to low.
 
 \begin{figure}[h!]
   \centering
@@ -250,7 +257,7 @@ In this section, we implement a model for the motion of aerial robots in coverag
 %, and discuss the model's behavior for aperiodic power evolutions in \fref{sec:non-perio}{Section}.
 
 Let us suppose the aerial robot is operating in an autonomous scenario, planning the coverage and scheduling some computations for detections and encryption in \fref{sec:flight-plan}{Section}. 
-\begin{figure}[h!]
+\begin{figure}[t!]
   \centering
   \footnotesize
   \fontfamily{phv}\selectfont
@@ -260,7 +267,7 @@ Let us suppose the aerial robot is operating in an autonomous scenario, planning
 \end{figure}
 It expectedly iterates some paths (the primitive paths) for CPP and schedules the computations periodically, as we outlined in \fref{sec:outline}{Section}, and further backed with the concept of primitive paths in \fref{def:primitive}{Definition}. Since the paths and tasks are periodically iterated over time, we expect the energy to evolve similarly. This assumption is further supported by our previous contribution on the topic~\citep{seewald2020mechanical}, showing that a Fourier series of a given order can model the energy of the aerial robot (in the contribution, we used the order three). We will ease the assumption of the periodic evolution in practice to periodic with disturbance %or aperiodic evolutions 
 in \fref{cp:res}{Chapter}. 
-\begin{figure}[h!]
+\begin{figure}[t!]
   \centering
   \footnotesize
   \fontfamily{phv}\selectfont
@@ -312,9 +319,7 @@ where $A\in\mathbb{R}^{m\times m}$. In matrix $A$, the top left entry is zero, t
 \end{equation}
 $\forall j\in[r]_{>0}$. The output matrix
 \begin{equation}\label{eq:mat_C}
-  C=(1/T)\left[\begin{array}{cccccc}
-    1 & 1 & 0 &\cdots & 1 & 0
-  \end{array}\right],
+  C=(1/T)\Big[1 \,\,\, \overbrace{\begin{matrix}1 & 0 &\cdots & 1 & 0\end{matrix}}^{2r}\Big],
 \end{equation}
 where $C\in\mathbb{R}^m$.
 
@@ -524,7 +529,7 @@ The input matrix is then
     \overbrace{\begin{matrix}
       \hspace*{1ex} & \hspace*{3ex} & \hspace*{1ex}
     \end{matrix}}^{\sigma}\end{matrix}
-\]\vspace*{-2em}
+\]\vspace*{-2.5em}
 \begin{equation}\label{eq:mat_B}
   B=\left.\begin{bmatrix}
       0^{1\times\rho} & 1      & \cdots & 1      \\
@@ -548,6 +553,14 @@ $B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy cons
 \subsection{Control scale transformation}
 \label{sec:merging}
 
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/plot6.tikz}
+  \caption[Concept of a path and computations parameters scale transformation]{The concept of a path and computations parameters scale transformation. Without any battery constraints, the energy-aware coverage planning and scheduling select the highest configuration which respects the control constraint (admissible region) from \frefeq{eq:constraint-set}.}
+  \label{fig:plot-6}
+\end{figure}
+
 To transform the control $c_i(t)$ at $i$th stage and time instant $t$, we use different approaches for the path and computation scaling factors.
 The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{4,1}$ relative to the alteration $c_{4,1}$ of the upper circle $\varphi_4$ from \fref{sec:flight-plan}{Section} by measuring the time needed to compute the path with the lowest configuration $\underline{c}_{4,1}$, $\underline{t}$ in \fref{fig:zambo2}{Figure}, and the highest $\overline{t}$ in \fref{fig:zambo1}{Figure}. 
 
@@ -558,17 +571,16 @@ The variation of the control hence results in an approximate measure of the plan
 \end{align}\end{subequations} 
 $\forall j\in[\rho]^+$. Moreover, let the factors be zero when the parameters $c_i^\rho=\emptyset$. We use the latter to initialize the algorithm in \fref{sec:algo}{Section}.
 
-\begin{figure}[h!]
-  \centering
-  \fontfamily{phv}\selectfont
-  \input{figures/plot6.tikz}
-  \caption[Concept of a path and computations parameters scale transformation]{The concept of a path and computations parameters scale transformation. Without any battery constraints, the energy-aware coverage planning and scheduling select the highest configuration which respects the control constraint (admissible region) from \frefeq{eq:constraint-set}.}
-  \label{fig:plot-6}
-\end{figure}
-
 The scaling factors for the computations parameters from \frefeq{eq:scaling} are derived using {\small\tt{powprofiler}}, the open-source modeling tool from \fref{sec:powprof}{Section}. We estimate the energy cost of a given schedule (a given computations configuration) with the function $g$ from \fref{def:comp-ener}{Definition}. 
 For instance, if the computation is the CNN ROS node, the computation parameter $c_{1,2}$ corresponds to the \Gls{acr:fps} rate. The tool then measures power according to the detection frequency.
 
+\begin{figure}[h!]
+  \centering
+  \fontfamily{phv}\selectfont
+  \input{figures/plot7.tikz}
+  \caption[Change in the admissible region]{Change in the admissible region in \fref{fig:plot-6}{Figure} due to a battery constraint.}
+  \label{fig:plot-7}
+\end{figure}
 The scaling factors add the computational energy component to the model in \frefeq{eq:state-perf}. They are derived similarly to \frefeq{eq:scale-traj}
 \begin{subequations}\label{eq:scale-comp}\begin{align}
   \nu_{i,j}&=(g(\overline{c}_{i,j})-g(\underline{c}_{i,j}))/(\overline{c}_{i,j}-\underline{c}_{i,j}),\\
@@ -577,21 +589,14 @@ The scaling factors add the computational energy component to the model in \fref
 $\forall j\in[\rho+1,n]$. We then assume $g$ only returns the power metric (so we do not specify an additional parameter to numerate the metric) and, for ease of notation, assume all the values from $g(\underline{c}_{i,j})$ to $g(\underline{c}_{i,j})$ are distributed linearly. Moreover, let the factors be zero when the parameters $c_i^\sigma=\emptyset$.
 
 The concept of a path and a computation parameter $(c_{i,1},c_{i,2})$ scale transformation is illustrated in \fref{fig:plot-6}{Figure}. 
-The energy domain is bounded by the output of the \powprof{} tool, while the flight time domain is by the empirical data. The energy-aware coverage planning and scheduling select the highest possible configuration of parameters (control) in the admissible region\findex{admissible region} (under the constraints). 
-\begin{figure}[h!]
-  \centering
-  \fontfamily{phv}\selectfont
-  \input{figures/plot7.tikz}
-  \caption[Change in the admissible region]{Change in the admissible region in \fref{fig:plot-6}{Figure} due to a battery constraint.}
-  \label{fig:plot-7}
-\end{figure}
-Currently, the highest control corresponds to $(\overline{c}_{i,1},\overline{c}_{i,2})$. We will see in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints.
-In \fref{fig:plot-7}{Figure} we briefly exemplify this latter case, where due to, e.g., a sudden battery drop, the energy and time domains are shrunk. The highest possible control is thus now different from the above scenario.
+The energy domain is bounded by the output of the \powprof{} tool, while the flight time domain is by the empirical data. The energy-aware coverage planning and scheduling select the highest possible configuration of parameters (control) in the admissible region\findex{admissible region} (under the constraints). Currently, the highest control corresponds to $(\overline{c}_{i,1},\overline{c}_{i,2})$. We will see in \fref{sec:output-mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints. In \fref{fig:plot-7}{Figure} we briefly exemplify this latter case, where due to, e.g., a sudden battery drop, the energy and time domains are shrunk. The highest possible control is thus now different from the above scenario.
 
 %\subsection{\color{red}Aperiodic energy evolution}
 %\label{sec:non-perio}
 
 
 %%%%%%%%%%%%%%%%%
-\section{\color{red}Summary}
+\section{Summary}
+
+This chapter derives energy models to predict future instances of the energy for both the computations and motion. It details the \powprof{} profiling and modeling tool to derive the power, energy, and battery SoC of computations configurations on the heterogeneous computing hardware within specific boundaries. The computations modeling methodology relies on a two-layer architecture. The search space is here sampled discretely for several possible configurations in the measurement layer. The union of multiple measurement layers forms the predictive layer, which returns the energy metrics in the function of any configuration in the search space. The motion modeling methodology relies on a differential periodic energy model that predicts future energy instances, relying on the characteristics of CPP and empirical observation of the aerial robot flying the precision agriculture use case. It includes the predictive layer from the \powprof{} tool, quantifying the energy effect of schedules variations. The chapter further derives a battery model to accurately assess the battery SoC evolution. The model utilizes an equivalent electrical circuit in the literature termed ``Rint''. In the next chapter, we exploit the two energy and battery models for planning-scheduling energy awareness, replanning a plan energy-wise, and w.r.t. the current battery SoC.
 

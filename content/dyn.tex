@@ -102,7 +102,6 @@ We discuss in the next section how to fix $\varPhi$ so that it directs us to fol
 
 \subsection{Derivation of a path following vector field}
 
-\fref{algo:grad-desc}{Algorithm} that we illustrate in \fref{fig:grad_desc}{Figure} directs to the center of the circle when we have a circle as a path function in \frefeq{eq:two-paths}.
 \begin{figure}[h!]
   \centering
   \fontfamily{phv}\selectfont
@@ -110,6 +109,7 @@ We discuss in the next section how to fix $\varPhi$ so that it directs us to fol
   \caption[The gradient descent algorithm illustrated on a circle path function]{The gradient descent algorithm after the first two steps, with the following step being dashed and directing the aerial robot to the center of the circle where the gradient is zero $\nabla\varphi_i=0$. The paraboloid $\varphi_i$ representing the path function circle at altitude $h$ is illustrated in the contour plot.}
   \label{fig:grad_desc}
 \end{figure}
+\fref{algo:grad-desc}{Algorithm} that we illustrate in \fref{fig:grad_desc}{Figure} directs to the center of the circle when we have a circle as a path function in \frefeq{eq:two-paths}.
 However, we want to track (or follow) these functions. Concretely, in the path sub-plan in \frefeqM{eq:line-gene}{eq:circ-gene} in \fref{sec:path-wise}{Section}, we want to follow the path function $\varphi_{i+1}$ by flying over rather than heading the center when we follow a circle path function. In the example, we started following the circle described by $\varphi_{i+1}$ after reaching $\mathbf{p}_{\Gamma_i}$ while tracking $\varphi_i$ (for all the previous and following path functions). To this end, we use a vector field-based approach proposed in the literature specifically for aerial robots~\citep{de2017guidance}, which points to the contours of the functions in \fref{fig:line-pf}{Figures}\fref{fig:circle-pf}{--\hspace{-.8ex}} and thus to \frefeq{eq:two-paths}.
 
 The expression for the search direction $\Delta\varphi_i$ in \fref{algo:grad-desc}{Algorithm} using the vector field in~\citep{de2017guidance} becomes
@@ -241,6 +241,8 @@ For the decomposition in terms of critical points of Morse functions, the intuit
 
 Let us define $\mathcal{S}_\lambda$ as the vertical sweeping function that sweeps $\mathcal{Q}$. A change in the value of $\lambda$ moves the function in $\mathcal{Q}$. Let further $\overline{x}_v,\underline{x}_v$ be the highest and lowest coordinate $x$ of all the vertices in $v$, i.e., $\lambda\in[\underline{x}_v,\overline{x}_v]$. If we refer to the sweeping function with at a specific point in space as a slice, we can express the entire space as the union of all the slices, i.e., $\mathcal{Q}=\cup_{\lambda}\mathcal{S}_\lambda$. Let us further define the slice contained in the free space $\mathcal{S}^v_\lambda:=\mathcal{S}_\lambda\cap\mathcal{Q}^{v}$.
 At this point, a change in connectivity of $\mathcal{S}^v$ means that the original cell has to be closed and two more opened, or that two cells are closed and one is opened respectively when the connectivity increases or decreases~\citep{choset2000exact}. 
+In \fref{fig:bcd3}{Figure}, $\mathcal{S}_\lambda$ sweeps the space from $\lambda=\underline{x}_v$ in \fref{fig:bcd2}{Figure} up to $\lambda=x_{o_{1,1}}$. At this latter lambda, $\mathcal{S}_{x_{o_{1,1}}}$ encounters a change in connectivity ($\mathcal{S}^v_{x_{o_{1,1}}}$ forms two disconnected slices). The decomposition builds two new cells $c_2,c_3$, and adds these cells to the adjacency graph. $\mathcal{S}_\lambda$ encounters another change in connectivity at $\lambda=x_{o_{1,4}}$ ($\mathcal{S}^v_{x_{o_{1,4}}}$ is again one connected slice). This latter is different from the previous: the cells are merged with forming a new cell $c_4$. The coverage tour which goes through $\mathcal{Q}^v$ is then a visit through the adjacency graph, resulting in the coverage order $c_1,c_2,c_4$, and finally $c_3$.  
+
 \begin{figure}[h]
   \centering
   \fontfamily{phv}\selectfont
@@ -248,8 +250,6 @@ At this point, a change in connectivity of $\mathcal{S}^v$ means that the origin
   \caption[Result of the boustrophedon decomposition]{The final step of the boustrophedon decomposition, where the sweeping line $\mathcal{S}_{\lambda}$ encounters the final point of its domain $\overline{x}_v$. The decomposition results in four cells. To determine the order of the coverage tour, the methodology is to  visit the adjacency graph.}
   \label{fig:bcd4}
 \end{figure}
-In \fref{fig:bcd3}{Figure}, $\mathcal{S}_\lambda$ sweeps the space from $\lambda=\underline{x}_v$ in \fref{fig:bcd2}{Figure} up to $\lambda=x_{o_{1,1}}$. At this latter lambda, $\mathcal{S}_{x_{o_{1,1}}}$ encounters a change in connectivity ($\mathcal{S}^v_{x_{o_{1,1}}}$ forms two disconnected slices). The decomposition builds two new cells $c_2,c_3$, and adds these cells to the adjacency graph. $\mathcal{S}_\lambda$ encounters another change in connectivity at $\lambda=x_{o_{1,4}}$ ($\mathcal{S}^v_{x_{o_{1,4}}}$ is again one connected slice). This latter is different from the previous: the cells are merged with forming a new cell $c_4$. The coverage tour which goes through $\mathcal{Q}^v$ is then a visit through the adjacency graph, resulting in the coverage order $c_1,c_2,c_4$, and finally $c_3$.  
-
 In summary, the methodology iterates through the environment with $\mathcal{S}^v_{\lambda}$ in \fref{fig:bcd2}{Figure}. When the connectivity of $\mathcal{S}^v_{\lambda}$ increases in \fref{fig:bcd3}{Figure}, it closes a cell and opens two new cells--the literature~\citep{choset2000exact,choset2005principles} refers to these cells as ceiling and floor cells (for $c_2$ and $c_3$ in~\fref{fig:bcd4}{Figure} respectively). When the connectivity decreases back in \fref{fig:bcd4}{Figure}, the two opened cells are closed, and a new one is opened. The overall complexity is $O(n\log{n})$ with $n:=|v|+\sum_{i=1}^{|o|}|o_i|$ the total number of vertices~\citep{choset2000exact}. Indeed, for polygonal environments, it is enough to verify the change in connectivity by iterating the vertices and visit the constructed adjacency graph to find the coverage order. 
 
 %---
@@ -277,6 +277,8 @@ Let us assume for an instant that the turning radius in~\fref{pb:cov-pb}{Problem
 The remaining paths $\varphi_5,\varphi_6,\dots$ are formed similarly. To evaluate the radius of the circles, let us assume the ideal distance between the vertical lines in the motion (the lines $\varphi_1,\varphi_3,\varphi_5,\dots$) is a given constant. Then the radius in the plan (the circles $\varphi_2,\varphi_4,\varphi_6,\dots$) is half the ideal distance. We can change the radius of the circles and thus alter the quality of the coverage accordingly. Indeed our planning approach consists of generating an initial plan that can be changed in a replanning phase using an optimal control technique in \fref{sec:output-mpc}{Section} with the aerial robot being subject to uncertainty and external interferences in flight.
 
 Although the turns are considerably smoothed with the plan containing the boustrophedon-like motion, they are still impractical for fixed-wing aerial robots with the turning radius exceeding the radius of these turns~\citep{dille2013efficient,xu2011optimal,xu2014efficient}. For this latter class of robots, we propose the Zamboni-like motion\findex{Zamboni-like motion}. The Zamboni motion is in some literature for fixed-wing aerial robots~\citep{ablavsky2000optimal,araujo2013multiple,majeed2019new}. The name of this coverage motion comes from the hockey arenas' ice maintenance machines~\citep{araujo2013multiple,dille2013efficient,ablavsky2000optimal}, which have a large turning radius like the aerial robots we study. They resurface the ice by sweeping distant lines first instead of adjacent lines in a back and forth motion (the boustrophedon or boustrophedon-like motions). 
+The Zamboni-like motion is similar to the original Zamboni motion in the literature but applied to our scenario with variable size of the coverage, enabling the possibility of future coverage replanning in \fref{sec:output-mpc}{Section}. We illustrate the Zamboni-like motion for $c_1$ in \fref{fig:zambo1}{Figure} (whereas the boustrophedon-like motion in \fref{fig:bm}{Figure}).
+
 \begin{figure}[h]
   \centering
   \fontfamily{phv}\selectfont
@@ -284,8 +286,6 @@ Although the turns are considerably smoothed with the plan containing the boustr
   \caption[Zamboni-like motion covering a cell]{The Zamboni-like motion to cover the cell $c_1$. It is similar to the boustrophedon-like motion in~\fref{fig:bm}{Figure} but travels distant lines first, respecting the large turning radius constraint of, e.g., the fixed-wing aerial robots.}
   \label{fig:zambo1}
 \end{figure}
-The Zamboni-like motion is similar to the original Zamboni motion in the literature but applied to our scenario with variable size of the coverage, enabling the possibility of future coverage replanning in \fref{sec:output-mpc}{Section}. We illustrate the Zamboni-like motion for $c_1$ in \fref{fig:zambo1}{Figure} (whereas the boustrophedon-like motion in \fref{fig:bm}{Figure}).
-
 In \fref{pb:cov-pb}{Problem}, we assumed the aerial robot can overfly the NIZs. The intuition is that although the robot has a further computations constraint specifying that it cannot perform any computation. For ease of notation, let us adopt the notation ${}^{v_1}|_{v_{|v|}}$ for an edge connecting vertices $v_1$ and $v_{|v|}$ (in this latter case, the first and last vertex). To generate the plan $\Gamma$ that covers $\mathcal{Q}^v$ with the Zamboni-like motion we build four paths:
 \begin{enumerate*}[label={(\alph*)},font={\textit}]
   \item the line $\varphi_1$ parallel to ${}^{v_1}|_{v_{|v|}}$ that extends from ${}^{v_{|v|}}|_{v_{|v-1|}}$ to ${}^{v_{1}}|_{v_{2}}$ (similarly to the boustrophedon-like motion),
@@ -589,6 +589,8 @@ Finally, on \fref{algo:repla:gvf}{Line}, the algorithm computes the next positio
 %<3<3<3
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{\color{red}Summary}
+%%%%%%%%%%%%%%%%%
+\section{Summary}
+
+This chapter detailed the derivation of a guidance action for a coverage plan, coverage plan itself, and energy-aware configuration of both the path and computations, solving the coverage and planning problems. The guidance uses a path-following gradient descent algorithm in the literature, further adapted to the coverage planning and scheduling. The plan is indeed composed of multiple path functions that switch at specific triggering points. The algorithm exploits the theory of vector fields. It points to the path corresponding to the current coverage stage at each location in space. The coverage integrates a known method named boustrophedon decomposition, deriving a fixed-wing friendly covering tour with the Zamboni-like motion. Both the coverage and the schedule are varied within specific limits to alter the energy and power by, e.g., changing the distance between the coverage lines or the detection rate. The chapter thus proposes an optimal control-based algorithm for such replanning. The algorithm uses MPC and Kalman filtering and exploits the computations, motion, and battery models from the previous chapter to derive the best trajectory of both path and computations variations. In the next chapter, we show the algorithms both using numerical and Paparazzi flight controller-based simulations.
 

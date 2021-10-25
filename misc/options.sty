@@ -1,8 +1,11 @@
 
+%
 %%%%%%%%%%%%%
 %           %
 % Options   %
 %           %
+%%%%%%%%%%%%%
+%
 \makeatletter % changing font size to 10.5 (90-105 words per line, 41 lines per page)
 \renewcommand\normalsize{%
 \@setfontsize\normalsize{10.5}{12.5}}
@@ -52,6 +55,7 @@
 \newcommand*{\sref}[1]{\textcolor{foo}{\otherfont\ref{#1}}}
 \newcommand*{\srefsmaller}[1]{\textcolor{foo}{\scriptsize\fontfamily{phv}\selectfont\ref{#1}}}
 \newcommand*{\fref}[2]{\textcolor{foo}{\otherfont#2~\ref{#1}}}
+\newcommand*{\frefm}[3]{\textcolor{foo}{\otherfont#3~\ref{#1}--\ref{#2}}}
 \newcommand*{\frefeq}[1]{\textcolor{foo}{\otherfont Equation~(\ref{#1})}}
 \newcommand*{\frefeqM}[2]{\textcolor{foo}{\otherfont Equations~(\ref{#1}--\ref{#2})}}
 \newcommand*{\frefeqT}[2]{\textcolor{foo}{\otherfont Equation~(\ref{#1})~and~(\ref{#2})}}
@@ -189,6 +193,31 @@
 
 \defbibenvironment{bibliography}
   {\begin{enumerate}}
+  {\end{enumerate}}
+  {\item}
+
+\defbibenvironment{bibliosone}
+  {\begin{enumerate}\setcounter{enumi}{1}}
+  {\end{enumerate}}
+  {\item}
+
+\defbibenvironment{bibliosfour}
+  {\begin{enumerate}\setcounter{enumi}{4}}
+  {\end{enumerate}}
+  {\item}
+
+\defbibenvironment{bibliossix}
+  {\begin{enumerate}\setcounter{enumi}{6}}
+  {\end{enumerate}}
+  {\item}
+
+\defbibenvironment{bibliosseven}
+  {\begin{enumerate}\setcounter{enumi}{7}}
+  {\end{enumerate}}
+  {\item}
+
+\defbibenvironment{biblioseight}
+  {\begin{enumerate}\setcounter{enumi}{8}}
   {\end{enumerate}}
   {\item}
 
@@ -390,4 +419,27 @@
     \put(\LenToUnit{#1\paperwidth},\LenToUnit{#2\paperheight}){\vtop{{\null}\makebox[0pt][c]{#3}}}%
   }%
 }%
+
+\DeclareSourcemap{\maps[datatype=bibtex]{
+  \map{
+    \step[fieldsource=myinfo,match=j,final]
+    \step[fieldset=keywords,fieldvalue=j]
+  }
+  \map{
+    \step[fieldsource=myinfo,match=cn,final]
+    \step[fieldset=keywords,fieldvalue=cn]
+  }
+  \map{
+    \step[fieldsource=myinfo,match=ws,final]
+    \step[fieldset=keywords,fieldvalue=ws]
+  }
+  \map{
+    \step[fieldsource=myinfo,match=sw,final]
+    \step[fieldset=keywords,fieldvalue=sw]
+  }
+  \map{
+    \step[fieldsource=myinfo,match=p,final]
+    \step[fieldset=keywords,fieldvalue=p]
+  }
+}}
 

@@ -269,13 +269,13 @@ Generally, the studies in this section do not deal with planning-scheduling ener
   \footnotesize\fontfamily{phv}\selectfont
     \begin{tabularx}{\textwidth}{|l|l|l|l|X|l|l|l|}\hline
       & {\scriptsize Replan.} & Class & Robot & Planning-scheduling & Energy model & {\scriptsize Bat.} & Approach\\\hline
-      Mei et al. & (\cmark) & ground & {Pioneer 3DX} & DVS, DFS, peripherals selection & regression & \xmark & greedy
+      Mei et al. & {\hspace*{-.5ex}(\cmark)} & ground & {Pioneer 3DX} & DVS, DFS, peripherals selection & regression & \xmark & greedy
       \\
       Brateman et al. & \xmark & ground & - & DVS, DFS, velocity & analytical & \xmark & optimization\\
       Zhang et al. & \cmark & ground & - & hardware frequency, velocity & analytical & \xmark & optimization \\
-      Sadrpour et al. & (\cmark) & ground & {Pack-Bot UGV} & peripherals selection & regression, Bayesian & \xmark & greedy\\
+      Sadrpour et al. & {\hspace*{-.5ex}(\cmark)} & ground & {Pack-Bot UGV} & peripherals selection & regression, Bayesian & \xmark & greedy\\
       Ondr\'{u}\v{s}ka et al. & \cmark & ground & {ARC Q14} & perception (path following) & analytical & \xmark & greedy, optimization\\
-      Lahijanian et al. & \xmark & ground & {ARC Q14} & localization & analytical & (\cmark)\footnote{The approach does not account explicitly for the battery. However, it derives some implications of different trade-offs w.r.t. the battery SoC.} & Pareto front\\
+      Lahijanian et al. & \xmark & ground & {ARC Q14} & localization & analytical & {\hspace*{-.5ex}(\cmark)}\footnote{The approach does not account explicitly for the battery. However, it derives some implications of different trade-offs w.r.t. the battery SoC.} & Pareto front\\
       Ho et al. & \cmark & ground & {Pioneer 3DX} & navigation (waypoints) & analytical & \xmark & RL\\
       Sudhakar et al. & \cmark & ground & - & anytime planning & analytical & \xmark & greedy\\\hline\hline
       Ours & \cmark & aerial & {Opterra fixed-wing} & coverage~path~planning & regression, differential & \cmark & otpimization\\\hline
@@ -309,13 +309,13 @@ More recently, Ondr\'{u}\v{s}ka~et~al. proposed a study~\citep{ondruska2015sched
 Lahijanian~et~al. have further extended Ondr\'{u}\v{s}ka~et~al.'s work and proposed a framework~\citep{lahijanian2018resource} for resource-performance trade-offs exploration. 
 The methodology consists of finding a schedule for mobile robots under a given resource budget using quantitative multi-objective verification and controller synthesis. This latter is a technique that starts from constraints such as time and energy and produces a set of optimal achievable trade-offs via a Pareto front\findex{Pareto front}~\citep{forejt2012pareto}. Although insightful in selecting the best schedule, the approach does not account for replanning, whereas in our work, an initial plan accounts for the highest achievable performance. It is then replanned both path- and computations-wise in an energy-aware fashion. Lahijanian et al. also use the ARC Q14 robot.
 
-Recent contributions in planning-scheduling energy awareness include the work~\citep{ho2019qos,ho2018towards} by Ho~et~al. The methodology varies the navigation on a set of waypoints and the schedule using reinforcement learning (\Gls{acr:rl})\findex{reinforcement learning}. Concerning the motion energy, Ho~et~al. derive variations of controller frequency and travel velocity of a ground-based mobile robot. Whereas for the computations energy, they derive variations of schedules frames and resolution rates within specific QoS. Similar to Mei et al., the experimental setup consists of Pioneer 3DX ActivMedia\findex{Pioneer 3DX ActivMedia} mobile robot. Although the methodology derives plans-schedules online, the approach does not model the battery explicitly nor focuses on aerial robots.
+Recent contributions in planning-scheduling energy awareness include the work~\citep{ho2019learning,ho2019qos,ho2018towards} by Ho~et~al. The methodology varies the navigation on a set of waypoints and the schedule using reinforcement learning (\Gls{acr:rl})\findex{reinforcement learning}. Concerning the motion energy, Ho~et~al. derive variations of controller frequency and travel velocity of a ground-based mobile robot. Whereas for the computations energy, they derive variations of schedules frames and resolution rates within specific QoS. Similar to Mei et al., the experimental setup consists of Pioneer 3DX ActivMedia\findex{Pioneer 3DX ActivMedia} mobile robot. Although the methodology derives plans-schedules online, the approach does not model the battery explicitly nor focuses on aerial robots.
 
 
 %%%%%%%%%%%%%%%%%
 \section{Summary}
 
-In this section, we discussed the state of the art in energy modeling and optimization for computing hardware. We focused on heterogeneous elements such as CPUs and GPUs. The battery is an essential aspect of a mobile robot, and so, we discussed the literature for battery modeling of both the computing hardware and the aerial robot. We later discussed studies for the planning of mobile robots, emphasizing studies on CPP and optimal coverage. Within aerial robots, we discussed relevant contributions for both motion planning and CPP and the derivation of an optimal aerial cover. Finally, we saw studies that, similarly to ours, deal with planning-scheduling energy awareness by accounting for computations and motion energies.
+This chapter discussed the state of the art in topics ranging from heterogeneous computing hardware energy modeling to planning-scheduling energy awareness. Initial sections are dedicated to past approaches in energy modeling, focusing on heterogeneous elements such as CPUs and GPUs. Follows the literature for battery modeling of both the computing hardware and the aerial robot, and studies for the planning of mobile robots with an emphasis on approaches for CPP and optimal coverage. Within aerial robots, the chapter details relevant contributions for both motion planning and CPP and the derivation of an optimal aerial cover. Finally, the chapter compromises studies that, similarly to ours, deal with planning-scheduling energy awareness by accounting for computations and motion energies.
 
 
 
