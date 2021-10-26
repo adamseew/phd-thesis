@@ -58,7 +58,7 @@ We can then use the gradient in \frefeq{eq:grady} to define a vector field--a fu
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad.tikz}
-  \caption[The direction of the gradient on a circle path function]{The direction of the gradient $\nabla\varphi_i$ in the point $(x_\mathbf{p},y_{\mathbf{p}})$ at an altitude $h$ w.r.t. $\mathcal{O}_W$ for the circle path function in \frefeq{eq:pathf-circle} and \fref{fig:circle-pf}{Figure}. The gradient directs where the function locally maximally increases; the opposite thus to the center of the circle in \frefeq{eq:two-paths} (or the base of the paraboloid $\varphi_i$).}
+  \caption[Direction of the gradient on a circle path function]{The direction of the gradient $\nabla\varphi_i$ in the point $(x_\mathbf{p},y_{\mathbf{p}})$ at an altitude $h$ w.r.t. $\mathcal{O}_W$ for the circle path function in \frefeq{eq:pathf-circle} and \fref{fig:circle-pf}{Figure}. The gradient directs where the function locally maximally increases; the opposite thus to the center of the circle in \frefeq{eq:two-paths} (or the base of the paraboloid $\varphi_i$).}
   \label{fig:grad}
 \end{figure}
 We note some analogies in the physical theory of potential functions with our path functions; indeed vector fields are a well-known concept in physics, with applications such as electrostatic\findex{electrostatic!field}, gravitational\findex{gravitational field}, and magnetic fields\findex{magnetic field}~\citep{feynman2015feynman}. Imagine that the aerial robot is a positively charged particle in an electrostatics analysis, attracted by a negatively charged goal. Via the gradient, we can then direct the particle (the aerial robot) to the goal (where the function maximally locally decreases)~\citep{choset2005principles}. In the setting of \frefeq{eq:pathf-line} and \frefeq{eq:pathf-circle}, i.e., 
@@ -106,7 +106,7 @@ We discuss in the next section how to fix $\varPhi$ so that it directs us to fol
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_desc.tikz}
-  \caption[The gradient descent algorithm illustrated on a circle path function]{The gradient descent algorithm after the first two steps, with the following step being dashed and directing the aerial robot to the center of the circle where the gradient is zero $\nabla\varphi_i=0$. The paraboloid $\varphi_i$ representing the path function circle at altitude $h$ is illustrated in the contour plot.}
+  \caption[Gradient descent algorithm illustrated on a circle path function]{The gradient descent algorithm after the first two steps, with the following step being dashed and directing the aerial robot to the center of the circle where the gradient is zero $\nabla\varphi_i=0$. The paraboloid $\varphi_i$ representing the path function circle at altitude $h$ is illustrated in the contour plot.}
   \label{fig:grad_desc}
 \end{figure}
 \fref{algo:grad-desc}{Algorithm} that we illustrate in \fref{fig:grad_desc}{Figure} directs to the center of the circle when we have a circle as a path function in \frefeq{eq:two-paths}.
@@ -128,7 +128,7 @@ The contribution of the component $-k_e\varphi_i(\mathbf{p}(t),c_i^\rho)\nabla\v
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_gvf1.tikz}
-  \caption[The direction of the vector field inside the path function]{The direction of the vector field for guidance in~\citep{de2017guidance} with a point $\mathbf{p}_{-}$ inside the circle: $\Delta_d$ points to the path function opposite to the center of the circle.}
+  \caption[Direction of the vector field inside the path function]{The direction of the vector field for guidance in~\citep{de2017guidance} with a point $\mathbf{p}_{-}$ inside the circle: $\Delta_d$ points to the path function opposite to the center of the circle.}
   \label{fig:grad_gvf1}
 \end{figure}
 We illustrate $\Delta_d\varphi_i$ in \fref{fig:grad_gvf1}{Figure}. When we take a point within the circle, let's call it $\mathbf{p}_{-}$, the value of $\varphi_i$ is negative; $-k_e\varphi_i(\mathbf{p}_{-},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points outwards of the circle center, in the direction of the path function. $E_i\nabla\varphi_i(\mathbf{p}_{-},c_i^\rho)$ points perpendicularly to the gradient $\nabla\varphi_i$ and to the path function itself. The resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ then points to the direction of the path function.
@@ -138,7 +138,7 @@ Now we take a point $\mathbf{p}_{+}$ out of the circle, and not exactly over the
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/grad_gvf2.tikz}
-  \caption[The direction of the vector field outside and on the path function]{The direction of the vector field with $\mathbf{p}_{+}$ outside the circle: $\Delta_d$ points to the path function in the direction of the center of the circle. With $\mathbf{p}_{0}$, $\Delta_d$ points perpendicularly to the path function.}
+  \caption[Direction of the vector field outside and on the path function]{The direction of the vector field with $\mathbf{p}_{+}$ outside the circle: $\Delta_d$ points to the path function in the direction of the center of the circle. With $\mathbf{p}_{0}$, $\Delta_d$ points perpendicularly to the path function.}
   \label{fig:grad_gvf2}
 \end{figure}
 The value of $\varphi_i$ is positive; $-k_e\varphi_i(\mathbf{p}_{+},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{+},c_i^\rho)$ points inwards of the circle center and the resulting vector $\Delta_d\varphi_i(\mathbf{p}_{-},c_i^\rho)$ in the direction of the path function. If we finally take a point $\mathbf{p}_{0}$ exactly over the path function, $\varphi_i$ is zero; $-k_e\varphi_i(\mathbf{p}_{0},c_i^\rho)\nabla\varphi_i(\mathbf{p}_{0},c_i^\rho)$ is thus also zero, and $\Delta_d\varphi_i(\mathbf{p}_{0},c_i^\rho)$ points perpendicularly to the path functions. We illustrate these two cases in \fref{fig:grad_gvf2}{Figure}. Let us thus define the vector fields
@@ -353,7 +353,7 @@ For the sole purpose of exemplification, we discuss the observation in \fref{sec
   \centering
   \fontfamily{phv}\selectfont
   \input{figures/zambo2.tikz}
-  \caption[The Zamboni-like motion with the lowest parameter configuration.]{The Zamboni-like motion to cover the cell $c_1$ with the lowest configuration of parameter $c_{4,1}$ relative to the radius of the circle $\varphi_4$.}
+  \caption[Zamboni-like motion with the lowest parameter configuration.]{The Zamboni-like motion to cover the cell $c_1$ with the lowest configuration of parameter $c_{4,1}$ relative to the radius of the circle $\varphi_4$.}
   \label{fig:zambo2}
 \end{figure}
 \fref{fig:zambo1}{Figure} showed the coverage with the highest configuration of parameter $c_{4,1}$. If we assume that the time needed to travel the circle $\varphi_4(\overline{c}_{4,1})$ is $t_3$, the vertical lines $\varphi_1,\varphi_3$ is $2t_1$, and the circle $\varphi_2$ is $t_2$, then the overall time to cover $c_1$ with configuration ${c}_{4,1}=\overline{c}_{4,1}$ is
