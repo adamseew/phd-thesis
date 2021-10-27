@@ -22,5 +22,23 @@ Planning-scheduling exhibits improved performance mitigating the effect of uncer
 %What are the main findings?
 %What are the main conclusions and implications?
 
+\cleardoublepage
+
+% Abstract in Danish (credit: Ulrik)
+
+\chapter*{Resum{\'e}}
+
+\vspace*{-1.8ex}
+
+Arbejdet i denne afhandling sigter mod at udlede kombinationen af en energioptimal rute og en str{\o}mbesparende eksekveringsplan for en aerorobot (drone), hvis flyvning skal foretages indenfor et fast energibudget. Der findes allerede teknikker til bev{\ae}gelsesplanl{\ae}gning for mobile robotter samt teknikker til planl{\ae}gningen af beregninger udf{\o}rt p{\aa} computerhardware b{\aa}ret af s{\aa}danne robotter, men interaktionen mellem disse to aspekter er stort set uudforsket. Det ses dog ud fra den tilg{\ae}ngelige litteratur, at der findes bestemte typer af mobile robotter, for hvilke det ville v{\ae}re fordelagtigt at kunne foretage en afvejning mellem ressourceforbruget ved henholdsvis bev{\ae}gelse og beregning, i relation til kvaliteten af det arbejde som robotten udf{\o}rer.
+ 
+Aerorobotter er i s{\ae}rligt grad p{\aa}virket af behovet for energibesparelse. Det kan v{\ae}re %Ofte er det %endda 
+%v{\ae}re 
+n{\o}dvendigt at lande og genoplade batteriet i tilf{\ae}lde af et uforudset h{\o}jt str{\o}mforbrug. Denne afhandling fokuserer p{\aa} aerorobotter. Der udledes planl{\ae}gningsteknikker til energif{\o}lsom styring af aerorobottens bev{\ae}gelser og beregninger %ved hj{\ae}lp af 
+vha. optimal kontrol, regressionsanalyse og differentiel periodisk energimodellering. Forudsigelse af beregningernes fremtidige energiforbrug foretages via et automatisk profilerings- og modelleringsv{\ae}rkt{\o}j, som modellerer det overordnede energiforbrug, gennemsnitseffekt samt batteriafladningen som funktion af robottens softwarenkonfiguration. Arbejdet demonstreres ved planl{\ae}gningen af en rute, som d{\ae}kker et geografisk omr{\aa}de, og er tilt{\ae}nkt anvendelse indenfor pr{\ae}cisionslandbrug. En fastvinget aerorobot flyver over en landbrugsmark, g{\o}r opm{\ae}rksom p{\aa} farer, og kommunikerer disse til andre jordbaserede akt{\o}rer. Aerorobottens d{\ae}kning af omr{\aa}det beskrives via vektorfelter, og den overordnede tilgang til problemets l{\o}sning udg{\o}res af en algoritme, der inkorporerer batteri-, bev{\ae}gelses- og beregningsenergimodellering sammen med gradientnedstigning og optimal kontrol.
+ 
+Den kombinerede tilgang til planl{\ae}gning af rute og beregninger viser forbedret ydeevne, der hj{\ae}lper til at afb{\o}de effekten af usikkerhed i missioner udf{\o}rt med batteridrevne aerorobotter. Dette ses i forhold til den traditionelle l{\o}sning med en aerorobot, der ikke kan omplanl{\ae}gge, og derfor foretager fuld d{\ae}kning af omr{\aa}det, hvilket kan resultere i en n{\o}dlanding i tilf{\ae}lde af uforudsete h{\ae}ndelser s{\aa}som et delvist defekt batteri. Selvom tilgangen er specifik til aerorobotter kan den generaliseres. Energimodellerne for beregninger og batteriforbrug kan anvendes p{\aa} forskellige dom{\ae}ner. Den differentielle periodiske energimodel og den overordnede tilgang til planl{\ae}gning kan benyttes p{\aa} tv{\ae}rs af mange forskellige anvendelsesomr{\aa}der indenfor autonome mobile robotter.
+
+
 \cleardoublepage   % tocpage on right-side
 
