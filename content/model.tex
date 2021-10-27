@@ -10,6 +10,8 @@
 %
 % Completion (1-10): 10
 % Proofreading: 24/10/21 (integrated reviews)
+% -----------------
+% Quality check: 27/10/2021 20:05 PASS 
 %
 \chapter{Energy Models}
 \label{cp:model}
@@ -75,7 +77,7 @@ As heterogeneous computing hardware, we use different devices, such as NVIDIA Je
       \\\hline
     \end{tabularx}
     \footnotesize
-    \caption[Mobile computing hardware explicitly analyzed in this work]{Mobile computing hardware explicitly analyzed in this work. All the CPUs are ARM Cortex. All the hardware provide random access memory (RAM)\findex{memory!random access}, and some a non-volatile (NV) memory\findex{memory!non-volatile}. All the boards have energy measuring capabilities except NVIDIA Jetson TK1.}
+    \caption[Mobile computing hardware analyzed in this work]{Mobile computing hardware explicitly analyzed in this work. All the CPUs are ARM Cortex. All the hardware provides random access memory (RAM)\findex{memory!random access}, and some a non-volatile (NV) memory\findex{memory!non-volatile}. All the boards have energy measuring capabilities except NVIDIA Jetson TK1.}
     \label{tab:hws}
 \end{table}
 We summarize the computing hardware that we explicitly consider in this work in \fref{tab:hws}{Table}. These devices are commonly employed in robotics literature to power complex computations. For instance, Jetson TX2 has been employed in path planning\findex{path planning}~\citep{dharmadhikari2020motion,ryou2018applying}, simultaneous localization and mapping\findex{simultaneous localization and mapping} (\Gls{acr:slam})~\citep{aldegheri2019data}, and object detection\findex{object detection} via convolutional neural networks\findex{convolutional neural network} (\Gls{acr:cnn}s)~\citep{william2019aerial}. Jetson Nano in SLAM and CNNs~\citep{peng2019evaluating,wang2020yolo,alexey2021autonomous}, and ODROID XU3~\citep{bhat2019power,papachristos2015aerial,giusti2016machine} and Jetson TK1~\citep{gong2016low,holper2017cyber} in similar applications. Although we report some in this paragraph, heterogeneous computing hardware power computations in many other mobile robots use-cases.
@@ -103,7 +105,7 @@ As an instance of the measurement layer, let us return briefly to the precision 
 \end{equation}
 
 A value can be, e.g, $\delta_1=2,\delta_2=1$, so that there are ten configurations and consequently ten measurement layers (there are two possible configurations of parameter $c_{i,3}$ with $\delta_2$ and five of $c_{i,2}$ with $\delta_1$). The \powprof{} tool automatically builds the layers, storing the results in comma-separated values (\Gls{acr:csv})\findex{comma-separated values} files (we see further the tool in \fref{sec:powprof}{Section}).
-\frefeq{eq:meas-layer-lin-sampl} provides a way to sample the search space linearly, but other sampling strategies are equally possible. These include random sampling with the condition merely $c_{i,j}\in\mathbb{Z}_{>0}$ and exponential sampling with
+\frefeq{eq:meas-layer-lin-sampl} provides a way to sample the search space linearly, but other sampling strategies are equally possible. These include random sampling with the condition merely $c_{i,j}\in\mathcal{S}_{i,j}$ and exponential sampling with
 \begin{equation}\label{eq:meas-layer-exp-sampl}
   c_{i}^\sigma:=\{c_{i,2},c_{i,3}\mid\forall j,k\in\mathbb{Z},\, {\delta_1}^j\in\mathcal{S}_{i,2},{\delta_2}^k\in\mathcal{S}_{i,3}\},
 \end{equation}
@@ -149,9 +151,9 @@ The tool uses an object-oriented programming\findex{object-oriented programming}
 \end{figure}
 The function {\small\tt get\_sample} further relies on a specific data type: {\small\tt vectorn}\findex{data type!vectorn@\texttt{vectorn}}. Each value in {\small\tt vectorn} has its flag, indicating the metric and the measuring device. For instance {\small\tt power\_cpu}, {\small\tt soc\_gpu} are two flags indicating that the metric is for the power and the measuring device is of the CPU and the SoC of the GPU respectively. The enumeration {\small\tt vectorn\_flags} contains all the flags. The tool stores a set of {\small\tt vectorn}s sampled at discrete intervals (\powprof{} is highly personalizable, allowing to change the frequency via the configuration specification in \fref{sec:conf-spec}{Section}) in another structure termed {\small\tt pathn}\findex{data type!pathn@\texttt{pathn}}. Each {\small\tt pathn} corresponds to a measurement layer in \fref{sec:measurement-layer}{Section}. The tool further provides mechanisms, such as the overload of the constructor, to automatically load the layers from a previously stored CSV file. Internally the tool stores {\small\tt pathn}s (the measurement layers) in a wrapper, {\small\tt model\_1layer}\findex{class!model1layer@\texttt{model\_1layer}}, which contains information such as the parameters configuration and the set $\mathcal{T}$; {\small\tt model\_2layer}\findex{class!model2layer@\texttt{model\_2layer}} is then another internal structure that returns the predictive layer in \fref{sec:predictive-layer}{Section}. In this setting, NVIDIA Jetson TK1 computing hardware does not include any energy measuring device. \powprof{} uses an external device in the sense that it can import data in the model directly through the overload of the constructor into a measurement layer (and therefore a set of measurement layers into a predictive layer). An early instance of our work~\citep{seewald2019hlpgpu} consisted of three hardware units for the purpose of this latter energy modeling of the TK1 computing hardware, similarly to another study in the literature~\citep{calore2015energy}. The main hardware unit in the early instance was the computing hardware itself, whereas the others were a multimeter and a workstation that interprets the data from the multimeter for subsequent processing by the tool~\citep{seewald2019coarse}.
 
-The tool further interoperates with ROS middleware, generating a measurement layer for configurations of computations implemented in the middleware. It can be imported in an existing project as a library; in C/C++ by simply adding the preprocessor's directive\findex{preprocessor} {\small\tt \#include} with {\small\tt <powprof/async.h>}. In a setting where an energy-expensive ROS node is a computation (we implement both the CNN detection and encryption from \fref{sec:computation-wise}{Section} as ROS nodes in \fref{cp:res}{Chapter}), the user simply instances {\small\tt model\_1layer} with a specific computations configuration and calls function {\small\tt start}\findex{function!start@\texttt{start}} to start profiling, and {\small\tt stop}\findex{function!stop@\texttt{stop}} to stop. The latter then returns a measurement layer. The modeling can, in this fashion, happen online by running different computations configurations and generating an appropriate computations energy models corresponding to a realistic run-time computations load.
+The tool further interoperates with ROS middleware, generating a measurement layer for configurations of computations implemented in the middleware. It can be imported in an existing project as a library; in C/C++ by simply adding the preprocessor's directive\findex{preprocessor} {\small\tt \#include} with {\small\tt <powprof/async.h>}. In a setting where an energy-expensive ROS node is a computation (we implement both the CNN detection and encryption from \fref{sec:computation-wise}{Section} as ROS nodes in \fref{cp:res}{Chapter}), the user simply instances {\small\tt model\_1layer} with a specific computations configuration and calls function {\small\tt start}\findex{function!start@\texttt{start}} to start profiling, and {\small\tt stop}\findex{function!stop@\texttt{stop}} to stop. The latter then returns a measurement layer. The modeling can, in this fashion, happen online by running different computations configurations and generating computations energy models corresponding to a realistic run-time computations load.
 
-Alternatively to ROS middleware, the tool runs from a configuration specification, detailing each computation, the constraint sets, and the $\delta$s, along with some other, model-specific details. We discuss such configuration specification in the next section.
+Alternatively to ROS middleware, the tool runs from a configuration specification, detailing each computation, the constraint sets, and the $\delta$s, along with some other, model-specific details. We discuss the configuration specification in the next section.
 
 \subsection{Configuration specification}
 \label{sec:conf-spec}
@@ -172,7 +174,7 @@ The battery model is an abstraction that predicts how the draining power at futu
 . In this section, we then use the past literature to derive a battery model of an aerial robot's battery. The model that we derive is an equivalent electrical circuit. Such models do not require detailed information about, e.g., battery chemistry; nonetheless, they accurately predict future SoC at a relatively low computational complexity compared with complex and exhaustive models%, such as physical models
 ~\citep{rao2003battery}.
 
-We detail the equivalent electrical circuit that we adapted from the literature in \fref{sec:batmod-circuit}{Section}; it is the building block of our battery model. We then provide some further information on the implementation of the equivalent electrical circuit in the \powprof{} tool in \fref{sec:batmod-circuit-powprof}{Section}. We will use the battery model in \fref{sec:mpc-output-const}{Section} to define the output constraint in \fref{def:const}{Definition}
+We detail the equivalent electrical circuit that we adapted from the literature in \fref{sec:batmod-circuit}{Section}; it is the building block of our battery model. We then provide some further information on the implementation of the equivalent electrical circuit in the \powprof{} tool in \fref{sec:batmod-circuit-powprof}{Section}. We will use the battery model in \fref{sec:mpc-output-const}{Section} to define the output constraint in \fref{def:const}{Definition}.
 
 \subsection{Equivalent electrical circuit}
 \label{sec:batmod-circuit}
@@ -219,7 +221,7 @@ where $I_l:=y(t)/V_s$ is the current of the load depending on the computations a
   \label{fig:battmod}
 \end{figure}
 In one of our earlier intuitions~\citep{seewald2019coarse}, we expected a constant energy load to result in a better overall SoC compared to, e.g., a spiked one, even if the two have the same overall energy. The model above confirms this intuition.
-In \fref{fig:battmod}{Figure}, we show the evolution of $I$ in \frefeq{eq:internal_curr} for a given linear load $y(t)/v$ from zero to approximately one-third, assuming $V=V_s=R_r$ all one. The curve in the plot bends upwards for the plotted range: a line between two points will always be above the curve; it implies that a constant load is to be preferred compared to a load that repeatedly changes from high to low.
+In \fref{fig:battmod}{Figure}, we show the evolution of $I$ in \frefeq{eq:internal_curr} for a given linear load $y(t)/V_s$ from zero to approximately one-third, assuming $V=V_s=R_r$ all one. The curve in the plot bends upwards for the plotted range: a line between two points will always be above the curve; it implies that a constant load is to be preferred compared to a load that repeatedly changes from high to low.
 
 \begin{figure}[h!]
   \centering
@@ -285,7 +287,7 @@ The energy signal can be modeled by \frefeq{eq:fourier} and by the output of a l
   \dot{\mathbf{q}}(t)&=A\mathbf{q}(t)+B\mathbf{u}(t),\\
   y(t)&=C\mathbf{q}(t)\label{eq:state-perf-output},
 \end{align}\end{subequations}
-where $y(t)\in\mathbb{R}$ is the power at time instant $t$. We discuss matrices $A,C,$ and $B$ in \frefeq{eq:mat_A}, \frefeq{eq:mat_C}, and \frefeq{eq:mat_B} and the nominal control $\mathbf{u}$ in \fref{sec:nom-cont}{Section}.
+where $y(t)\in\mathbb{R}$ is the power at time instant $t$. We discuss matrices $A,C,$ and $B$ in \frefeq{eq:mat_A}, \frefeq{eq:mat_C}, and \frefeq{eq:mat_B}, and the nominal control $\mathbf{u}$ in \fref{sec:nom-cont}{Section}.
 
 The state $\mathbf{q}(t)$ contains the energy coefficients
 \begin{equation}\label{eq:state-details}
@@ -500,7 +502,7 @@ where $c_i(t)\in\mathbb{R}^n$ with $n=\rho+\sigma$ differs from the nominal cont
 
 The second point in the observation is easily verified. The \powprof{} tool models the energy consumption of the heterogeneous computing hardware the mobile robot is carrying. A variation in the computations parameters affects the schedule (as the schedule is parametrized by the parameters in \fref{def:comp-mot-energy}{Definition}), and hence results in more/less power required by the computing hardware.
 
-The first point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we decrease the parameter $c_{i,1}$ relative to the circle radius, the flying time decreases. This is shown in \fref{fig:zambo1}{Figure} and \fref{fig:zambo2}{Figure}. \fref{fig:zambo1}{Figure} illustrates the trajectory of the aerial robot flying at the highest configuration of the path parameter $c_{i,1}=\overline{c}_{i,1}$. \fref{fig:zambo2}{Figure} then illustrate the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{i,1}$. The flying time differs significantly, along with the quality of the coverage. In \fref{fig:zambo2}{Figure}, the parameter $c_{i,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., adverse atmospheric conditions do not allow to terminate the original plan in \fref{fig:zambo1}{Figure}.
+The first point in the observation can be verified by inspection of the example in \fref{sec:flight-plan}{Section}. It is clear that if we decrease the parameter $c_{i,1}$ relative to the circle radius, the flying time decreases. This is shown in \fref{fig:zambo1}{Figure} and \fref{fig:zambo2}{Figure}. \fref{fig:zambo1}{Figure} illustrates the trajectory of the aerial robot flying at the highest configuration of the path parameter $c_{i,1}=\overline{c}_{i,1}$. \fref{fig:zambo2}{Figure} then illustrates the trajectory flying at the lowest configuration $c_{i,1}=\underline{c}_{i,1}$. The flying time differs significantly, along with the quality of the coverage. In \fref{fig:zambo2}{Figure}, the parameter $c_{i,1}$ that alters the radius and center of the upper circle (defined originally in \fref{sec:flight-plan}{Section}) is replanned as, e.g., adverse atmospheric conditions do not allow to terminate the original plan in \fref{fig:zambo1}{Figure}.
 
 We use the observation later in \fref{sec:opt-cont-gener}{Section} to check that the time to completely discharge the battery is greater than the flight time and replan the path parameters accordingly.  We replan the computations parameters to maximize the instantaneous energy consumption against the maximum battery discharge rate.
 
@@ -554,7 +556,7 @@ $B\mathbf{u}(t)$ merely includes the difference in the instantaneous energy cons
 \end{figure}
 
 To transform the control $c_i(t)$ at $i$th stage and time instant $t$, we use different approaches for the path and computation scaling factors.
-The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{i,1}$ relative to the alteration with the parameter $c_{i,1}$ of the upper circle $\varphi_{i+3}$ of the Zamboni-like motion from \fref{sec:flight-plan}{Section} by measuring the time needed to compute the path with the lowest configuration $\underline{c}_{i,1}$, $\underline{t}$ in \fref{fig:zambo2}{Figure}, and the highest $\overline{t}$ in \fref{fig:zambo1}{Figure}. 
+The scaling factors for the path parameters from \frefeq{eq:scaling} are derived empirically. For example, we can obtain the scaling factor $\nu_{i,1}$ relative to the alteration with the parameter $c_{i,1}$ of the upper circle $\varphi_{i+3}$ of the Zamboni-like motion from \fref{sec:flight-plan}{Section} by measuring the time needed to compute the path with the lowest configuration $\underline{c}_{i,1}$, $\underline{t}$ in \fref{fig:zambo2}{Figure} and the highest $\overline{t}$ in \fref{fig:zambo1}{Figure}. 
 
 The variation of the control hence results in an approximate measure of the plan's time variation with factors
 \begin{subequations}\label{eq:scale-traj}\begin{align}
@@ -581,7 +583,7 @@ The scaling factors add the computational energy component to the model in \fref
 $\forall j\in[\rho+1,n]$. We then assume $g$ only returns the power metric (so we do not specify an additional parameter to numerate the metric) and, for ease of notation, assume all the values from $g(\underline{c}_{i,j})$ to $g(\overline{c}_{i,j})$ are distributed linearly. Moreover, let the factors be zero when the parameters $c_i^\sigma=\emptyset$.
 
 The concept of a path and a computation parameters $(c_{i,1},c_{i,2})$ scale transformation is illustrated in \fref{fig:plot-6}{Figure}. 
-The energy domain is bounded by the output of the \powprof{} tool, while the flight time domain by the empirical data. The energy-aware coverage planning and scheduling select the highest possible configuration of parameters (control) in the admissible region\findex{admissible region} (under the constraints). Currently, the highest control corresponds to $(\overline{c}_{i,1},\overline{c}_{i,2})$. We will see in \fref{sec:mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints. In \fref{fig:plot-7}{Figure} we briefly exemplify this latter case, where due to, e.g., a sudden battery drop, the energy and time domains are shrunk. The highest possible control is thus now different from the above scenario.
+The energy domain is bounded by the output of the \powprof{} tool and the flight time domain by the empirical data. The energy-aware coverage planning and scheduling select the highest possible configuration of parameters (control) in the admissible region\findex{admissible region} (under the constraints). Currently, the highest control corresponds to $(\overline{c}_{i,1},\overline{c}_{i,2})$. We will see in \fref{sec:mpc}{Section} the optimal control derivation over a time horizon $N$ under given battery constraints. In \fref{fig:plot-7}{Figure} we briefly exemplify this latter case, where due to, e.g., a sudden battery drop, the energy and time domains are shrunk. The highest possible control is thus now different from the above scenario.
 
 %\subsection{\color{red}Aperiodic energy evolution}
 %\label{sec:non-perio}
