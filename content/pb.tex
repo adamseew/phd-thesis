@@ -330,7 +330,7 @@ Furthermore, in the aerial robotics context, obstacles\findex{obstacles} can be 
 %We discuss this methodology further in \fref{sec:cov-path-plan}{Section}.
 
 \begin{pb}[Coverage problem]
-  \label{pb:cov-pb}\findex{coverage problem}\findex{verices}
+  \label{pb:cov-pb}\findex{coverage problem}\findex{vertices}
   Consider a finite set of vertices of a polygon to be covered $v:=\{v_1,v_2,\dots\}$ and of NIZs $o:=\{o_1:=\{o_{1,1},o_{1,2},\dots\},o_2:=\{o_{2,1},o_{2,2},\dots\},\dots\}$ where each vertex $v_i:=(x_{v_i},y_{v_i}),\forall i\in|v|,\,o_{j,k}:=(x_{o_{j,k}},y_{o_{j,k}}),\,\forall j\in|o|,k\in|o_j|$ is a point w.r.t. $\mathcal{O}_W$. Let $\underline{r}\in\mathbb{R}_{\geq 0}$, the minimum turning radius, and $\mathbf{p}(t_0)$, the starting point at the time instant $t_0$, be given. The \emph{coverage problem} is the problem of finding a plan $\Gamma$ that covers $v$ while avoiding computations over $o$\footnote{There might be a further strict requirement to consider obstacles as no-flight zones (\Gls{acr:nfz}s) rather than NIZs, which we discuss in the context of possible future directions.}, starting from $\mathbf{p}(t_0)$ with a turning radius greater or equal to $\underline{r}\in\mathbb{R}_{\geq 0}$.
 \end{pb}    
 
