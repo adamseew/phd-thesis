@@ -11,7 +11,7 @@ The sources are structured in [frontmatter](frontmatter/), which contains the se
 The work is typeset in LaTeX. To compile the sources, use the standard recipe.
 
 If you'd like to cite the work, you can use the following BibTeX entry:
-```
+```bibtex
 @book{seewaldphdthesis,
   title={Energy-aware coverage planning and scheduling for autonomous aerial robots},
   author={Seewald, Adam},
